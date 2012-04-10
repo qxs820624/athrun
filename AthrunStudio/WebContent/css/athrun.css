@@ -1,0 +1,9 @@
+@CHARSET "GB18030";
+
+.started {
+	display: block;
+}
+
+.stoped {
+	display: none;
+}
