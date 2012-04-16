@@ -32,10 +32,9 @@ public class JpgGen extends HttpServlet {
 
 		response.setContentType("image/jpeg");
 
+		String serialNumber = "SH0CKPL09389";
 		ServletOutputStream outputStream = response.getOutputStream();
-		CaptureManager.getInstance().register(outputStream);
-
-		
+		CaptureManager.getInstance().register(outputStream, serialNumber);
 
 	}
 

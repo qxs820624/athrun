@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.apache.catalina.connector.ClientAbortException;
+import org.athrun.ddmlib.IDevice;
 import org.athrun.server.utils.InOutStructure;
 
 /**
@@ -19,7 +20,7 @@ import org.athrun.server.utils.InOutStructure;
 public class CaptureManager {
 
 	// 存储请求的返回流，block住等截图结果出来再返回。
-	static ArrayList<OutputStream> outputlist;
+	static OutputManager outputlist;
 
 	static DataInputStream in;
 	static PrintWriter out;
@@ -34,15 +35,15 @@ public class CaptureManager {
 
 	private CaptureManager() {
 		synchronized (locker) {
-			if (firstTime) {				
+			if (firstTime) {
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				outputlist = new ArrayList<OutputStream>();
+
+				outputlist = new OutputManager();
 
 				try {
 					// 启动截图线程
@@ -71,15 +72,17 @@ public class CaptureManager {
 		return instance;
 	}
 
+	// 不停地处理所有的请求，分发到不同的thread来处理
 	private static void GetCapture() {
 
-		// 启动的时候进行连接，TODO，后续改为可以检查连接
-		InOutStructure inout = new InOutStructure(5678);
-		in = inout.getIn();
-		out = inout.GetOut();
+//		// 启动的时候进行连接，TODO，后续改为可以检查连接
+//		InOutStructure inout = new InOutStructure(5678);
+//		in = inout.getIn();
+//		out = inout.GetOut();
 
 		// 下面的反复执行
 		while (true) {
+			
 			if (needCapture) {
 				processRegister();
 				needCapture = false;
@@ -160,13 +163,13 @@ public class CaptureManager {
 
 				// 对outputlist进行操作，防止新的线程加内容
 				synchronized (outputlist) {
-					for (OutputStream outstr : outputlist) {
+					for (OutputBean outbean : outputlist) {
 						try {
-							outstr.write(memory, 0, length);
-							outstr.flush();
-							outstr.close();
-							synchronized (outstr) {
-								outstr.notify();
+							outbean.getOutput().write(memory, 0, length);
+							outbean.getOutput().flush();
+							outbean.getOutput().close();
+							synchronized (outbean.getOutput()) {
+								outbean.getOutput().notify();
 							}
 
 						} catch (ClientAbortException ce) {
@@ -196,11 +199,11 @@ public class CaptureManager {
 	// 注册一个回调函数
 	// 启动截图
 	// 截图完成后，回调返回
-	public void register(OutputStream output) {
+	public void register(OutputStream output, String serialNumber) {
 		synchronized (outputlist) {
-			outputlist.add(output);
+			outputlist.add(new OutputBean(output, serialNumber));
 		}
-		StartCapture();
+		StartCapture(serialNumber);
 
 		// 等待回调返回
 		synchronized (output) {
@@ -214,8 +217,25 @@ public class CaptureManager {
 	}
 
 	// 启动截图
-	private void StartCapture() {
+	private void StartCapture(String serialNumber) {
 		needCapture = true;
+	}
+
+	/**
+	 * @param device 
+	 * @param serialNumber
+	 */
+	public void remove(String serialNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * @param serialNumber
+	 */
+	public void add(String serialNumber) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

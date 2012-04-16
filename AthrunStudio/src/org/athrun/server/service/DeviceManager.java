@@ -17,21 +17,37 @@ import org.athrun.server.adb.AthrunDebugBridgeChanged;
 import org.athrun.server.adb.AthrunDeviceChanged;
 import org.athrun.server.adb.OutputStreamShellOutputReceiver;
 import org.athrun.server.log.Log;
+import org.athrun.server.utils.ForwardPortManager;
 
 /**
  * @author taichan 负责开启截图和事件服务
  */
 public class DeviceManager {
+	private static AthrunDeviceChanged deviceChangedInstance = new AthrunDeviceChanged();
+	private static AthrunDebugBridgeChanged debugBridgeChangedInstance = new AthrunDebugBridgeChanged();
+
 	public static void CreateAdb() {
 		AndroidDebugBridge.init(false);
 		AndroidDebugBridge.createBridge("adb.exe", false);
-		AndroidDebugBridge.addDeviceChangeListener(new AthrunDeviceChanged());
+		AndroidDebugBridge.addDeviceChangeListener(deviceChangedInstance);
 		AndroidDebugBridge
-				.addDebugBridgeChangeListener(new AthrunDebugBridgeChanged());
+				.addDebugBridgeChangeListener(debugBridgeChangedInstance);
+	}
+
+	public static void RemoveAdb() {
+		AndroidDebugBridge.removeDeviceChangeListener(deviceChangedInstance);
+		AndroidDebugBridge
+				.removeDebugBridgeChangeListener(debugBridgeChangedInstance);
+		AndroidDebugBridge.terminate();
 	}
 
 	private static Map<String, IDevice> deviceList = new HashMap<String, IDevice>();
 
+	
+	public static Map<String, IDevice> getDeviceList(){
+		return deviceList;
+	}
+	
 	// 说明device已经连接
 	public static void add(IDevice device) {
 		String serialNumber = device.getSerialNumber();
@@ -39,18 +55,20 @@ public class DeviceManager {
 			if (deviceList.containsKey(serialNumber)) {
 				// 什么都不做
 			} else {
-				checkServices(device);
+				checkServices(serialNumber, device);
 				deviceList.put(serialNumber, device);
 			}
 		}
+		CaptureManager.getInstance().add(serialNumber);
 	}
 
 	/**
+	 * @param serialNumber
 	 * @param device
 	 */
-	private static void checkServices(IDevice device) {
-		checkCaptureService(device);
-		checkEventService(device);
+	private static void checkServices(String serialNumber, IDevice device) {
+		checkCaptureService(serialNumber, device);
+		// checkEventService(device);
 	}
 
 	/**
@@ -71,26 +89,33 @@ public class DeviceManager {
 	}
 
 	/**
+	 * @param serialNumber
 	 * @param device
 	 */
-	public static void checkCaptureService(IDevice device) {
+	public static void checkCaptureService(String serialNumber, IDevice device) {
 		try {
 			// 看一下5678端口是不是可以访问
-			switch (isSocketPortAvailable(5678)) {
+			switch (isSocketPortAvailable(ForwardPortManager
+					.getCapturePort(serialNumber))) {
 			case OK:
 				// 如果可以访问，直接用就可以了，退出check
 				break;
 			case ForwardError:
-				// device.removeForward(5678, 5678);
 				try {
-					device.createForward(5678, 5678);
+					device.createForward(5678,
+							ForwardPortManager.getCapturePort(serialNumber));
 				} catch (AdbCommandRejectedException e) {
 					e.printStackTrace();
-					device.removeForward(5678, 5678);
-					device.createForward(5678, 5678);
+					device.removeForward(5678,
+							ForwardPortManager.getCapturePort(serialNumber));
+					device.createForward(5678,
+							ForwardPortManager.getCapturePort(serialNumber));
 				}
-				checkCaptureService(device);
-				Log.d("DeviceManager", "创建forward" + 5678);
+				checkCaptureService(serialNumber, device);
+				Log.d("DeviceManager",
+						"创建forward"
+								+ ForwardPortManager
+										.getCapturePort(serialNumber));
 				break;
 			case SoftwareError:
 				// TODO 检查gsnap
@@ -120,7 +145,7 @@ public class DeviceManager {
 		Socket server;
 		byte[] b = new byte[10];// 存入finish
 		try {
-			server = new Socket("127.0.0.1", 5678);
+			server = new Socket("127.0.0.1", port);
 			OutputStream out = server.getOutputStream();
 			out.write('t');
 			out.flush();
@@ -157,5 +182,6 @@ public class DeviceManager {
 		synchronized (deviceList) {
 			deviceList.remove(serialNumber);
 		}
+		CaptureManager.getInstance().remove(serialNumber);
 	}
 }
