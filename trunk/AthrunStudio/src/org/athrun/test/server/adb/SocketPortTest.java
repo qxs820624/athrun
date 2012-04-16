@@ -14,8 +14,8 @@ public class SocketPortTest {
 
 	@Test
 	public void test() throws InterruptedException {
-		DeviceManager.CreateAdb();    	
-		Thread.sleep(10000);
+		DeviceManager.CreateAdb();
+		Thread.sleep(1000 * 60 * 5);
 	}
 
 }
