@@ -1,0 +1,89 @@
+package org.athrun.android.test;
+
+import java.util.concurrent.TimeUnit;
+
+import org.athrun.android.framework.AthrunTestCase;
+import org.athrun.android.framework.Test;
+import org.athrun.android.framework.viewelememt.AbsListViewElement;
+import org.athrun.android.framework.viewelememt.TextViewElement;
+import org.athrun.android.framework.viewelememt.ViewElement;
+import org.athrun.android.framework.viewelememt.ViewGroupElement;
+
+import android.widget.AbsListView;
+
+public class ListViewActivityTest extends AthrunTestCase {
+
+	public ListViewActivityTest() throws Exception {
+		super("org.athrun.android.app", "org.athrun.android.app.MainActivity");
+	}
+
+	@Test
+	public void testFindElementByIndex() throws Exception {
+		findElementById("btn_listview_activity", ViewElement.class).doClick();
+		AbsListViewElement tmtsListView = findElementById("my_listview",
+				AbsListViewElement.class);
+		ViewGroupElement tmtsView = tmtsListView.getChildByIndex(3,
+				ViewGroupElement.class);
+		TextViewElement tmtsTextView = tmtsView.findElementById("ItemTitle",
+				TextViewElement.class);
+		assertEquals("Item3", tmtsTextView.getText());
+	}
+
+	@Test
+	public void testScrollListToLine() throws Exception {
+		findElementByText("ListView").doClick();
+		AbsListViewElement tmtsListView = findElementById("my_listview",
+				AbsListViewElement.class);
+		tmtsListView.scrollToLine(200);
+		assertEquals(99, tmtsListView.getLastVisiblePosition());
+	}
+
+	@Test
+	public void testGetChildBeyondIndex() throws Exception {
+		findElementById("btn_listview_activity", ViewElement.class).doClick();
+		AbsListViewElement tmtsListView = findElementById("my_listview",
+				AbsListViewElement.class);
+		ViewGroupElement viewGroup = tmtsListView.getChildByIndex(200,
+				ViewGroupElement.class);
+		assertEquals("Item99Thank you!", viewGroup.fetchText());
+	}
+
+	@Test
+	public void testFindWithoutId() throws Exception {
+		findElementById("btn_listview_activity").doClick();
+		ViewGroupElement viewGroup = findElementByIndex(0, AbsListView.class,
+				AbsListViewElement.class).getChildByIndex(33,
+				ViewGroupElement.class);
+		assertEquals("Item33Thank you!", viewGroup.fetchText());
+	}
+
+	@Test
+	public void testFetchText() throws Exception {
+		findElementById("btn_listview_activity").doClick();
+		AbsListViewElement tmtsListView = findElementById("my_listview",
+				AbsListViewElement.class);
+		ViewGroupElement viewGroup = tmtsListView.getChildByIndex(22,
+				ViewGroupElement.class);
+		assertEquals("Item22Thank you!", viewGroup.fetchText());
+	}
+
+	@Test
+	public void testRequestFocus() throws Exception {
+		findElementById("btn_listview_activity").doClick();
+		getDevice().pressDown();
+		getDevice().pressDown();
+		getDevice().pressEnter();
+		assertEquals("Item 1 clicked!", findToastElement("Item").getText());
+	}
+
+	@Test
+	public void testScrollToNextScreen() throws Exception {
+		findElementById("btn_listview_activity").doClick();
+		AbsListViewElement tmtsListView = findElementById("my_listview",
+				AbsListViewElement.class);
+		assertEquals(8, tmtsListView.getLastVisiblePosition());
+		tmtsListView.scrollToNextScreen();
+		TimeUnit.SECONDS.sleep(3);
+		assertEquals(8, tmtsListView.getFirstVisiblePosition());
+	}
+}
