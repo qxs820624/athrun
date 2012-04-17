@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.athrun.test.server;
+package org.athrun.server.struts;
 
 import java.util.Date;
 
