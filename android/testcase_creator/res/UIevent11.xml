@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<UIrecord cpu="unknown" screenWidth="480" screenHeight="800"
+	packagename="com.taobao.taobao">
+	<action actiontype="click" viewid="@adbanner_lay" activity="com.taobao.tao.MainActivity2" />
+	<action actiontype="type" viewid="@searchedit" inputtext="男表 个性镂空时尚"
+		activity="com.taobao.tao.TaoApplication" />
+	<action actiontype="itemclick" parentid="@searchgoodsList"
+		parenttype="android.widget.ListView" viewtext="Wilon/威龙正品男士手表 个"
+		viewpos="2" activity="com.taobao.tao.SearchListActivity" 
+		itemtype="LinearLayout"/>
+	<action actiontype="keypress" keycode="KeyEvent.KEYCODE_MENU" />
+	<action actiontype="click" viewid="@menu8" viewtext="退出"
+		activity="com.taobao.tao.TaoApplication" />
+	<action actiontype="click" viewid="@TBDialog_buttons_OK"
+		viewtext="确 定" activity="com.taobao.tao.DetailActivity2" />
+</UIrecord>
