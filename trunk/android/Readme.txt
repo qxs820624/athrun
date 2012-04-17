@@ -2,4 +2,4 @@
 framework目录下为框架代码，运行在移动设备端
 agent目录下为PC端框架代码，辅助framework的一些功能
 example目录下有2个app工程，1个android test工程
-testcase_creator目录下是测试用例自动生成代码，需要配合录制工具（暂未上传）使用
+tools目录下是一些辅助框架的工具
