@@ -11,8 +11,6 @@ public class TestResultCollector {
 	private String appPackage;
 	private String resultPath;
 
-//	private static final String JUNIT_RESULT_PATH = "c:\\AthrunLog\\junit-report.xml";
-
 	public TestResultCollector(String device, String testPackage,
 			String appPackage, String resultPath) {
 		this.device = device;
@@ -22,14 +20,18 @@ public class TestResultCollector {
 	}
 	
 	private String getFileRoot(String path) {
-		String[] dirStrings = path.split("\\\\");
+		String[] dirStrings = path.split("/");
 		
-		return path.replace(dirStrings[dirStrings.length  - 1], "");
+		String linuxPath = path.replace(dirStrings[dirStrings.length  - 1], "");
+		String windowsPath = linuxPath.replace("/", "\\");
+		return windowsPath;
 	}
 
 	public String getJunitReport(String device) {
 		File resultFile = new File(getFileRoot(this.resultPath));
-		resultFile.mkdirs();
+		if (!resultFile.exists()) {
+			resultFile.mkdirs();
+		}
 		
 		try {
 			String result = ShellCommandRunner.run(getReportCommand(
@@ -72,10 +74,4 @@ public class TestResultCollector {
 
 		return command.toString();
 	}
-//
-//	public static void main(String[] args) {
-//		TestResultCollector collector = new TestResultCollector(null,
-//				"org.athrun.android.test", "org.athrun.android.app");
-//		collector.getJunitReport(null);
-//	}
 }
