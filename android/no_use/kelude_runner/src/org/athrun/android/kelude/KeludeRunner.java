@@ -112,7 +112,7 @@ public final class KeludeRunner {
 			System.out.println("Incorrect args.");
 			System.out.println("Usage:");
 			System.out
-					.println("- device [device] -method [testMethodName] -packageName [testPackageName] -results_file [localpath]");
+					.println("- device [device] -method [testMethodName] -packageName [appPackageName] -testPackageName [testPackageName]-results_file [localpath]");
 
 		} else {
 			KeludeRunner runner = new KeludeRunner(args);
