@@ -121,14 +121,11 @@ public final class KeludeRunner {
 					.exec(runner.getInstCommand());
 			
             String testInfo = runner.getInfo(process);
-			System.out.println(runner.getInfo(process));
+			System.out.println(testInfo);
 			
 			if (!testInfo.contains("Time")) {
 				throw new RuntimeException(testInfo);
-				
-			} else {
-				System.out.println(testInfo);
-			}
+			} 
 			
 			TestResultCollector resultCollector = new TestResultCollector(runner.device, runner.testPackageName, runner.getPackageName(), runner.getLocalReportPath());
 			String result = resultCollector.getJunitReport(runner.device);
