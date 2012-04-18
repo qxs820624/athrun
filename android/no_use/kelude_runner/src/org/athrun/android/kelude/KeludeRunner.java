@@ -1,7 +1,5 @@
 package org.athrun.android.kelude;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +11,7 @@ public final class KeludeRunner {
 
 	private String testClassName;
 	private String testMethodName;
-	
+
 	private String device;
 	private String appPackageName;
 	private String testPackageName;
@@ -67,7 +65,7 @@ public final class KeludeRunner {
 		this.testPackageName = this.commandMap.get("testPackageName");
 		return this.testPackageName;
 	}
-	
+
 	private String getPackageName() {
 		this.appPackageName = this.commandMap.get("packageName");
 		return this.appPackageName;
@@ -75,31 +73,6 @@ public final class KeludeRunner {
 
 	private String getTestRunnerName() {
 		return RUNNER;
-	}
-
-	private String getInfo(Process process) throws Exception {
-		StringBuilder output = new StringBuilder();
-		BufferedReader info = new BufferedReader(new InputStreamReader(
-				process.getInputStream()));
-		BufferedReader error = new BufferedReader(new InputStreamReader(
-				process.getErrorStream()));
-		process.waitFor();
-
-		String line = null;
-
-		while ((line = info.readLine()) != null) {
-			if (line.trim().length() > 0) {
-				output.append(line).append("\n");
-			}
-		}
-
-		while ((line = error.readLine()) != null) {
-			if (line.trim().length() > 0) {
-				output.append(line).append("\n");
-			}
-		}
-
-		return output.toString();
 	}
 
 	private String getLocalReportPath() {
@@ -112,24 +85,23 @@ public final class KeludeRunner {
 			System.out.println("Incorrect args.");
 			System.out.println("Usage:");
 			System.out
-					.println("- device [device] -method [testMethodName] -packageName [appPackageName] -testPackageName [testPackageName]-results_file [localpath]");
+					.println("- device [device] -method [testMethodName] -packageName [appPackageName] -testPackageName [testPackageName] -results_file [localpath]");
 
 		} else {
 			KeludeRunner runner = new KeludeRunner(args);
 			System.out.println("Run command: " + runner.getInstCommand());
-			Process process = Runtime.getRuntime()
-					.exec(runner.getInstCommand());
-			
-            String testInfo = runner.getInfo(process);
-			
+			String testInfo = ShellCommandRunner.run(runner.getInstCommand());
+
 			if (!testInfo.contains("Time")) {
 				throw new RuntimeException(testInfo);
-				
+
 			} else {
 				System.out.println(testInfo);
 			}
-			
-			TestResultCollector resultCollector = new TestResultCollector(runner.device, runner.testPackageName, runner.getPackageName(), runner.getLocalReportPath());
+
+			TestResultCollector resultCollector = new TestResultCollector(
+					runner.device, runner.testPackageName,
+					runner.getPackageName(), runner.getLocalReportPath());
 			String result = resultCollector.getJunitReport(runner.device);
 			System.out.println(result);
 			System.exit(0);
