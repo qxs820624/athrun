@@ -1,0 +1,1 @@
+java -cp keluderunner.jar org.athrun.android.kelude.KeludeRunner %*
