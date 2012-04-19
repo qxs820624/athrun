@@ -18,57 +18,10 @@
  */
 package org.athrun.android.framework.client;
 
-import org.apache.log4j.Logger;
 
 public class Athrun {
-	private final Logger logger = Logger.getLogger(getClass());
-
-	private static final String USAGE = "USAGE:";
-
-	private String testProjectRoot;
-	private String deviceSerial;
-	private String testClassName;
-	private String testInfoFilesPath;
-
-	private String[] args;
-	
-	private static final String DEFAULT_TESTINFO_FILES_PATH = "c:\\AthrunTestInfo\\";
 
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.out.println(USAGE);
-
-		} else {
-			new Athrun().run(args);
-		}
-	}
-
-	private void run(String...args) {
-		this.args = args;
-		
-		logger.info("Athrun begin.");
-
-		if (this.args[0].equalsIgnoreCase("debug")) {
-			logger.info("Debug mode, only the communication function is available. Press Ctrl + C to exit.");
-			AthrunClientThread.start(null);
-
-		} else {
-			initArgs();
-			logger.info("Init finished.");
-			runTests();
-		}
-	}
-	
-	private void initArgs() {
-		this.testProjectRoot = args[0];
-		this.deviceSerial = args[1];
-		this.testClassName = args[2];
-		this.testInfoFilesPath = args.length > 3 ? args[3] : DEFAULT_TESTINFO_FILES_PATH;
-	}
-	
-	private void runTests() {
-		this.logger.info("Start to run tests.");
-		
-		this.logger.info("Run tests finished.");
+		AthrunClientThread.start(null);
 	}
 }
