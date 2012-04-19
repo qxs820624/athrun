@@ -23,8 +23,7 @@
                 optimize="${optimize}"
                 destdir="${build}"
                 deprecation="${deprecation}"
-                source="1.6" target="1.6"
-                includeantruntime="on">
+                source="1.6" target="1.6">
             <src path="${srcdir}" />
             <classpath refid="project.class.path" />
         </javac>
@@ -40,7 +39,7 @@
 
     <target name="combine-jars" depends="jar">
         <zip destfile="../framework.jar">
-            <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+            <zipgroupfileset dir="${lib.dir}" includes="*.jar" excludes="android.jar"/>
         </zip>
     </target>
 </project>
