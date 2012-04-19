@@ -31,7 +31,6 @@ public class ShellCommandRunner {
 				p.getInputStream()));
 		BufferedReader er = new BufferedReader(new InputStreamReader(
 				p.getErrorStream()));
-		p.waitFor();
 
 		String line = null;
 		while ((line = br.readLine()) != null) {
@@ -44,6 +43,8 @@ public class ShellCommandRunner {
 				output.append(line).append("\n");
 			}
 		}
+		
+		p.waitFor();
 		er.close();
 		br.close();
 		String result = output.toString();
