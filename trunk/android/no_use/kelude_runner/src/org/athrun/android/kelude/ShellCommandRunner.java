@@ -47,10 +47,12 @@ public class ShellCommandRunner {
 				output.append(line).append("\n");
 			}
 		}
+		
+		p.waitFor();
+		
 		er.close();
 		br.close();
 		
-		p.waitFor();
 		String result = output.toString();
 		return result;
 	}
