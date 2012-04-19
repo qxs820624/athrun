@@ -1,1 +1,0 @@
-java -cp athena-1.1.jar;ddmlib.jar com.synaptik.athena.Athena %1 %2 %3 %4 c:\\android\\upload
