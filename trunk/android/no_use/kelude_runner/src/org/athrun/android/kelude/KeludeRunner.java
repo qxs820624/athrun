@@ -91,6 +91,8 @@ public final class KeludeRunner {
 			KeludeRunner runner = new KeludeRunner(args);
 			System.out.println("Run command: " + runner.getInstCommand());
 			String testInfo = ShellCommandRunner.run(runner.getInstCommand());
+			
+			System.out.println("Test run finished.");
 
 			if (!testInfo.contains("Time")) {
 				throw new RuntimeException(testInfo);
