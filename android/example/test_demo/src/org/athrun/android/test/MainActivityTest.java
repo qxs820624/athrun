@@ -62,7 +62,7 @@ public class MainActivityTest extends AthrunTestCase {
 	@Test
 	public void testLongClick() throws Exception {
 		findElementById("my_imageview", ViewElement.class).doLongClick();
-		assertEquals("LongClick", findToastElement("").getText());
+		assertEquals("Long", findToastElement("").getText());
 	}
 
 	@Test
