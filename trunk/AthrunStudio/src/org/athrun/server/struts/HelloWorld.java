@@ -12,6 +12,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.athrun.ddmlib.IDevice;
+import org.athrun.server.service.DeviceManager;
 import org.athrun.server.utils.PortBean;
 import org.eclipse.jdt.internal.compiler.ast.TrueLiteral;
 
@@ -61,8 +63,15 @@ public class HelloWorld extends ActionSupport {
 	 */
 	public String getMessage() {
 		try {
-			JSONObject fromObject = JSONObject.fromObject(new PortBean(1234,
-					1234, "abc"));			
+			Devices devices = new Devices();
+
+			for (String serialNumber : DeviceManager.getDeviceList().keySet()) {
+				IDevice device = DeviceManager.getDeviceList()
+						.get(serialNumber);
+				devices.add(new Device(device));
+			}
+
+			JSONObject fromObject = JSONObject.fromObject(devices);
 			return fromObject.toString(1);
 		} catch (Exception e) {
 			e.printStackTrace();
