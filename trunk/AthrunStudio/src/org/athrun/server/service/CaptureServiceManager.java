@@ -4,7 +4,7 @@
 package org.athrun.server.service;
 
 /**
- * @author taichan 负责开启截图和事件服务
+ * @author taichan 璐熻矗寮�鍚埅鍥惧拰浜嬩欢鏈嶅姟
  */
 public class CaptureServiceManager {
 	private static CaptureServiceManager instance;

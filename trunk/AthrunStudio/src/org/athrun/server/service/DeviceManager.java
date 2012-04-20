@@ -20,7 +20,7 @@ import org.athrun.server.log.Log;
 import org.athrun.server.utils.ForwardPortManager;
 
 /**
- * @author taichan ¸ºÔğ¿ªÆô½ØÍ¼ºÍÊÂ¼ş·şÎñ
+ * @author taichan è´Ÿè´£å¼€å¯æˆªå›¾å’Œäº‹ä»¶æœåŠ¡
  */
 public class DeviceManager {
 	private static AthrunDeviceChanged deviceChangedInstance = new AthrunDeviceChanged();
@@ -48,12 +48,12 @@ public class DeviceManager {
 		return deviceList;
 	}
 	
-	// ËµÃ÷deviceÒÑ¾­Á¬½Ó
+	// è¯´æ˜deviceå·²ç»è¿æ¥
 	public static void add(IDevice device) {
 		String serialNumber = device.getSerialNumber();
 		synchronized (deviceList) {
 			if (deviceList.containsKey(serialNumber)) {
-				// Ê²Ã´¶¼²»×ö
+				// ä»€ä¹ˆéƒ½ä¸åš
 			} else {
 				checkServices(serialNumber, device);
 				deviceList.put(serialNumber, device);
@@ -94,11 +94,11 @@ public class DeviceManager {
 	 */
 	public static void checkCaptureService(String serialNumber, IDevice device) {
 		try {
-			// ¿´Ò»ÏÂ5678¶Ë¿ÚÊÇ²»ÊÇ¿ÉÒÔ·ÃÎÊ
+			// çœ‹ä¸€ä¸‹5678ç«¯å£æ˜¯ä¸æ˜¯å¯ä»¥è®¿é—®
 			switch (isSocketPortAvailable(ForwardPortManager
 					.getCapturePort(serialNumber))) {
 			case OK:
-				// Èç¹û¿ÉÒÔ·ÃÎÊ£¬Ö±½ÓÓÃ¾Í¿ÉÒÔÁË£¬ÍË³öcheck
+				// å¦‚æœå¯ä»¥è®¿é—®ï¼Œç›´æ¥ç”¨å°±å¯ä»¥äº†ï¼Œé€€å‡ºcheck
 				break;
 			case ForwardError:
 				try {
@@ -113,14 +113,14 @@ public class DeviceManager {
 				}
 				checkCaptureService(serialNumber, device);
 				Log.d("DeviceManager",
-						"´´½¨forward"
+						"åˆ›å»ºforward"
 								+ ForwardPortManager
 										.getCapturePort(serialNumber));
 				break;
 			case SoftwareError:
-				// TODO ¼ì²égsnap
-				// Èç¹ûÓĞgsnap£¬Ö±½ÓcreateForward
-				// Èç¹ûÃ»ÓĞgsnap£¬Æô¶¯½ø³Ì£¬ÔÙcreateForward
+				// TODO æ£€æŸ¥gsnap
+				// å¦‚æœæœ‰gsnapï¼Œç›´æ¥createForward
+				// å¦‚æœæ²¡æœ‰gsnapï¼Œå¯åŠ¨è¿›ç¨‹ï¼Œå†createForward
 				device.executeShellCommand("chmod 777 /data/local/gsnap",
 						new OutputStreamShellOutputReceiver(System.out));
 				device.executeShellCommand(
@@ -143,7 +143,7 @@ public class DeviceManager {
 	 */
 	private static SocketStatus isSocketPortAvailable(int port) {
 		Socket server;
-		byte[] b = new byte[10];// ´æÈëfinish
+		byte[] b = new byte[10];// å­˜å…¥finish
 		try {
 			server = new Socket("127.0.0.1", port);
 			OutputStream out = server.getOutputStream();
@@ -151,16 +151,16 @@ public class DeviceManager {
 			out.flush();
 			InputStream in = server.getInputStream();
 			int number = in.read(b);
-			assert (number == 6); // ·µ»Ø finish
+			assert (number == 6); // è¿”å› finish
 			in.close();
 			out.close();
 			server.close();
 			return SocketStatus.OK;
 		} catch (ConnectException e) {
-			Log.d("DeviceManager", "¶Ë¿ÚÎ´¿ª·Å£¬»òÉè±¸Î´²åÈë");
+			Log.d("DeviceManager", "ç«¯å£æœªå¼€æ”¾ï¼Œæˆ–è®¾å¤‡æœªæ’å…¥");
 			return SocketStatus.ForwardError;
 		} catch (SocketException e) {
-			Log.d("DeviceManager", "¶Ë¿Ú¿ª·Å£¬µ«ÎŞ·¨½¨Á¢Á¬½Ó");
+			Log.d("DeviceManager", "ç«¯å£å¼€æ”¾ï¼Œä½†æ— æ³•å»ºç«‹è¿æ¥");
 			return SocketStatus.SoftwareError;
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -176,7 +176,7 @@ public class DeviceManager {
 		OK, ForwardError, SoftwareError, Invalid
 	}
 
-	// ËµÃ÷deviceÒÑ¾­¶Ï¿ª
+	// è¯´æ˜deviceå·²ç»æ–­å¼€
 	public static void remove(IDevice device) {
 		String serialNumber = device.getSerialNumber();
 		synchronized (deviceList) {

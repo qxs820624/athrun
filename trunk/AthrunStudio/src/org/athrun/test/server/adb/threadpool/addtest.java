@@ -17,16 +17,16 @@ public class addtest {
 	@Test
 	public void test() {
 
-		// Íù ThreadPool Ôö¼ÓÔËĞĞÏß³Ì1£¬×¨ÃÅ´¦Àíµ¥Êı
-		// Íù ThreadPool Ôö¼ÓÔËĞĞÏß³Ì2£¬×¨ÃÅ´¦ÀíË«Êı
+		// å¾€ ThreadPool å¢åŠ è¿è¡Œçº¿ç¨‹1ï¼Œä¸“é—¨å¤„ç†å•æ•°
+		// å¾€ ThreadPool å¢åŠ è¿è¡Œçº¿ç¨‹2ï¼Œä¸“é—¨å¤„ç†åŒæ•°
 
-		// ´¦ÀíÊı¾İ1£¬¶ªµ½ ThreadPool 1
-		// ´¦ÀíÊı¾İ2£¬¶ªµ½ ThreadPool 2
-		// ´¦ÀíÊı¾İ3£¬¶ªµ½ ThreadPool 1
-		// ´¦ÀíÊı¾İ4£¬¶ªµ½ ThreadPool 2
-		// ´¦ÀíÊı¾İ5£¬¶ªµ½ ThreadPool 1
-		// ´¦ÀíÊı¾İ4£¬¶ªµ½ ThreadPool 2
-		// ´¦ÀíÊı¾İ1£¬¶ªµ½ ThreadPool 1
+		// å¤„ç†æ•°æ®1ï¼Œä¸¢åˆ° ThreadPool 1
+		// å¤„ç†æ•°æ®2ï¼Œä¸¢åˆ° ThreadPool 2
+		// å¤„ç†æ•°æ®3ï¼Œä¸¢åˆ° ThreadPool 1
+		// å¤„ç†æ•°æ®4ï¼Œä¸¢åˆ° ThreadPool 2
+		// å¤„ç†æ•°æ®5ï¼Œä¸¢åˆ° ThreadPool 1
+		// å¤„ç†æ•°æ®4ï¼Œä¸¢åˆ° ThreadPool 2
+		// å¤„ç†æ•°æ®1ï¼Œä¸¢åˆ° ThreadPool 1
 		
 
 		ThreadPool tp = new ThreadPool();
