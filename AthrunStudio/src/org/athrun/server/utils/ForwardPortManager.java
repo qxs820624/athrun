@@ -22,7 +22,7 @@ public class ForwardPortManager {
 	static Map<String, PortBean> portMap = new HashMap<String, PortBean>();
 
 	/**
-	 * Èç¹ûÒÑ¾­ÔÚÁË£¬·µ»ØÊµ¼Ê¶Ë¿Ú¡£ Èç¹û²»ÔÚÁË£¬¼ÆËã¿ÉÓÃ¶Ë¿Ú£¬²¢Õ¼ÓÃ¡£
+	 * å¦‚æœå·²ç»åœ¨äº†ï¼Œè¿”å›å®é™…ç«¯å£ã€‚ å¦‚æœä¸åœ¨äº†ï¼Œè®¡ç®—å¯ç”¨ç«¯å£ï¼Œå¹¶å ç”¨ã€‚
 	 * 
 	 * @param serialNumber
 	 * @return
@@ -47,7 +47,7 @@ public class ForwardPortManager {
 	}
 
 	/**
-	 * ¼ÆËã¿ÉÓÃ¶Ë¿Ú£¬²¢Õ¼ÓÃ¡£
+	 * è®¡ç®—å¯ç”¨ç«¯å£ï¼Œå¹¶å ç”¨ã€‚
 	 * 
 	 * @param intMap
 	 * @param min

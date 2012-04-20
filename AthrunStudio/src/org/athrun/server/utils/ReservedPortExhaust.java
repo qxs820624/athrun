@@ -5,7 +5,7 @@ package org.athrun.server.utils;
 
 /**
  * @author taichan
- * ±£ÁôµÄ¶Ë¿ÚºÅÓÃ¾¡ÁË
+ * ä¿ç•™çš„ç«¯å£å·ç”¨å°½äº†
  */
 public class ReservedPortExhaust extends Exception {
 	

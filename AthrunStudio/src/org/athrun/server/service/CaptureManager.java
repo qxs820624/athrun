@@ -19,19 +19,19 @@ import org.athrun.server.utils.InOutStructure;
  */
 public class CaptureManager {
 
-	// ´æ´¢ÇëÇóµÄ·µ»ØÁ÷£¬block×¡µÈ½ØÍ¼½á¹û³öÀ´ÔÙ·µ»Ø¡£
+	// å­˜å‚¨è¯·æ±‚çš„è¿”å›æµï¼Œblockä½ç­‰æˆªå›¾ç»“æœå‡ºæ¥å†è¿”å›ã€‚
 	static OutputManager outputlist;
 
 	static DataInputStream in;
 	static PrintWriter out;
 
-	static byte[] by = new byte[1024]; // Ò»´Î¶Á1024¸ö×Ö½Ú
-	static byte[] memory = new byte[300000]; // Í¼Æ¬´æ´¢ÄÚ´æ
-	static boolean needCapture = false; // ¿ØÖÆÊÇ·ñÓĞĞÂµÄ½ØÍ¼ÇëÇó
+	static byte[] by = new byte[1024]; // ä¸€æ¬¡è¯»1024ä¸ªå­—èŠ‚
+	static byte[] memory = new byte[300000]; // å›¾ç‰‡å­˜å‚¨å†…å­˜
+	static boolean needCapture = false; // æ§åˆ¶æ˜¯å¦æœ‰æ–°çš„æˆªå›¾è¯·æ±‚
 
-	static Object locker = new Object(); // µ¥Ì¬µÄËø
-	static boolean firstTime = true; // ±£Ö¤µ¥Ì¬
-	private static CaptureManager instance = new CaptureManager(); // µ¥Ì¬
+	static Object locker = new Object(); // å•æ€çš„é”
+	static boolean firstTime = true; // ä¿è¯å•æ€
+	private static CaptureManager instance = new CaptureManager(); // å•æ€
 
 	private CaptureManager() {
 		synchronized (locker) {
@@ -46,7 +46,7 @@ public class CaptureManager {
 				outputlist = new OutputManager();
 
 				try {
-					// Æô¶¯½ØÍ¼Ïß³Ì
+					// å¯åŠ¨æˆªå›¾çº¿ç¨‹
 					Thread thread = new Thread(new Runnable() {
 
 						@Override
@@ -60,7 +60,7 @@ public class CaptureManager {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// ±£Ö¤Ö»±»µ÷ÓÃÒ»´Î
+				// ä¿è¯åªè¢«è°ƒç”¨ä¸€æ¬¡
 				firstTime = false;
 			}
 
@@ -72,15 +72,15 @@ public class CaptureManager {
 		return instance;
 	}
 
-	// ²»Í£µØ´¦ÀíËùÓĞµÄÇëÇó£¬·Ö·¢µ½²»Í¬µÄthreadÀ´´¦Àí
+	// ä¸åœåœ°å¤„ç†æ‰€æœ‰çš„è¯·æ±‚ï¼Œåˆ†å‘åˆ°ä¸åŒçš„threadæ¥å¤„ç†
 	private static void GetCapture() {
 
-//		// Æô¶¯µÄÊ±ºò½øĞĞÁ¬½Ó£¬TODO£¬ºóĞø¸ÄÎª¿ÉÒÔ¼ì²éÁ¬½Ó
+//		// å¯åŠ¨çš„æ—¶å€™è¿›è¡Œè¿æ¥ï¼ŒTODOï¼Œåç»­æ”¹ä¸ºå¯ä»¥æ£€æŸ¥è¿æ¥
 //		InOutStructure inout = new InOutStructure(5678);
 //		in = inout.getIn();
 //		out = inout.GetOut();
 
-		// ÏÂÃæµÄ·´¸´Ö´ĞĞ
+		// ä¸‹é¢çš„åå¤æ‰§è¡Œ
 		while (true) {
 			
 			if (needCapture) {
@@ -105,7 +105,7 @@ public class CaptureManager {
 		assert (qualityRate >= 0);
 		assert (qualityRate <= 100);
 		synchronized (lockSocket) {
-			out.println("q" + String.format("%03d", qualityRate)); // È¡3Î»
+			out.println("q" + String.format("%03d", qualityRate)); // å–3ä½
 			out.flush();
 
 			try {
@@ -119,7 +119,7 @@ public class CaptureManager {
 
 	public static void processAdjustResize(int resizeRate) {
 		synchronized (lockSocket) {
-			out.println("r" + String.format("%03d", resizeRate)); // È¡3Î»
+			out.println("r" + String.format("%03d", resizeRate)); // å–3ä½
 			out.flush();
 
 			try {
@@ -133,7 +133,7 @@ public class CaptureManager {
 
 	protected static void processRegister() {
 		synchronized (lockSocket) {
-			// Ã»ÓĞÔÚÕâÀï¼ÓËø£¬Âß¼­ÉÏËµ£¬±ğµÄÏß³ÌÕâÊ±ÔÚ¶ÁµÄÊ±ºò»¹¿ÉÒÔ¼Ó¡£
+			// æ²¡æœ‰åœ¨è¿™é‡ŒåŠ é”ï¼Œé€»è¾‘ä¸Šè¯´ï¼Œåˆ«çš„çº¿ç¨‹è¿™æ—¶åœ¨è¯»çš„æ—¶å€™è¿˜å¯ä»¥åŠ ã€‚
 			if (!outputlist.isEmpty()) {
 
 				out.println("snap");
@@ -154,14 +154,14 @@ public class CaptureManager {
 					}
 
 				} catch (IOException e) {
-					System.out.println("snap¿Í»§¶Ë¶Ï¿ª£¬³¢ÊÔÖØĞÂÁ¬½Ó");
+					System.out.println("snapå®¢æˆ·ç«¯æ–­å¼€ï¼Œå°è¯•é‡æ–°è¿æ¥");
 					InOutStructure inout = new InOutStructure(5678);
 					in = inout.getIn();
 					out = inout.GetOut();
 					e.printStackTrace();
 				}
 
-				// ¶Ôoutputlist½øĞĞ²Ù×÷£¬·ÀÖ¹ĞÂµÄÏß³Ì¼ÓÄÚÈİ
+				// å¯¹outputlistè¿›è¡Œæ“ä½œï¼Œé˜²æ­¢æ–°çš„çº¿ç¨‹åŠ å†…å®¹
 				synchronized (outputlist) {
 					for (OutputBean outbean : outputlist) {
 						try {
@@ -183,7 +183,7 @@ public class CaptureManager {
 					if (counter >= 9) {
 						long end = System.currentTimeMillis();
 						if (time != 0) {
-							System.out.println("10´Î½ØÍ¼Æ½¾ùÖ¡Êı£º" + 10.0 * 1000
+							System.out.println("10æ¬¡æˆªå›¾å¹³å‡å¸§æ•°ï¼š" + 10.0 * 1000
 									/ (end - time));
 						}
 						time = end;
@@ -196,16 +196,16 @@ public class CaptureManager {
 		return;
 	}
 
-	// ×¢²áÒ»¸ö»Øµ÷º¯Êı
-	// Æô¶¯½ØÍ¼
-	// ½ØÍ¼Íê³Éºó£¬»Øµ÷·µ»Ø
+	// æ³¨å†Œä¸€ä¸ªå›è°ƒå‡½æ•°
+	// å¯åŠ¨æˆªå›¾
+	// æˆªå›¾å®Œæˆåï¼Œå›è°ƒè¿”å›
 	public void register(OutputStream output, String serialNumber) {
 		synchronized (outputlist) {
 			outputlist.add(new OutputBean(output, serialNumber));
 		}
 		StartCapture(serialNumber);
 
-		// µÈ´ı»Øµ÷·µ»Ø
+		// ç­‰å¾…å›è°ƒè¿”å›
 		synchronized (output) {
 			try {
 				output.wait();
@@ -216,7 +216,7 @@ public class CaptureManager {
 		}
 	}
 
-	// Æô¶¯½ØÍ¼
+	// å¯åŠ¨æˆªå›¾
 	private void StartCapture(String serialNumber) {
 		needCapture = true;
 	}

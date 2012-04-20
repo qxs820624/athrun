@@ -37,7 +37,7 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 	public void deviceDisconnected(IDevice device) {
 		// TODO Auto-generated method stub
 		System.out.println("deviceDisconnected: " + device.getSerialNumber());
-		System.out.println("ËµÃ÷Éè±¸" + device.getSerialNumber() + "ÒÑ¾­°ÎµôÁË");
+		System.out.println("è¯´æ˜è®¾å¤‡" + device.getSerialNumber() + "å·²ç»æ‹”æ‰äº†");
 		CancelAdd(device.getSerialNumber());
 		DeviceManager.remove(device);
 	}
@@ -55,21 +55,21 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 		System.out.println("deviceChanged: (" + changeMask + ")"
 				+ device.getSerialNumber());
 		if (changeMask == Client.CHANGE_PORT) {
-			System.out.println("ËµÃ÷Éè±¸" + device.getSerialNumber() + "ÒÑ¾­¿ÉÒÔÓÃÁË");
+			System.out.println("è¯´æ˜è®¾å¤‡" + device.getSerialNumber() + "å·²ç»å¯ä»¥ç”¨äº†");
 			DelayAdd(device.getSerialNumber(), device);
 		}
 	}
 
-	// ÑÓ³ÙÌí¼ÓÉè±¸£¬ÒÔ·ÀÊÂ¼ş±ä»¯Ì«¿ì£¬Ôì³É²»±ØÒªµÄÊÂ¼şÏìÓ¦
+	// å»¶è¿Ÿæ·»åŠ è®¾å¤‡ï¼Œä»¥é˜²äº‹ä»¶å˜åŒ–å¤ªå¿«ï¼Œé€ æˆä¸å¿…è¦çš„äº‹ä»¶å“åº”
 	private void DelayAdd(String serialNumber, IDevice device) {
 		boolean canAdd = serialList.add(serialNumber);
 		if (canAdd) {
-			System.out.println("Éè±¸" + serialNumber + "£º¼ÓÈëDelayÁĞ±í");
+			System.out.println("è®¾å¤‡" + serialNumber + "ï¼šåŠ å…¥Delayåˆ—è¡¨");
 		} else {
-			System.out.println("[Debug]Éè±¸" + serialNumber + "£º²»ĞèÒªÔÙ¼ÓÈëDelayÁĞ±í");
+			System.out.println("[Debug]è®¾å¤‡" + serialNumber + "ï¼šä¸éœ€è¦å†åŠ å…¥Delayåˆ—è¡¨");
 		}
 
-		// TODO ´«²Î²»¹æ·¶£¬Òª¸Ä
+		// TODO ä¼ å‚ä¸è§„èŒƒï¼Œè¦æ”¹
 		currentSerialNumber = serialNumber;
 		currentDevice = device;
 
@@ -87,10 +87,10 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 				// TODO Auto-generated method stub
 				if (serialList.contains(serialNumber1)) {
 					serialList.remove(serialNumber1);
-					System.out.println("Éè±¸" + serialNumber1 + "£º´ÓDelayÁĞ±íÖĞ´¦ÀíÍê±Ï");
+					System.out.println("è®¾å¤‡" + serialNumber1 + "ï¼šä»Delayåˆ—è¡¨ä¸­å¤„ç†å®Œæ¯•");
 					DeviceManager.add(device1);
 				} else {
-					System.out.println("[Debug]Éè±¸" + serialNumber1 + "£ºÒÑ¾­±»É¾³ı");
+					System.out.println("[Debug]è®¾å¤‡" + serialNumber1 + "ï¼šå·²ç»è¢«åˆ é™¤");
 				}
 			}
 		}, serialNumber).start();
@@ -101,14 +101,14 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 
 	private static List<String> serialList = new ArrayList<String>();
 
-	// È¡ÏûÌí¼ÓÉè±¸
+	// å–æ¶ˆæ·»åŠ è®¾å¤‡
 	private void CancelAdd(String serialNumber) {
 		boolean canRemove = serialList.remove(serialNumber);
 		if (canRemove) {
-			System.out.println("Éè±¸" + serialNumber + "£º´ÓDelayÁĞ±íÉ¾³ı");
+			System.out.println("è®¾å¤‡" + serialNumber + "ï¼šä»Delayåˆ—è¡¨åˆ é™¤");
 		} else {
-			System.out.println("[Debug]Éè±¸" + serialNumber
-					+ "£º²»´æÔÚ£¬²»ĞèÒª´ÓDelayÁĞ±íÉ¾³ı");
+			System.out.println("[Debug]è®¾å¤‡" + serialNumber
+					+ "ï¼šä¸å­˜åœ¨ï¼Œä¸éœ€è¦ä»Delayåˆ—è¡¨åˆ é™¤");
 		}
 	}
 

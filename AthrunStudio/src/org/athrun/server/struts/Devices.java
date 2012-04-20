@@ -10,6 +10,6 @@ import com.opensymphony.xwork2.ActionSupport;
  *
  */
 public class Devices extends ActionSupport {
-
+	 
 	
 }
