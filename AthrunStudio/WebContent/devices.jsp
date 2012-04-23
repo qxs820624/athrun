@@ -14,8 +14,13 @@
 </head>
 <body>
 	<s:form action="HelloWorld" namespace="/device" id="formMain">
-		<s:textfield name="userName" label="User Name" id="usrname" value="123" />
-		<input type="button" id="go" value="go" />
+		<tr>
+			<s:textfield name="userName" label="Search" id="usrname"
+				value="123" />
+		</tr>
+		<tr>
+			<input type="button" id="go" value="go" />
+		</tr>
 	</s:form>
 	<div id="rep"></div>
 </body>

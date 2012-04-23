@@ -3,42 +3,72 @@
  */
 package org.athrun.server.service;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author taichan
- *
+ * 
  */
-public class OutputManager extends ArrayList<OutputBean> {
-	
+public class OutputManager {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	/**
+	 * @param serialNumber
 	 * 
 	 */
-	public void clear() {
+	public void clear(String serialNumber) {
 		// TODO Auto-generated method stub
-		
+		synchronized (map) {
+			if (map.containsKey(serialNumber)) {
+				map.get(serialNumber).clear();
+				map.remove(serialNumber);
+			}
+		}
 	}
+
 	/**
-	 * @param outputBean
-	 * @return 
-	 */
-	public boolean add(OutputBean outputBean) {
-		
-		return false;
-		// TODO Auto-generated method stub
-		
-	}
-	/**
+	 * @param serialNumber
 	 * @return
 	 */
-	public boolean isEmpty() {
+	public boolean isEmpty(String serialNumber) {
 		// TODO Auto-generated method stub
-		return false;
+		return !map.containsKey(serialNumber);
 	}
-	
-	
+
+	/**
+	 * @param serialNumber
+	 * @return
+	 */
+	public List<OutputStream> getOutputStream(String serialNumber) {
+		// TODO Auto-generated method stub
+		return map.get(serialNumber);
+	}
+
+	/**
+	 * @param outputBean
+	 */
+	public void add(OutputBean outputBean) {
+		// TODO Auto-generated method stub
+		String sn = outputBean.getSerialNumber();
+		synchronized (map) {
+			if (map.containsKey(sn)) {
+				map.get(sn).add(outputBean.getOutput());
+			} else {
+				ArrayList<OutputStream> outList = new ArrayList<OutputStream>();
+				outList.add(outputBean.getOutput());
+				map.put(sn, outList);
+			}
+		}
+	}
+
+	private Map<String, List<OutputStream>> map = new HashMap<String, List<OutputStream>>();
+
 }

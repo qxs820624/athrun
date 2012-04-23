@@ -13,11 +13,14 @@ import java.util.Map;
 import org.athrun.ddmlib.AdbCommandRejectedException;
 import org.athrun.ddmlib.AndroidDebugBridge;
 import org.athrun.ddmlib.IDevice;
+import org.athrun.ddmlib.ShellCommandUnresponsiveException;
+import org.athrun.ddmlib.TimeoutException;
 import org.athrun.server.adb.AthrunDebugBridgeChanged;
 import org.athrun.server.adb.AthrunDeviceChanged;
 import org.athrun.server.adb.OutputStreamShellOutputReceiver;
 import org.athrun.server.log.Log;
 import org.athrun.server.utils.ForwardPortManager;
+import org.athrun.server.utils.OneParameterRunnable;
 
 /**
  * @author taichan 负责开启截图和事件服务
@@ -43,11 +46,10 @@ public class DeviceManager {
 
 	private static Map<String, IDevice> deviceList = new HashMap<String, IDevice>();
 
-	
-	public static Map<String, IDevice> getDeviceList(){
+	public static Map<String, IDevice> getDeviceList() {
 		return deviceList;
 	}
-	
+
 	// 说明device已经连接
 	public static void add(IDevice device) {
 		String serialNumber = device.getSerialNumber();
@@ -56,6 +58,7 @@ public class DeviceManager {
 				// 什么都不做
 			} else {
 				checkServices(serialNumber, device);
+				System.out.println("deviceList add");
 				deviceList.put(serialNumber, device);
 			}
 		}
@@ -68,16 +71,18 @@ public class DeviceManager {
 	 */
 	private static void checkServices(String serialNumber, IDevice device) {
 		checkCaptureService(serialNumber, device);
-		// checkEventService(device);
+		checkEventService(serialNumber, device);
 	}
 
 	/**
+	 * @param serialNumber 
 	 * @param device
 	 */
-	private static void checkEventService(IDevice device) {
+	private static void checkEventService(String serialNumber, IDevice device) {
 
+		
 		try {
-			device.createForward(1324, 1324);
+			device.createForward(1324, ForwardPortManager.getEventPort(serialNumber));
 			device.executeShellCommand(
 					"export CLASSPATH=/data/local/tmp/InjectAgent.jar; exec app_process /system/bin net.srcz.android.screencast.client.Main 1324",
 					new OutputStreamShellOutputReceiver(System.out));
@@ -123,9 +128,32 @@ public class DeviceManager {
 				// 如果没有gsnap，启动进程，再createForward
 				device.executeShellCommand("chmod 777 /data/local/gsnap",
 						new OutputStreamShellOutputReceiver(System.out));
-				device.executeShellCommand(
-						"/data/local/gsnap /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
-						new OutputStreamShellOutputReceiver(System.out));
+				// & 代表将shell命令放入后台工作，但验证不可行，尝试启线程方式运行				
+				new Thread(new OneParameterRunnable(device) {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						IDevice device = (IDevice) getParameter();
+						try {
+							device.executeShellCommand(
+									"/data/local/gsnap /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
+									new OutputStreamShellOutputReceiver(System.out));
+						} catch (TimeoutException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (AdbCommandRejectedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ShellCommandUnresponsiveException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();							
+						} 
+					}
+				}).start();
+				Thread.sleep(2000);
 				break;
 			default:
 				break;
@@ -180,6 +208,7 @@ public class DeviceManager {
 	public static void remove(IDevice device) {
 		String serialNumber = device.getSerialNumber();
 		synchronized (deviceList) {
+			System.out.println("deviceList remove");
 			deviceList.remove(serialNumber);
 		}
 		CaptureManager.getInstance().remove(serialNumber);
