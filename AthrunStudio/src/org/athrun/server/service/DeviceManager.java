@@ -75,17 +75,45 @@ public class DeviceManager {
 	}
 
 	/**
-	 * @param serialNumber 
+	 * @param serialNumber
 	 * @param device
 	 */
 	private static void checkEventService(String serialNumber, IDevice device) {
 
-		
 		try {
-			device.createForward(1324, ForwardPortManager.getEventPort(serialNumber));
-			device.executeShellCommand(
-					"export CLASSPATH=/data/local/tmp/InjectAgent.jar; exec app_process /system/bin net.srcz.android.screencast.client.Main 1324",
-					new OutputStreamShellOutputReceiver(System.out));
+			device.createForward(1324,
+					ForwardPortManager.getEventPort(serialNumber));
+			Thread th = new Thread(new OneParameterRunnable(device) {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					IDevice device = (IDevice) getParameter();
+					try {
+						device.executeShellCommand(
+								"export CLASSPATH=/data/local/tmp/InjectAgent.jar",
+								new OutputStreamShellOutputReceiver(System.out));
+						device.executeShellCommand(
+								"exec app_process /system/bin net.srcz.android.screencast.client.Main 1324",
+								new OutputStreamShellOutputReceiver(System.out));
+					} catch (TimeoutException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (AdbCommandRejectedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ShellCommandUnresponsiveException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			th.start();
+			Thread.sleep(2000);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,7 +156,7 @@ public class DeviceManager {
 				// 如果没有gsnap，启动进程，再createForward
 				device.executeShellCommand("chmod 777 /data/local/gsnap",
 						new OutputStreamShellOutputReceiver(System.out));
-				// & 代表将shell命令放入后台工作，但验证不可行，尝试启线程方式运行				
+				// & 代表将shell命令放入后台工作，但验证不可行，尝试启线程方式运行
 				new Thread(new OneParameterRunnable(device) {
 					@Override
 					public void run() {
@@ -137,7 +165,8 @@ public class DeviceManager {
 						try {
 							device.executeShellCommand(
 									"/data/local/gsnap /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
-									new OutputStreamShellOutputReceiver(System.out));
+									new OutputStreamShellOutputReceiver(
+											System.out));
 						} catch (TimeoutException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -149,8 +178,8 @@ public class DeviceManager {
 							e.printStackTrace();
 						} catch (ShellCommandUnresponsiveException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();							
-						} 
+							e.printStackTrace();
+						}
 					}
 				}).start();
 				Thread.sleep(2000);

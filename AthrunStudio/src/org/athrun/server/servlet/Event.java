@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.athrun.server.utils.ForwardPortManager;
+import org.athrun.server.utils.ReservedPortExhaust;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -54,15 +57,22 @@ public class Event extends HttpServlet {
 				throw new NotImplementedException();
 			}
 		}
-		
+
 		String serialNumber = "SH0CKPL09389";
 
-		Socket server = new Socket("127.0.0.1", 1324);
-		PrintWriter out = new PrintWriter(server.getOutputStream());
-		out.print(cmd);
-		out.flush();
-		out.close();
-		server.close();
+		try {
+			Socket server;
+			server = new Socket("127.0.0.1",
+					ForwardPortManager.getEventPort(serialNumber));
+			PrintWriter out = new PrintWriter(server.getOutputStream());
+			out.print(cmd);
+			out.flush();
+			out.close();
+			server.close();
+		} catch (ReservedPortExhaust e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.getWriter().write("finish");
 
 	}

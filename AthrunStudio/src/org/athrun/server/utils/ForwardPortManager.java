@@ -28,7 +28,8 @@ public class ForwardPortManager {
 	 * @return
 	 * @throws ReservedPortExhaust
 	 */
-	public static int getCapturePort(String serialNumber) throws ReservedPortExhaust {
+	public static int getCapturePort(String serialNumber)
+			throws ReservedPortExhaust {
 		if (portMap.containsKey(serialNumber)) {
 			return portMap.get(serialNumber).getCapturePort();
 		} else {
@@ -80,6 +81,8 @@ public class ForwardPortManager {
 				}
 				portMap.put(serialNumber, new PortBean(actualEventPort,
 						actualCapturePort, serialNumber));
+				System.out.println("EventPort:(" + serialNumber + ")"
+						+ actualCapturePort + "|" + actualEventPort);
 			}
 		}
 		return portMap.get(serialNumber);
