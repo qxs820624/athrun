@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.athrun.server.service.CaptureManager;
+import org.athrun.server.utils.ReservedPortExhaust;
 
 /**
  * Servlet implementation class imageSize
@@ -38,7 +39,16 @@ public class imageSize extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String value = request.getParameter("rate");
-		CaptureManager.processAdjustResize(Integer.parseInt(value));
+		String serialNumber = "SH0CKPL09389";
+		try {
+			CaptureManager.processAdjustResize(Integer.parseInt(value),serialNumber);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ReservedPortExhaust e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

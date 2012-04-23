@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author taichan
@@ -39,5 +41,27 @@ public class InOutStructure {
 
 	public PrintWriter GetOut() {
 		return out;
+	}
+	
+	static Map<String, InOutStructure> inoutMap = new HashMap<String, InOutStructure>();
+		
+	public static InOutStructure GetCaptureInOutBySerialNumber(String serialNumber) throws ReservedPortExhaust{
+		synchronized (inoutMap) {
+			if(!inoutMap.containsKey(serialNumber)){
+				int port = ForwardPortManager.getCapturePort(serialNumber);
+				InOutStructure inOutStructure = new InOutStructure(port);
+				inoutMap.put(serialNumber, inOutStructure);
+			}
+			return inoutMap.get(serialNumber);			
+		}
+	}
+
+	/**
+	 * @param serialNumber
+	 */
+	public static void reconnectCaptureInOut(String serialNumber) {
+		synchronized (inoutMap) {
+			inoutMap.remove(serialNumber);
+		}		
 	}
 }

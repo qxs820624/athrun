@@ -36,7 +36,7 @@ public class Event extends HttpServlet {
 		String type = request.getParameter("type");
 		String x = request.getParameter("x");
 		String y = request.getParameter("y");
-		String action = request.getParameter("action"); // 0ÊÇdown 1ÊÇup 2ÊÇmove
+		String action = request.getParameter("action"); // 0ï¿½ï¿½down 1ï¿½ï¿½up 2ï¿½ï¿½move
 		String keyCode = request.getParameter("keyCode");
 
 		String metaState = "-1";
@@ -54,6 +54,8 @@ public class Event extends HttpServlet {
 				throw new NotImplementedException();
 			}
 		}
+		
+		String serialNumber = "SH0CKPL09389";
 
 		Socket server = new Socket("127.0.0.1", 1324);
 		PrintWriter out = new PrintWriter(server.getOutputStream());

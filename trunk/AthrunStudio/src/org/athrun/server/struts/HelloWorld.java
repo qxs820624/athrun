@@ -6,6 +6,7 @@
 package org.athrun.server.struts;
 
 import java.util.Date;
+import java.util.List;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -30,6 +31,10 @@ public class HelloWorld extends ActionSupport {
 
 	private Date date;
 
+	public List<Device> getDevices() {
+		return Devices.getCurrent().getDevices();
+	}
+
 	/**
 	 * @return the date
 	 */
@@ -48,14 +53,9 @@ public class HelloWorld extends ActionSupport {
 	public HelloWorld() {
 	}
 
-	public String execute() {
+	public String execute() {		
 		setMessage("Hello " + "123");
 		return "SUCCESS";
-	}
-
-	public String abc() {
-		setMessage("Hello " + getUserName());
-		return SUCCESS;
 	}
 
 	/**
@@ -63,13 +63,7 @@ public class HelloWorld extends ActionSupport {
 	 */
 	public String getMessage() {
 		try {
-			Devices devices = new Devices();
-
-			for (String serialNumber : DeviceManager.getDeviceList().keySet()) {
-				IDevice device = DeviceManager.getDeviceList()
-						.get(serialNumber);
-				devices.add(new Device(device));
-			}
+			Devices devices = Devices.getCurrent();
 
 			JSONObject fromObject = JSONObject.fromObject(devices);
 			return fromObject.toString(1);
