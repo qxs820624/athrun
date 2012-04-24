@@ -101,7 +101,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent();
-				intent.setComponent(new ComponentName("org.athrun.android.app2", "org.athrun.android.app2.TmtsApp2Activity"));
+				intent.setComponent(new ComponentName("org.athrun.android.app2", "org.athrun.android.app2.CrossAppActivity"));
 				startActivity(intent);
 			}
 		});
