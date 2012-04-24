@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class TmtsApp2Activity extends Activity {
+public class CrossAppActivity extends Activity {
 	private Button mButton;
 	private static Map<String, Class<?>> sClassMap = new HashMap<String, Class<?>>();
 
@@ -28,7 +28,7 @@ public class TmtsApp2Activity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(TmtsApp2Activity.this,
+				Toast.makeText(CrossAppActivity.this,
 						"Button in another app is pressed!", Toast.LENGTH_SHORT)
 						.show();
 				
