@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 /**
  * @author taichan
  * 
@@ -61,8 +63,14 @@ public class ForwardPortManager {
 		int actualEventPort = 0;
 		synchronized (portMap) {
 			if (!portMap.containsKey(serialNumber)) {
+				List<Integer> caplist = new ArrayList<Integer>();
+				List<Integer> eventlist = new ArrayList<Integer>();
+				for (PortBean portbean : portMap.values()) {
+					caplist.add(portbean.getCapturePort());
+					eventlist.add(portbean.getEventPort());
+				}
 				for (int i = capturePortMin; i <= capturePortMax; i++) {
-					if (!portMap.containsKey(i)) {
+					if (!caplist.contains(i)) {
 						actualCapturePort = i;
 						break;
 					}
@@ -70,8 +78,9 @@ public class ForwardPortManager {
 				if (actualCapturePort == 0) {
 					throw new ReservedPortExhaust();
 				}
+
 				for (int i = eventPortMin; i <= eventPortMax; i++) {
-					if (!portMap.containsKey(i)) {
+					if (!eventlist.contains(i)) {
 						actualEventPort = i;
 						break;
 					}

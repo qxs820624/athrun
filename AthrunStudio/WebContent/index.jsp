@@ -20,6 +20,7 @@
 	src="http://assets.kelude.taobao.net/doc/widget/js/jquery.js"></script>
 
 
+
 <body>
 
 	<span>!!! 请用支持 HTML 5 的浏览器 !!!</span>
@@ -62,6 +63,8 @@
 
 
 	<script>
+		var serialNumber =	"<%=request.getParameter("serialNumber")%>" ;
+
 		var width, height;
 
 		var imgtag = document.getElementById('imgtag');
@@ -79,7 +82,8 @@
 			context.textBaseline = 'top';
 			context.fillText('Stoped', width / 2 - 80, height / 2);
 		}
-		imgtag.src = "/AthrunStudio/JpgGen.jpg?ts=0";
+		imgtag.src = "/AthrunStudio/JpgGen.jpg?ts=0&serialNumber="
+				+ serialNumber;
 
 		var timestamp = 0;
 
@@ -92,24 +96,27 @@
 			}
 		});
 
-		$('#start').live('click', function() {
+		$('#start').live(
+				'click',
+				function() {
 
-			var img = new Image();
-			img.onload = function() {
+					var img = new Image();
+					img.onload = function() {
 
-				context.drawImage(img, 0, 0, width, height);
-				redraw(); // 重绘鼠标
-				$('#start').trigger('click');
+						context.drawImage(img, 0, 0, width, height);
+						redraw(); // 重绘鼠标
+						$('#start').trigger('click');
 
-			}; //它在图像完全载入到内存之后调用。
+					}; //它在图像完全载入到内存之后调用。
 
-			img.onerror = function() {
-				alert("error!");
-			}; //它在图像载入失败后调用，图像载入失败不会调用onload事件。
-			timestamp = (new Date()).valueOf();
-			img.src = "/AthrunStudio/JpgGen.jpg?ts=" + timestamp; //开始加载图片,加载图片是异步过程。
+					img.onerror = function() {
+						alert("error!");
+					}; //它在图像载入失败后调用，图像载入失败不会调用onload事件。
+					timestamp = (new Date()).valueOf();
+					img.src = "/AthrunStudio/JpgGen.jpg?ts=" + timestamp
+							+ "&serialNumber=" + serialNumber; //开始加载图片,加载图片是异步过程。
 
-		});
+				});
 
 		var timer;
 
@@ -130,18 +137,22 @@
 		}
 
 		function loadWhileStart() {
-			$('input:radio[name=resize]').change(function() {
-				txt = $('input:radio:checked[name=resize]').val();
-				$.post("/AthrunStudio/imageSize", {
-					rate : txt
-				});
-			});
-			$('#qualityRate').focusout(function(e) {
-				txt = $('#qualityRate').val();
-				$.post("/AthrunStudio/imageQuality", {
-					rate : txt
-				});
-			});
+			$('input:radio[name=resize]').change(
+					function() {
+						txt = $('input:radio:checked[name=resize]').val();
+						$.post("/AthrunStudio/imageSize?serialNumber="
+								+ serialNumber, {
+							rate : txt
+						});
+					});
+			$('#qualityRate').focusout(
+					function(e) {
+						txt = $('#qualityRate').val();
+						$.post("/AthrunStudio/imageQuality?serialNumber="
+								+ serialNumber, {
+							rate : txt
+						});
+					});
 			$('.controls').removeClass("stoped");
 			$('.controls').addClass("started");
 
@@ -269,6 +280,7 @@
 			url = url + "&x=" + x * resize;
 			url = url + "&y=" + y * resize;
 			url = url + "&action=" + action;
+			url = url + "&serialNumber=" + serialNumber;
 
 			$('#eventSent').text(url);
 
@@ -290,6 +302,7 @@
 			var url = "Event.htm";
 			url = url + "?type=" + "key";
 			url = url + "&keyCode=" + keycode;
+			url = url + "&serialNumber=" + serialNumber;
 
 			$.get(url + "&action=" + action, function(data) {
 				$('#eventResult').text("同步完成");

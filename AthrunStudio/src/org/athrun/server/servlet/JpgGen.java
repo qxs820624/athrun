@@ -30,7 +30,7 @@ public class JpgGen extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {		
 		response.setContentType("image/jpeg");
-		String serialNumber = "SH0CKPL09389";
+		String serialNumber = request.getParameter("serialNumber");
 		ServletOutputStream outputStream = response.getOutputStream();
 		CaptureManager.getInstance().register(outputStream, serialNumber);
 	}

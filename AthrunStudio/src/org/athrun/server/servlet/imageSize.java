@@ -39,7 +39,7 @@ public class imageSize extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String value = request.getParameter("rate");
-		String serialNumber = "SH0CKPL09389";
+		String serialNumber = request.getParameter("serialNumber");
 		try {
 			CaptureManager.processAdjustResize(Integer.parseInt(value),serialNumber);
 		} catch (NumberFormatException e) {

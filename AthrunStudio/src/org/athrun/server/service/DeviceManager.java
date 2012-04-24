@@ -71,54 +71,7 @@ public class DeviceManager {
 	 */
 	private static void checkServices(String serialNumber, IDevice device) {
 		checkCaptureService(serialNumber, device);
-		checkEventService(serialNumber, device);
-	}
-
-	/**
-	 * @param serialNumber
-	 * @param device
-	 */
-	private static void checkEventService(String serialNumber, IDevice device) {
-
-		try {
-			device.createForward(1324,
-					ForwardPortManager.getEventPort(serialNumber));
-			Thread th = new Thread(new OneParameterRunnable(device) {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					IDevice device = (IDevice) getParameter();
-					try {
-						device.executeShellCommand(
-								"export CLASSPATH=/data/local/tmp/InjectAgent.jar",
-								new OutputStreamShellOutputReceiver(System.out));
-						device.executeShellCommand(
-								"exec app_process /system/bin net.srcz.android.screencast.client.Main 1324",
-								new OutputStreamShellOutputReceiver(System.out));
-					} catch (TimeoutException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (AdbCommandRejectedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ShellCommandUnresponsiveException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
-			th.start();
-			Thread.sleep(2000);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		EventManager.checkEventService(serialNumber, device);
 	}
 
 	/**
@@ -135,14 +88,17 @@ public class DeviceManager {
 				break;
 			case ForwardError:
 				try {
-					device.createForward(5678,
-							ForwardPortManager.getCapturePort(serialNumber));
+					device.createForward(
+							ForwardPortManager.getCapturePort(serialNumber),
+							5678);
 				} catch (AdbCommandRejectedException e) {
 					e.printStackTrace();
-					device.removeForward(5678,
-							ForwardPortManager.getCapturePort(serialNumber));
-					device.createForward(5678,
-							ForwardPortManager.getCapturePort(serialNumber));
+					device.removeForward(
+							ForwardPortManager.getCapturePort(serialNumber),
+							5678);
+					device.createForward(
+							ForwardPortManager.getCapturePort(serialNumber),
+							5678);
 				}
 				checkCaptureService(serialNumber, device);
 				Log.d("DeviceManager",
@@ -154,7 +110,9 @@ public class DeviceManager {
 				// TODO 检查gsnap
 				// 如果有gsnap，直接createForward
 				// 如果没有gsnap，启动进程，再createForward
-				device.executeShellCommand("chmod 777 /data/local/gsnap",
+				CaptureManager.uploadCaptureEvent(device);
+				device.executeShellCommand("chmod 777 "
+						+ CaptureManager.remotePath,
 						new OutputStreamShellOutputReceiver(System.out));
 				// & 代表将shell命令放入后台工作，但验证不可行，尝试启线程方式运行
 				new Thread(new OneParameterRunnable(device) {
@@ -164,7 +122,8 @@ public class DeviceManager {
 						IDevice device = (IDevice) getParameter();
 						try {
 							device.executeShellCommand(
-									"/data/local/gsnap /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
+									CaptureManager.remotePath
+											+ " /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
 									new OutputStreamShellOutputReceiver(
 											System.out));
 						} catch (TimeoutException e) {
