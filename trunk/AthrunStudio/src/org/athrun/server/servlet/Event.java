@@ -58,7 +58,7 @@ public class Event extends HttpServlet {
 			}
 		}
 
-		String serialNumber = "SH0CKPL09389";
+		String serialNumber = request.getParameter("serialNumber");
 
 		try {
 			Socket server;

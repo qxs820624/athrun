@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.athrun.ddmlib.IDevice;
+import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -33,7 +34,8 @@ public class Devices {
 		for (String serialNumber : DeviceManager.getDeviceList().keySet()) {
 			IDevice device = DeviceManager.getDeviceList()
 					.get(serialNumber);
-			devices.add(new Device(device));
+			Device deviceStru = new Device(device);			
+			devices.add(deviceStru);
 		}
 		return devices;		
 	}

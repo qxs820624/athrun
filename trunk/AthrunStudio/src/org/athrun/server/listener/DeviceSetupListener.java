@@ -3,6 +3,7 @@ package org.athrun.server.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
 
 /**
@@ -24,6 +25,7 @@ public class DeviceSetupListener implements ServletContextListener {
      */
     public void contextInitialized(ServletContextEvent arg0) {
     	// TODO Auto-generated method stub
+    	CaptureManager.getInstance();
     	DeviceManager.CreateAdb();
     }
 

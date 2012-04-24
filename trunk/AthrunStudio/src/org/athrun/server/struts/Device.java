@@ -23,7 +23,7 @@ public class Device {
 		this.sdk = iDevice.getProperty("ro.build.version.sdk");
 		this.ipAddress = iDevice.getProperty("dhcp.eth0.ipaddress");
 		this.cpuAbi = iDevice.getProperty("ro.product.cpu.abi");
-		this.serialNumber = iDevice.getSerialNumber();		
+		this.serialNumber = iDevice.getSerialNumber();
 	}
 
 	private String manufacturer;
@@ -33,43 +33,49 @@ public class Device {
 	private String ipAddress;
 	private String cpuAbi;
 	private String serialNumber;
-	
+
 	/**
 	 * @return the serialNumber
 	 */
 	public String getSerialNumber() {
 		return serialNumber;
 	}
+
 	/**
 	 * @return the manufacturer
 	 */
 	public String getManufacturer() {
 		return manufacturer;
 	}
+
 	/**
 	 * @return the model
 	 */
 	public String getModel() {
 		return model;
 	}
+
 	/**
 	 * @return the device
 	 */
 	public String getDevice() {
 		return device;
 	}
+
 	/**
 	 * @return the sdk
 	 */
 	public String getSdk() {
 		return sdk;
 	}
+
 	/**
 	 * @return the ipaddress
 	 */
 	public String getIpAddress() {
 		return ipAddress;
 	}
+
 	/**
 	 * @return the cpu_abi
 	 */
@@ -77,5 +83,4 @@ public class Device {
 		return cpuAbi;
 	}
 
-	
 }

@@ -22,6 +22,7 @@
 			<input type="button" id="go" value="go" />
 		</tr>
 	</s:form>
+	<div></div>
 	<div id="rep"></div>
 </body>
 <script type="text/javascript">

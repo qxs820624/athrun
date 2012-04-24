@@ -46,6 +46,13 @@
 					</tr>
 				</table>
 			</td>
+			<td><img
+				alt="<s:property value='serialNumber' /> screen"
+				src="/AthrunStudio/JpgGen.jpg?ts=0&serialNumber=<s:property value='serialNumber' />"
+				width="120"
+				height="200"
+				>
+			</td>
 		</s:iterator>
 	</tr>
 </table>

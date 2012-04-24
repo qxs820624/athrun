@@ -13,6 +13,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.catalina.connector.Request;
 import org.athrun.ddmlib.IDevice;
 import org.athrun.server.service.DeviceManager;
 import org.athrun.server.utils.PortBean;
@@ -64,7 +65,7 @@ public class HelloWorld extends ActionSupport {
 	public String getMessage() {
 		try {
 			Devices devices = Devices.getCurrent();
-
+			
 			JSONObject fromObject = JSONObject.fromObject(devices);
 			return fromObject.toString(1);
 		} catch (Exception e) {

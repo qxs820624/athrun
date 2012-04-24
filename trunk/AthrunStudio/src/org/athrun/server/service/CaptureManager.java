@@ -4,13 +4,19 @@
 package org.athrun.server.service;
 
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.catalina.connector.ClientAbortException;
+import org.athrun.ddmlib.AdbCommandRejectedException;
+import org.athrun.ddmlib.IDevice;
+import org.athrun.ddmlib.SyncException;
+import org.athrun.ddmlib.TimeoutException;
 import org.athrun.server.utils.ForwardPortManager;
 import org.athrun.server.utils.InOutStructure;
 import org.athrun.server.utils.OneParameterRunnable;
@@ -21,6 +27,8 @@ import org.athrun.server.utils.ReservedPortExhaust;
  * 
  */
 public class CaptureManager {
+	
+	static final String remotePath = "/data/local/gsnap";
 
 	// 存储请求的返回流，block住等截图结果出来再返回。
 	static OutputManager capOutputManager = new OutputManager();
@@ -250,6 +258,15 @@ public class CaptureManager {
 	 */
 	public void add(String serialNumber) {
 		StartCaptureMonitor(serialNumber);
+	}
+
+	public static void uploadCaptureEvent(IDevice device) throws SyncException, IOException, TimeoutException, AdbCommandRejectedException, URISyntaxException {
+		File file = new File(EventManager.class
+				.getResource("/gsnap/gsnap").toURI().getPath());
+
+		device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
+				new NullSyncProgressMonitor());
+		System.out.println("capture agent uploaded.");
 	}
 
 }
