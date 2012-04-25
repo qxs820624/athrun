@@ -27,19 +27,23 @@ import org.athrun.server.utils.ReservedPortExhaust;
  * 
  */
 public class CaptureManager {
-	
+
 	static final String remotePath = "/data/local/gsnap";
 
 	// 存储请求的返回流，block住等截图结果出来再返回。
 	static OutputManager capOutputManager = new OutputManager();
 
-	static byte[] by = new byte[1024]; // 一次读1024个字节
-	static byte[] memory = new byte[300000]; // 图片存储内存
-
 	private static CaptureManager instance = new CaptureManager(); // 单态
 
 	static Map<String, Boolean> needCaptureList = new HashMap<String, Boolean>(); // 控制是否有新的截图请求
 	static Map<String, Thread> threadlist = new HashMap<String, Thread>(); // 每个设备都会启动一个截图线程
+
+	static Map<String, byte[]> bylist = new HashMap<String, byte[]>(); // 一次读1024个字节
+	static Map<String, byte[]> memorylist = new HashMap<String, byte[]>(); // 图片存储内存
+	static Map<String, Object> lockSocket = new HashMap<String, Object>();
+
+	static Map<String, Integer> countermap = new HashMap<String, Integer>();
+	static Map<String, Long> timemap = new HashMap<String, Long>();
 
 	private void StartCaptureMonitor(String serialNumber) {
 		if (!threadlist.containsKey(serialNumber)) {
@@ -104,15 +108,11 @@ public class CaptureManager {
 		}
 	}
 
-	static int counter = 0;
-	static long time = 0;
-	static Object lockSocket = new Object();
-
 	public static void processAdjustQuality(int qualityRate, String serialNumber)
 			throws ReservedPortExhaust {
 		assert (qualityRate >= 0);
 		assert (qualityRate <= 100);
-		synchronized (lockSocket) {
+		synchronized (lockSocket.get(serialNumber)) {
 			InOutStructure inOutStructure = InOutStructure
 					.GetCaptureInOutBySerialNumber(serialNumber);
 
@@ -121,7 +121,7 @@ public class CaptureManager {
 			inOutStructure.GetOut().flush();
 
 			try {
-				inOutStructure.getIn().read(by);
+				inOutStructure.getIn().read(bylist.get(serialNumber));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -131,7 +131,7 @@ public class CaptureManager {
 
 	public static void processAdjustResize(int resizeRate, String serialNumber)
 			throws ReservedPortExhaust {
-		synchronized (lockSocket) {
+		synchronized (lockSocket.get(serialNumber)) {
 
 			InOutStructure inOutStructure = InOutStructure
 					.GetCaptureInOutBySerialNumber(serialNumber);
@@ -141,7 +141,7 @@ public class CaptureManager {
 			inOutStructure.GetOut().flush();
 
 			try {
-				inOutStructure.getIn().read(by);
+				inOutStructure.getIn().read(bylist.get(serialNumber));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -151,7 +151,7 @@ public class CaptureManager {
 
 	protected static void processRegister(String serialNumber)
 			throws ReservedPortExhaust {
-		synchronized (lockSocket) {
+		synchronized (lockSocket.get(serialNumber)) {
 			// 没有在这里加锁，逻辑上说，别的线程这时在读的时候还可以加。
 			if (!capOutputManager.isEmpty(serialNumber)) {
 
@@ -164,10 +164,11 @@ public class CaptureManager {
 
 				try {
 					for (int i = 0;;) {
-						int read = inOutStructure.getIn().read(by);
+						int read = inOutStructure.getIn().read(
+								bylist.get(serialNumber));
 						length += read;
-						for (byte b : by) {
-							memory[i] = b;
+						for (byte b : bylist.get(serialNumber)) {
+							memorylist.get(serialNumber)[i] = b;
 							i++;
 						}
 						if (read != 1024) {
@@ -182,11 +183,11 @@ public class CaptureManager {
 				}
 
 				// 对outputlist进行操作，防止新的线程加内容
-				synchronized (capOutputManager) {
+				synchronized (capOutputManager.getlock(serialNumber)) {
 					for (OutputStream out : capOutputManager
 							.getOutputStream(serialNumber)) {
 						try {
-							out.write(memory, 0, length);
+							out.write(memorylist.get(serialNumber), 0, length);
 							out.flush();
 							out.close();
 							synchronized (out) {
@@ -201,16 +202,17 @@ public class CaptureManager {
 						}
 					}
 					capOutputManager.clear(serialNumber);
-					if (counter >= 9) {
+					if (countermap.get(serialNumber) >= 9) {
 						long end = System.currentTimeMillis();
-						if (time != 0) {
-							System.out.println("10次截图平均帧数：" + 10.0 * 1000
-									/ (end - time));
+						if (timemap.get(serialNumber) != 0) {
+							System.out.println("10次截图平均帧数("+serialNumber+")" + 10.0 * 1000
+									/ (end - timemap.get(serialNumber)));
 						}
-						time = end;
-						counter = 0;
+						timemap.put(serialNumber, end);
+						countermap.put(serialNumber, 0);
 					}
-					counter++;
+					countermap.put(serialNumber,
+							countermap.get(serialNumber) + 1);
 				}
 			}
 		}
@@ -257,12 +259,29 @@ public class CaptureManager {
 	 * @param serialNumber
 	 */
 	public void add(String serialNumber) {
+		if (!lockSocket.containsKey(serialNumber)) {
+			lockSocket.put(serialNumber, new Object());
+		}
+		if (!bylist.containsKey(serialNumber)) {
+			bylist.put(serialNumber, new byte[1024]);
+		}
+		if (!memorylist.containsKey(serialNumber)) {
+			memorylist.put(serialNumber, new byte[300000]);
+		}
+		if (!countermap.containsKey(serialNumber)) {
+			countermap.put(serialNumber, 0);
+		}
+		if (!timemap.containsKey(serialNumber)) {
+			timemap.put(serialNumber, (long) 0);
+		}
 		StartCaptureMonitor(serialNumber);
 	}
 
-	public static void uploadCaptureEvent(IDevice device) throws SyncException, IOException, TimeoutException, AdbCommandRejectedException, URISyntaxException {
-		File file = new File(EventManager.class
-				.getResource("/gsnap/gsnap").toURI().getPath());
+	public static void uploadCaptureEvent(IDevice device) throws SyncException,
+			IOException, TimeoutException, AdbCommandRejectedException,
+			URISyntaxException {
+		File file = new File(EventManager.class.getResource("/gsnap/gsnap")
+				.toURI().getPath());
 
 		device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
 				new NullSyncProgressMonitor());
