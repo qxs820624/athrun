@@ -9,15 +9,16 @@ import org.eclipse.jdt.core.dom.Name;
 
 public class DeviceAction extends BaseAction {
 	private static final String KEY_CODE = "keycode";
-	
+
 	public static final String PRESS_KEY = "keypress";
+	public static final String ON_TOUCH = "onTouch";
 	private static final String SLIDE = "slide";
-	
+
 	private static final String GETDEVICE = "getDevice";
 	private static final String PRESSKEYS = "pressKeys";
-	
+
 	private String keyCode;
-	
+
 	public DeviceAction(Map<String, String> action, AST ast) {
 		super(action, ast);
 		this.keyCode = action.get(KEY_CODE);
@@ -26,34 +27,39 @@ public class DeviceAction extends BaseAction {
 	@Override
 	public void toJavaCode(Block methodBlock) {
 		createComment(methodBlock);
-		
+
 		if (actiontype.equalsIgnoreCase(PRESS_KEY)) {
 			if (this.keyCode.contains("MENU")) {
 				createSleep(methodBlock);
 			}
 			createPressKey(methodBlock);
-			
+
 		} else if (actiontype.equalsIgnoreCase(SLIDE)) {
-			//do nothing now
+			// do nothing now
 		}
-		
+
 		createBlank(methodBlock);
 	}
-	
-	@SuppressWarnings("unchecked")
-	private void createPressKey(Block methodBlock) {
-		MethodInvocation pressKey = ast.newMethodInvocation();
+
+	protected MethodInvocation createGetDevice() {
 		MethodInvocation getDevice = ast.newMethodInvocation();
 		getDevice.setName(ast.newSimpleName(GETDEVICE));
 
-		pressKey.setExpression(getDevice);
+		return getDevice;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createPressKey(Block methodBlock) {
+		MethodInvocation pressKey = ast.newMethodInvocation();
+
+		pressKey.setExpression(createGetDevice());
 		pressKey.setName(ast.newSimpleName(PRESSKEYS));
-		
+
 		pressKey.arguments().add(getKeyCode(action));
-		
+
 		methodBlock.statements().add(ast.newExpressionStatement(pressKey));
 	}
-	
+
 	private Name getKeyCode(Map<String, String> action) {
 		Name keyParam = ast.newName(getSimpleNames(this.keyCode));
 		return keyParam;
