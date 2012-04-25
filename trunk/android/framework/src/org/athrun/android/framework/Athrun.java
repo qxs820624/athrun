@@ -21,6 +21,7 @@ package org.athrun.android.framework;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -423,15 +424,6 @@ final class Athrun {
 
 		Object obj = getConstructor(returnType).newInstance(inst, listItem);
 		return returnType.cast(obj);
-	}
-
-	/**
-	 * Get current Activity.
-	 * 
-	 * @return Current Activity
-	 */
-	private Activity getCurrentActivity() {
-		return activityUtils.getCurrentActivity();
 	}
 
 	private String getPackageName() {

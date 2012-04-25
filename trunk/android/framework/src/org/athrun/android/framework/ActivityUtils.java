@@ -24,14 +24,14 @@ import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import junit.framework.Assert;
+
 import org.apache.log4j.Logger;
 
-import junit.framework.Assert;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.IntentFilter;
-import android.util.Log;
 import android.view.KeyEvent;
 
 /**
@@ -41,7 +41,6 @@ import android.view.KeyEvent;
  * @author bingyang.djj
  */
 class ActivityUtils {
-	private static final String LOG_TAG = "ActivityUtils";
 
 	private final Logger logger = LogConfigure.getLogger(getClass());
 
@@ -52,8 +51,6 @@ class ActivityUtils {
 	private final Instrumentation inst;
 	private ActivityMonitor activityMonitor;
 	private Activity activity;
-
-	private static ArrayList<Activity> activityList = new ArrayList<Activity>();
 
 	private Stack<Activity> activityStack;
 	private Timer activitySyncTimer;
@@ -179,28 +176,6 @@ class ActivityUtils {
 		}
 	}
 
-	// /**
-	// * Returns the current {@code Activity}.
-	// *
-	// * @param shouldSleepFirst
-	// * whether to sleep a default pause first
-	// * @return the current {@code Activity}
-	// *
-	// */
-	// private Activity getCurrentActivity(boolean shouldSleepFirst) {
-	// if (shouldSleepFirst) {
-	// sleep(PAUSE);
-	// inst.waitForIdleSync();
-	// }
-	//
-	// waitForActivityIfNotAvailable();
-	// if (activityMonitor != null) {
-	// if (activityMonitor.getLastActivity() != null)
-	// activity = activityMonitor.getLastActivity();
-	// }
-	// return activity;
-	// }
-
 	private Activity getCurrentActivity(boolean shouldSleepFirst) {
 		if (shouldSleepFirst) {
 			sleep(PAUSE);
@@ -212,25 +187,6 @@ class ActivityUtils {
 		}
 		return activity;
 	}
-
-//	void updateActivities(Activity activity) {
-//		Activity exitActivity;
-//		boolean found = false;
-//		for (int i = 0; i < activityList.size(); i++) {
-//			exitActivity = activityList.get(i);
-//			if (exitActivity.getClass().getName()
-//					.equals(activity.getClass().getName())) {
-//				found = true;
-//			}
-//		}
-//
-//		if (!found) {
-//			activityList.add(activity);
-//
-//		} else {
-//			return;
-//		}
-//	}
 
 	/**
 	 * Waits for the given {@link Activity}.
@@ -259,41 +215,6 @@ class ActivityUtils {
 			return false;
 		}
 	}
-
-	// /**
-	// * Returns to the given {@link Activity}.
-	// *
-	// * @param name
-	// * the name of the {@code Activity} to return to, e.g.
-	// * {@code "MyActivity"}
-	// *
-	// */
-	// void goBackToActivity(String name) {
-	// boolean found = false;
-	// for (Activity activity : activityList) {
-	// if (activity.getClass().getSimpleName().equals(name))
-	// found = true;
-	// }
-	// if (found) {
-	// while (!getCurrentActivity().getClass().getSimpleName()
-	// .equals(name)) {
-	// try {
-	// inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-	// } catch (SecurityException e) {
-	// Assert.assertTrue("Activity named " + name
-	// + " can not be returned to", false);
-	// }
-	// }
-	// } else {
-	// for (int i = 0; i < activityList.size(); i++)
-	// // Log.d(LOG_TAG, "Activity priorly opened: "
-	// // + activityList.get(i).getClass().getSimpleName());
-	// logger.info("Activity priorly opened: "
-	// + activityList.get(i).getClass().getSimpleName());
-	// Assert.assertTrue("No Activity named " + name
-	// + " has been priorly opened", false);
-	// }
-	// }
 
 	void goBackToActivity(String name) {
 		ArrayList<Activity> activitiesOpened = getAllOpenedActivities();
@@ -369,36 +290,6 @@ class ActivityUtils {
 		}
 		this.activityStack.clear();
 	}
-
-	// /**
-	// * All activities that have been active are finished.
-	// */
-	// void finishAllActivities() throws Throwable {
-	// // Log.i(LOG_TAG, "finishAllActivities() started");
-	// logger.info("finishAllActivities() started");
-	// try {
-	// // Finish all opened activities
-	// for (int i = activityList.size() - 1; i >= 0; i--) {
-	// if (null != activityList.get(i)) {
-	// activityList.get(i).finish();
-	// sleep(100);
-	// }
-	// }
-	//
-	// // Finish the initial activity
-	// getCurrentActivity().finish();
-	// activityList.clear();
-	//
-	// // Remove the monitor added during startup
-	// if (activityMonitor != null) {
-	// inst.removeMonitor(activityMonitor);
-	// }
-	// } catch (Exception ignored) {
-	// }
-	// super.finalize();
-	// // Log.i(LOG_TAG, "finishAllActivities() finished");
-	// logger.info("finishAllActivities() finished");
-	// }
 
 	private static void sleep(int time) {
 		try {
