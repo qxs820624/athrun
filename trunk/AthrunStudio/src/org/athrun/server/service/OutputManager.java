@@ -58,6 +58,9 @@ public class OutputManager {
 	public void add(OutputBean outputBean) {
 		// TODO Auto-generated method stub
 		String sn = outputBean.getSerialNumber();
+		if(!lockMap.containsKey(sn)){
+			lockMap.put(sn, new Object());
+		}
 		synchronized (map) {
 			if (map.containsKey(sn)) {
 				map.get(sn).add(outputBean.getOutput());
@@ -68,7 +71,12 @@ public class OutputManager {
 			}
 		}
 	}
+	
+	public Object getlock(String serialNumber){
+		return lockMap.get(serialNumber);
+	}
 
 	private Map<String, List<OutputStream>> map = new HashMap<String, List<OutputStream>>();
 
+	private Map<String, Object> lockMap = new HashMap<String, Object>();
 }
