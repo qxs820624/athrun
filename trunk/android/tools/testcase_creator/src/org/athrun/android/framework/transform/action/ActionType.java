@@ -2,10 +2,9 @@ package org.athrun.android.framework.transform.action;
 
 public enum ActionType {
 	GestureAction,
-	TouchAction,
+	OnTouchAction,
 	TouchEventAction,
 	FlingAction,
-	
 	DeviceAction,
 	
 	ViewAction,
@@ -13,5 +12,7 @@ public enum ActionType {
 	ViewGroupAction,
 	AbsListViewAction,
 	OptionItemAction,
-	TaobaoSkuViewAction
+	TaobaoSkuViewAction,
+	
+	UnkownAction
 }

@@ -44,6 +44,8 @@ public class ViewAction extends BaseAction {
 	private static final int RANDOM_LENGTH = 5;
 	protected String viewName = null;
 
+	private static final String WARNING = "warningInfoUsedForAthrun";
+
 	protected static Map<String, String> viewOperation = new HashMap<String, String>();
 
 	static {
@@ -62,18 +64,35 @@ public class ViewAction extends BaseAction {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void toJavaCode(Block methodBlock) {
+		if (!this.action.containsKey("viewid")
+				&& !this.action.containsKey("viewtext")) {
+			methodBlock.statements().add(
+					this.ast.newExpressionStatement(getStatementForSpecial(
+							methodBlock, WARNING)));
+		}
 		createComment(methodBlock);
-		
+
 		methodBlock.statements().add(getFindStatement());
 		methodBlock.statements().add(getOperationStatement());
-		
+
 		createBlank(methodBlock);
 	}
 
 	protected VariableDeclarationStatement getFindStatement() {
-		return createFindStatement(
-				getMethodInvocation(this.action.get(VIEW_ID), VIEW_ELEMENT),
-				this.viewName, VIEW_ELEMENT);
+		VariableDeclarationStatement findStatement = null;
+
+		if (this.action.containsKey(VIEW_ID)) {
+			findStatement = createFindStatement(
+					getMethodInvocation(this.action.get(VIEW_ID), VIEW_ELEMENT),
+					this.viewName, VIEW_ELEMENT);
+
+		} else {
+			findStatement = createFindStatement(
+					getMethodInvocation("0", this.action.get("viewtype"),
+							VIEW_ELEMENT), this.viewName, VIEW_ELEMENT);
+		}
+
+		return findStatement;
 	}
 
 	protected VariableDeclarationStatement createFindStatement(
@@ -107,15 +126,16 @@ public class ViewAction extends BaseAction {
 			createFindByIdInvocation(methodInvocation, args[0], args[1]);
 
 		} else if (3 == args.length) {
-			createFindByIndexInvocation(methodInvocation, args[0], args[1], args[2]);
+			createFindByIndexInvocation(methodInvocation, args[0], args[1],
+					args[2]);
 		}
 
 		return methodInvocation;
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void createFindByTextInvocation(MethodInvocation methodInvocation,
-			String viewText) {
+	protected void createFindByTextInvocation(
+			MethodInvocation methodInvocation, String viewText) {
 		methodInvocation.setName(ast.newSimpleName(FIND_ELEMENT_BY_TEXT));
 		StringLiteral textParam = ast.newStringLiteral();
 		textParam.setLiteralValue(viewText);
@@ -126,12 +146,12 @@ public class ViewAction extends BaseAction {
 	protected void createFindByIdInvocation(MethodInvocation methodInvocation,
 			String viewId, String returnType) {
 		methodInvocation.setName(ast.newSimpleName(FIND_BY_ID));
-		
+
 		if (viewId.startsWith("@")) {
 			StringLiteral idParam = ast.newStringLiteral();
 			idParam.setLiteralValue(viewId.replace("@", ""));
 			methodInvocation.arguments().add(idParam);
-			
+
 		} else {
 			NumberLiteral idParam = ast.newNumberLiteral(viewId);
 			methodInvocation.arguments().add(idParam);
@@ -141,13 +161,13 @@ public class ViewAction extends BaseAction {
 		returnTypeParam
 				.setType(ast.newSimpleType(ast.newSimpleName(returnType)));
 
-		
 		methodInvocation.arguments().add(returnTypeParam);
 	}
 
 	@SuppressWarnings("unchecked")
-	protected void createFindByIndexInvocation(MethodInvocation methodInvocation,
-			String index, String viewType, String returnType) {
+	protected void createFindByIndexInvocation(
+			MethodInvocation methodInvocation, String index, String viewType,
+			String returnType) {
 		methodInvocation.setName(ast.newSimpleName(FIND_ELEMENT_BY_INDEX));
 		NumberLiteral indexParam = ast.newNumberLiteral(index);
 
@@ -193,13 +213,13 @@ public class ViewAction extends BaseAction {
 
 		return operation;
 	}
-	
-//	protected String getViewId() {
-//		String id = this.action.get(VIEW_ID);
-//		if (id.startsWith("@")) {
-//			id = id.replace("@", "");
-//		}
-//		
-//		return id;
-//	}
+
+	// protected String getViewId() {
+	// String id = this.action.get(VIEW_ID);
+	// if (id.startsWith("@")) {
+	// id = id.replace("@", "");
+	// }
+	//
+	// return id;
+	// }
 }

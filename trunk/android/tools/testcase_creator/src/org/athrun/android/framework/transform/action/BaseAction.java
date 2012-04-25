@@ -8,13 +8,12 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.Name;
-import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.eclipse.jdt.core.dom.StringLiteral;
-import org.eclipse.jdt.core.dom.ThisExpression;
 
 public abstract class BaseAction implements IAction {
-	private static final String COMMENT = "comment";
-	private static final String BLANK = "blank";
+	private static final String COMMENT = "commentUsedForAthrun";
+	private static final String BLANK = "blankUsedForAthrun";
+	
 	private static final String SLEEP = "sleep";
 
 	public static final String ACTION_TYPE = "actiontype";
@@ -32,11 +31,11 @@ public abstract class BaseAction implements IAction {
 	}
 
 	public abstract void toJavaCode(Block methodBlock);
-
+	
 	@SuppressWarnings("unchecked")
-	protected void createComment(Block methodBlock) {
+	protected void createSpecial(Block methodBlock, String methodName) {
 		MethodInvocation methodInvocation = this.ast.newMethodInvocation();
-		methodInvocation.setName(ast.newSimpleName(COMMENT));
+		methodInvocation.setName(ast.newSimpleName(methodName));
 		StringLiteral content = ast.newStringLiteral();
 		content.setLiteralValue(this.action.toString());
 		methodInvocation.arguments().add(content);
@@ -45,13 +44,21 @@ public abstract class BaseAction implements IAction {
 				this.ast.newExpressionStatement(methodInvocation));
 	}
 
+	protected void createComment(Block methodBlock) {
+		createSpecial(methodBlock, COMMENT);
+	}
+	
 	@SuppressWarnings("unchecked")
 	protected void createBlank(Block methodBlock) {
-		MethodInvocation methodInvocation = this.ast.newMethodInvocation();
-		methodInvocation.setName(ast.newSimpleName(BLANK));
-
 		methodBlock.statements().add(
-				this.ast.newExpressionStatement(methodInvocation));
+				this.ast.newExpressionStatement(getStatementForSpecial(methodBlock, BLANK)));
+	}
+	
+	protected MethodInvocation getStatementForSpecial(Block methodBlock, String methodName) {
+		MethodInvocation methodInvocation = this.ast.newMethodInvocation();
+		methodInvocation.setName(ast.newSimpleName(methodName));
+		
+		return methodInvocation;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -6,8 +6,10 @@ import org.athrun.android.framework.transform.action.AbsListViewAction;
 import org.athrun.android.framework.transform.action.ActionType;
 import org.athrun.android.framework.transform.action.DeviceAction;
 import org.athrun.android.framework.transform.action.IAction;
+import org.athrun.android.framework.transform.action.OnTouchAction;
 import org.athrun.android.framework.transform.action.OptionItemAction;
 import org.athrun.android.framework.transform.action.TextViewAction;
+import org.athrun.android.framework.transform.action.UnknowAction;
 import org.athrun.android.framework.transform.action.ViewAction;
 import org.athrun.android.framework.transform.action.ViewGroupAction;
 import org.athrun.android.framework.transform.taobaoview.TaobaoSkuViewAction;
@@ -52,6 +54,12 @@ public class ActionFactory {
 			
 		case TaobaoSkuViewAction:
 			return new TaobaoSkuViewAction(action, this.ast);
+			
+		case UnkownAction:
+			return new UnknowAction(action, this.ast);
+			
+		case OnTouchAction:
+			return new OnTouchAction(action, this.ast);
 
 		default:
 			return null;

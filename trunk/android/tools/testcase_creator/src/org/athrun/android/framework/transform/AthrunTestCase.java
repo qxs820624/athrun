@@ -27,9 +27,11 @@ import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 public class AthrunTestCase {
-	
-	private static final String NEWLINE = "blank();";
-	private static final String COMMENT = "comment";
+
+	private static final String NEWLINE = "blankUsedForAthrun();";
+	private static final String COMMENT = "commentUsedForAthrun";
+	private static final String UNKOWN_ACTION = "unkownActionUsedForAthrun";
+	private static final String WARNING = "warningInfoUsedForAthrun();";
 
 	private File xmlFile;
 
@@ -44,9 +46,9 @@ public class AthrunTestCase {
 	private String testCaseName;
 	private String testMethodName;
 	private String mainActivityName;
-	
+
 	private static ArrayList<String> imports = new ArrayList<String>();
-	
+
 	static {
 		imports.add("org.athrun.android.framework.AthrunTestCase");
 		imports.add("org.athrun.android.framework.viewelement.VieweElement");
@@ -60,7 +62,7 @@ public class AthrunTestCase {
 		imports.add("org.athrun.android.framework.viewelement.VieweElement");
 		imports.add("org.athrun.android.framework.AthrunDevice");
 	}
-	
+
 	public AthrunTestCase(File xmlFile) {
 		this.ast = AST.newAST(AST.JLS3);
 		this.compilationUnit = ast.newCompilationUnit();
@@ -68,6 +70,13 @@ public class AthrunTestCase {
 		this.actionFactory = ActionFactory.getInstance(ast);
 	}
 
+	/**
+	 * 
+	 * @param testCaseName
+	 * @param testPackageName
+	 * @param mainActivity
+	 * @param testMethodName
+	 */
 	void init(String testCaseName, String testPackageName, String mainActivity,
 			String testMethodName) {
 		this.testCaseName = testCaseName;
@@ -172,36 +181,75 @@ public class AthrunTestCase {
 		for (Map<String, String> action : xmlActions) {
 			IAction iAction = null;
 
-			if (isInAbsListView(action)) {
-				iAction = this.actionFactory.getAction(action,
-						ActionType.AbsListViewAction);
+			if (isDevice(action)) {
+				iAction = getDeviceAction(action);
 
-			} else if (isInViewGroup(action)) {
-				iAction = this.actionFactory.getAction(action,
-						ActionType.ViewGroupAction);
-
-			} else if (isTaobaoSkuViewAction(action)) {
-				iAction = this.actionFactory.getAction(action,
-						ActionType.TaobaoSkuViewAction);
-			} else if (isTextView(action)) {
-				iAction = this.actionFactory.getAction(action,
-						ActionType.TextViewAction);
-
-			} else if (isOptionItemAction(action)) {
-				iAction = this.actionFactory.getAction(action,
-						ActionType.OptionItemAction);
-
-			} else if (isDevice(action)) {
-				iAction = this.actionFactory.getAction(action,
-						ActionType.DeviceAction);
+			} else if (isView(action)) {
+				iAction = getViewAction(action);
 
 			} else {
-				iAction = this.actionFactory.getAction(action,
-						ActionType.ViewAction);
+				// actions that does not support now
+				iAction = getUnkownAction(action);
 			}
 
 			this.actions.add(iAction);
 		}
+	}
+
+	private IAction getDeviceAction(Map<String, String> action) {
+		IAction iAction = null;
+		if (isOnTouch(action)) {
+			iAction = actionFactory.getAction(action, ActionType.OnTouchAction);
+
+		} else {
+			iAction = actionFactory.getAction(action, ActionType.DeviceAction);
+		}
+
+		return iAction;
+	}
+
+	private IAction getViewAction(Map<String, String> action) {
+		IAction iAction = null;
+
+		if (isInAbsListView(action)) {
+			iAction = actionFactory.getAction(action,
+					ActionType.AbsListViewAction);
+
+		} else if (isInViewGroup(action)) {
+			iAction = actionFactory.getAction(action,
+					ActionType.ViewGroupAction);
+
+		} else if (isTaobaoSkuViewAction(action)) {
+			iAction = actionFactory.getAction(action,
+					ActionType.TaobaoSkuViewAction);
+
+		} else if (isTextView(action)) {
+			iAction = actionFactory
+					.getAction(action, ActionType.TextViewAction);
+
+		} else if (isOptionItemAction(action)) {
+			iAction = actionFactory.getAction(action,
+					ActionType.OptionItemAction);
+
+		} else {
+			iAction = actionFactory.getAction(action, ActionType.ViewAction);
+		}
+
+		return iAction;
+	}
+
+	private IAction getUnkownAction(Map<String, String> action) {
+		IAction iAction = actionFactory.getAction(action,
+				ActionType.UnkownAction);
+		return iAction;
+	}
+
+	private boolean isOnTouch(Map<String, String> action) {
+		return action.get("actiontype").equalsIgnoreCase(DeviceAction.ON_TOUCH);
+	}
+
+	private boolean isView(Map<String, String> action) {
+		return action.containsKey("viewtype");
 	}
 
 	private boolean isTextView(Map<String, String> action) {
@@ -217,13 +265,16 @@ public class AthrunTestCase {
 
 	private boolean isInViewGroup(Map<String, String> action) {
 		return action.get(BaseAction.ACTION_TYPE).equalsIgnoreCase(
-				ViewAction.ITEM_CLICK) || action.get(BaseAction.ACTION_TYPE).equalsIgnoreCase(
+				ViewAction.ITEM_CLICK)
+				|| action.get(BaseAction.ACTION_TYPE).equalsIgnoreCase(
 						ViewAction.ITEM_LONG_CLICK);
 	}
 
 	private boolean isDevice(Map<String, String> action) {
-		return action.get(BaseAction.ACTION_TYPE).equalsIgnoreCase(
-				DeviceAction.PRESS_KEY);
+		String actionType = action.get(BaseAction.ACTION_TYPE);
+
+		return actionType.equalsIgnoreCase(DeviceAction.PRESS_KEY)
+				|| actionType.equalsIgnoreCase(DeviceAction.ON_TOUCH);
 	}
 
 	private boolean isOptionItemAction(Map<String, String> action) {
@@ -240,34 +291,53 @@ public class AthrunTestCase {
 		return this.compilationUnit.toString();
 	}
 
+	/**
+	 * 
+	 * @param path
+	 *            The folder path that stores the java files.
+	 */
 	void toJavaFile(String path) {
 		try {
-			FileUtils.writeStringToFile(new File(path), format(this.toJavaCode()));
+			FileUtils.writeStringToFile(new File(path + "/" + this.testCaseName
+					+ ".java"), format(this.toJavaCode()));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String format(String javaCode) {
 		String codeWithComment = formatComment(javaCode);
-		return formatBlank(codeWithComment);
+		String codeWithUnkown = formateUnkown(codeWithComment);
+		String codeWithBlank = formatBlank(codeWithUnkown);
+		return formateWarning(codeWithBlank);
 	}
-	
+
 	private String formatComment(String javaCode) {
 		return javaCode.replace(COMMENT, "//");
 	}
-	
+
 	private String formatBlank(String javaCode) {
 		return javaCode.replace(NEWLINE, "\r");
 	}
 
+	private String formateUnkown(String javaCode) {
+		return javaCode
+				.replace(UNKOWN_ACTION,
+						"//ERROR: Unkown action! You should write the code by yourself.");
+	}
+	
+	private String formateWarning(String javaCode) {
+		return javaCode.replace(WARNING, "//WARNING: You may have to modify the parameters.");
+	}
+
 	public static void main(String args[]) {
 		AthrunTestCase testCase = new AthrunTestCase(new File(
-				"./res/UIevent11.xml"));
+				"./res/UIevent.xml"));
 		testCase.init("Test", "com.taobao.android.client.test",
 				"com.taobao.taobao.MainActivity2", "testBug");
 		testCase.addTestStatements(testCase.initTestMethod());
 		System.out.println(testCase.format(testCase.toJavaCode()));
-		testCase.toJavaFile("./gen/TestLogIn.java");
+		testCase.toJavaFile("./gen");
 	}
 }

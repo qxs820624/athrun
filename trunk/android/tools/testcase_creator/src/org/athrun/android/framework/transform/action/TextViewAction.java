@@ -17,7 +17,7 @@ public class TextViewAction extends ViewAction {
 
 	@Override
 	protected VariableDeclarationStatement getFindStatement() {
-		if (action.containsKey(VIEW_ID)) {
+		if (action.containsKey(VIEW_ID) && action.get(VIEW_ID).startsWith("@")) {
 			return createFindStatement(
 					getMethodInvocation(this.action.get(VIEW_ID), TEXTVIEW_ELEMENT), this.viewName,
 					TEXTVIEW_ELEMENT);
