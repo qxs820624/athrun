@@ -30,7 +30,6 @@ import org.athrun.android.framework.utils.ScreenUtils;
 import org.athrun.android.framework.viewelememt.IViewElement;
 import org.athrun.android.framework.viewelememt.ViewCoordinate;
 
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Instrumentation;
@@ -58,7 +57,7 @@ public final class AthrunDevice {
 	private ActivityUtils activityUtils;
 
 	private static AthrunDevice instance;
-	private static ViewOperation viewOperation;
+	private ViewOperation viewOperation;
 
 	private int screenWidth;
 	private int screenHeight;
@@ -85,7 +84,7 @@ public final class AthrunDevice {
 	private AthrunDevice(Instrumentation inst, Activity activity) {
 		this.inst = inst;
 		this.activityUtils = new ActivityUtils(inst, activity);
-		viewOperation = ViewOperation.getInstance(inst);
+		this.viewOperation = ViewOperation.getInstance(inst);
 
 		this.screenWidth = ScreenUtils.getScreenWidth(inst.getTargetContext());
 		this.screenHeight = ScreenUtils
@@ -239,7 +238,7 @@ public final class AthrunDevice {
 		AthrunConnectorThread.execute(ENTER_TEXT_COMMAND + text);
 	}
 
-	Activity getCurrentActivity() {
+	public Activity getCurrentActivity() {
 		return activityUtils.getCurrentActivity();
 	}
 
@@ -483,6 +482,7 @@ public final class AthrunDevice {
 	public static void waitMoment(int seconds) {
 		try {
 			TimeUnit.SECONDS.sleep(seconds);
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -492,4 +492,7 @@ public final class AthrunDevice {
 		AthrunConnectorThread.execute("MONKEY: press " + key);
 	}
 	
+	public void tap(int x, int y) {
+		this.viewOperation.clickOnScreen(x, y);
+	}
 }

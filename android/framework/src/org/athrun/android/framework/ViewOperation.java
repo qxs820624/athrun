@@ -18,8 +18,6 @@
 */
 package org.athrun.android.framework;
 
-import java.lang.reflect.Method;
-
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;

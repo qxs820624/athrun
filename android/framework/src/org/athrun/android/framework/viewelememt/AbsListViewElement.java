@@ -22,7 +22,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import android.app.Instrumentation;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 
@@ -44,7 +43,7 @@ public class AbsListViewElement extends ViewGroupElement {
 	public <T extends ViewElement> T getChildByIndex(int index, Class<T> returnType) {
 		Constructor<?>[] constructors = returnType.getDeclaredConstructors();
 		Object obj = null;
-		View view = getChildByIndex(index);
+		View view = getChildViewByIndex(index);
 		if (null == view ) {
 			return null;
 		}
@@ -52,6 +51,7 @@ public class AbsListViewElement extends ViewGroupElement {
 		try {
 			constructors[0].setAccessible(true);
 			obj = constructors[0].newInstance(inst, view);
+			
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -64,6 +64,10 @@ public class AbsListViewElement extends ViewGroupElement {
 			e.printStackTrace();
 		}
 		return returnType.cast(obj);
+	}
+	
+	public ViewElement getChildByIndex(int index) {
+		return getChildByIndex(index, ViewElement.class);
 	}
 	
 	/**
@@ -95,7 +99,7 @@ public class AbsListViewElement extends ViewGroupElement {
 		inst.waitForIdleSync();
 	}
 	
-	private View getChildByIndex(int index) {
+	private View getChildViewByIndex(int index) {
 		scrollToLine(index);
 		
 		final int max = absListView.getAdapter().getCount() - 1;
@@ -128,6 +132,56 @@ public class AbsListViewElement extends ViewGroupElement {
 		logger.error("getChildByIndex(" + realIndex + ") return null." , new Throwable());
 		
 		return null;
+	}
+	
+	private View getChildViewByIndexInScreen(int index) {
+		final long startTime = System.currentTimeMillis();
+		
+		while (System.currentTimeMillis() < startTime
+				+ getMaxTimeToFindView()) {
+			
+			if (null == absListView.getChildAt(index)) {
+				logger.info("getChildByIndexInScreen(" + index
+						+ ") return null, sleep");
+				sleep(RETRY_TIME);
+				
+			} else {
+				return absListView.getChildAt(index);
+			}
+		}
+		
+		logger.error("getChildByIndexInScreen(" + index + ") return null." , new Throwable());
+		return null;
+	}
+	
+	public <T extends ViewElement> T getChildByIndexInScreen(int index, Class<T> returnType) {
+		Constructor<?>[] constructors = returnType.getDeclaredConstructors();
+		Object obj = null;
+		View view = getChildViewByIndexInScreen(index);
+		if (null == view ) {
+			return null;
+		}
+		
+		try {
+			constructors[0].setAccessible(true);
+			obj = constructors[0].newInstance(inst, view);
+			
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return returnType.cast(obj);
+	}
+	
+	public ViewElement getChildByIndexInScreen(int index) {
+		return getChildByIndexInScreen(index, ViewElement.class);
 	}
 	
 	/**

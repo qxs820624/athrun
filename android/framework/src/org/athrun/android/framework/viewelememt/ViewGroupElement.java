@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import org.athrun.android.framework.utils.RClassUtils;
 
-
 import android.app.Instrumentation;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,13 +78,17 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 		}
 		return returnType.cast(obj);
 	}
+	
+	public ViewElement findElementById(String name) {
+		return findElementById(name, ViewElement.class);
+	}
 
 	@Override
 	public <T extends ViewElement> T getChildByIndex(int index,
 			Class<T> returnType) {
 		Constructor<?>[] constructors = returnType.getDeclaredConstructors();
 		Object obj = null;
-		View view = getChildByIndex(index);
+		View view = getChildViewByIndex(index);
 		if (null == view) {
 			return null;
 		}
@@ -107,6 +110,10 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 			e.printStackTrace();
 		}
 		return returnType.cast(obj);
+	}
+	
+	public ViewElement getChildByIndex(int index) {
+		return getChildByIndex(index, ViewElement.class);
 	}
 	
 	/**
@@ -154,7 +161,7 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 		return getAllChildren().size();
 	}
 	
-	private View getChildByIndex(int index) {
+	private View getChildViewByIndex(int index) {
 		ArrayList<View> allChildren = getAllChildren();
 		final int max = allChildren.size() - 1;
 		

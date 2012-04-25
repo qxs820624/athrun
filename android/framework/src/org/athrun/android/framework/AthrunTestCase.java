@@ -30,7 +30,6 @@ import org.athrun.android.framework.viewelememt.ToastElement;
 import org.athrun.android.framework.viewelememt.ViewElement;
 import org.athrun.android.framework.webview.WebViewElement;
 
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import org.athrun.android.framework.utils.ScreenUtils;
 
-
 import android.app.Instrumentation;
 import android.content.Context;
 import android.graphics.Rect;
