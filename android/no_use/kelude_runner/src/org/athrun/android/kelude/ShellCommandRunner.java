@@ -19,10 +19,8 @@
 package org.athrun.android.kelude;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 public class ShellCommandRunner {
 
 	public static String run(String command) throws IOException,
@@ -35,13 +33,12 @@ public class ShellCommandRunner {
 				p.getErrorStream()));
 		
 		String line = null;
-		
-		
 		while ((line = br.readLine()) != null) {
 			if (line.trim().length() > 0) {
 				output.append(line).append("\n");
 			}
 		}
+		
 		while ((line = er.readLine()) != null) {
 			if (line.trim().length() > 0) {
 				output.append(line).append("\n");
@@ -52,7 +49,6 @@ public class ShellCommandRunner {
 		
 		er.close();
 		br.close();
-		
 		String result = output.toString();
 		return result;
 	}
