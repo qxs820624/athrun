@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.catalina.connector.ClientAbortException;
@@ -184,8 +185,10 @@ public class CaptureManager {
 
 				// 对outputlist进行操作，防止新的线程加内容
 				synchronized (capOutputManager.getlock(serialNumber)) {
-					for (OutputStream out : capOutputManager
-							.getOutputStream(serialNumber)) {
+					List<OutputStream> outlist = capOutputManager
+							.getOutputStream(serialNumber);
+					for (int i = 0; i < outlist.size(); i++) {
+						OutputStream out = outlist.get(i);
 						try {
 							out.write(memorylist.get(serialNumber), 0, length);
 							out.flush();
@@ -205,7 +208,8 @@ public class CaptureManager {
 					if (countermap.get(serialNumber) >= 9) {
 						long end = System.currentTimeMillis();
 						if (timemap.get(serialNumber) != 0) {
-							System.out.println("10次截图平均帧数("+serialNumber+")" + 10.0 * 1000
+							System.out.println("10次截图平均帧数(" + serialNumber
+									+ ")" + 10.0 * 1000
 									/ (end - timemap.get(serialNumber)));
 						}
 						timemap.put(serialNumber, end);

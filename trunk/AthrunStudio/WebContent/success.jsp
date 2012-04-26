@@ -47,7 +47,10 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="right">
-			<img src="/AthrunStudio/JpgGen.jpg?ts=0&serialNumber=<s:property value='serialNumber' />" width="120" height="200">
+		<div class="right" style="height: 200px;">
+			<a href="remote.jsp?serialNumber=<s:property value='serialNumber' />"
+				style="background:transparent url(/AthrunStudio/JpgGen.jpg?ts=0&serialNumber=<s:property value='serialNumber' />); width:120px; height:200px; background-size:cover; display:block;"
+				title="点击图片开始远程"> 
+			</a>
 		</div></li>
 </s:iterator>

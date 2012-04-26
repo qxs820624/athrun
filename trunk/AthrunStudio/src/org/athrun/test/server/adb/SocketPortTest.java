@@ -32,7 +32,7 @@ public class SocketPortTest {
 				}
 			}
 		}).start();
-		Thread.sleep(1000 * 60 * 5);
+		Thread.sleep(1000 * 60 * 10);
 	}
 
 }

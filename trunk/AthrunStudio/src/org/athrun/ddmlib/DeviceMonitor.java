@@ -163,7 +163,7 @@ final class DeviceMonitor {
                     if (mMainAdbConnection == null) {
                         mConnectionAttempt++;
                         Log.e("DeviceMonitor", "Connection attempts: " + mConnectionAttempt);
-                        if (mConnectionAttempt > 2) {
+                        if (mConnectionAttempt > 10) {
                             if (mServer.startAdb() == false) {
                                 mRestartAttemptCount++;
                                 Log.e("DeviceMonitor",
