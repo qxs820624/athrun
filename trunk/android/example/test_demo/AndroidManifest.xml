@@ -7,7 +7,7 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <instrumentation
-        android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
+        android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner"
         android:targetPackage="org.athrun.android.app" />
 
     <application
