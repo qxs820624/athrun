@@ -16,6 +16,11 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  */
 @XStreamAlias("testsuite")
 public class Testsuite {
+	private String properties;
+	@XStreamAlias("system-out")
+	private String systemOut;
+	@XStreamAlias("system-err")
+	private String systemErr;
 	@XStreamAsAttribute
 	private String name;
 	@XStreamImplicit

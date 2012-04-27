@@ -29,13 +29,16 @@ public class Result {
 	public Result(Testcase tc) {
 		// TODO Auto-generated constructor stub
 		ErrorNode error = tc.getError();
-		this.error_msg = error.getMessage();
+		if (error.getContent().split(":").length > 0) {
+			this.error_msg = error.getContent().split(":")[0];
+		} else {
+			this.error_msg = "";
+		}
 		this.error_stacktrace = error.getContent();
 		this.identifier = tc.getClassname() + "#" + tc.getName();
 		this.log = "no log in junit report";
-		this.result = error.getType().isEmpty() ? "pass" : "fail";
+		this.result = error.getContent().isEmpty() ? "pass" : "fail";
 		this.duration = tc.getTime();
 		this.browser = "";
 	}
-
 }
