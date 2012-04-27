@@ -18,11 +18,11 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 @XStreamAlias("error")
 @XStreamConverter(value = ToAttributedValueConverter.class, strings = { "content" })
 public class ErrorNode {
-	@XStreamAsAttribute
-	private String message;
-
-	@XStreamAsAttribute
-	private String type;
+//	@XStreamAsAttribute
+//	private String message;
+//
+//	@XStreamAsAttribute
+//	private String type;
 	private String content;
 
 	/**
@@ -32,8 +32,8 @@ public class ErrorNode {
 	 */
 	public ErrorNode(String message, String type, String content) {
 		super();
-		this.message = message;
-		this.type = type;
+//		this.message = message;
+//		this.type = type;
 		this.content = content;
 	}
 
@@ -44,19 +44,19 @@ public class ErrorNode {
 		return content;
 	}
 
-	/**
-	 * @return the message
-	 */
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+//	/**
+//	 * @return the message
+//	 */
+//	public String getMessage() {
+//		return message;
+//	}
+//
+//	/**
+//	 * @return the type
+//	 */
+//	public String getType() {
+//		return type;
+//	}
 
 	/**
 	 * @param content

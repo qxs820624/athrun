@@ -1,8 +1,15 @@
 package org.athrun.android.kelude;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.athrun.android.result.JunitKeludeLogConverter;
 
 public final class KeludeRunner {
 	private static final String RUNNER = "pl.polidea.instrumentation.PolideaInstrumentationTestRunner";
@@ -37,7 +44,7 @@ public final class KeludeRunner {
 
 		instCommand.append("adb -s ").append(getDeviceName())
 				.append(" shell am instrument -w")
-				.append(" -e junitOutpDirectory ").append(REPORT_FILE_DIR)
+				.append(" -e junitOutputDirectory ").append(REPORT_FILE_DIR)
 				.append(" -e junitSplitLevel none")
 				.append(" -e junitSingleFileName ").append(REPORT_FILE_NAME)
 				.append(" -e class ").append(getTestClassName()).append("#")
@@ -122,7 +129,25 @@ public final class KeludeRunner {
 					runner.device, runner.resultPath);
 			String result = resultCollector.getJunitReport(runner.device);
 			System.out.println(result);
+			convertJunitToKeludeReport(runner.getLocalReportPath());			
 			System.exit(0);
 		}
+	}
+
+	/**
+	 * @param localReportPath
+	 * @throws IOException
+	 */
+	private static void convertJunitToKeludeReport(String localReportPath)
+			throws IOException {
+		// TODO Auto-generated method stub
+		File tmpFile = new File("c:/AthrunLog/tmp.xml");
+		File local = new File(localReportPath);
+		InputStream is = new FileInputStream(local);
+		FileOutputStream fo = new FileOutputStream(tmpFile);
+		JunitKeludeLogConverter.convert(is, fo);
+		is.close();
+		fo.close();
+		FileUtils.copyFile(tmpFile, local);		
 	}
 }

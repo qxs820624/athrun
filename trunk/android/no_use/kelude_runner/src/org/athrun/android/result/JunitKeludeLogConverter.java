@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.athrun.android.result.junit.ErrorNode;
 
 import org.athrun.android.result.junit.Testcase;
@@ -26,11 +27,15 @@ import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 public class JunitKeludeLogConverter {
 	
 //	public static void main(String[] args) throws IOException {
-//		InputStream is = new FileInputStream(new File("junit-report.xml"));		
-//		FileOutputStream fo = new FileOutputStream(new File("c:/1.xml"));		
+//		File file = new File("C:/AthrunLog/results_187_2213_1303124.xml");
+//		InputStream is = new FileInputStream(file);		
+//		File file2 = new File("C:/AthrunLog/1.xml");
+//		FileOutputStream fo = new FileOutputStream(file2);		
 //		convert(is, fo);
 //		is.close();
 //		fo.close();
+//		
+//		FileUtils.copyFile(file2, file);
 //	}
 
 	public static void convert(InputStream junitFile, OutputStream keludeFile) throws IOException {
