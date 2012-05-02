@@ -30,7 +30,7 @@ public class EventManager {
 	/**
 	 * @return true if there was a client running
 	 */
-	private static boolean killRunningAgent(int port) {
+	static boolean killRunningAgent(int port) {
 		try {
 			Socket s = new Socket("127.0.0.1", port);
 			OutputStream os = s.getOutputStream();
@@ -108,10 +108,12 @@ public class EventManager {
 	 */
 	private static void uploadEventAgent(IDevice device) throws SyncException,
 			TimeoutException, IOException, AdbCommandRejectedException, URISyntaxException {
-		File file = new File(EventManager.class.getResource("/event/InjectAgent.jar").toURI().getPath());
+//		File file = new File(EventManager.class.getResource("/event/InjectAgent.jar").toURI().getPath());
+//		
+//		device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
+//				new NullSyncProgressMonitor());
 		
-		device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
-				new NullSyncProgressMonitor());
+		System.out.println("TODO: upload 改为命令行运行...");
 		System.out.println("event agent uploaded.");
 	}
 }

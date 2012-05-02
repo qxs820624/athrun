@@ -57,7 +57,15 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 		if (changeMask == Client.CHANGE_PORT) {
 			System.out.println("说明设备" + device.getSerialNumber() + "已经可以用了");
 			DelayAdd(device.getSerialNumber(), device);
+			CloseAllConnection();
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private void CloseAllConnection() {
+		DeviceManager.closeAllConnection();
 	}
 
 	// 延迟添加设备，以防事件变化太快，造成不必要的事件响应

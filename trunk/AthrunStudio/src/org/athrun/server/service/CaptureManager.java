@@ -76,6 +76,7 @@ public class CaptureManager {
 			synchronized (threadlist) {
 				if (threadlist.containsKey(serialNumber)) {
 					Thread thread = threadlist.get(serialNumber);
+					System.out.println("RemoveCaptureThread: " + serialNumber);
 					thread.interrupt();
 					threadlist.remove(serialNumber);
 				}
@@ -103,7 +104,7 @@ public class CaptureManager {
 					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("进程从sleep过程中打断，设备:" + serialNumber);
 				}
 			}
 		}
@@ -253,10 +254,36 @@ public class CaptureManager {
 	/**
 	 * @param device
 	 * @param serialNumber
+	 * @throws ReservedPortExhaust 
 	 */
 	public void remove(String serialNumber) {
 		// TODO Auto-generated method stub
 		RemoveCaptureMonitor(serialNumber);
+		KillCaptureService(serialNumber);
+	}
+
+	/**
+	 * @param serialNumber
+	 * @throws ReservedPortExhaust 
+	 */
+	private void KillCaptureService(String serialNumber) {
+		synchronized (lockSocket.get(serialNumber)) {
+
+			InOutStructure inOutStructure;
+			try {
+				inOutStructure = InOutStructure
+						.GetCaptureInOutBySerialNumber(serialNumber);
+
+				inOutStructure.GetOut().println("kill");
+				inOutStructure.GetOut().flush();
+
+				
+			} catch (ReservedPortExhaust e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+		}
 	}
 
 	/**
@@ -284,11 +311,13 @@ public class CaptureManager {
 	public static void uploadCaptureEvent(IDevice device) throws SyncException,
 			IOException, TimeoutException, AdbCommandRejectedException,
 			URISyntaxException {
-		File file = new File(EventManager.class.getResource("/gsnap/gsnap")
-				.toURI().getPath());
+//		 File file = new File(EventManager.class.getResource("/gsnap/gsnap")
+//		 .toURI().getPath());
+//		
+//		 device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
+//		 new NullSyncProgressMonitor());
 
-		device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
-				new NullSyncProgressMonitor());
+		System.out.println("TODO: upload 改为命令行运行...");
 		System.out.println("capture agent uploaded.");
 	}
 
