@@ -57,6 +57,9 @@ public class JunitKeludeLogConverter {
 
 		for (Testsuite suite : tss.getTestSuites()) {
 			for (Testcase tc : suite.getTestcases()) {
+				if (null == tc.getError()) {
+					continue;
+				}
 				keludeResults.add(new Result(tc));
 			}
 		}
