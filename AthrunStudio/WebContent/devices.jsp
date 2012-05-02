@@ -126,11 +126,12 @@ a:hover {
 
 <title>Athrun Device List</title>
 </head>
-<body>
+<body>	
 	<ul id="list">
 		<h3>
 			<input id="search-input" type="text" title="" style="height: 29px;">
-			<div role="button" class="search-button" tabindex="0" title="搜索" style="font-size: 13px;">搜索</div>
+			<div role="button" class="search-button" tabindex="0" title="搜索"
+				style="font-size: 13px;">搜索</div>
 
 			<p id="commands">
 				<span>改变布局：</span> <a id="verticalswitch" href="#"><img
@@ -177,10 +178,9 @@ a:hover {
 	});
 </script>
 <script type="text/javascript">
-function search(){
-	$('.search-button').click();
-}
-window.onload=search();
-
+	function search() {
+		$('.search-button').click();
+	}
+	window.onload = search();
 </script>
 </html>

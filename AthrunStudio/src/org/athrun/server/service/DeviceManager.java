@@ -7,7 +7,10 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.athrun.ddmlib.AdbCommandRejectedException;
@@ -21,6 +24,7 @@ import org.athrun.server.adb.OutputStreamShellOutputReceiver;
 import org.athrun.server.log.Log;
 import org.athrun.server.utils.ForwardPortManager;
 import org.athrun.server.utils.OneParameterRunnable;
+import org.athrun.server.utils.ReservedPortExhaust;
 
 /**
  * @author taichan 负责开启截图和事件服务
@@ -195,10 +199,36 @@ public class DeviceManager {
 	// 说明device已经断开
 	public static void remove(IDevice device) {
 		String serialNumber = device.getSerialNumber();
+		System.out.println("移除" + serialNumber + "设备的同步功能");		
 		synchronized (deviceList) {
 			System.out.println("deviceList remove");
 			deviceList.remove(serialNumber);
 		}
 		CaptureManager.getInstance().remove(serialNumber);
+	}
+
+	static Object closeAllLock = new Object();
+
+	public static void closeAllConnection() {
+		synchronized (closeAllLock) {
+
+			// 防止 ConcurrentModificationException
+			List<IDevice> devicelist = new ArrayList<IDevice>();
+			for (IDevice device : deviceList.values()) {
+				devicelist.add(device);
+			}
+
+			for (IDevice iDevice : devicelist) {
+				DeviceManager.remove(iDevice);
+				try {
+					EventManager.killRunningAgent(ForwardPortManager
+							.getEventPort(iDevice.getSerialNumber()));
+				} catch (ReservedPortExhaust e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		}
 	}
 }
