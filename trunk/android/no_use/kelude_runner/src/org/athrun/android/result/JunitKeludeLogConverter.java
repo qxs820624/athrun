@@ -23,20 +23,21 @@ import org.athrun.android.result.kelude.Results;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.XmlFriendlyReplacer;
 
 public class JunitKeludeLogConverter {
 	
-//	public static void main(String[] args) throws IOException {
-//		File file = new File("C:/AthrunLog/results_187_2213_1303124.xml");
-//		InputStream is = new FileInputStream(file);		
-//		File file2 = new File("C:/AthrunLog/1.xml");
-//		FileOutputStream fo = new FileOutputStream(file2);		
-//		convert(is, fo);
-//		is.close();
-//		fo.close();
-//		
-//		FileUtils.copyFile(file2, file);
-//	}
+	public static void main(String[] args) throws IOException {
+		File file = new File("C:/AthrunLog/junitReport.xml");
+		InputStream is = new FileInputStream(file);		
+		File file2 = new File("C:/AthrunLog/1.xml");
+		FileOutputStream fo = new FileOutputStream(file2);		
+		convert(is, fo);
+		is.close();
+		fo.close();
+		
+	}
 
 	public static void convert(InputStream junitFile, OutputStream keludeFile) throws IOException {
 		XStream xstreamJunit = new XStream();
@@ -44,8 +45,9 @@ public class JunitKeludeLogConverter {
 		xstreamJunit.processAnnotations(Testsuite.class);
 		xstreamJunit.processAnnotations(Testcase.class);
 		xstreamJunit.processAnnotations(ErrorNode.class);
-
-		XStream xstreamKelude = new XStream();
+		
+		XmlFriendlyReplacer replacer = new XmlFriendlyReplacer("__", "_");		
+		XStream xstreamKelude = new XStream(new DomDriver("UTF-8", replacer));
 		xstreamKelude.processAnnotations(Results.class);
 		xstreamKelude.processAnnotations(Result.class);
 
