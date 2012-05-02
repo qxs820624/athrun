@@ -13,6 +13,7 @@ import org.athrun.android.result.JunitKeludeLogConverter;
 
 public final class KeludeRunner {
 	private static final String RUNNER = "pl.polidea.instrumentation.PolideaInstrumentationTestRunner";
+	private static final String DEFAULT_RESULT_FILE = "./res/default_result.xml";
 
 	static final String REPORT_FILE_DIR = "/sdcard/kelude";
 	static final String REPORT_FILE_NAME = "junitReport.xml";
@@ -44,8 +45,10 @@ public final class KeludeRunner {
 
 		instCommand.append("adb -s ").append(getDeviceName())
 				.append(" shell am instrument -w")
+
 				.append(" -e junitOutputDirectory ").append(REPORT_FILE_DIR)
-				.append(" -e junitSplitLevel none")
+				.append(" -e junitSplitLevel ").append("none")
+
 				.append(" -e junitSingleFileName ").append(REPORT_FILE_NAME)
 				.append(" -e class ").append(getTestClassName()).append("#")
 				.append(getTestMethodName()).append(" ")
@@ -98,6 +101,10 @@ public final class KeludeRunner {
 		return windowsPath;
 	}
 
+	private void clean() throws Exception {
+		ShellCommandRunner.run("adb shell rm " + REPORT_FILE_DIR + "/" + REPORT_FILE_NAME);
+	}
+
 	public static void main(String[] args) throws Exception {
 		if (args.length < 2 || args.length % 2 != 0) {
 			System.out.println("Incorrect args.");
@@ -106,6 +113,7 @@ public final class KeludeRunner {
 					.println("- device [device] -method [testMethodName] -testPackageName [testPackageName] -results_file [localpath]");
 
 		} else {
+
 			KeludeRunner runner = new KeludeRunner(args);
 			System.out.println("Check if need to mkdirs()");
 			File resultFile = new File(runner.getFileRoot(runner
@@ -114,21 +122,34 @@ public final class KeludeRunner {
 				resultFile.mkdirs();
 			}
 
+			System.out.println("Delete old result files...");
+			runner.clean();
+
 			System.out.println("Run command: " + runner.getInstCommand());
 			String testInfo = ShellCommandRunner.run(runner.getInstCommand());
 			System.out.println("Test run finished.");
+			System.out.println(testInfo);
 
 			if (!testInfo.contains("Time")) {
-				throw new RuntimeException(testInfo);
-
-			} else {
-				System.out.println(testInfo);
-			}
+				FileUtils.writeStringToFile(new File(resultFile
+						+ "/exception.log"), testInfo, "UTF-8");
+			} 
 
 			TestResultCollector resultCollector = new TestResultCollector(
 					runner.device, runner.resultPath);
 			String result = resultCollector.getJunitReport(runner.device);
-			System.out.println(result);
+
+			if (result.contains("KB/s")) {
+				System.out.println("Pull file result: ");
+				System.out.println(result);
+
+			} else {
+				System.out.println("Exception");
+				System.out.println("Copy default file to " + resultFile
+						+ "\\default_result.xml");
+				FileUtils.copyFile(new File(DEFAULT_RESULT_FILE), new File(runner.resultPath));
+			}
+
 			convertJunitToKeludeReport(runner.getLocalReportPath());			
 			System.exit(0);
 		}

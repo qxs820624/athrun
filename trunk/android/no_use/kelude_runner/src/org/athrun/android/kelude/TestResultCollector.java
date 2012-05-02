@@ -24,12 +24,12 @@ public class TestResultCollector {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 
-		throw new RuntimeException(
-				"Can not pull the file from device to local.");
+		return null;
 	}
 
 	private String getReportPath() {
