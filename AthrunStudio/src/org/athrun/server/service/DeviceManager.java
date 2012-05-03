@@ -1,5 +1,6 @@
 package org.athrun.server.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -96,14 +97,13 @@ public class DeviceManager {
 							ForwardPortManager.getCapturePort(serialNumber),
 							5678);
 				} catch (AdbCommandRejectedException e) {
-					e.printStackTrace();
-
-					device.removeForward(
+					System.out.println("create forward失败：" + serialNumber);
+					System.out.println("正在处理 create forward 失败的情况。");
+					Thread.sleep(5000);
+					CommandRunner.createForward(device,
 							ForwardPortManager.getCapturePort(serialNumber),
 							5678);
-					device.createForward(
-							ForwardPortManager.getCapturePort(serialNumber),
-							5678);
+					// e.printStackTrace();
 				}
 				checkCaptureService(serialNumber, device);
 				Log.d("DeviceManager",
@@ -126,11 +126,37 @@ public class DeviceManager {
 						// TODO Auto-generated method stub
 						IDevice device = (IDevice) getParameter();
 						try {
+							OutputStream os = new ByteArrayOutputStream();
+
 							device.executeShellCommand(
 									CaptureManager.remotePath
 											+ " /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
-									new OutputStreamShellOutputReceiver(
-											System.out));
+									new OutputStreamShellOutputReceiver(os));
+							String content = os.toString();
+							os.flush();
+
+							// server: Address already in use
+							// server bind to the address failed!
+							// at exist
+							if (content.length() < 100) {
+								if (content
+										.contains("server bind to the address failed")) {
+									System.out.println("请处理端口被占用的情况！");
+									try {
+										Thread.sleep(5000);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									device.executeShellCommand(
+											CaptureManager.remotePath
+													+ " /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
+											new OutputStreamShellOutputReceiver(
+													os));
+									System.out.println("第二次输出：" + os.toString());
+								}
+							}
+
 						} catch (TimeoutException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

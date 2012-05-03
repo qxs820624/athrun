@@ -103,17 +103,21 @@ public class EventManager {
 	 * @throws IOException
 	 * @throws TimeoutException
 	 * @throws SyncException
-	 * @throws URISyntaxException 
+	 * @throws URISyntaxException
 	 * 
 	 */
 	private static void uploadEventAgent(IDevice device) throws SyncException,
-			TimeoutException, IOException, AdbCommandRejectedException, URISyntaxException {
-//		File file = new File(EventManager.class.getResource("/event/InjectAgent.jar").toURI().getPath());
-//		
-//		device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
-//				new NullSyncProgressMonitor());
-		
-		System.out.println("TODO: upload 改为命令行运行...EventAgent");
+			TimeoutException, IOException, AdbCommandRejectedException,
+			URISyntaxException {
+		File file = new File(EventManager.class
+				.getResource("/event/InjectAgent.jar").toURI().getPath());
+
+		// device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
+		// new NullSyncProgressMonitor());
+		// 导致：ADB server didn't ACK
+
+		CommandRunner.pushFile(device, file.getAbsolutePath(), remotePath);
+	
 		System.out.println("event agent uploaded.");
 	}
 }
