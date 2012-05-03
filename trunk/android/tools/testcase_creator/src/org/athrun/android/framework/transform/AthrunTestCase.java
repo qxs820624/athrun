@@ -3,6 +3,7 @@ package org.athrun.android.framework.transform;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,8 @@ public class AthrunTestCase {
 	private static final String COMMENT = "commentUsedForAthrun";
 	private static final String UNKOWN_ACTION = "unkownActionUsedForAthrun";
 	private static final String WARNING = "warningInfoUsedForAthrun();";
+	private static final String WIDGET_IMPORTS = "org.athrun.widgets";
+	private static final String VIEW_IMPORTS = "org.athrun.view";
 
 	private File xmlFile;
 
@@ -61,6 +64,8 @@ public class AthrunTestCase {
 		imports.add("org.athrun.android.framework.viewelement.ViewGroupElement");
 		imports.add("org.athrun.android.framework.viewelement.VieweElement");
 		imports.add("org.athrun.android.framework.AthrunDevice");
+		imports.add("org.athrun.widgets");
+		imports.add("org.athrun.view");
 	}
 
 	public AthrunTestCase(File xmlFile) {
@@ -310,7 +315,8 @@ public class AthrunTestCase {
 		String codeWithComment = formatComment(javaCode);
 		String codeWithUnkown = formateUnkown(codeWithComment);
 		String codeWithBlank = formatBlank(codeWithUnkown);
-		return formateWarning(codeWithBlank);
+		String codeWithWarning = formateWarning(codeWithBlank);
+		return formateImports(codeWithWarning);
 	}
 
 	private String formatComment(String javaCode) {
@@ -326,18 +332,50 @@ public class AthrunTestCase {
 				.replace(UNKOWN_ACTION,
 						"//ERROR: Unkown action! You should write the code by yourself.");
 	}
-	
+
 	private String formateWarning(String javaCode) {
-		return javaCode.replace(WARNING, "//WARNING: You may have to modify the parameters.");
+		return javaCode.replace(WARNING,
+				"//WARNING: You may have to modify the parameters.");
+	}
+
+	private String formateImports(String javaCode) {
+		return javaCode.replace(WIDGET_IMPORTS, "android.widget.*").replace(
+				VIEW_IMPORTS, "android.view.*");
+	}
+
+	private static Map<String, String> initArgs(String args[]) {
+		Map<String, String> argMap = new HashMap<String, String>();
+		for (int i = 0; i < args.length; i = i + 2) {
+			argMap.put(args[i].replace("-", ""), args[i + 1]);
+		}
+
+		return argMap;
+	}
+
+	private static void printUsage() {
+		System.out.println("Usage:");
+		System.out
+				.println("-xmlFilePath [xmlFilePath] -testCaseName [testCaseName] -testPackageName [testPackageName] -mainActivityName [mainActivityName] -testMethodName [testMethodName] -javaFilePath [javaFilePath]");
+
 	}
 
 	public static void main(String args[]) {
-		AthrunTestCase testCase = new AthrunTestCase(new File(
-				"./res/UIevent.xml"));
-		testCase.init("Test", "com.taobao.android.client.test",
-				"com.taobao.taobao.MainActivity2", "testBug");
-		testCase.addTestStatements(testCase.initTestMethod());
-		System.out.println(testCase.format(testCase.toJavaCode()));
-		testCase.toJavaFile("./gen");
+		
+		if (0 == args.length) {
+			printUsage();
+
+		} else {
+			Map<String, String> argsMap = initArgs(args);
+
+			AthrunTestCase testCase = new AthrunTestCase(new File(
+					argsMap.get("xmlFilePath")));
+			testCase.init(argsMap.get("testCaseName"),
+					argsMap.get("testPackageName"),
+					argsMap.get("mainActivityName"),
+					argsMap.get("testMethodName"));
+			testCase.addTestStatements(testCase.initTestMethod());
+			System.out.println(testCase.format(testCase.toJavaCode()));
+			testCase.toJavaFile(argsMap.get("javaFilePath"));
+		}
 	}
 }

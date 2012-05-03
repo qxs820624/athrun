@@ -1,0 +1,50 @@
+<project name="testcase_creator" default="jar">
+    <!-- list propertys here -->
+
+    <target name="init">
+    <property name="combine.dir" value="tmp" />
+    <property name="build" value="./bin" />
+    <property name="srcdir" value="./src" />
+    <property name="lib.dir" value="./libs" />
+    <property name="dist" value="./dist" />
+    <property name="docs" value="./docs" />
+    <property name="debug" value="true" />
+    <property name="jardest" value="./jar" />
+    
+    <path id="project.class.path">
+        <pathelement path="${java.class.path}" />
+        <fileset dir="${lib.dir}">
+        <include name="*.jar" />
+        </fileset>
+    </path>
+    
+    </target>
+
+    <target name="compile" depends="init">
+        <mkdir dir="${build}" />
+        <javac debug="${debug}"
+                optimize="${optimize}"
+                destdir="${build}"
+                deprecation="${deprecation}"
+                source="1.6" target="1.6">
+            <src path="${srcdir}" />
+            <classpath refid="project.class.path" />
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar destfile="${jardest}/testcase_creator.jar">
+            <fileset dir="${build}">
+                <include name="**/*.class" />
+            </fileset>
+        </jar>
+    </target>
+<!--  
+    <target name="combine-jars" depends="jar">
+        <zip destfile="../testcase_creator.jar">
+            <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
+        </zip>
+    </target>
+    
+    -->
+</project>
