@@ -124,11 +124,14 @@ a:hover {
 }
 </style>
 
-<title>Athrun Device List</title>
+<title>Athrun 让手机run起来</title>
 </head>
-<body>	
+<body>
 	<ul id="list">
 		<h3>
+			<div>
+				<img alt="AthrunLogo" src="img/AthrunLogo-small.png">
+			</div>
 			<input id="search-input" type="text" title="" style="height: 29px;">
 			<div role="button" class="search-button" tabindex="0" title="搜索"
 				style="font-size: 13px;">搜索</div>

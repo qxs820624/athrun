@@ -325,13 +325,15 @@ public class CaptureManager {
 	public static void uploadCaptureEvent(IDevice device) throws SyncException,
 			IOException, TimeoutException, AdbCommandRejectedException,
 			URISyntaxException {
-		// File file = new File(EventManager.class.getResource("/gsnap/gsnap")
-		// .toURI().getPath());
-		//
+		File file = new File(EventManager.class.getResource("/gsnap/gsnap")
+				.toURI().getPath());
+
 		// device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
 		// new NullSyncProgressMonitor());
-
-		System.out.println("TODO: upload 改为命令行运行...CaptureEvent");
+		// 导致：ADB server didn't ACK
+		
+		CommandRunner.pushFile(device, file.getAbsolutePath(), remotePath);
+		
 		System.out.println("capture agent uploaded.");
 	}
 
