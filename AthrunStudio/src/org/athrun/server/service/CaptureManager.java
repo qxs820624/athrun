@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +98,12 @@ public class CaptureManager {
 
 			if (needCaptureList.containsKey(serialNumber)
 					&& needCaptureList.get(serialNumber) == true) {
-				processRegister(serialNumber);
+				try {
+					processRegister(serialNumber);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				needCaptureList.put(serialNumber, false);
 			} else {
 				try {
@@ -111,7 +117,7 @@ public class CaptureManager {
 	}
 
 	public static void processAdjustQuality(int qualityRate, String serialNumber)
-			throws ReservedPortExhaust {
+			throws ReservedPortExhaust, IOException {
 		assert (qualityRate >= 0);
 		assert (qualityRate <= 100);
 		synchronized (lockSocket.get(serialNumber)) {
@@ -132,7 +138,7 @@ public class CaptureManager {
 	}
 
 	public static void processAdjustResize(int resizeRate, String serialNumber)
-			throws ReservedPortExhaust {
+			throws ReservedPortExhaust, IOException {
 		synchronized (lockSocket.get(serialNumber)) {
 
 			InOutStructure inOutStructure = InOutStructure
@@ -152,19 +158,20 @@ public class CaptureManager {
 	}
 
 	protected static void processRegister(String serialNumber)
-			throws ReservedPortExhaust {
+			throws ReservedPortExhaust, IOException {
 		synchronized (lockSocket.get(serialNumber)) {
 			// 没有在这里加锁，逻辑上说，别的线程这时在读的时候还可以加。
 			if (!capOutputManager.isEmpty(serialNumber)) {
 
 				InOutStructure inOutStructure = InOutStructure
 						.GetCaptureInOutBySerialNumber(serialNumber);
-				inOutStructure.GetOut().println("snap");
-				inOutStructure.GetOut().flush();
 
 				int length = 0;
 
 				try {
+					inOutStructure.GetOut().println("snap");
+					inOutStructure.GetOut().flush();
+
 					for (int i = 0;;) {
 						int read = inOutStructure.getIn().read(
 								bylist.get(serialNumber));
@@ -254,7 +261,7 @@ public class CaptureManager {
 	/**
 	 * @param device
 	 * @param serialNumber
-	 * @throws ReservedPortExhaust 
+	 * @throws ReservedPortExhaust
 	 */
 	public void remove(String serialNumber) {
 		// TODO Auto-generated method stub
@@ -264,7 +271,7 @@ public class CaptureManager {
 
 	/**
 	 * @param serialNumber
-	 * @throws ReservedPortExhaust 
+	 * @throws ReservedPortExhaust
 	 */
 	private void KillCaptureService(String serialNumber) {
 		synchronized (lockSocket.get(serialNumber)) {
@@ -277,10 +284,17 @@ public class CaptureManager {
 				inOutStructure.GetOut().println("kill");
 				inOutStructure.GetOut().flush();
 
-				
+				InOutStructure.reconnectCaptureInOut(serialNumber);
+
 			} catch (ReservedPortExhaust e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			} catch (ConnectException e) {
+				// TODO: handle exception
+				System.out.println(serialNumber + "已经断开，不用处理");
+			} catch (IOException e) {
+				// TODO: handle exception
+				e.printStackTrace();
 			}
 
 		}
@@ -311,13 +325,13 @@ public class CaptureManager {
 	public static void uploadCaptureEvent(IDevice device) throws SyncException,
 			IOException, TimeoutException, AdbCommandRejectedException,
 			URISyntaxException {
-//		 File file = new File(EventManager.class.getResource("/gsnap/gsnap")
-//		 .toURI().getPath());
-//		
-//		 device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
-//		 new NullSyncProgressMonitor());
+		// File file = new File(EventManager.class.getResource("/gsnap/gsnap")
+		// .toURI().getPath());
+		//
+		// device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
+		// new NullSyncProgressMonitor());
 
-		System.out.println("TODO: upload 改为命令行运行...");
+		System.out.println("TODO: upload 改为命令行运行...CaptureEvent");
 		System.out.println("capture agent uploaded.");
 	}
 

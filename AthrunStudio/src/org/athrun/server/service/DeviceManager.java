@@ -97,6 +97,7 @@ public class DeviceManager {
 							5678);
 				} catch (AdbCommandRejectedException e) {
 					e.printStackTrace();
+
 					device.removeForward(
 							ForwardPortManager.getCapturePort(serialNumber),
 							5678);
@@ -199,7 +200,7 @@ public class DeviceManager {
 	// 说明device已经断开
 	public static void remove(IDevice device) {
 		String serialNumber = device.getSerialNumber();
-		System.out.println("移除" + serialNumber + "设备的同步功能");		
+		System.out.println("移除" + serialNumber + "设备的同步功能");
 		synchronized (deviceList) {
 			System.out.println("deviceList remove");
 			deviceList.remove(serialNumber);
