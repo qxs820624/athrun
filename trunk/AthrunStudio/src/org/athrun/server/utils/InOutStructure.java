@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class InOutStructure {
 	private DataInputStream in;
 	private PrintWriter out;
 
-	public InOutStructure(int port) {
+	public InOutStructure(int port) throws IOException {
 		try {
 			Socket server = new Socket("127.0.0.1", port);
 			in = new DataInputStream(new BufferedInputStream(
@@ -29,10 +30,7 @@ public class InOutStructure {
 		} catch (UnknownHostException e) {			
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 	}
 
 	public DataInputStream getIn() {
@@ -45,7 +43,7 @@ public class InOutStructure {
 	
 	static Map<String, InOutStructure> inoutMap = new HashMap<String, InOutStructure>();
 		
-	public static InOutStructure GetCaptureInOutBySerialNumber(String serialNumber) throws ReservedPortExhaust{
+	public static InOutStructure GetCaptureInOutBySerialNumber(String serialNumber) throws ReservedPortExhaust, IOException{
 		synchronized (inoutMap) {
 			if(!inoutMap.containsKey(serialNumber)){
 				int port = ForwardPortManager.getCapturePort(serialNumber);

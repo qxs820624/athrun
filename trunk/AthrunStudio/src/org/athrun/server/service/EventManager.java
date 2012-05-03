@@ -113,7 +113,7 @@ public class EventManager {
 //		device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
 //				new NullSyncProgressMonitor());
 		
-		System.out.println("TODO: upload 改为命令行运行...");
+		System.out.println("TODO: upload 改为命令行运行...EventAgent");
 		System.out.println("event agent uploaded.");
 	}
 }
