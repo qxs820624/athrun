@@ -133,7 +133,7 @@ public final class KeludeRunner {
 			System.out.println("Test run finished.");
 			System.out.println(testInfo);
 
-			if (!testInfo.contains("Time")) {
+			if (!testInfo.contains("Time:")) {
 				// String logPath = runner.resultPath.replace("xml", "log");
 				// System.out
 				// .println("Test run fininshed with exceptions, save exceptions info to "
