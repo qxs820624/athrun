@@ -16,6 +16,22 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
  */
 @XStreamAlias("testsuite")
 public class Testsuite {
+	public void setSystemOut(String systemOut) {
+		this.systemOut = systemOut;
+	}
+
+	public void setSystemErr(String systemErr) {
+		this.systemErr = systemErr;
+	}
+
+	public String getSystemOut() {
+		return systemOut;
+	}
+
+	public String getSystemErr() {
+		return systemErr;
+	}
+
 	private String properties;
 	@XStreamAlias("system-out")
 	private String systemOut;
