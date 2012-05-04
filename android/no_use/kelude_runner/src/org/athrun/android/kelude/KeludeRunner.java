@@ -134,34 +134,40 @@ public final class KeludeRunner {
 			System.out.println(testInfo);
 
 			if (!testInfo.contains("Time")) {
-				String logPath = runner.resultPath.replace("xml", "log");
-				System.out
-						.println("Test run fininshed with exceptions, save exceptions info to "
-								+ logPath);
-				FileUtils.writeStringToFile(new File(logPath), testInfo,
-						"UTF-8");
+				// String logPath = runner.resultPath.replace("xml", "log");
+				// System.out
+				// .println("Test run fininshed with exceptions, save exceptions info to "
+				// + logPath);
+				// FileUtils.writeStringToFile(new File(logPath), testInfo,
+				// "UTF-8");
+				throw new RuntimeException(testInfo);
+
+			} else {
+				TestResultCollector resultCollector = new TestResultCollector(
+						runner.device, runner.resultPath);
+				String result = resultCollector.getJunitReport(runner.device);
+
+				System.out.println("Pull file result: ");
+				System.out.println(result);
+
+				if (!result.contains("KB/s")) {
+					System.out
+							.println("Exception occurs while pull the remote result file to local.");
+					// FileUtils.copyFile(new File(DEFAULT_RESULT_FILE), new
+					// File(
+					// runner.resultPath));
+					throw new RuntimeException(result);
+
+				} else {
+					System.out.println("Convert result to kelude format...");
+					convertJunitToKeludeReport(runner.getLocalReportPath());
+					System.out
+							.println("Convert result to kelude format finished.");
+
+					System.out.println("Finish runner, system exit...");
+					System.exit(0);
+				}
 			}
-
-			TestResultCollector resultCollector = new TestResultCollector(
-					runner.device, runner.resultPath);
-			String result = resultCollector.getJunitReport(runner.device);
-
-			System.out.println("Pull file result: ");
-			System.out.println(result);
-
-			if (!result.contains("KB/s")) {
-				System.out.println("Exception occurs while pull the remote result file to local.");
-				System.out.println("Copy default file to " + runner.resultPath);
-				FileUtils.copyFile(new File(DEFAULT_RESULT_FILE), new File(
-						runner.resultPath));
-			}
-            
-			System.out.println("Convert result to kelude format...");
-			convertJunitToKeludeReport(runner.getLocalReportPath());
-			System.out.println("Convert result to kelude format finished.");
-			
-			System.out.println("Finish runner, system exit...");
-			System.exit(0);
 		}
 	}
 
