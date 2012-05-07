@@ -16,7 +16,7 @@
  Foundation, Inc., HuaXing road, Hangzhou,China. 
  Email:taichan@taobao.com,shidun@taobao.com,bingyang.djj@taobao.com
 */
-package org.athrun.android.framework.viewelememt;
+package org.athrun.android.framework.viewelement;
 
 /**
  * @author bingyang.djj

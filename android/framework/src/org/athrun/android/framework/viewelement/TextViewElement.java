@@ -16,9 +16,11 @@
  Foundation, Inc., HuaXing road, Hangzhou,China. 
  Email:taichan@taobao.com,shidun@taobao.com,bingyang.djj@taobao.com
  */
-package org.athrun.android.framework.viewelememt;
+package org.athrun.android.framework.viewelement;
 
 import android.app.Instrumentation;
+import android.text.InputType;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -117,29 +119,16 @@ public class TextViewElement extends ViewElement {
 	 */
 	public void inputText(String text) {
 		inst.waitForIdleSync();
+		
+			inst.runOnMainSync(new Runnable() {
+				
+				@Override
+				public void run() {
+					textView.setInputType(InputType.TYPE_NULL);
+				}
+			});
 		ViewUtils.scrollInToScreenIfNeeded(inst, textView);
+		doClick();
 		inst.sendStringSync(text);
 	}
-
-	// /**
-	// * It does not support Chinese now.
-	// *
-	// * @param text
-	// */
-	// private void setEditText(String text) {
-	// if (getViewCenter().getX() > getScreenWidth()
-	// || getViewCenter().getY() > getScreenHeight()) {
-	// scrollIntoScreenIfNeeded();
-	// inst.waitForIdleSync();
-	// }
-	//
-	// try {
-	// viewOperation.clickOnView(textView, false);
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// inst.sendStringSync(text);
-	// TmtsLog.i(LOG_TAG, "sendStringSync(" + text + ")");
-	// }
 }

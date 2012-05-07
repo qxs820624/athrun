@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.athrun.android.framework.utils.AthrunConnectorThread;
 import org.athrun.android.framework.utils.ScreenUtils;
-import org.athrun.android.framework.viewelememt.IViewElement;
-import org.athrun.android.framework.viewelememt.ViewCoordinate;
+import org.athrun.android.framework.viewelement.IViewElement;
+import org.athrun.android.framework.viewelement.ViewCoordinate;
 
 import android.app.Activity;
 import android.app.ActivityManager;
