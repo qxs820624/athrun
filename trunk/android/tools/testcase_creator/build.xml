@@ -1,59 +1,128 @@
-<project name="testcase_creator" basedir="." default="clean">
-    
-    <property name="build" value="bin" />
-    <property name="src.dir" value="src" />
-    <property name="lib.dir" value="libs" />
-    <property name="dist" value="dist" />
-    <property name="debug" value="true" />
-    <property name="jar.dir" value="jar" />
-    <property name="main-class" value="org.athrun.android.framework.transform.AthrunTestCase" />
+<project
+    name="testcase_creator"
+    basedir="."
+    default="jar" >
 
-    <target name="init">
-        <path id="project.class.path">
-            <pathelement path="${java.class.path}" />
-            <fileset dir="${lib.dir}">
-                <include name="*.jar" />
-            </fileset>
-        </path>
+    <property
+        name="classes.dir"
+        value="bin" />
+
+    <property
+        name="src.dir"
+        value="src" />
+
+    <property
+        name="lib.dir"
+        value="libs" />
+
+    <property
+        name="main-class"
+        value="org.athrun.android.framework.transform.AthrunTestCase" />
+
+    <path id="compile.classpath" >
+
+        <fileset
+            file="${lib.dir}"
+            includes="**/*.jar" />
+    </path>
+
+    <target name="init" >
+
+        <delete dir="${classes.dir}" />
     </target>
 
-    <target name="compile" depends="init">
-        <mkdir dir="${build}" />
-        <javac debug="${debug}"
-                optimize="${optimize}"
-                destdir="${build}"
-                deprecation="${deprecation}"
-                source="1.6" target="1.6">
-            <src path="${src.dir}" />
-            <classpath refid="project.class.path" />
+    <target
+        name="compile"
+        depends="init" >
+
+        <mkdir dir="${classes.dir}" />
+
+        <javac
+            destdir="${classes.dir}"
+            source="1.6"
+            srcdir="${src.dir}"
+            target="1.6" >
+
+            <classpath refid="compile.classpath" />
         </javac>
     </target>
 
-    <target name="jar" depends="compile">
-        <jar destfile="${lib.dir}/tmp.jar" >
-            <fileset dir="${build}">
-                <include name="**/*.class" />
-            </fileset>
-            
+    <target
+        name="jar"
+        depends="compile" >
+
+        <pathconvert
+            pathsep=" "
+            property="mf.classpath" >
+
+            <path refid="compile.classpath" />
+
+            <mapper>
+
+                <chainedmapper>
+
+                    <flattenmapper />
+
+                    <globmapper
+                        from="*"
+                        to="lib/*" />
+                </chainedmapper>
+            </mapper>
+        </pathconvert>
+
+        <jar
+            basedir="${classes.dir}"
+            destfile="${basedir}/${ant.project.name}.jar" >
+
             <manifest>
-                <attribute name="Main-Class" value="${main-class}"/>
+
+                <attribute
+                    name="Main-Class"
+                    value="${main-class}" />
+                
+                <attribute name="Class-Path" value="${mf.classpath}"/>
             </manifest>
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/commons-io-1.3.2.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/dom4j-1.6.1.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.core.contenttype_3.4.100.v20110423-0524.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.core.jobs_3.5.100.v20110404.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.core.resources_3.7.100.v20110510-0712.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.core.runtime_3.7.0.v20110110.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.equinox.common_3.6.0.v20110523.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.equinox.preferences_3.4.1.R37x_v20110725.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.jdt.core_3.7.1.v_B76_R37x.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/org.eclipse.osgi_3.7.1.R37x_v20110808-1106.jar" />
         </jar>
     </target>
-    
-    <target name="combine-jars" depends="jar">
-        <zip destfile="${jar.dir}/${ant.project.name}.jar">
-            <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
-        </zip>
-    </target>
-    
-    <target name="copy-jars" depends="combine-jars">
-        <copy todir="${basedir}" file="${jar.dir}/${ant.project.name}.jar"/> 
-    </target>
-    
-    <target name="clean" depends="copy-jars">
-        <delete file="${jar.dir}/${ant.project.name}.jar"/>
-        <delete file="${lib.dir}/tmp.jar"/>
-    </target>
-    
+
 </project>
