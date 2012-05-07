@@ -4,11 +4,11 @@ import org.athrun.android.app.R;
 import org.athrun.android.framework.AthrunTestCase;
 import org.athrun.android.framework.Test;
 import org.athrun.android.framework.ViewOperation;
-import org.athrun.android.framework.viewelememt.AbsListViewElement;
-import org.athrun.android.framework.viewelememt.SlideableElement;
-import org.athrun.android.framework.viewelememt.TextViewElement;
-import org.athrun.android.framework.viewelememt.ViewElement;
-import org.athrun.android.framework.viewelememt.ViewGroupElement;
+import org.athrun.android.framework.viewelement.AbsListViewElement;
+import org.athrun.android.framework.viewelement.SlideableElement;
+import org.athrun.android.framework.viewelement.TextViewElement;
+import org.athrun.android.framework.viewelement.ViewElement;
+import org.athrun.android.framework.viewelement.ViewGroupElement;
 
 import android.widget.AbsListView;
 
@@ -62,7 +62,7 @@ public class MainActivityTest extends AthrunTestCase {
 	@Test
 	public void testLongClick() throws Exception {
 		findElementById("my_imageview", ViewElement.class).doLongClick();
-		assertEquals("Long", findToastElement("").getText());
+		assertEquals("LongClick", findToastElement("").getText());
 	}
 
 	@Test

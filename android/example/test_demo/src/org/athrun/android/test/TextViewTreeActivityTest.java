@@ -2,8 +2,8 @@ package org.athrun.android.test;
 
 import org.athrun.android.framework.AthrunTestCase;
 import org.athrun.android.framework.Test;
-import org.athrun.android.framework.viewelememt.TextViewElement;
-import org.athrun.android.framework.viewelememt.ViewGroupElement;
+import org.athrun.android.framework.viewelement.TextViewElement;
+import org.athrun.android.framework.viewelement.ViewGroupElement;
 
 public class TextViewTreeActivityTest extends AthrunTestCase {
 	private static final String LOG_TAG = "TextViewTreeActivityTest";
