@@ -33,8 +33,13 @@ public class AthrunTestCase {
 	private static final String COMMENT = "commentUsedForAthrun";
 	private static final String UNKOWN_ACTION = "unkownActionUsedForAthrun";
 	private static final String WARNING = "warningInfoUsedForAthrun();";
-	private static final String WIDGET_IMPORTS = "org.athrun.widgets";
-	private static final String VIEW_IMPORTS = "org.athrun.view";
+	
+	private static final String WIDGET_IMPORTS = "org.athrun.androidwidgets";
+	private static final String VIEW_IMPORTS = "org.athrun.androidview";
+	private static final String FRAMEWORK_IMPORTS = "org.athrun.frameworks";
+	private static final String VIEWELEMENT_IMPORTS = "org.athrun.viewelements";
+	private static final String WEBVIEW_IMPORTS = "org.athrun.webviews";
+	private static final String TAOBAOVIEW_IMPORTS = "org.athrun.taobaoviews";
 
 	private File xmlFile;
 
@@ -53,19 +58,12 @@ public class AthrunTestCase {
 	private static ArrayList<String> imports = new ArrayList<String>();
 
 	static {
-		imports.add("org.athrun.android.framework.AthrunTestCase");
-		imports.add("org.athrun.android.framework.viewelement.VieweElement");
-		imports.add("org.athrun.android.framework.viewelement.AbsListViewElement");
-		imports.add("org.athrun.android.framework.viewelement.CheckableElement");
-		imports.add("org.athrun.android.framework.viewelement.ScrollViewElement");
-		imports.add("org.athrun.android.framework.viewelement.SlideableElement");
-		imports.add("org.athrun.android.framework.viewelement.TextViewElement");
-		imports.add("org.athrun.android.framework.viewelement.ToastElement");
-		imports.add("org.athrun.android.framework.viewelement.ViewGroupElement");
-		imports.add("org.athrun.android.framework.viewelement.VieweElement");
-		imports.add("org.athrun.android.framework.AthrunDevice");
-		imports.add("org.athrun.widgets");
-		imports.add("org.athrun.view");
+		imports.add(WIDGET_IMPORTS);
+		imports.add(VIEW_IMPORTS);
+		imports.add(FRAMEWORK_IMPORTS);
+		imports.add(VIEWELEMENT_IMPORTS);
+		imports.add(WEBVIEW_IMPORTS);
+		imports.add(TAOBAOVIEW_IMPORTS);
 	}
 
 	public AthrunTestCase(File xmlFile) {
@@ -339,8 +337,12 @@ public class AthrunTestCase {
 	}
 
 	private String formateImports(String javaCode) {
-		return javaCode.replace(WIDGET_IMPORTS, "android.widget.*").replace(
-				VIEW_IMPORTS, "android.view.*");
+		return javaCode.replace(WIDGET_IMPORTS, "android.widget.*")
+				       .replace(VIEW_IMPORTS, "android.view.*")
+				       .replace(FRAMEWORK_IMPORTS, "org.athrun.android.framework.*")
+				       .replace(VIEWELEMENT_IMPORTS, "org.athrun.android.framework.viewelement.*")
+				       .replace(WEBVIEW_IMPORTS, "org.athrun.android.framework.webview.*")
+				       .replace(TAOBAOVIEW_IMPORTS, "org.athrun.android.framework.special.taobaoview.*");
 	}
 
 	private static Map<String, String> initArgs(String args[]) {
