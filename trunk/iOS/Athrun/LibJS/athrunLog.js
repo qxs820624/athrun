@@ -1,5 +1,5 @@
 /**
- *统一处理错误日志
+ *缁熶竴澶勭悊閿欒鏃ュ織
  *
  */
 
@@ -11,7 +11,7 @@ function Error(errorType, message) {
 
 Error.prototype.log = function() {
 
-	//这里只处理错误的日志，出错时根据错误类型和想要写入的日志信息实例化一个Error对象然后抛出
+	//杩欓噷鍙鐞嗛敊璇殑鏃ュ織锛屽嚭閿欐椂鏍规嵁閿欒绫诲瀷鍜屾兂瑕佸啓鍏ョ殑鏃ュ織淇℃伅瀹炰緥鍖栦竴涓狤rror瀵硅薄鐒跺悗鎶涘嚭
 	if(this.type == "Warning") {
 
 		UIALogger.logWarning(this.message);
@@ -33,7 +33,7 @@ Error.prototype.log = function() {
 	}
 }
 /**
- * 错误截图，传入截图的图片名称和可选的message写入日志
+ * 閿欒鎴浘锛屼紶鍏ユ埅鍥剧殑鍥剧墖鍚嶇О鍜屽彲閫夌殑message鍐欏叆鏃ュ織
  */
 Error.captureScreen = function(name, message) {
 
@@ -44,7 +44,7 @@ Error.captureScreen = function(name, message) {
 	UIATarget.localTarget().captureScreenWithName(picName);
 }
 /**
- * 时间格式函数，返回结果形如： 2012-02-22 21:45:27
+ * 鏃堕棿鏍煎紡鍑芥暟锛岃繑鍥炵粨鏋滃舰濡傦細 2012-02-22 21:45:27
  */
 function getDateStr(date) {
 	var year = date.getFullYear();
