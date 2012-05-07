@@ -14,28 +14,32 @@
  You should have received a copy of the GNU General Public License
  along with this program; if not, write to the Free Software
  Foundation, Inc., HuaXing road, Hangzhou,China. 
- Email:taichan@taobao.com,shidun@taobao.com,bingyang.djj@taobao.com
+ Email:taichan@taobao.com,bingyang.djj@taobao.com
 */
-package org.athrun.android.framework.viewelememt;
+package org.athrun.android.framework.viewelement;
+
+import android.app.Instrumentation;
+import android.widget.CompoundButton;
 
 /**
- * Class for Android {@code Toast}.
+ * Base class for CheckBox, RadioButton, ToggleButton.
  * @author bingyang.djj
  *
  */
+public class CheckableElement extends TextViewElement {
+	private CompoundButton compoundButton;
 
-public final class ToastElement {
-	private String message;
-	
-	private ToastElement(String message) {
-		this.message = message;
+	protected CheckableElement(Instrumentation inst, CompoundButton compoundButton) {
+		super(inst, compoundButton);
+		this.compoundButton = compoundButton;
 	}
 	
 	/**
-	 * Return the message of the Toast.
-	 * @return Message of the Toast.
+	 * The current checked state of the view.
+	 * @return The current checked state of the view.
 	 */
-	public String getText() {
-		return this.message;
+	public boolean isChecked() {
+		inst.waitForIdleSync();
+		return compoundButton.isChecked();
 	}
 }

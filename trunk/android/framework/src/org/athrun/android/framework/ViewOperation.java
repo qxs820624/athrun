@@ -112,7 +112,7 @@ public class ViewOperation {
 						/ 2, y + ViewConfiguration.getTouchSlop() / 2, 0);
 		inst.sendPointerSync(event);
 		inst.waitForIdleSync();
-		Thread.sleep((int) (ViewConfiguration.getLongPressTimeout() * 1.5f));
+		Thread.sleep((int)(ViewConfiguration.getLongPressTimeout() * 2.5F));
 
 		eventTime = SystemClock.uptimeMillis();
 		event = MotionEvent.obtain(downTime, eventTime, MotionEvent.ACTION_UP,

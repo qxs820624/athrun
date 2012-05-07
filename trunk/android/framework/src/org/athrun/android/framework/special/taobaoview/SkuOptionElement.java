@@ -1,6 +1,6 @@
 package org.athrun.android.framework.special.taobaoview;
 
-import org.athrun.android.framework.viewelememt.ViewElement;
+import org.athrun.android.framework.viewelement.ViewElement;
 
 import android.app.Instrumentation;
 import android.view.View;
