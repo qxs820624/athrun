@@ -1,23 +1,20 @@
-<project name="testcase_creator" default="jar">
-    <!-- list propertys here -->
+<project name="testcase_creator" basedir="." default="clean">
+    
+    <property name="build" value="bin" />
+    <property name="src.dir" value="src" />
+    <property name="lib.dir" value="libs" />
+    <property name="dist" value="dist" />
+    <property name="debug" value="true" />
+    <property name="jar.dir" value="jar" />
+    <property name="main-class" value="org.athrun.android.framework.transform.AthrunTestCase" />
 
     <target name="init">
-    <property name="combine.dir" value="tmp" />
-    <property name="build" value="./bin" />
-    <property name="srcdir" value="./src" />
-    <property name="lib.dir" value="./libs" />
-    <property name="dist" value="./dist" />
-    <property name="docs" value="./docs" />
-    <property name="debug" value="true" />
-    <property name="jardest" value="./jar" />
-    
-    <path id="project.class.path">
-        <pathelement path="${java.class.path}" />
-        <fileset dir="${lib.dir}">
-        <include name="*.jar" />
-        </fileset>
-    </path>
-    
+        <path id="project.class.path">
+            <pathelement path="${java.class.path}" />
+            <fileset dir="${lib.dir}">
+                <include name="*.jar" />
+            </fileset>
+        </path>
     </target>
 
     <target name="compile" depends="init">
@@ -27,24 +24,36 @@
                 destdir="${build}"
                 deprecation="${deprecation}"
                 source="1.6" target="1.6">
-            <src path="${srcdir}" />
+            <src path="${src.dir}" />
             <classpath refid="project.class.path" />
         </javac>
     </target>
 
     <target name="jar" depends="compile">
-        <jar destfile="${jardest}/testcase_creator.jar">
+        <jar destfile="${lib.dir}/tmp.jar" >
             <fileset dir="${build}">
                 <include name="**/*.class" />
             </fileset>
+            
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
         </jar>
     </target>
-<!--  
+    
     <target name="combine-jars" depends="jar">
-        <zip destfile="../testcase_creator.jar">
+        <zip destfile="${jar.dir}/${ant.project.name}.jar">
             <zipgroupfileset dir="${lib.dir}" includes="*.jar"/>
         </zip>
     </target>
     
-    -->
+    <target name="copy-jars" depends="combine-jars">
+        <copy todir="${basedir}" file="${jar.dir}/${ant.project.name}.jar"/> 
+    </target>
+    
+    <target name="clean" depends="copy-jars">
+        <delete file="${jar.dir}/${ant.project.name}.jar"/>
+        <delete file="${lib.dir}/tmp.jar"/>
+    </target>
+    
 </project>
