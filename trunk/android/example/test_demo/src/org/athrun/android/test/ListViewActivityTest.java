@@ -4,10 +4,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.athrun.android.framework.AthrunTestCase;
 import org.athrun.android.framework.Test;
-import org.athrun.android.framework.viewelememt.AbsListViewElement;
-import org.athrun.android.framework.viewelememt.TextViewElement;
-import org.athrun.android.framework.viewelememt.ViewElement;
-import org.athrun.android.framework.viewelememt.ViewGroupElement;
+import org.athrun.android.framework.viewelement.AbsListViewElement;
+import org.athrun.android.framework.viewelement.TextViewElement;
+import org.athrun.android.framework.viewelement.ViewElement;
+import org.athrun.android.framework.viewelement.ViewGroupElement;
 
 import android.widget.AbsListView;
 
@@ -85,5 +85,12 @@ public class ListViewActivityTest extends AthrunTestCase {
 		tmtsListView.scrollToNextScreen();
 		TimeUnit.SECONDS.sleep(3);
 		assertEquals(8, tmtsListView.getFirstVisiblePosition());
+	}
+	
+	public void testGetText() throws Exception {
+		findElementById("btn_listview_activity").doClick();
+		AbsListViewElement tmtsListView = findElementById("my_listview",
+				AbsListViewElement.class);
+		assertEquals("Item0Thank you!", tmtsListView.getTextOfLine(0));
 	}
 }

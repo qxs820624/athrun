@@ -2,7 +2,7 @@ package org.athrun.android.test;
 
 import org.athrun.android.framework.AthrunTestCase;
 import org.athrun.android.framework.Test;
-import org.athrun.android.framework.viewelememt.ScrollViewElement;
+import org.athrun.android.framework.viewelement.ScrollViewElement;
 
 import android.view.View;
 import android.widget.ScrollView;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.athrun.android.framework.AthrunTestCase;
 import org.athrun.android.framework.Test;
-import org.athrun.android.framework.viewelememt.CheckableElement;
-import org.athrun.android.framework.viewelememt.TextViewElement;
-import org.athrun.android.framework.viewelememt.ViewElement;
+import org.athrun.android.framework.viewelement.CheckableElement;
+import org.athrun.android.framework.viewelement.TextViewElement;
+import org.athrun.android.framework.viewelement.ViewElement;
 
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -135,6 +135,6 @@ public class TextViewActivityTest extends AthrunTestCase {
 		TextViewElement myEditText = findElementById("my_edittext",
 				TextViewElement.class);
 		myEditText.inputText("123rfgt@#");
-		assertEquals("123rfgt@#Hello world", myEditText.getText());
+		assertEquals("Hello world123rfgt@#", myEditText.getText());
 	}
 }
