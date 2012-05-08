@@ -13,7 +13,6 @@ import org.athrun.android.result.JunitKeludeLogConverter;
 
 public final class KeludeRunner {
 	private static final String RUNNER = "pl.polidea.instrumentation.PolideaInstrumentationTestRunner";
-	private static final String DEFAULT_RESULT_FILE = "./res/default_result.xml";
 
 	static final String REPORT_FILE_DIR = "/sdcard/kelude";
 	static final String REPORT_FILE_NAME = "junitReport.xml";
@@ -105,6 +104,23 @@ public final class KeludeRunner {
 		return ShellCommandRunner.run("adb shell rm " + REPORT_FILE_DIR + "/"
 				+ REPORT_FILE_NAME);
 	}
+	
+	/**
+	 * @param localReportPath
+	 * @throws IOException
+	 */
+	private static void convertJunitToKeludeReport(String localReportPath)
+			throws IOException {
+		// TODO Auto-generated method stub
+		File tmpFile = new File("c:/AthrunLog/tmp.xml");
+		File local = new File(localReportPath);
+		InputStream is = new FileInputStream(local);
+		FileOutputStream fo = new FileOutputStream(tmpFile);
+		JunitKeludeLogConverter.convert(is, fo, "no report for junit");
+		is.close();
+		fo.close();
+		FileUtils.copyFile(tmpFile, local);
+	}
 
 	public static void main(String[] args) throws Exception {
 		if (args.length < 2 || args.length % 2 != 0) {
@@ -169,22 +185,5 @@ public final class KeludeRunner {
 				}
 			}
 		}
-	}
-
-	/**
-	 * @param localReportPath
-	 * @throws IOException
-	 */
-	private static void convertJunitToKeludeReport(String localReportPath)
-			throws IOException {
-		// TODO Auto-generated method stub
-		File tmpFile = new File("c:/AthrunLog/tmp.xml");
-		File local = new File(localReportPath);
-		InputStream is = new FileInputStream(local);
-		FileOutputStream fo = new FileOutputStream(tmpFile);
-		JunitKeludeLogConverter.convert(is, fo, "no report for junit");
-		is.close();
-		fo.close();
-		FileUtils.copyFile(tmpFile, local);
 	}
 }

@@ -33,18 +33,17 @@ public class ShellCommandRunner {
 				p.getErrorStream()));
 		
 		String line = null;
+		
 		while ((line = br.readLine()) != null) {
 			if (line.trim().length() > 0) {
 				output.append(line).append("\n");
 			}
 		}
-		
 		while ((line = er.readLine()) != null) {
 			if (line.trim().length() > 0) {
 				output.append(line).append("\n");
 			}
 		}
-		
 		p.waitFor();
 		
 		er.close();
