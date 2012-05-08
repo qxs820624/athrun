@@ -18,8 +18,10 @@ public class UIAActionSheet extends UIAElement {
 	}
 
 	public UIAButton cancelButton() {
-		String guid = MySocket.getGuid(this.guid + ".cancelButton()");
-		return new UIAButton(guid);
+
+		// String guid = RunType.DEBUG ? MySocket.getGuid(this.guid +
+		// ".cancelButton()") : this.guid + ".cancelButton()";
+		return new UIAButton(this.guid + ".cancelButton()");
 	}
 
 }
