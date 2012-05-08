@@ -10,9 +10,9 @@ import android.view.KeyEvent;
 
 
 
-public class DeviceTest extends AthrunTestCase {
+public class VirtualDeviceTest extends AthrunTestCase {
 
-	public DeviceTest() throws Exception {
+	public VirtualDeviceTest() throws Exception {
 		super("org.athrun.android.app", "org.athrun.android.app.MainActivity");
 	}
 	
