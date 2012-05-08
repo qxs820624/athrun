@@ -12,5 +12,7 @@ public class AthrunCSTest extends IOSTestCase {
 		String name = app.tabBar().buttons()[0].name();
 		assertEquals("首页", name);
 		assertTrue(app.tabBar().buttons()[1].isEnabled());
+		
+		
 	}
 }
