@@ -1,6 +1,6 @@
 package org.athrun.ios;
 
-import com.athrun.instruments.MySocket;
+import org.athrun.instruments.MySocket;
 
 import junit.framework.TestCase;
 

@@ -1,7 +1,7 @@
 package org.athrun.ios;
 
-import com.athrun.instruments.UIAApplication;
-import com.athrun.instruments.UIATarget;
+import org.athrun.instruments.UIAApplication;
+import org.athrun.instruments.UIATarget;
 
 public class AthrunCSTest extends IOSTestCase {
 	public void testTest() throws Exception {
