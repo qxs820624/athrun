@@ -182,7 +182,7 @@ public final class KeludeRunner {
 		File local = new File(localReportPath);
 		InputStream is = new FileInputStream(local);
 		FileOutputStream fo = new FileOutputStream(tmpFile);
-		JunitKeludeLogConverter.convert(is, fo);
+		JunitKeludeLogConverter.convert(is, fo, "no report for junit");
 		is.close();
 		fo.close();
 		FileUtils.copyFile(tmpFile, local);
