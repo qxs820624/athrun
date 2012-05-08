@@ -18,7 +18,8 @@
 */
 package org.athrun.android.framework.utils;
 
-import android.util.Log;
+import org.apache.log4j.Logger;
+import org.athrun.android.framework.LogConfigure;
 
 /**
  * 
@@ -26,27 +27,29 @@ import android.util.Log;
  *
  */
 public final class AthrunConnectorThread {
-	private static final String LOG_TAG = "TmtsServerThread";
-	private static AthrunConnector tmtsServer = AthrunConnector.getInstance();
+	private static Logger logger = LogConfigure.getLogger(AthrunConnectorThread.class);
+	private static AthrunConnector athrunServer = AthrunConnector.getInstance();
 	
 	private static Thread createThread() {
-		Thread serverThread = new Thread(tmtsServer);
+		Thread serverThread = new Thread(athrunServer);
 		return serverThread;
 	}
 	
 	public static void start() {
+		logger.info("start().");
 		createThread().start();
 	}
 	
 	public static void stop() {
-		if (null != tmtsServer) {
-			Log.i(LOG_TAG, "stop()");
-			tmtsServer.stop();
+		if (null != athrunServer) {
+			logger.info("stop().");
+			athrunServer.stop();
 		}
 	}
 	
 	public static String execute(String command) {
-		return tmtsServer.setCommand(command);
+		logger.info("execute(" + command +").");
+		return athrunServer.setCommand(command);
 	}
 	
 	/**

@@ -1,45 +1,73 @@
-<project name="framework" default="combine-jars">
-    <!-- list propertys here -->
+<project
+    name="framework"
+    basedir="."
+    default="jar" >
 
-    <target name="init">
-    <property name="combine.dir" value="tmp" />
-    <property name="build" value="./bin" />
-    <property name="srcdir" value="./src" />
-    <property name="lib.dir" value="./libs" />
-    <property name="dist" value="./dist" />
-    <property name="docs" value="./docs" />
-    <property name="debug" value="true" />
-    <path id="project.class.path">
-        <pathelement path="${java.class.path}" />
-        <fileset dir="${lib.dir}">
-        <include name="*.jar" />
-        </fileset>
+    <property
+        name="classes.dir"
+        value="bin" />
+
+    <property
+        name="src.dir"
+        value="src" />
+
+    <property
+        name="lib.dir"
+        value="libs" />
+    
+    <property
+        name="ext.dir"
+        value="ext" />
+
+    <path id="compile.classpath" >
+
+        <fileset
+            file="${lib.dir}"
+            includes="**/*.jar" />
     </path>
+
+    <target name="init" >
+        <delete dir="${classes.dir}" />
     </target>
 
-    <target name="compile" depends="init">
-        <mkdir dir="${build}" />
-        <javac debug="${debug}"
-                optimize="${optimize}"
-                destdir="${build}"
-                deprecation="${deprecation}"
-                source="1.6" target="1.6">
-            <src path="${srcdir}" />
-            <classpath refid="project.class.path" />
+    <target
+        name="compile"
+        depends="init" >
+
+        <mkdir dir="${classes.dir}" />
+
+        <javac
+            destdir="${classes.dir}"
+            source="1.6"
+            srcdir="${src.dir}"
+            target="1.6" >
+
+            <classpath refid="compile.classpath" />
         </javac>
     </target>
 
-    <target name="jar" depends="compile">
-        <jar destfile="${lib.dir}/out.jar">
-            <fileset dir="${build}">
-                <include name="**/*.class" />
-            </fileset>
+    <target
+        name="jar"
+        depends="compile" >
+
+        <jar
+            basedir="${classes.dir}"
+            destfile="${basedir}/${ant.project.name}.jar" >
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/android-logging-log4j-1.0.2.jar" />
+
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/log4j-1.2.16.jar" />
+            
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${ext.dir}/the-missing-android-xml-junit-test-runner-release-1.3_2.jar" />
+            
+
         </jar>
     </target>
 
-    <target name="combine-jars" depends="jar">
-        <zip destfile="../framework.jar">
-            <zipgroupfileset dir="${lib.dir}" includes="*.jar" excludes="android.jar"/>
-        </zip>
-    </target>
 </project>

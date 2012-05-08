@@ -18,6 +18,9 @@
 */
 package org.athrun.android.framework.viewelement;
 
+import org.apache.log4j.Logger;
+import org.athrun.android.framework.LogConfigure;
+
 /**
  * Class for Android {@code Toast}.
  * @author bingyang.djj
@@ -25,10 +28,13 @@ package org.athrun.android.framework.viewelement;
  */
 
 public final class ToastElement {
+	private final Logger logger = LogConfigure.getLogger(getClass());
+	
 	private String message;
 	
 	private ToastElement(String message) {
 		this.message = message;
+		logger.info("Construct an instance of ToastElement with " + message + ".");
 	}
 	
 	/**

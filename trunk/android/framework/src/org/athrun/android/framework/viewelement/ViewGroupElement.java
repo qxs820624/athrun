@@ -36,7 +36,6 @@ import android.widget.TextView;
  *
  */
 public class ViewGroupElement extends ViewElement implements IViewGroupElement {
-	private static final String LOG_TAG = "ViewGroupElement";
 	private ViewGroup viewGroup;
     
 	protected ViewGroupElement(Instrumentation inst, ViewGroup viewGroup) {
