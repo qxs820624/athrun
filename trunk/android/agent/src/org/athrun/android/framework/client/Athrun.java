@@ -22,6 +22,11 @@ package org.athrun.android.framework.client;
 public class Athrun {
 
 	public static void main(String[] args) {
-		AthrunClientThread.start(null);
+		if (0 == args.length) {
+			AthrunClientThread.start(null);
+			
+		} else {
+			AthrunClientThread.start(args[0]);
+		}
 	}
 }
