@@ -42,11 +42,9 @@ import org.athrun.android.framework.LogConfigure;
  * 
  */
 final class AthrunConnector implements Runnable {
-	private static final String LOG_TAG = "AthrunServer";
 	private Logger logger = LogConfigure.getLogger(getClass());
 
 	public static final int SERVER_PORT = 54321;
-	// private static final int REQUEST_TIME_OUT = 3000;
 	private static final int TIME_FOR_RETRY = 100;
 	private static final String WHETHER_CONNECTED = "FIN";
 	private static final String CONFIRM_CONNECTED = "SYN_RCVD";
@@ -62,7 +60,7 @@ final class AthrunConnector implements Runnable {
 	private static AthrunConnector instance;
 
 	private AthrunConnector() {
-		printLog(LOG_TAG + ": Construct AthrunConnector.");
+		logger.info("Construct AthrunConnector.");
 	}
 
 	public static AthrunConnector getInstance() {
@@ -80,7 +78,7 @@ final class AthrunConnector implements Runnable {
 			mServerSocket = new ServerSocket(SERVER_PORT);
 			mExecutorService = Executors
 					.newSingleThreadExecutor(new HandlerThreadFactory());
-			printLog(LOG_TAG + ": start server...");
+			logger.info("Start server...");
 
 			while (running) {
 
@@ -90,7 +88,7 @@ final class AthrunConnector implements Runnable {
 						return;
 					}
 
-					printLog(LOG_TAG + ": Command is null, sleep and wait for command.");
+					logger.debug("Command is null, sleep and wait for command.");
 					WaitForRetry(TIME_FOR_RETRY);
 				}
 
@@ -126,8 +124,6 @@ final class AthrunConnector implements Runnable {
 
 		@Override
 		public void uncaughtException(Thread thread, Throwable ex) {
-//			notifyThreadFinished();
-//			thread.interrupt();
 			ex.printStackTrace();
 		}
 	}
@@ -155,12 +151,12 @@ final class AthrunConnector implements Runnable {
 						return;
 
 					} else if (inFromClient.equalsIgnoreCase(WHETHER_CONNECTED)) {
-						printLog(LOG_TAG + ": The data from client is <"
+						logger.info("The data from client is <"
 								+ inFromClient + ">.");
 						sendCommand(CONFIRM_CONNECTED);
 					}
 
-					printLog(LOG_TAG + ": Ready to send command <" + command
+					logger.info("Ready to send command <" + command
 							+ ">.");
 					sendCommand(command);
 
@@ -168,12 +164,12 @@ final class AthrunConnector implements Runnable {
 					e.printStackTrace();
 				}
 
-				printLog(LOG_TAG + ": Ready to get result.");
+				logger.info("Ready to get result.");
 				result = getDataFromClient();
-				printLog(LOG_TAG + ": Get result: <" + result + ">.");
+				logger.info("Get result: <" + result + ">.");
 
 				AthrunConnector.command = null;
-				printLog(LOG_TAG + ": Clear command finished, notify.");
+				logger.info("Clear command finished, notify.");
 
 				notifyThreadFinished();
 			}
@@ -186,17 +182,17 @@ final class AthrunConnector implements Runnable {
 				inFromClient = in.readLine();
 
 			} catch (IOException e) {
-				printLog(LOG_TAG + ": getDataFromClient() encounter an IOException.");
+				logger.info("getDataFromClient() encounter an IOException.");
 			}
 
-			printLog(LOG_TAG + ": getDataFromClient() return "
+			logger.info("getDataFromClient() return "
 					+ String.valueOf(inFromClient));
 			return inFromClient;
 		}
 
 		private void sendCommand(String command) throws IOException {
 			out.println(command);
-			printLog(LOG_TAG + ": <" + command + "> send succeed.");
+			logger.info("<" + command + "> send succeed.");
 		}
 	}
 
@@ -211,7 +207,7 @@ final class AthrunConnector implements Runnable {
 	public String setCommand(String command) {
 		AthrunConnector.command = command;
 		blockCurrentThread();
-		printLog(LOG_TAG + ": The result is: " + result);
+		logger.info("The result is: " + result);
 		return result;
 	}
 
@@ -236,18 +232,14 @@ final class AthrunConnector implements Runnable {
 
 	public void stop() {
 		try {
-			printLog(LOG_TAG + ": Ready to shutdown.");
+			logger.info("Ready to shutdown.");
 			running = false;
 			mServerSocket.close();
 			mExecutorService.shutdown();
-			printLog(LOG_TAG + ": Shutdown succeed.");
+			logger.info("Shutdown succeed.");
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void printLog(String log) {
-		logger.debug(log);
 	}
 }

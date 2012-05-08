@@ -20,7 +20,6 @@ package org.athrun.android.framework.viewelement;
 
 import android.app.Instrumentation;
 import android.text.InputType;
-import android.widget.EditText;
 import android.widget.TextView;
 
 /**

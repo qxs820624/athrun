@@ -27,7 +27,6 @@ import org.athrun.android.framework.utils.ScreenUtils;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -39,7 +38,6 @@ import android.view.inputmethod.InputMethodManager;
  * @author bingyang.djj
  */
 public final class ViewUtils {
-	private static final String LOG_TAG = "ViewUtils";
 
 	private ViewUtils() {
 		throw new AssertionError();
@@ -321,8 +319,6 @@ public final class ViewUtils {
 	static ViewCoordinate getViewCoordinate(View view) {
 		int[] xy = new int[2];
 		view.getLocationOnScreen(xy);
-		Log.i(LOG_TAG, "View x is " + xy[0]);
-		Log.i(LOG_TAG, "View y is " + xy[1]);
 		return new ViewCoordinate(xy[0], xy[1]);
 	}
 

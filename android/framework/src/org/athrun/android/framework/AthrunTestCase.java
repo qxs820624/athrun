@@ -37,7 +37,6 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.View;
 
 
@@ -57,11 +56,6 @@ import android.view.View;
  */
 @SuppressWarnings("rawtypes")
 public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
-
-	/**
-	 * Log tag.
-	 */
-	private static final String LOG_TAG = "AthrunTestCase";
 	
 	private final Logger logger = Logger.getLogger(AthrunTestCase.class);
 
@@ -111,31 +105,34 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 
 	@Override
 	protected void runTest() {
+		String testMethodName = getClass().getName() + "." + getName();
+		
 		try {
+			logger.info("Begin to run " + testMethodName + ".");
 			super.runTest();
+			logger.info(testMethodName + " run finished.");
 
 		} catch (Throwable e) {
-			logger.error("runTest(): ", e);
-//			AthrunLog.e(LOG_TAG, "", e);
+			logger.error("runTest() throws an exception: ", e);
 			throw new RuntimeException(e);
 		}
 	}
 	
 	@Override
 	protected void setUp() throws Exception {
-		Log.i(LOG_TAG, "setUp()");
 		super.setUp();
+		logger.info("setUp()...");
 		this.inst = getInstrumentation();
 		this.athrun = getAthrun();
 		this.athrun.setMaxTimeToFindView(maxTimeToFindView);
 		ViewElement.setMaxTimeToFindView(maxTimeToFindView);
 		AthrunConnectorThread.start();
-		Log.i(LOG_TAG, "setUp() finished");
+		logger.info("setUp() finished.");
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		Log.i(LOG_TAG, "tearDown()");
+		logger.info("tearDown()...");
 
 		try {
 			athrun.finishAllActivities();
@@ -145,7 +142,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 			e.printStackTrace();
 		}
 		super.tearDown();
-		Log.i(LOG_TAG, "tearDown() finished");
+		logger.info("tearDown() finished.");
 	}
 
 	/**

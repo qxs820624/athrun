@@ -24,6 +24,11 @@ import org.apache.log4j.Logger;
 import android.os.Environment;
 import de.mindpipe.android.logging.log4j.LogConfigurator;
 
+/**
+ * Configure log4j
+ * @author bingyang.djj
+ *
+ */
 public final class LogConfigure {
 	private static Logger logger;
 	
@@ -35,7 +40,7 @@ public final class LogConfigure {
         final LogConfigurator logConfigurator = new LogConfigurator();
                 
         logConfigurator.setFileName(Environment.getExternalStorageDirectory() + "/Athrun/athrun.log");
-        logConfigurator.setRootLevel(Level.DEBUG);
+        logConfigurator.setRootLevel(Level.INFO);
         logConfigurator.configure();
     }
 	

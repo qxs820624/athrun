@@ -33,9 +33,8 @@ import android.view.View;
  * 
  */
 public class ViewElement implements IViewElement {
-	private static final String LOG_TAG = "ViewElement";
 
-	protected Logger logger;
+	protected Logger logger = LogConfigure.getLogger(getClass());
 
 	protected Instrumentation inst;
 	protected ViewOperation viewOperation;
@@ -47,8 +46,11 @@ public class ViewElement implements IViewElement {
 		this.inst = inst;
 		this.viewOperation = ViewOperation.getInstance(inst);
 		this.view = view;
-		this.logger = LogConfigure.getLogger(getClass());
-		logger.info("Construct an instance of ViewElement finished.");
+		logViewInfo();
+	}
+	
+	protected void logViewInfo() {
+		logger.info("Construct an instance of " + this.getClass().getSimpleName() + " finished.");
 	}
 
 	private void beforeClick() {
@@ -72,6 +74,7 @@ public class ViewElement implements IViewElement {
 
 	@Override
 	public void doClick() {
+		logger.info("doClick().");
 		beforeClick();
 		viewOperation.clickOnScreen(getViewCenter().getX(), getViewCenter()
 				.getY());
@@ -88,6 +91,8 @@ public class ViewElement implements IViewElement {
 
 	@Override
 	public void doLongClick() {
+		logger.info("doLongClick().");
+		
 		if (null == view) {
 			logger.error("View is null, doLongClick() failed.");
 		}

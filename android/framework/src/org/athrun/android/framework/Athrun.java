@@ -21,7 +21,6 @@ package org.athrun.android.framework;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -39,7 +38,6 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -77,8 +75,9 @@ final class Athrun {
 	 */
 	Athrun(Instrumentation inst, Activity activity) {
 		this.inst = inst;
-		this.activityUtils = new ActivityUtils(inst, activity);
+		this.activityUtils = ActivityUtils.getInstance(inst, activity);
 		this.athrunDevice = AthrunDevice.getInstance(inst, activity);
+		logger.info("Construct instance of Athrun finished.");
 	}
 
 	AthrunDevice getDevice() {
@@ -117,8 +116,6 @@ final class Athrun {
 
 		while (System.currentTimeMillis() < startTime + timeout) {
 
-//			updateActivities();
-
 			ArrayList<View> all = ViewUtils.getAllViews(false);
 			all = ViewUtils.removeInvisibleViews(all);
 
@@ -135,7 +132,7 @@ final class Athrun {
 			}
 
 			logger.info("find " + matches.size()
-					+ " veiw that matche the id " + id);
+					+ " veiw that match the id " + id);
 
 			return getMostSuitableView(matches);
 		}
@@ -401,10 +398,11 @@ final class Athrun {
 			e.printStackTrace();
 		}
 		ArrayList<View> all = ViewUtils.getAllViews(false);
-//		updateActivities();
 		all = ViewUtils.removeInvisibleViews(all);
 		ArrayList<T> lists = ViewUtils.filterViews(view, all);
-		Log.e("Athrun", "find " + lists.size() + view.toString());
+		
+		logger.info("Find " + lists.size() + " " + view.getClass().getName());
+		
 		ArrayList<T> list = ViewUtils.removeInvisibleViews(lists);
 		ArrayList<T> listReturn = ViewUtils.removeUnshownViews(list);
 		return listReturn;
@@ -444,10 +442,6 @@ final class Athrun {
 	private int getMaxTimeToFindView() {
 		return maxTimeToFindView;
 	}
-
-//	private void updateActivities() {
-//		activityUtils.updateActivities(getCurrentActivity());
-//	}
 
 	private Resources getResource() {
 		return inst.getTargetContext().getResources();

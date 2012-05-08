@@ -23,12 +23,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.integer;
 import android.app.Instrumentation;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -39,7 +37,6 @@ import android.widget.TextView;
  * 
  */
 public class AbsListViewElement extends ViewGroupElement {
-	private static final String LOG_TAG = "AbsListViewElement";
 	private AbsListView absListView;
 
 	protected AbsListViewElement(Instrumentation inst, AbsListView absListView) {

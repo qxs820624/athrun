@@ -34,7 +34,6 @@ import android.view.ViewConfiguration;
  * 
  */
 public class ViewOperation {
-	private static final String LOG_TAG = "ViewOperation";
 	
 	private final Logger logger = LogConfigure.getLogger(getClass());
 	private Instrumentation inst;

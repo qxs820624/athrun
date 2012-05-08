@@ -54,6 +54,8 @@ class ActivityUtils {
 
 	private Stack<Activity> activityStack;
 	private Timer activitySyncTimer;
+	
+	private static ActivityUtils instance;
 
 	/**
 	 * Constructor that takes in the instrumentation and the start activity.
@@ -66,13 +68,22 @@ class ActivityUtils {
 	 *            the {@code Sleeper} instance
 	 * 
 	 */
-	ActivityUtils(Instrumentation inst, Activity activity) {
+	private ActivityUtils(Instrumentation inst, Activity activity) {
 		this.inst = inst;
 		this.activity = activity;
 		createStackAndPushStartActivity();
 		activitySyncTimer = new Timer();
 		setupActivityMonitor();
 		setupActivityStackListener();
+		logger.info("Construct instance of ActivityUtils finished.");
+	}
+	
+	static ActivityUtils getInstance(Instrumentation inst, Activity activity) {
+		if (null == instance) {
+			instance = new ActivityUtils(inst, activity);
+		}
+		
+		return instance;
 	}
 
 	private void createStackAndPushStartActivity() {
@@ -151,7 +162,9 @@ class ActivityUtils {
 	 * 
 	 */
 	Activity getCurrentActivity() {
-		return getCurrentActivity(true);
+		Activity currentActivity = getCurrentActivity(true);
+		logger.info("Current activity is " + currentActivity.getClass().getName() + ".");
+		return currentActivity;
 	}
 
 	/**
@@ -185,6 +198,7 @@ class ActivityUtils {
 		if (!activityStack.isEmpty()) {
 			activity = activityStack.peek();
 		}
+		
 		return activity;
 	}
 
@@ -248,12 +262,15 @@ class ActivityUtils {
 		try {
 			if (this.activityMonitor != null)
 				this.inst.removeMonitor(this.activityMonitor);
+			
 		} catch (Exception ignored) {
 		}
 		super.finalize();
 	}
 
 	void finishInactiveActivities() {
+		logger.info("There are " + this.activityStack.size() + " inactive Activities.");
+		
 		for (Iterator<?> iter = this.activityStack.iterator(); iter.hasNext();) {
 			Activity activity = (Activity) iter.next();
 			if (activity != getCurrentActivity()) {
@@ -264,31 +281,44 @@ class ActivityUtils {
 	}
 
 	private void finishActivity(Activity activity) {
+		String name = activity.getClass().getName();
+		
 		try {
+			logger.info("Finish Activity: " + name + ".");
 			activity.finish();
+			
 		} catch (Throwable e) {
 			e.printStackTrace();
+			logger.error("Finish activity " + name + " encounter an exception." , e);
 		}
 	}
 
 	void finishOpenedActivities() {
 		this.activitySyncTimer.cancel();
 		ArrayList<Activity> activitiesOpened = getAllOpenedActivities();
+		
+		int size = activitiesOpened.size();
+		
+		logger.info("There are " + size + " opened Activities.");
 
-		for (int i = activitiesOpened.size() - 1; i >= 0; i--) {
+		for (int i = size - 1; i >= 0; i--) {
 			sleep(100);
 			finishActivity((Activity) activitiesOpened.get(i));
 		}
 
 		finishActivity(getCurrentActivity());
 		sleep(MINIPAUSE);
+		
 		try {
-			this.inst.sendKeyDownUpSync(4);
+			this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
 			sleep(100);
-			this.inst.sendKeyDownUpSync(4);
+			this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+			
 		} catch (Throwable ignored) {
 		}
+		
 		this.activityStack.clear();
+		logger.info("finishOpenedActivities()");
 	}
 
 	private static void sleep(int time) {

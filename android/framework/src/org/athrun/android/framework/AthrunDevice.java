@@ -37,7 +37,6 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.KeyEvent;
 
 
@@ -49,9 +48,8 @@ import android.view.KeyEvent;
  * 
  */
 public final class AthrunDevice {
-	private static final String LOG_TAG = "AthrunDevice";
 	
-	private final Logger logger = LogConfigure.getLogger(getClass());
+	private final Logger logger = LogConfigure.getLogger(AthrunDevice.class);
 
 	private Instrumentation inst;
 	private ActivityUtils activityUtils;
@@ -67,23 +65,15 @@ public final class AthrunDevice {
 	private static final String EMULATOR_IMEI = "000000000000000";
 
 	private static final String KEY_EVENT_COMMAND = "SHELL_COMMAND: adb shell input keyevent ";
-//	private static final String BACK_CODE = String
-//			.valueOf(KeyEvent.KEYCODE_BACK);
-//	private static final String ENTER_CODE = String
-//			.valueOf(KeyEvent.KEYCODE_DPAD_CENTER);
 	
 	private static final String ENTER_TEXT_COMMAND = "SHELL_COMMAND: adb shell input text ";
-	private static final String MONKEY_COMMAND = "MONKEY";
-
-//	private static final String BACK_COMMAND = KEY_EVENT_COMMAND + BACK_CODE;
-//	private static final String ENTER_COMMAND = KEY_EVENT_COMMAND + ENTER_CODE;
 
 	private static final int offsetX = 10;
 	private static final int offsetY = 50;
 
 	private AthrunDevice(Instrumentation inst, Activity activity) {
 		this.inst = inst;
-		this.activityUtils = new ActivityUtils(inst, activity);
+		this.activityUtils = ActivityUtils.getInstance(inst, activity);
 		this.viewOperation = ViewOperation.getInstance(inst);
 
 		this.screenWidth = ScreenUtils.getScreenWidth(inst.getTargetContext());
@@ -127,7 +117,7 @@ public final class AthrunDevice {
 	public void pressKeys(int... keys) {
 		inst.waitForIdleSync();
 		for (int i = 0; i < keys.length; i++) {
-			Log.i(LOG_TAG, "send KeyCode: " + String.valueOf(keys[i]));
+			logger.info("Send KeyCode: " + String.valueOf(keys[i]));
 			inst.sendCharacterSync(keys[i]);
 			inst.waitForIdleSync();
 		}
