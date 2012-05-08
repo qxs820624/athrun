@@ -3,14 +3,15 @@ package org.athrun.ios.instruments;
 
 public class UIATarget {
 
-	public String guid = null;
+	private String guid = null;
 
 	public UIATarget() {
-		String guid = MySocket.getGuid("UIATarget");
+		String guid = RunType.DEBUG ? MySocket
+				.getGuid("UIATarget.localTarget()") : "UIATarget.localTarget()";
 		this.guid = guid;
 	}
 
-	public UIATarget(String guid) {
+	private UIATarget(String guid) {
 		this.guid = guid;
 	}
 
@@ -18,7 +19,10 @@ public class UIATarget {
 	 * localTarget
 	 */
 	public static UIATarget localTarget() {
-		String guid = MySocket.getGuid("UIATarget.localTarget()");
+
+		String guid = RunType.DEBUG ? MySocket
+				.getGuid("UIATarget.localTarget()") : "UIATarget.localTarget()";
+
 		return new UIATarget(guid);
 	}
 
@@ -26,16 +30,13 @@ public class UIATarget {
 	 * 
 	 */
 	public UIAApplication frontMostApp() {
-		String guid = MySocket.getGuid(this.guid + ".frontMostApp()");
+
+		String guid = RunType.DEBUG ? MySocket.getGuid(this.guid
+				+ ".frontMostApp()") : this.guid + ".frontMostApp()";
 		return new UIAApplication(guid);
 	}
 
-	public String getGuid() {
-		return guid;
+	public void delay(int second) {
+		MySocket.getVoid(this.guid + "delay(" + second + ")");
 	}
-
-	public void setGuid(String guid) {
-		this.guid = guid;
-	}
-
 }

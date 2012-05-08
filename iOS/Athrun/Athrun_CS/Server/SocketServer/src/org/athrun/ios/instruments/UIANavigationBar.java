@@ -18,12 +18,18 @@ public class UIANavigationBar extends UIAElement {
 	}
 
 	public UIAButton leftButton() {
-		String guid = MySocket.getGuid(this.guid + ".leftButton()");
+
+		String guid = RunType.DEBUG ? MySocket.getGuid(this.guid
+				+ ".leftButton") : this.guid + ".leftButton";
+
 		return new UIAButton(guid);
 	}
 
 	public UIAButton rightButton() {
-		String guid = MySocket.getGuid(this.guid + ".leftButton()");
+
+		String guid = RunType.DEBUG ? MySocket.getGuid(this.guid
+				+ ".rightButton") : this.guid + ".rightButton";
+
 		return new UIAButton(guid);
 	}
 
