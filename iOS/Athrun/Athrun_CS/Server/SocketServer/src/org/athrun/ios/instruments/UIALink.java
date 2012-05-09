@@ -22,7 +22,7 @@ public class UIALink extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String url() {
+	public String url() throws Exception {
 		return MySocket.getText(this.guid + ".url()");
 	}
 }

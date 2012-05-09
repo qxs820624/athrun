@@ -71,7 +71,7 @@ public class UIAElement {
 	 * 
 	 * @return parent element instance.
 	 */
-	public UIAElement parent() {
+	public UIAElement parent() throws Exception {
 
 		return UIAElementHelp.getElement(this.guid + ".parent()");
 	}
@@ -81,17 +81,17 @@ public class UIAElement {
 	 * 
 	 * @return
 	 */
-	public UIAElement[] elements() {
+	public UIAElement[] elements() throws Exception {
 
 		return UIAElementHelp.elementArray(this.guid + ".elements()");
 	}
 
-	public UIAElement[] ancestry() {
+	public UIAElement[] ancestry() throws Exception {
 
 		return UIAElementHelp.elementArray(this.guid + ".ancestry()");
 	}
 
-	public UIAActivityIndicator[] activityIndicators() {
+	public UIAActivityIndicator[] activityIndicators() throws Exception {
 
 		return UIAElementHelp.activityIndicatorArray(this.guid
 				+ ".activityIndicators()");
@@ -102,23 +102,23 @@ public class UIAElement {
 	 * 
 	 * @return
 	 */
-	public UIAButton[] buttons() {
+	public UIAButton[] buttons() throws Exception {
 
 		return UIAElementHelp.buttonArray(this.guid + ".buttons()");
 	}
 
 	// -images
-	public UIALink[] links() {
+	public UIALink[] links() throws Exception {
 
 		return UIAElementHelp.linkArray(this.guid + ".links()");
 	}
 
-	public UIANavigationBar navigationBar() {
+	public UIANavigationBar navigationBar() throws Exception {
 
 		return UIAElementHelp.getNavigationBar(this.guid + ".navigationBar()");
 	}
 
-	public UIANavigationBar[] navigationBars() {
+	public UIANavigationBar[] navigationBars() throws Exception {
 
 		return UIAElementHelp.navigationBarArray(this.guid
 				+ ".navigationBars()");
@@ -126,7 +126,7 @@ public class UIAElement {
 
 	// pageIndicators
 
-	public UIAPicker[] pickers() {
+	public UIAPicker[] pickers() throws Exception {
 
 		return UIAElementHelp.pickerArray(this.guid + ".pickers()");
 	}
@@ -134,7 +134,7 @@ public class UIAElement {
 	// popover
 	// progressIndicators
 
-	public UIAScrollView[] scrollViews() {
+	public UIAScrollView[] scrollViews() throws Exception {
 
 		return UIAElementHelp.scrollViewArray(this.guid + ".scrollViews()");
 	}
@@ -144,12 +144,12 @@ public class UIAElement {
 	 * 
 	 * @return UIASearchBar[]
 	 */
-	public UIASearchBar[] searchBars() {
+	public UIASearchBar[] searchBars() throws Exception {
 
 		return UIAElementHelp.searchBarArray(this.guid + ".searchBars()");
 	}
 
-	public UIASecureTextField[] secureTextFields() {
+	public UIASecureTextField[] secureTextFields() throws Exception {
 
 		return UIAElementHelp.secureTextFieldArray(this.guid
 				+ ".secureTextFields()");
@@ -158,52 +158,52 @@ public class UIAElement {
 	// segmentedControls
 	// sliders
 
-	public UIAStaticText[] staticTexts() {
+	public UIAStaticText[] staticTexts() throws Exception {
 
 		return UIAElementHelp.staticTextArray(this.guid + ".staticTexts()");
 	}
 
-	public UIASwitch[] switches() {
+	public UIASwitch[] switches() throws Exception {
 
 		return UIAElementHelp.switchArray(this.guid + ".switches()");
 	}
 
-	public UIATabBar tabBar() {
+	public UIATabBar tabBar() throws Exception {
 
 		return UIAElementHelp.getTabBar(this.guid + ".tabBar()");
 	}
 
-	public UIATabBar[] tabBars() {
+	public UIATabBar[] tabBars() throws Exception {
 
 		return UIAElementHelp.tabBarArray(this.guid + ".tabBars()");
 	}
 
-	public UIATableView[] tableViews() {
+	public UIATableView[] tableViews() throws Exception {
 
 		return UIAElementHelp.tableViewArray(this.guid + ".tableViews()");
 	}
 
-	public UIATextField[] textFields() {
+	public UIATextField[] textFields() throws Exception {
 
 		return UIAElementHelp.textFieldArray(this.guid + ".textFields()");
 	}
 
-	public UIATextView[] textViews() {
+	public UIATextView[] textViews() throws Exception {
 
 		return UIAElementHelp.textViewArray(this.guid + ".textViews()");
 	}
 
-	public UIAToolbar toolbar() {
+	public UIAToolbar toolbar() throws Exception {
 
 		return UIAElementHelp.getToolbar(this.guid + ".toolbar()");
 	}
 
-	public UIAToolbar[] toolbars() {
+	public UIAToolbar[] toolbars() throws Exception {
 
 		return UIAElementHelp.toolbarArray(this.guid + ".toolbars()");
 	}
 
-	public UIAWebView[] webViews() {
+	public UIAWebView[] webViews() throws Exception {
 
 		return UIAElementHelp.webViewArray(this.guid + ".webViews()");
 	}
@@ -211,18 +211,20 @@ public class UIAElement {
 	// -------------Gestures and Actions------------
 	/**
 	 * tap 操作
+	 * 
+	 * @throws Exception
 	 */
-	public void tap() {
+	public void tap() throws Exception {
 
 		MySocket.getVoid(this.guid + ".tap()");
 	}
 
-	public void touchAndHold(int seconds) {
+	public void touchAndHold(int seconds) throws Exception {
 
 		MySocket.getVoid(this.guid + ".touchAndHold(" + seconds + ")");
 	}
 
-	public void scrollToVisible() {
+	public void scrollToVisible() throws Exception {
 
 		MySocket.getVoid(this.guid + ".scrollToVisible()");
 	}
@@ -235,51 +237,51 @@ public class UIAElement {
 	 * isValid checkIsValid waitForInvalid hasKeyboardFocus isEnabled isVisible
 	 */
 
-	public Boolean isValid() {
+	public Boolean isValid() throws Exception {
 
 		return MySocket.getBoolen(this.guid + ".isValid()");
 	}
 
-	public Boolean checkIsValid() {
+	public Boolean checkIsValid() throws Exception {
 
 		return MySocket.getBoolen(this.guid + ".checkIsValid()");
 	}
 
-	public Boolean waitForInvalid() {
+	public Boolean waitForInvalid() throws Exception {
 
 		return MySocket.getBoolen(this.guid + ".waitForInvalid()");
 	}
 
-	public Boolean hasKeyboardFocus() {
+	public Boolean hasKeyboardFocus() throws Exception {
 
 		return MySocket.getBoolen(this.guid + ".hasKeyboardFocus()");
 	}
 
-	public Boolean isEnabled() {
+	public Boolean isEnabled() throws Exception {
 
 		return MySocket.getBoolen(this.guid + ".isEnabled()");
 	}
 
-	public Boolean isVisible() {
+	public Boolean isVisible() throws Exception {
 
 		return MySocket.getBoolen(this.guid + ".isVisible()");
 	}
 
 	// ------Identifying Elements------
 
-	public String label() {
+	public String label() throws Exception {
 
 		return RunType.DEBUG ? this.label : MySocket.getText(this.guid
 				+ ".label()");
 	}
 
-	public String name() {
+	public String name() throws Exception {
 
 		return RunType.DEBUG ? this.name : MySocket.getText(this.guid
 				+ ".name()");
 	}
 
-	public String value() {
+	public String value() throws Exception {
 
 		return RunType.DEBUG ? this.value : MySocket.getText(this.guid
 				+ ".value()");
@@ -291,7 +293,7 @@ public class UIAElement {
 	 * @param name
 	 * @return a UIAElement
 	 */
-	public UIAElement withName(String name) {
+	public UIAElement withName(String name) throws Exception {
 
 		return UIAElementHelp.getElement(this.guid + ".withName('" + name
 				+ "')");
@@ -299,11 +301,11 @@ public class UIAElement {
 
 	// -----Logging Element Information-----
 
-	public void logElement() {
+	public void logElement() throws Exception {
 		MySocket.getVoid(this.guid + ".logElement()");
 	}
 
-	public void logElementTree() {
+	public void logElementTree() throws Exception {
 		MySocket.getVoid(this.guid + ".logElementTree()");
 	}
 }

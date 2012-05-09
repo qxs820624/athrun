@@ -22,23 +22,23 @@ public class UIAScrollView extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void scrollUp() {
+	public void scrollUp() throws Exception {
 		MySocket.getVoid(this.guid + ".scrollUp()");
 	}
 
-	public void scrollDown() {
+	public void scrollDown() throws Exception {
 		MySocket.getVoid(this.guid + ".scrollDown()");
 	}
 
-	public void scrollLeft() {
+	public void scrollLeft() throws Exception {
 		MySocket.getVoid(this.guid + ".scrollLeft()");
 	}
 
-	public void scrollRight() {
+	public void scrollRight() throws Exception {
 		MySocket.getVoid(this.guid + ".scrollRight()");
 	}
 
-	public void scrollToElementWithName(String name) {
+	public void scrollToElementWithName(String name) throws Exception {
 
 		MySocket.getVoid(this.guid + ".scrollToElementWithName('" + name + "')");
 	}

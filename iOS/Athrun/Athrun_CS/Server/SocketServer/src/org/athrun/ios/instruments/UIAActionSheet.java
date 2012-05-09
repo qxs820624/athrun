@@ -22,7 +22,7 @@ public class UIAActionSheet extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UIAButton cancelButton() {
+	public UIAButton cancelButton() throws Exception {
 
 		return UIAElementHelp.getButton(this.guid + ".cancelButton()");
 	}

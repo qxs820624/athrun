@@ -22,7 +22,7 @@ public class UIAPickerWheel extends UIAPicker {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void selectValue(String value) {
+	public void selectValue(String value) throws Exception {
 		MySocket.getVoid(this.guid + ".selectValue('" + value + "')");
 
 	}
