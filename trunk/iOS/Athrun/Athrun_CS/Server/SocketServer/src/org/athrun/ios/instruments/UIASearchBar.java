@@ -17,4 +17,9 @@ public class UIASearchBar extends UIATextField {
 		// TODO Auto-generated constructor stub
 	}
 
+	public UIASearchBar() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }

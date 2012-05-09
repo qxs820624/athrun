@@ -9,6 +9,11 @@ package org.athrun.ios.instruments;
  */
 public class UIAScrollView extends UIAElement {
 
+	public UIAScrollView() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param guid
 	 */
@@ -33,10 +38,8 @@ public class UIAScrollView extends UIAElement {
 		MySocket.getVoid(this.guid + ".scrollRight()");
 	}
 
-	public UIAElement scrollToElementWithName(String name) {
+	public void scrollToElementWithName(String name) {
 
-		String guid = MySocket.getGuid(this.guid + ".scrollToElementWithName('"
-				+ name + "')");
-		return new UIAElement(guid);
+		MySocket.getVoid(this.guid + ".scrollToElementWithName('" + name + "')");
 	}
 }

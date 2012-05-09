@@ -12,6 +12,10 @@ public class UIAButton extends UIAElement {
 	/**
 	 * 
 	 */
+	public UIAButton() {
+		super();
+	}
+
 	public UIAButton(String guid) {
 		super(guid);
 	}

@@ -17,4 +17,8 @@ public class UIAWebView extends UIAScrollView {
 		// TODO Auto-generated constructor stub
 	}
 
+	public UIAWebView() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 }

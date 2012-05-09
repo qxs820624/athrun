@@ -9,6 +9,11 @@ package org.athrun.ios.instruments;
  */
 public class UIASwitch extends UIAElement {
 
+	public UIASwitch() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param guid
 	 */
@@ -18,11 +23,12 @@ public class UIASwitch extends UIAElement {
 	}
 
 	/**
-	 * 设置 switch类型元素的开、关状态
-	 * true: on , false :off
+	 * 设置 switch类型元素的开、关状态 true: on , false :off
+	 * 
 	 * @param value
 	 */
 	public void setValue(Boolean value) {
 		MySocket.getVoid(this.guid + ".setValue(" + value + ")");
 	}
+
 }

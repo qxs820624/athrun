@@ -13,4 +13,9 @@ public class UIATabBar extends UIAElement {
 		// TODO Auto-generated constructor stub'
 		super(guid);
 	}
+
+	public UIATabBar() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 }
