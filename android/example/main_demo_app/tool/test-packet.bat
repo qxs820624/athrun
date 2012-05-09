@@ -23,9 +23,8 @@ rmdir /s /q libs
 del AndroidManifest.xml
 del classes.dex
 echo. 全部打包已完成
-)>log.txt 2>&1<nul
+)>log.txt
 
 echo. --------------
 echo. 全部打包已完成
 echo. --------------
-pause
