@@ -14,11 +14,11 @@
     <property
         name="lib.dir"
         value="libs" />
-    
+
     <property
         name="ext.dir"
         value="ext" />
-    
+
     <property
         name="javadoc.dir"
         value="javadoc" />
@@ -31,7 +31,9 @@
     </path>
 
     <target name="init" >
+
         <delete dir="${classes.dir}" />
+
         <delete dir="${javadoc.dir}" />
     </target>
 
@@ -66,22 +68,28 @@
             <zipfileset
                 excludes="META-INF/*.SF"
                 src="${lib.dir}/log4j-1.2.16.jar" />
-            
+
             <zipfileset
                 excludes="META-INF/*.SF"
                 src="${ext.dir}/the-missing-android-xml-junit-test-runner-release-1.3_2.jar" />
-            
-
         </jar>
     </target>
-    
-    <target name="javadoc" depends="jar">
+
+    <target
+        name="javadoc"
+        depends="jar" >
+
         <mkdir dir="${javadoc.dir}" />
-        <javadoc destdir="${javadoc.dir}" encoding="UTF-8" docencoding="GBK">
-            <packageset dir="${src.dir}"/>
+
+        <javadoc
+            destdir="${javadoc.dir}"
+            docencoding="GBK"
+            encoding="UTF-8" >
+
+            <packageset dir="${src.dir}" />
+
             <classpath refid="compile.classpath" />
         </javadoc>
     </target>
-            
 
 </project>
