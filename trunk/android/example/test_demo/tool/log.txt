@@ -1,0 +1,578 @@
+..\res\drawable-hdpi\icon.png
+..\res\drawable-hdpi\testicon.png
+..\res\drawable-ldpi\icon.png
+..\res\drawable-mdpi\icon.png
+..\res\layout\main.xml
+..\res\values\strings.xml
+复制了 6 个文件
+复制了 0 个文件
+已复制         1 个文件。
+..\src\org\athrun\android\app\R.java
+..\src\org\athrun\android\test\GridViewActivityTest.java
+..\src\org\athrun\android\test\ListViewActivityTest.java
+..\src\org\athrun\android\test\MainActivityTest.java
+..\src\org\athrun\android\test\ScrollViewActivityTest.java
+..\src\org\athrun\android\test\TextViewActivityTest.java
+..\src\org\athrun\android\test\TextViewTreeActivityTest.java
+..\src\org\athrun\android\test\VirtualDeviceTest.java
+..\src\org\athrun\android\test\WebViewTest.java
+复制了 9 个文件
+..\libs\framework.jar
+复制了 1 个文件
+Buildfile: C:\AthrunLog\code\Athrun-example\test_demo\tool\build_compile.xml
+
+dirs:
+     [echo] Creating output directories if needed...
+    [mkdir] Created dir: C:\AthrunLog\code\Athrun-example\test_demo\tool\bin
+    [mkdir] Created dir: C:\AthrunLog\code\Athrun-example\test_demo\tool\bin\classes
+
+resource-src:
+     [echo] Generating R.java / Manifest.java from the resources...
+
+aidl:
+     [echo] Compiling aidl files into Java classes...
+
+compile:
+    [javac] Compiling 10 source files to C:\AthrunLog\code\Athrun-example\test_demo\tool\bin\classes
+    [javac] 注意：某些输入文件使用或覆盖了已过时的 API。
+    [javac] 注意：要了解详细信息，请使用 -Xlint:deprecation 重新编译。
+
+dex:
+     [echo] Converting compiled files and external libraries into bin/C:\AthrunLog\code\Athrun-example\test_demo\tool/classes.dex...
+     [echo] Command: dx.bat --dex --output=C:\AthrunLog\code\Athrun-example\test_demo\tool/classes.dex bin/classes
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.ControlPanel$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.ControlPanel$2) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.ControlPanel$3) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.ControlPanel$4) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.ControlPanel$5) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.ControlPanel$6) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.ControlPanel$7) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.Main$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.chainsaw.MyTableModel$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.util.LogFileParser$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LF5SwingUtils$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$10) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$11) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$12) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$13) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$14) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$15) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$16) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$17) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$18) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$19) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$2) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$20) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$21) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$22) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$23) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$24) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$25) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$26) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$27) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$28) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$29) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$3) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$30) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$31) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$32) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$4) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$5) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$6) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$7) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$8) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogBrokerMonitor$9) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogFactor5ErrorDialog$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogFactor5InputDialog$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogFactor5InputDialog$2) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.LogFactor5InputDialog$3) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerModel$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerTree$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$2) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$3) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$4) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$5) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$6) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$7) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.lf5.viewer.categoryexplorer.CategoryNodeEditor$8) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.net.SMTPAppender$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.xml.DOMConfigurator$1) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.xml.DOMConfigurator$2) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.xml.DOMConfigurator$3) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.xml.DOMConfigurator$4) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+    [apply] warning: Ignoring InnerClasses attribute for an anonymous inner class
+    [apply] (org.apache.log4j.xml.DOMConfigurator$5) that doesn't come with an
+    [apply] associated EnclosingMethod attribute. This class was probably produced by a
+    [apply] compiler that did not target the modern .class file format. The recommended
+    [apply] solution is to recompile the class from source, using an up-to-date compiler
+    [apply] and without specifying any "-target" type options. The consequence of ignoring
+    [apply] this warning is that reflective operations on this class will incorrectly
+    [apply] indicate that it is *not* an inner class.
+
+BUILD SUCCESSFUL
+Total time: 9 seconds
+ 'classes.dex' as 'classes.dex'...
+   正在添加： META-INF/MANIFEST.MF
+   正在添加： META-INF/ANDROIDD.SF
+   正在添加： META-INF/ANDROIDD.RSA
+  正在签名： res/layout/main.xml
+  正在签名： AndroidManifest.xml
+  正在签名： resources.arsc
+  正在签名： res/drawable-hdpi/icon.png
+  正在签名： res/drawable-hdpi/testicon.png
+  正在签名： res/drawable-ldpi/icon.png
+  正在签名： res/drawable-mdpi/icon.png
+  正在签名： classes.dex
+Verifying alignment of apk/tao_signed_align.apk (4)...
+      50 META-INF/MANIFEST.MF (OK - compressed)
+     495 META-INF/ANDROIDD.SF (OK - compressed)
+    1001 META-INF/ANDROIDD.RSA (OK - compressed)
+    1670 res/layout/main.xml (OK - compressed)
+    1992 AndroidManifest.xml (OK - compressed)
+    2572 resources.arsc (OK)
+    3840 res/drawable-hdpi/icon.png (OK)
+    7868 res/drawable-hdpi/testicon.png (OK)
+   10284 res/drawable-ldpi/icon.png (OK)
+   11880 res/drawable-mdpi/icon.png (OK)
+   14121 classes.dex (OK - compressed)
+Verification succesful
+ TmtsTest.apk打包完成
+系统找不到指定的文件。
+ 删除所有文件
+ 全部打包已完成
