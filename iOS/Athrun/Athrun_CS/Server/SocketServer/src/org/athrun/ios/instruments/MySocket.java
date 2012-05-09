@@ -17,10 +17,10 @@ public class MySocket {
 	public static ServerSocket server = null;
 
 	/*
-	public static String getGuid(String script) {
-
-		return send(ReturnedType.guidType + "##" + script);
-	}*/
+	 * public static String getGuid(String script) {
+	 * 
+	 * return send(ReturnedType.guidType + "##" + script); }
+	 */
 
 	public static void sendExit() {
 
@@ -45,8 +45,8 @@ public class MySocket {
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
 			request = is.readLine();
-			System.out.println(new Date() + "\tClient request : " + request);
-			System.out.println(new Date() + "\tServer reply   : " + exitMark);
+			System.out.println("Client request : " + request);
+			System.out.println("Server reply   : " + exitMark);
 			os.print(exitMark);
 			os.flush();
 
@@ -61,16 +61,14 @@ public class MySocket {
 			System.out.println("Error:" + e);
 		}
 	}
-/*
-	public static String[] getGuidArray(String script) {
-		String guids = send(ReturnedType.arrayType + "##" + script);
 
-		// 如果返回的guids为空，则代表数组没有取得任何元素，返回一个空数组
-		if (guids.isEmpty()) {
-			return new String[0];
-		}
-		return guids.split("#");
-	}*/
+	/*
+	 * public static String[] getGuidArray(String script) { String guids =
+	 * send(ReturnedType.arrayType + "##" + script);
+	 * 
+	 * // 如果返回的guids为空，则代表数组没有取得任何元素，返回一个空数组 if (guids.isEmpty()) { return new
+	 * String[0]; } return guids.split("#"); }
+	 */
 
 	public static String getJSONArray(String script) throws Exception {
 		String guids = send(ReturnedType.JSONArray + "##" + script);
@@ -137,11 +135,11 @@ public class MySocket {
 				os.close();
 				is.close();
 				socket.close();
-				server.close();
 				throw new Exception(request);
 			}
-			//System.out.println(new Date() + "\tClient request : " + request);
+			// System.out.println(new Date() + "Client request : " + request);
 			System.out.println("Server reply   : " + script);
+
 			os.print(script);
 			os.flush();
 
@@ -169,19 +167,16 @@ public class MySocket {
 				os.close();
 				is.close();
 				socket.close();
-				server.close();
-				throw new Exception(request);
+				throw new Exception(guid);
 			}
 			System.out.println("Client request : " + guid);
-			
+			//System.out.println(new Date() + "\tServer reply   : null");
 			os.print("null");
 			os.flush();
 
 			os.close();
 			is.close();
 			socket.close();
-
-			// server.close();
 
 		} catch (Exception e) {
 
