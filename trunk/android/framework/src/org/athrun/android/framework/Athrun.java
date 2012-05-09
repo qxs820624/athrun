@@ -492,7 +492,6 @@ final class Athrun {
 	}
 	
 	//taobao skuview=============================================
-	
 	SkuOptionElement findSkuOptionByText(String text) throws Exception {
 		Class<?> skuSelectOption = Class.forName("com.taobao.tao.component.skunative.SkuSelectOption");
 		logger.info(skuSelectOption.toString());
@@ -501,8 +500,6 @@ final class Athrun {
 		logger.info("maxTimeToFindView is " + getMaxTimeToFindView());
 
 		while (System.currentTimeMillis() < startTime + getMaxTimeToFindView()) {
-
-//			updateActivities();
 
 			ArrayList<View> all = ViewUtils.getAllViews(false);
 			all = ViewUtils.removeInvisibleViews(all);

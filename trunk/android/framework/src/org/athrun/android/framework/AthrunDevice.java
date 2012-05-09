@@ -129,6 +129,7 @@ public final class AthrunDevice {
 	public void pressBack() {
 		try {
 			Thread.sleep(IViewElement.ANR_TIME);
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
