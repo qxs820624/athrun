@@ -1,8 +1,9 @@
 package org.athrun.ios.test;
 
-import org.athrun.ios.instruments.MySocket;
-
 import junit.framework.TestCase;
+
+import org.athrun.ios.instruments.MySocket;
+import org.athrun.ios.instruments.RunType;
 
 public class IOSTestCase extends TestCase {
 
@@ -10,7 +11,7 @@ public class IOSTestCase extends TestCase {
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
 		super.setUp();
-
+		RunType.DEBUG = true;
 	}
 
 	@Override
@@ -18,7 +19,5 @@ public class IOSTestCase extends TestCase {
 		// TODO Auto-generated method stub
 		super.tearDown();
 		MySocket.sendExit();
-
 	}
-
 }
