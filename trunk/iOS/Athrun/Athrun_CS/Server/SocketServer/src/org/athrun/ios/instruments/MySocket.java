@@ -10,7 +10,7 @@ public class MySocket {
 
 	/* instrument 接收返回的命令，几种处理类型的枚举 */
 	enum ReturnedType {
-		guidType, arrayType, voidType, stringType, booleanType, JSONObject, JSONArray, exitType
+		voidType, stringType, booleanType, JSONObject, JSONArray, exitType
 	}
 
 	public static ServerSocket server = null;
@@ -21,12 +21,12 @@ public class MySocket {
 	 * return send(ReturnedType.guidType + "##" + script); }
 	 */
 
-	public static void sendExit() {
+	public static void sendExit() throws Exception {
 
 		exit(ReturnedType.exitType.toString());
 	}
 
-	private static void exit(String exitMark) {
+	private static void exit(String exitMark) throws Exception {
 		// TODO Auto-generated method stub
 		if (server == null) {
 			creatSocket();
@@ -34,18 +34,17 @@ public class MySocket {
 		String request = null;
 		try {
 			Socket socket = null;
-			try {
-				socket = server.accept();
-			} catch (Exception e) {
-				System.out.println("Error." + e);
-			}
+			socket = server.accept();
+
 			BufferedReader is = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
 			request = is.readLine();
+
 			System.out.println("Client request : " + request);
 			System.out.println("Server reply   : " + exitMark);
+
 			os.print(exitMark);
 			os.flush();
 
@@ -97,14 +96,14 @@ public class MySocket {
 		send(ReturnedType.voidType + "##" + script);
 	}
 
-	private static void creatSocket() {
+	private static void creatSocket() throws Exception {
 		try {
 			System.out.println("The server listen to port: 5566");
 			server = new ServerSocket(5566);
 			// 创建一个ServerSocket在端口5566监听客户请求
 
 		} catch (Exception e) {
-			System.out.println("can not listen to:" + e);
+			throw new Exception("can not listen to:" + e);
 		}
 	}
 
@@ -113,20 +112,17 @@ public class MySocket {
 		if (server == null) {
 			creatSocket();
 		}
-		// System.out.println("script:\t" + script);
 		String guid = null;
 		String request = null;
 		try {
 			Socket socket = null;
-			try {
-				socket = server.accept();
-			} catch (Exception e) {
-				System.out.println("Error." + e);
-			}
+			socket = server.accept();
+
 			BufferedReader is = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
+
 			request = is.readLine();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
@@ -150,11 +146,8 @@ public class MySocket {
 
 			// 第二次建立socket，获取 上一步运行的结果
 
-			try {
-				socket = server.accept();
-			} catch (Exception e) {
-				System.out.println("Error." + e);
-			}
+			socket = server.accept();
+
 			is = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 
@@ -178,10 +171,8 @@ public class MySocket {
 			socket.close();
 
 		} catch (Exception e) {
-
 			throw e;
 		}
-
 		return guid;
 	}
 }
