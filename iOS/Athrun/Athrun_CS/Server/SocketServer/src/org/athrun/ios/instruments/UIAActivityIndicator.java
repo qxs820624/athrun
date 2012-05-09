@@ -5,9 +5,14 @@ package org.athrun.ios.instruments;
 
 /**
  * @author ziyu.hch
- *
+ * 
  */
 public class UIAActivityIndicator extends UIAElement {
+
+	public UIAActivityIndicator() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @param guid

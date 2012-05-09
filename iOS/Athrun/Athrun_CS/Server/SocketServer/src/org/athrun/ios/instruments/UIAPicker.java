@@ -9,6 +9,11 @@ package org.athrun.ios.instruments;
  */
 public class UIAPicker extends UIAElement {
 
+	public UIAPicker() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param guid
 	 */

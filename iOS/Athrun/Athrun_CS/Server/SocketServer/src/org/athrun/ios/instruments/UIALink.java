@@ -9,6 +9,11 @@ package org.athrun.ios.instruments;
  */
 public class UIALink extends UIAElement {
 
+	public UIALink() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param guid
 	 */

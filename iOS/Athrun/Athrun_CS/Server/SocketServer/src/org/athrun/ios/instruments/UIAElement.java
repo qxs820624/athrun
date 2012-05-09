@@ -3,29 +3,77 @@
  */
 package org.athrun.ios.instruments;
 
-import static org.athrun.ios.instruments.RunType.*;
-
 /**
  * @author ziyu.hch
  * 
  */
 public class UIAElement {
 
-	public String guid = null;
+	public UIAElement() {
+	}
 
 	public UIAElement(String guid) {
 		this.guid = guid;
 	}
 
+	// -------------------------Bean property----------------------
+
+	protected String guid;
+	protected Rect rect;
+	protected String name;
+	protected String label;
+	protected String value;
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+
+	public Rect getRect() {
+		return rect;
+	}
+
+	public void setRect(Rect rect) {
+		this.rect = rect;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	// -----------------------------------------------------
+
 	/**
-	 * get the element's parent element
+	 * Get the element's parent element
 	 * 
-	 * @return parent元素
+	 * @return parent element instance.
 	 */
 	public UIAElement parent() {
 
-		String guid = getGuid(".parent()");
-		return new UIAElement(guid);
+		return UIAElementHelp.getElement(this.guid + ".parent()");
 	}
 
 	/**
@@ -35,17 +83,18 @@ public class UIAElement {
 	 */
 	public UIAElement[] elements() {
 
-		return elementArray(".elements()");
+		return UIAElementHelp.elementArray(this.guid + ".elements()");
 	}
 
 	public UIAElement[] ancestry() {
 
-		return elementArray(".ancestry()");
+		return UIAElementHelp.elementArray(this.guid + ".ancestry()");
 	}
 
 	public UIAActivityIndicator[] activityIndicators() {
 
-		return activityIndicatorArray(".activityIndicators()");
+		return UIAElementHelp.activityIndicatorArray(this.guid
+				+ ".activityIndicators()");
 	}
 
 	/**
@@ -53,33 +102,33 @@ public class UIAElement {
 	 * 
 	 * @return
 	 */
-	public UIAElement[] buttons() {
+	public UIAButton[] buttons() {
 
-		return elementArray(".buttons()");
+		return UIAElementHelp.buttonArray(this.guid + ".buttons()");
 	}
 
 	// -images
 	public UIALink[] links() {
 
-		return linkArray(".links()");
+		return UIAElementHelp.linkArray(this.guid + ".links()");
 	}
 
 	public UIANavigationBar navigationBar() {
 
-		String guid = getGuid(".navigationBar()");
-		return new UIANavigationBar(guid);
+		return UIAElementHelp.getNavigationBar(this.guid + ".navigationBar()");
 	}
 
 	public UIANavigationBar[] navigationBars() {
 
-		return navigationBarArray(".navigationBars()");
+		return UIAElementHelp.navigationBarArray(this.guid
+				+ ".navigationBars()");
 	}
 
 	// pageIndicators
 
 	public UIAPicker[] pickers() {
 
-		return pickerArray(".pickers()");
+		return UIAElementHelp.pickerArray(this.guid + ".pickers()");
 	}
 
 	// popover
@@ -87,7 +136,7 @@ public class UIAElement {
 
 	public UIAScrollView[] scrollViews() {
 
-		return scrollViewArray(".scrollViews()");
+		return UIAElementHelp.scrollViewArray(this.guid + ".scrollViews()");
 	}
 
 	/**
@@ -97,14 +146,13 @@ public class UIAElement {
 	 */
 	public UIASearchBar[] searchBars() {
 
-		return searchBarArray(".searchBars()");
-
+		return UIAElementHelp.searchBarArray(this.guid + ".searchBars()");
 	}
 
 	public UIASecureTextField[] secureTextFields() {
 
-		return secureTextFieldArray(".secureTextFields()");
-
+		return UIAElementHelp.secureTextFieldArray(this.guid
+				+ ".secureTextFields()");
 	}
 
 	// segmentedControls
@@ -112,54 +160,52 @@ public class UIAElement {
 
 	public UIAStaticText[] staticTexts() {
 
-		return staticTextArray(".staticTexts()");
+		return UIAElementHelp.staticTextArray(this.guid + ".staticTexts()");
 	}
 
 	public UIASwitch[] switches() {
 
-		return switchArray(".switches()");
+		return UIAElementHelp.switchArray(this.guid + ".switches()");
 	}
 
 	public UIATabBar tabBar() {
 
-		String guid = getGuid(".tabBar()");
-		return new UIATabBar(guid);
+		return UIAElementHelp.getTabBar(this.guid + ".tabBar()");
 	}
 
 	public UIATabBar[] tabBars() {
 
-		return tabBarArray(".tabBars()");
+		return UIAElementHelp.tabBarArray(this.guid + ".tabBars()");
 	}
 
 	public UIATableView[] tableViews() {
 
-		return tableViewArray(".tableViews()");
+		return UIAElementHelp.tableViewArray(this.guid + ".tableViews()");
 	}
 
 	public UIATextField[] textFields() {
 
-		return textFieldArray(".textFields()");
+		return UIAElementHelp.textFieldArray(this.guid + ".textFields()");
 	}
 
 	public UIATextView[] textViews() {
 
-		return textViewArray(".textViews()");
+		return UIAElementHelp.textViewArray(this.guid + ".textViews()");
 	}
 
 	public UIAToolbar toolbar() {
 
-		String guid = getGuid(".toolbar()");
-		return new UIAToolbar(guid);
+		return UIAElementHelp.getToolbar(this.guid + ".toolbar()");
 	}
 
 	public UIAToolbar[] toolbars() {
 
-		return toolbarArray(".toolbars()");
+		return UIAElementHelp.toolbarArray(this.guid + ".toolbars()");
 	}
 
 	public UIAWebView[] webViews() {
 
-		return webViewArray(".webViews()");
+		return UIAElementHelp.webViewArray(this.guid + ".webViews()");
 	}
 
 	// -------------Gestures and Actions------------
@@ -167,14 +213,17 @@ public class UIAElement {
 	 * tap 操作
 	 */
 	public void tap() {
+
 		MySocket.getVoid(this.guid + ".tap()");
 	}
 
 	public void touchAndHold(int seconds) {
+
 		MySocket.getVoid(this.guid + ".touchAndHold(" + seconds + ")");
 	}
 
 	public void scrollToVisible() {
+
 		MySocket.getVoid(this.guid + ".scrollToVisible()");
 	}
 
@@ -187,26 +236,32 @@ public class UIAElement {
 	 */
 
 	public Boolean isValid() {
+
 		return MySocket.getBoolen(this.guid + ".isValid()");
 	}
 
 	public Boolean checkIsValid() {
+
 		return MySocket.getBoolen(this.guid + ".checkIsValid()");
 	}
 
 	public Boolean waitForInvalid() {
+
 		return MySocket.getBoolen(this.guid + ".waitForInvalid()");
 	}
 
 	public Boolean hasKeyboardFocus() {
+
 		return MySocket.getBoolen(this.guid + ".hasKeyboardFocus()");
 	}
 
 	public Boolean isEnabled() {
+
 		return MySocket.getBoolen(this.guid + ".isEnabled()");
 	}
 
 	public Boolean isVisible() {
+
 		return MySocket.getBoolen(this.guid + ".isVisible()");
 	}
 
@@ -214,17 +269,20 @@ public class UIAElement {
 
 	public String label() {
 
-		return MySocket.getText(this.guid + ".label()");
+		return RunType.DEBUG ? this.label : MySocket.getText(this.guid
+				+ ".label()");
 	}
 
 	public String name() {
 
-		return MySocket.getText(this.guid + ".name()");
+		return RunType.DEBUG ? this.name : MySocket.getText(this.guid
+				+ ".name()");
 	}
 
 	public String value() {
 
-		return MySocket.getText(this.guid + ".value()");
+		return RunType.DEBUG ? this.value : MySocket.getText(this.guid
+				+ ".value()");
 	}
 
 	/**
@@ -235,8 +293,8 @@ public class UIAElement {
 	 */
 	public UIAElement withName(String name) {
 
-		String guid = getGuid(".withName('" + name + "')");
-		return new UIAElement(guid);
+		return UIAElementHelp.getElement(this.guid + ".withName('" + name
+				+ "')");
 	}
 
 	// -----Logging Element Information-----
@@ -247,214 +305,5 @@ public class UIAElement {
 
 	public void logElementTree() {
 		MySocket.getVoid(this.guid + ".logElementTree()");
-	}
-
-	private String getGuid(String method) {
-
-		return DEBUG ? MySocket.getGuid(this.guid + method) : this.guid
-				+ method;
-	}
-
-	// private methods
-	protected String[] guidArray(String guid) {
-
-		String[] guids = new String[ArrayLength];
-		for (int i = 0; i < ArrayLength; i++) {
-			String _guid = guid + "[" + i + "]";
-			guids[i] = _guid;
-		}
-		return guids;
-	}
-
-	protected UIAElement[] elementArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIAElement[] elements = new UIAElement[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIAElement element = new UIAElement(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIAStaticText[] staticTextArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIAStaticText[] elements = new UIAStaticText[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIAStaticText element = new UIAStaticText(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIASwitch[] switchArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIASwitch[] elements = new UIASwitch[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIASwitch element = new UIASwitch(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIAPicker[] pickerArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIAPicker[] elements = new UIAPicker[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIAPicker element = new UIAPicker(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	protected UIANavigationBar[] navigationBarArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIANavigationBar[] elements = new UIANavigationBar[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIANavigationBar element = new UIANavigationBar(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIAScrollView[] scrollViewArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIAScrollView[] elements = new UIAScrollView[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIAScrollView element = new UIAScrollView(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIASearchBar[] searchBarArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIASearchBar[] elements = new UIASearchBar[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIASearchBar element = new UIASearchBar(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIASecureTextField[] secureTextFieldArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIASecureTextField[] elements = new UIASecureTextField[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIASecureTextField element = new UIASecureTextField(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	protected UIATabBar[] tabBarArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIATabBar[] elements = new UIATabBar[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIATabBar element = new UIATabBar(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIATableView[] tableViewArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIATableView[] elements = new UIATableView[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIATableView element = new UIATableView(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIATextField[] textFieldArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIATextField[] elements = new UIATextField[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIATextField element = new UIATextField(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIATextView[] textViewArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIATextView[] elements = new UIATextView[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIATextView element = new UIATextView(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	protected UIAToolbar[] toolbarArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIAToolbar[] elements = new UIAToolbar[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIAToolbar element = new UIAToolbar(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIAWebView[] webViewArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIAWebView[] elements = new UIAWebView[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIAWebView element = new UIAWebView(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIAActivityIndicator[] activityIndicatorArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIAActivityIndicator[] elements = new UIAActivityIndicator[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIAActivityIndicator element = new UIAActivityIndicator(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
-	}
-
-	private UIALink[] linkArray(String method) {
-
-		String[] guids = DEBUG ? MySocket.getGuidArray(this.guid + method)
-				: guidArray(this.guid + method);
-		UIALink[] elements = new UIALink[guids.length];
-		for (int i = 0; i < guids.length; i++) {
-			UIALink element = new UIALink(guids[i]);
-			elements[i] = element;
-		}
-		return elements;
 	}
 }

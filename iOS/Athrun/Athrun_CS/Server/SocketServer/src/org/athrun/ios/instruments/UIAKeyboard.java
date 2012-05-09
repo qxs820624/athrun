@@ -5,9 +5,14 @@ package org.athrun.ios.instruments;
 
 /**
  * @author ziyu.hch
- *
+ * 
  */
 public class UIAKeyboard extends UIAElement {
+
+	public UIAKeyboard() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @param guid

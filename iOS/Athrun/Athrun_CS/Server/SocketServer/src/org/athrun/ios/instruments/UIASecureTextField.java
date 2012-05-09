@@ -9,6 +9,11 @@ package org.athrun.ios.instruments;
  */
 public class UIASecureTextField extends UIATextField {
 
+	public UIASecureTextField() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param guid
 	 */

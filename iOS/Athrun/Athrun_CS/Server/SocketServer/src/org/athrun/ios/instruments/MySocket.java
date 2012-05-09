@@ -9,18 +9,21 @@ import java.util.Date;
 
 public class MySocket {
 
+	/* instrument 接收返回的命令，几种处理类型的枚举 */
+	enum ReturnedType {
+		guidType, arrayType, voidType, stringType, booleanType, JSONObject, JSONArray, exitType
+	}
+
 	public static ServerSocket server = null;
 
 	public static String getGuid(String script) {
 
 		return send(ReturnedType.guidType + "##" + script);
-
 	}
 
 	public static void sendExit() {
 
 		exit(ReturnedType.exitType.toString());
-
 	}
 
 	private static void exit(String exitMark) {
@@ -67,6 +70,16 @@ public class MySocket {
 			return new String[0];
 		}
 		return guids.split("#");
+	}
+
+	public static String getJSONArray(String script) {
+		String guids = send(ReturnedType.JSONArray + "##" + script);
+		return guids;
+	}
+
+	public static String getJSONObject(String script) {
+		String guids = send(ReturnedType.JSONObject + "##" + script);
+		return guids;
 	}
 
 	public static String getText(String script) {
@@ -120,7 +133,7 @@ public class MySocket {
 			request = is.readLine();
 			System.out.println(new Date() + "\tClient request : " + request);
 			System.out.println(new Date() + "\tServer reply   : " + script);
-			System.out.println("-------------------------------------------");
+			System.out.println("-----------------------------------------------");
 			os.print(script);
 			os.flush();
 

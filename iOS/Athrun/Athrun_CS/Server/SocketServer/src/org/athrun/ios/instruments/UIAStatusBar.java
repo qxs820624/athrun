@@ -16,4 +16,9 @@ public class UIAStatusBar extends UIAElement {
 		super(guid);
 		// TODO Auto-generated constructor stub
 	}
+
+	public UIAStatusBar() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 }

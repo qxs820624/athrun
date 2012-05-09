@@ -9,6 +9,11 @@ package org.athrun.ios.instruments;
  */
 public class UIAActionSheet extends UIAElement {
 
+	public UIAActionSheet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param guid
 	 */
@@ -19,9 +24,7 @@ public class UIAActionSheet extends UIAElement {
 
 	public UIAButton cancelButton() {
 
-		// String guid = RunType.DEBUG ? MySocket.getGuid(this.guid +
-		// ".cancelButton()") : this.guid + ".cancelButton()";
-		return new UIAButton(this.guid + ".cancelButton()");
+		return UIAElementHelp.getButton(this.guid + ".cancelButton()");
 	}
 
 }

@@ -17,20 +17,19 @@ public class UIANavigationBar extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
+	public UIANavigationBar() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public UIAButton leftButton() {
 
-		String guid = RunType.DEBUG ? MySocket.getGuid(this.guid
-				+ ".leftButton") : this.guid + ".leftButton";
-
-		return new UIAButton(guid);
+		return UIAElementHelp.getButton(this.guid + ".leftButton()");
 	}
 
 	public UIAButton rightButton() {
 
-		String guid = RunType.DEBUG ? MySocket.getGuid(this.guid
-				+ ".rightButton") : this.guid + ".rightButton";
-
-		return new UIAButton(guid);
+		return UIAElementHelp.getButton(this.guid + ".rightButton()");
 	}
 
 }

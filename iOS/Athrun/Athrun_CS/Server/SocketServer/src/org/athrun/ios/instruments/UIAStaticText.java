@@ -17,4 +17,9 @@ public class UIAStaticText extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
+	public UIAStaticText() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }

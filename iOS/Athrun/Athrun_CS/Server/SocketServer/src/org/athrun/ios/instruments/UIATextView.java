@@ -17,7 +17,21 @@ public class UIATextView extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void setValue(String value) {
+	public UIATextView() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * 设置输入框的文本值 。
+	 * 
+	 * 调用 setValue(String value) 方法不能实现该功能
+	 * 
+	 * @param value
+	 *            要设置的文本
+	 */
+	public void setTheValue(String value) {
 		MySocket.getVoid(this.guid + ".setValue('" + value + "')");
 	}
+
 }

@@ -17,4 +17,9 @@ public class UIATableView extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
+	public UIATableView() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 }
