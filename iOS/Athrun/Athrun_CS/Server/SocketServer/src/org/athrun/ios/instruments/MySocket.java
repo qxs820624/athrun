@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 
 public class MySocket {
 
@@ -170,7 +169,7 @@ public class MySocket {
 				throw new Exception(guid);
 			}
 			System.out.println("Client request : " + guid);
-			//System.out.println(new Date() + "\tServer reply   : null");
+			// System.out.println(new Date() + "\tServer reply   : null");
 			os.print("null");
 			os.flush();
 
