@@ -14,7 +14,7 @@ import net.sf.json.JSONObject;
  */
 class UIAElementHelp {
 
-	private static <T> Object elementsJSONArray(String guid, Class<T> classType) {
+	private static <T> Object elementsJSONArray(String guid, Class<T> classType) throws Exception {
 
 		String elementsJSON = MySocket.getJSONArray(guid);
 		JSONArray jsonElementArray = JSONArray.fromObject(elementsJSON);
@@ -22,7 +22,7 @@ class UIAElementHelp {
 		return JSONArray.toArray(jsonElementArray, classType);
 	}
 
-	private static <T> Object getJSONObject(String guid, Class<T> classType) {
+	private static <T> Object getJSONObject(String guid, Class<T> classType) throws Exception {
 
 		String elementJSON = MySocket.getJSONObject(guid);
 		JSONObject element = JSONObject.fromObject(elementJSON);
@@ -47,8 +47,9 @@ class UIAElementHelp {
 	 *            代表当前对象的脚本字符串
 	 * 
 	 * @return The UIAElement Array
+	 * @throws Exception 
 	 */
-	public static UIAElement[] elementArray(String guid) {
+	public static UIAElement[] elementArray(String guid) throws Exception {
 
 		UIAElement[] elements;
 		if (DEBUG) {
@@ -65,7 +66,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAButton[] buttonArray(String guid) {
+	public static UIAButton[] buttonArray(String guid) throws Exception {
 
 		UIAButton[] elements;
 		if (DEBUG) {
@@ -81,7 +82,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAStaticText[] staticTextArray(String guid) {
+	public static UIAStaticText[] staticTextArray(String guid) throws Exception {
 
 		UIAStaticText[] elements;
 		if (DEBUG) {
@@ -98,7 +99,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIASwitch[] switchArray(String guid) {
+	public static UIASwitch[] switchArray(String guid) throws Exception {
 
 		UIASwitch[] elements;
 		if (DEBUG) {
@@ -114,7 +115,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAPicker[] pickerArray(String guid) {
+	public static UIAPicker[] pickerArray(String guid) throws Exception {
 
 		UIAPicker[] elements;
 		if (DEBUG) {
@@ -130,7 +131,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIANavigationBar[] navigationBarArray(String guid) {
+	public static UIANavigationBar[] navigationBarArray(String guid) throws Exception {
 
 		UIANavigationBar[] elements;
 		if (DEBUG) {
@@ -147,7 +148,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAScrollView[] scrollViewArray(String guid) {
+	public static UIAScrollView[] scrollViewArray(String guid) throws Exception {
 
 		UIAScrollView[] elements;
 		if (DEBUG) {
@@ -164,7 +165,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIASearchBar[] searchBarArray(String guid) {
+	public static UIASearchBar[] searchBarArray(String guid) throws Exception {
 
 		UIASearchBar[] elements;
 		if (DEBUG) {
@@ -181,7 +182,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIASecureTextField[] secureTextFieldArray(String guid) {
+	public static UIASecureTextField[] secureTextFieldArray(String guid)throws Exception {
 
 		UIASecureTextField[] elements;
 		if (DEBUG) {
@@ -198,7 +199,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIATabBar[] tabBarArray(String guid) {
+	public static UIATabBar[] tabBarArray(String guid) throws Exception {
 
 		UIATabBar[] elements;
 		if (DEBUG) {
@@ -214,7 +215,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIATableView[] tableViewArray(String guid) {
+	public static UIATableView[] tableViewArray(String guid) throws Exception {
 
 		UIATableView[] elements;
 		if (DEBUG) {
@@ -231,7 +232,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIATextField[] textFieldArray(String guid) {
+	public static UIATextField[] textFieldArray(String guid) throws Exception {
 
 		UIATextField[] elements;
 		if (DEBUG) {
@@ -248,7 +249,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIATextView[] textViewArray(String guid) {
+	public static UIATextView[] textViewArray(String guid) throws Exception {
 
 		UIATextView[] elements;
 		if (DEBUG) {
@@ -265,7 +266,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAToolbar[] toolbarArray(String guid) {
+	public static UIAToolbar[] toolbarArray(String guid) throws Exception {
 
 		UIAToolbar[] elements;
 		if (DEBUG) {
@@ -281,7 +282,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAWebView[] webViewArray(String guid) {
+	public static UIAWebView[] webViewArray(String guid) throws Exception {
 
 		UIAWebView[] elements;
 		if (DEBUG) {
@@ -297,7 +298,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAActivityIndicator[] activityIndicatorArray(String guid) {
+	public static UIAActivityIndicator[] activityIndicatorArray(String guid) throws Exception {
 
 		UIAActivityIndicator[] elements;
 		if (DEBUG) {
@@ -315,7 +316,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIALink[] linkArray(String guid) {
+	public static UIALink[] linkArray(String guid) throws Exception {
 
 		UIALink[] elements;
 		if (DEBUG) {
@@ -331,7 +332,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAWindow[] windowArray(String guid) {
+	public static UIAWindow[] windowArray(String guid) throws Exception {
 
 		UIAWindow[] elements;
 		if (DEBUG) {
@@ -347,7 +348,7 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAElement getElement(String guid) {
+	public static UIAElement getElement(String guid) throws Exception {
 
 		UIAElement element;
 		if (DEBUG) {
@@ -358,7 +359,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIAButton getButton(String guid) {
+	public static UIAButton getButton(String guid) throws Exception {
 
 		UIAButton element;
 		if (DEBUG) {
@@ -369,7 +370,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIANavigationBar getNavigationBar(String guid) {
+	public static UIANavigationBar getNavigationBar(String guid) throws Exception {
 
 		UIANavigationBar element;
 		if (DEBUG) {
@@ -381,7 +382,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIATabBar getTabBar(String guid) {
+	public static UIATabBar getTabBar(String guid) throws Exception {
 
 		UIATabBar element;
 		if (DEBUG) {
@@ -392,7 +393,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIAToolbar getToolbar(String guid) {
+	public static UIAToolbar getToolbar(String guid) throws Exception {
 
 		UIAToolbar element;
 		if (DEBUG) {
@@ -403,7 +404,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIAWindow getWindow(String guid) {
+	public static UIAWindow getWindow(String guid) throws Exception {
 
 		UIAWindow element;
 		if (DEBUG) {
@@ -414,7 +415,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIAActionSheet getActionSheet(String guid) {
+	public static UIAActionSheet getActionSheet(String guid) throws Exception {
 
 		UIAActionSheet element;
 		if (DEBUG) {
@@ -425,7 +426,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIAKeyboard getKeyboard(String guid) {
+	public static UIAKeyboard getKeyboard(String guid) throws Exception {
 
 		UIAKeyboard element;
 		if (DEBUG) {
@@ -436,7 +437,7 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIAStatusBar getStatusBar(String guid) {
+	public static UIAStatusBar getStatusBar(String guid) throws Exception {
 
 		UIAStatusBar element;
 		if (DEBUG) {

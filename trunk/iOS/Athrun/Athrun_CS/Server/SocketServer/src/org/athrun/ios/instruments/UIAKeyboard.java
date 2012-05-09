@@ -22,7 +22,7 @@ public class UIAKeyboard extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void typeString(String text) {
+	public void typeString(String text) throws Exception {
 		MySocket.getVoid(this.guid + ".typeString('" + text + "')");
 	}
 

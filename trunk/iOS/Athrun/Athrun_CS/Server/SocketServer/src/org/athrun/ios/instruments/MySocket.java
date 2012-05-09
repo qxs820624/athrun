@@ -16,10 +16,11 @@ public class MySocket {
 
 	public static ServerSocket server = null;
 
+	/*
 	public static String getGuid(String script) {
 
 		return send(ReturnedType.guidType + "##" + script);
-	}
+	}*/
 
 	public static void sendExit() {
 
@@ -59,9 +60,8 @@ public class MySocket {
 
 			System.out.println("Error:" + e);
 		}
-
 	}
-
+/*
 	public static String[] getGuidArray(String script) {
 		String guids = send(ReturnedType.arrayType + "##" + script);
 
@@ -70,23 +70,23 @@ public class MySocket {
 			return new String[0];
 		}
 		return guids.split("#");
-	}
+	}*/
 
-	public static String getJSONArray(String script) {
+	public static String getJSONArray(String script) throws Exception {
 		String guids = send(ReturnedType.JSONArray + "##" + script);
 		return guids;
 	}
 
-	public static String getJSONObject(String script) {
+	public static String getJSONObject(String script) throws Exception {
 		String guids = send(ReturnedType.JSONObject + "##" + script);
 		return guids;
 	}
 
-	public static String getText(String script) {
+	public static String getText(String script) throws Exception {
 		return send(ReturnedType.stringType + "##" + script);
 	}
 
-	public static Boolean getBoolen(String script) {
+	public static Boolean getBoolen(String script) throws Exception {
 		String returnStr = send(ReturnedType.booleanType + "##" + script);
 		if (returnStr.equals("1")) {
 			return true;
@@ -96,7 +96,7 @@ public class MySocket {
 		}
 	}
 
-	public static void getVoid(String script) {
+	public static void getVoid(String script) throws Exception {
 		send(ReturnedType.voidType + "##" + script);
 	}
 
@@ -111,7 +111,7 @@ public class MySocket {
 		}
 	}
 
-	private static String send(String script) {
+	private static String send(String script) throws Exception {
 
 		if (server == null) {
 			creatSocket();
@@ -131,9 +131,15 @@ public class MySocket {
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
 			request = is.readLine();
+
+			// 用例执行错误的时候，获取到发回的异常信息并抛出
+			if (request.startsWith("Error")) {
+				throw new Exception(request);
+			}
 			System.out.println(new Date() + "\tClient request : " + request);
 			System.out.println(new Date() + "\tServer reply   : " + script);
-			System.out.println("-----------------------------------------------");
+			System.out
+					.println("-----------------------------------------------");
 			os.print(script);
 			os.flush();
 
@@ -143,7 +149,7 @@ public class MySocket {
 			is.close();
 			socket.close();
 
-			// 第二次建立socket，获取 上一步运行的guid
+			// 第二次建立socket，获取 上一步运行的结果
 
 			try {
 				socket = server.accept();
@@ -155,6 +161,11 @@ public class MySocket {
 
 			os = new PrintWriter(socket.getOutputStream());
 			guid = is.readLine();
+
+			// 用例执行错误的时候，获取到发回的异常信息并抛出
+			if (guid.startsWith("Error")) {
+				throw new Exception(request);
+			}
 			System.out.println(new Date() + "\tClient request : " + guid);
 			System.out.println(new Date() + "\tServer reply   : null");
 			os.print("null");
@@ -168,7 +179,7 @@ public class MySocket {
 
 		} catch (Exception e) {
 
-			System.out.println("Error:" + e);
+			throw e;
 		}
 
 		return guid;

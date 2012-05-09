@@ -27,7 +27,7 @@ public class UIASwitch extends UIAElement {
 	 * 
 	 * @param value
 	 */
-	public void setValue(Boolean value) {
+	public void setValue(Boolean value) throws Exception {
 		MySocket.getVoid(this.guid + ".setValue(" + value + ")");
 	}
 

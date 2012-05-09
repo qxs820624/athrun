@@ -25,7 +25,7 @@ public class UIATarget {
 		return new UIAApplication(this.guid + ".frontMostApp()");
 	}
 
-	public void delay(int second) {
+	public void delay(int second) throws Exception {
 		MySocket.getVoid(this.guid + ".delay(" + second + ")");
 	}
 }

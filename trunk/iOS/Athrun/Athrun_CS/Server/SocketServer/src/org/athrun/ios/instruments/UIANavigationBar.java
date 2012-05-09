@@ -22,12 +22,12 @@ public class UIANavigationBar extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UIAButton leftButton() {
+	public UIAButton leftButton() throws Exception {
 
 		return UIAElementHelp.getButton(this.guid + ".leftButton()");
 	}
 
-	public UIAButton rightButton() {
+	public UIAButton rightButton() throws Exception {
 
 		return UIAElementHelp.getButton(this.guid + ".rightButton()");
 	}
