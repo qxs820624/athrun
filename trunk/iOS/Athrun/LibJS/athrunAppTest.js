@@ -17,7 +17,7 @@ function appTest(caseName, f, islogTree) {
 		app = target.frontMostApp();
 		win = app.mainWindow()
 		UIALogger.logStart(caseName);
-		UIALogger.logMessage("The case " + caseName + " is running.");
+        UIALogger.logMessage("The case " + caseName + " is running.");
 		
 		//Invoke the function and run the case steps.
 		f(target, win);

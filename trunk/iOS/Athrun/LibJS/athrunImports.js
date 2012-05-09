@@ -4,6 +4,7 @@
 
 #import "athrunLog.js"
 #import "athrunAssertion.js"
-#import "athrunAutomation-extend.js"
+#import "athrunAutomatioin-extend.js"
 #import "athrunAppTest.js"
 #import "taobao4iPhoneLib.js"
+#import "json.js"
