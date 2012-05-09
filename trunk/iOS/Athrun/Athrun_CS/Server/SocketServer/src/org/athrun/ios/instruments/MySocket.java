@@ -134,6 +134,10 @@ public class MySocket {
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (request.startsWith("Error")) {
+				os.close();
+				is.close();
+				socket.close();
+				server.close();
 				throw new Exception(request);
 			}
 			System.out.println(new Date() + "\tClient request : " + request);
@@ -164,6 +168,10 @@ public class MySocket {
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (guid.startsWith("Error")) {
+				os.close();
+				is.close();
+				socket.close();
+				server.close();
 				throw new Exception(request);
 			}
 			System.out.println(new Date() + "\tClient request : " + guid);
