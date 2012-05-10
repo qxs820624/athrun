@@ -17,7 +17,7 @@ public class IOSTestCase extends TestCase {
 		
 		try {
 			Runtime.getRuntime()
-					.exec("/bin/bash /Athrun/RunScript.sh /Athrun/Tests/shellTest.js",
+					.exec("/bin/bash /Athrun/RunScript.sh /Athrun/CSRunner.js",
 							null);
 			
 		} catch (IOException e) {
