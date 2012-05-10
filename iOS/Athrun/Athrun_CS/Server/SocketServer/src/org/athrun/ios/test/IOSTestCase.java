@@ -1,7 +1,5 @@
 package org.athrun.ios.test;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
 
 import org.athrun.ios.instruments.MySocket;
@@ -14,16 +12,9 @@ public class IOSTestCase extends TestCase {
 		// TODO Auto-generated method stub
 		super.setUp();
 		RunType.DEBUG = false;
-		
-		try {
-			Runtime.getRuntime()
-					.exec("/bin/bash /Athrun/RunScript.sh /Athrun/CSRunner.js",
-							null);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+		Runtime.getRuntime().exec(
+				"/bin/bash /Athrun/RunScript.sh /Athrun/CSRunner.js", null);
 	}
 
 	@Override
