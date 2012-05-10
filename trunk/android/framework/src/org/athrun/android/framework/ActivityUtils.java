@@ -54,7 +54,7 @@ class ActivityUtils {
 
 	private Stack<Activity> activityStack;
 	private Timer activitySyncTimer;
-	
+
 	private static ActivityUtils instance;
 
 	/**
@@ -77,34 +77,39 @@ class ActivityUtils {
 		setupActivityStackListener();
 		logger.info("Construct instance of ActivityUtils finished.");
 	}
-	
+
 	static ActivityUtils getInstance(Instrumentation inst, Activity activity) {
 		if (null == instance) {
 			instance = new ActivityUtils(inst, activity);
 		}
-		
+
 		return instance;
 	}
 
 	private void createStackAndPushStartActivity() {
 		activityStack = new Stack<Activity>();
-		if (activity != null)
-			activityStack.push(activity);
+		if (activity != null) {
+			activityStack.push(this.activity);
+		}
 	}
 
 	private void setupActivityStackListener() {
 		TimerTask activitySyncTimerTask = new TimerTask() {
 			@Override
 			public void run() {
-				if (activityMonitor != null) {
-					Activity activity = activityMonitor.getLastActivity();
+				if (ActivityUtils.this.activityMonitor != null) {
+					Activity activity = ActivityUtils.this.activityMonitor
+							.getLastActivity();
 					if (activity != null) {
-						if (activityStack.peek().equals(activity))
+						if ((!ActivityUtils.this.activityStack.isEmpty())
+								&& ActivityUtils.this.activityStack.peek()
+										.equals(activity)) {
 							return;
+						}
 
 						if (!activity.isFinishing()) {
-							activityStack.remove(activity);
-							activityStack.push(activity);
+							ActivityUtils.this.activityStack.remove(activity);
+							ActivityUtils.this.activityStack.push(activity);
 						}
 					}
 				}
@@ -163,7 +168,8 @@ class ActivityUtils {
 	 */
 	Activity getCurrentActivity() {
 		Activity currentActivity = getCurrentActivity(true);
-		logger.info("Current activity is " + currentActivity.getClass().getName() + ".");
+		logger.info("Current activity is "
+				+ currentActivity.getClass().getName() + ".");
 		return currentActivity;
 	}
 
@@ -174,13 +180,13 @@ class ActivityUtils {
 	 */
 	private final void waitForActivityIfNotAvailable() {
 		if (activity == null) {
-			
+
 			if (activityMonitor != null) {
-				
+
 				while (activityMonitor.getLastActivity() == null) {
 					sleep(MINIPAUSE);
 				}
-				
+
 			} else {
 				sleep(MINIPAUSE);
 				setupActivityMonitor();
@@ -198,7 +204,7 @@ class ActivityUtils {
 		if (!activityStack.isEmpty()) {
 			activity = activityStack.peek();
 		}
-		
+
 		return activity;
 	}
 
@@ -250,9 +256,9 @@ class ActivityUtils {
 				} catch (SecurityException ignored) {
 				}
 			}
-			
+
 		} else {
-			
+
 			Assert.assertTrue("No Activity named " + name
 					+ " has been priorly opened", false);
 		}
@@ -262,15 +268,16 @@ class ActivityUtils {
 		try {
 			if (this.activityMonitor != null)
 				this.inst.removeMonitor(this.activityMonitor);
-			
+
 		} catch (Exception ignored) {
 		}
 		super.finalize();
 	}
 
 	void finishInactiveActivities() {
-		logger.info("There are " + this.activityStack.size() + " inactive Activities.");
-		
+		logger.info("There are " + this.activityStack.size()
+				+ " inactive Activities.");
+
 		for (Iterator<?> iter = this.activityStack.iterator(); iter.hasNext();) {
 			Activity activity = (Activity) iter.next();
 			if (activity != getCurrentActivity()) {
@@ -282,23 +289,24 @@ class ActivityUtils {
 
 	private void finishActivity(Activity activity) {
 		String name = activity.getClass().getName();
-		
+
 		try {
 			logger.info("Finish Activity: " + name + ".");
 			activity.finish();
-			
+
 		} catch (Throwable e) {
 			e.printStackTrace();
-			logger.error("Finish activity " + name + " encounter an exception." , e);
+			logger.error(
+					"Finish activity " + name + " encounter an exception.", e);
 		}
 	}
 
 	void finishOpenedActivities() {
 		this.activitySyncTimer.cancel();
 		ArrayList<Activity> activitiesOpened = getAllOpenedActivities();
-		
+
 		int size = activitiesOpened.size();
-		
+
 		logger.info("There are " + size + " opened Activities.");
 
 		for (int i = size - 1; i >= 0; i--) {
@@ -308,15 +316,15 @@ class ActivityUtils {
 
 		finishActivity(getCurrentActivity());
 		sleep(MINIPAUSE);
-		
-		try {
-			this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-			sleep(100);
-			this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-			
-		} catch (Throwable ignored) {
-		}
-		
+
+		// try {
+		// this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+		// sleep(100);
+		// this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+		//
+		// } catch (Throwable ignored) {
+		// }
+
 		this.activityStack.clear();
 		logger.info("finishOpenedActivities()");
 	}

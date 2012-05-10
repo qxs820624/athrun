@@ -133,6 +133,7 @@ public class AbsListViewElement extends ViewGroupElement {
 			} else {
 				// Log.i(LOG_TAG, "getChildByIndex(" + realIndex + ") succeed");
 				logger.info("getChildByIndex(" + realIndex + ") succeed");
+				inst.waitForIdleSync();
 				return absListView.getChildAt(realIndex
 						- absListView.getFirstVisiblePosition());
 			}

@@ -24,12 +24,17 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
 import org.athrun.android.framework.utils.AthrunConnectorThread;
+import org.athrun.android.framework.viewelement.AbsListViewElement;
 import org.athrun.android.framework.viewelement.IViewElement;
+import org.athrun.android.framework.viewelement.ScrollViewElement;
 import org.athrun.android.framework.viewelement.TextViewElement;
+import org.athrun.android.framework.viewelement.ThirdPartyElement;
 import org.athrun.android.framework.viewelement.ToastElement;
 import org.athrun.android.framework.viewelement.ViewElement;
 import org.athrun.android.framework.webview.WebViewElement;
 
+import android.R.integer;
+import android.R.string;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -38,6 +43,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 
 
 /**
@@ -264,6 +272,17 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	public TextViewElement findElementByText(String text) throws Exception {
 		return athrun.findElementByText(text, TextViewElement.class);
 	}
+	
+	/**
+	 * Return an instance of {@code TextViewElement} by the given text and index.
+	 * @param text Text to be found.
+	 * @param index 
+	 * @return
+	 * @throws Exception
+	 */
+	public TextViewElement findElementByText(String text, int index) throws Exception {
+		return athrun.findElementByText(text, index, TextViewElement.class);
+	}
 
 	/**
 	 * Find all specified type of Views in current Activity and return them in
@@ -342,6 +361,18 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 		return athrun.findToastElement("");
 	}
 	
+	public ScrollViewElement findScrollElementByIndex(int index) throws Exception {
+		return findElementByIndex(index, ScrollView.class, ScrollViewElement.class);
+	}
+	
+	public AbsListViewElement findListElementByIndex(int index) throws Exception {
+		return findElementByIndex(index, ListView.class, AbsListViewElement.class);
+	}
+	
+	public AbsListViewElement findGridElementByIndex(int index) throws Exception {
+		return findElementByIndex(index, GridView.class, AbsListViewElement.class);
+	}
+	
 	/**
 	 * This method is used for taobao android client only.
 	 * @param text
@@ -350,6 +381,10 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 */
 	public SkuOptionElement findSkuOptionByText(String text) throws Exception {
 		return athrun.findSkuOptionByText(text);
+	}
+	
+	public ThirdPartyElement findElementByName(String className, int index) throws Exception {
+		return athrun.findElementsByName(className, index);
 	}
 
 	/**

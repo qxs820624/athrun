@@ -70,6 +70,7 @@ public class ViewElement implements IViewElement {
 		ViewUtils.scrollInToScreenIfNeeded(inst, view);
 		ViewUtils.hideSoftInputFromWindow(inst, view);
 		sleep(RETRY_TIME);
+		inst.waitForIdleSync();
 	}
 
 	@Override
@@ -104,6 +105,7 @@ public class ViewElement implements IViewElement {
 			int y = getViewCenter().getY();
 			ViewUtils.hideSoftInputFromWindow(inst, view);
 			sleep(RETRY_TIME);
+			inst.waitForIdleSync();
 			viewOperation.clickLongOnScreen(x, y);
 
 		} catch (InterruptedException e) {
