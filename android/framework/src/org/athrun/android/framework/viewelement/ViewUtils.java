@@ -22,6 +22,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+import org.athrun.android.framework.LogConfigure;
 import org.athrun.android.framework.utils.ScreenUtils;
 
 import android.app.Instrumentation;
@@ -38,6 +40,7 @@ import android.view.inputmethod.InputMethodManager;
  * @author bingyang.djj
  */
 public final class ViewUtils {
+	private static Logger logger = LogConfigure.getLogger(ViewUtils.class);
 
 	private ViewUtils() {
 		throw new AssertionError();
@@ -79,6 +82,8 @@ public final class ViewUtils {
 				// do nothing here
 			}
 		}
+		
+		logger.debug("There are " + allViews.size() + " views in current screen.");
 		return allViews;
 	}
 

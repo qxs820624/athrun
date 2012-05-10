@@ -28,6 +28,7 @@ import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
 import org.athrun.android.framework.utils.RClassUtils;
 import org.athrun.android.framework.viewelement.IViewElement;
 import org.athrun.android.framework.viewelement.TextViewElement;
+import org.athrun.android.framework.viewelement.ThirdPartyElement;
 import org.athrun.android.framework.viewelement.ToastElement;
 import org.athrun.android.framework.viewelement.ViewElement;
 import org.athrun.android.framework.viewelement.ViewGroupElement;
@@ -42,7 +43,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-
 /**
  * Android Test Framework Class for TmtsTestCase to include.
  * 
@@ -50,7 +50,7 @@ import android.widget.TextView;
  * @author bingyang.djj.
  */
 final class Athrun {
-	
+
 	private final Logger logger = LogConfigure.getLogger(getClass());
 
 	/**
@@ -131,14 +131,13 @@ final class Athrun {
 				continue;
 			}
 
-			logger.info("find " + matches.size()
-					+ " veiw that match the id " + id);
+			logger.info("find " + matches.size() + " veiw that match the id "
+					+ id);
 
 			return getMostSuitableView(matches);
 		}
 
-		logger.error("findViewById(" + id + ") return null",
-				new Throwable());
+		logger.error("findViewById(" + id + ") return null", new Throwable());
 		return null;
 	}
 
@@ -180,7 +179,20 @@ final class Athrun {
 		View view = findViewByText(text);
 		if (null == view) {
 			logger.error("findElementByText(" + text + ") return null.");
-			
+
+			return null;
+		}
+
+		Object obj = getConstructor(returnType).newInstance(inst, view);
+		return returnType.cast(obj);
+	}
+	
+	<T extends TextViewElement> T findElementByText(String text, int index,
+			Class<T> returnType) throws Exception {
+		View view = findViewByTextAndIndex(text, index);
+		if (null == view) {
+			logger.error("findElementByText(" + text + ", " + index + ") return null.");
+
 			return null;
 		}
 
@@ -195,10 +207,9 @@ final class Athrun {
 			Class<T> returnType) throws Exception {
 		View view = findViewByTextEqual(text);
 		if (null == view) {
-//			AthrunLog.e(LOG_TAG, "findElementByTextEqual(" + text
-//					+ ") return null.");
-			logger.error("findElementByTextEqual(" + text
-					+ ") return null.");
+			// AthrunLog.e(LOG_TAG, "findElementByTextEqual(" + text
+			// + ") return null.");
+			logger.error("findElementByTextEqual(" + text + ") return null.");
 			return null;
 		}
 
@@ -214,7 +225,7 @@ final class Athrun {
 
 		while (System.currentTimeMillis() < startTime + timeout) {
 
-//			updateActivities();
+			// updateActivities();
 			ArrayList<TextView> textViews = getAllTextView();
 			textViews = ViewUtils.removeInvisibleViews(textViews);
 
@@ -240,7 +251,43 @@ final class Athrun {
 				new Throwable());
 		return null;
 	}
+	
+	private ArrayList<TextView> findViewsByText(String text, int timeout) {
+		final long startTime = System.currentTimeMillis();
+		logger.info("maxTimeToFindView is " + timeout);
 
+		ArrayList<TextView> matches = new ArrayList<TextView>();
+
+		while (System.currentTimeMillis() < startTime + timeout) {
+
+			// updateActivities();
+			ArrayList<TextView> textViews = getAllTextView();
+			textViews = ViewUtils.removeInvisibleViews(textViews);
+
+			for (TextView textView : textViews) {
+
+				String current = textView.getText().toString();
+				if (current.equals(text) && !ViewUtils.isViewOutOfScreen(textView)) {
+					matches.add(textView);
+				}
+			}
+
+			if (0 == matches.size()) {
+				sleep(IViewElement.RETRY_TIME);
+				continue;
+			}
+
+			ArrayList<TextView> shownTextViews = ViewUtils.removeUnshownViews(matches);
+			logger.info("found " + shownTextViews.size()
+					+ " shown TextView that contains the text " + text + ".");
+			return shownTextViews;
+		}
+
+		logger.error("findViewByText(" + text + ") return null",
+				new Throwable());
+		return null;
+	}
+	
 	private <T extends View> T getMostSuitableView(ArrayList<T> matches) {
 		int matchedCounts = matches.size();
 		T mostSuitable = null;
@@ -252,7 +299,8 @@ final class Athrun {
 		} else if (matchedCounts > 1) {
 
 			ArrayList<T> shown = ViewUtils.removeUnshownViews(matches);
-			logger.info("There are " + shown.size() + " matched views is shown.");
+			logger.info("There are " + shown.size()
+					+ " matched views is shown.");
 			ArrayList<T> inScreen = new ArrayList<T>();
 
 			for (T view : matches) {
@@ -260,11 +308,11 @@ final class Athrun {
 					inScreen.add(view);
 				}
 			}
-			logger.info("There are " + inScreen.size() + " matched views in screen.");
+			logger.info("There are " + inScreen.size()
+					+ " matched views in screen.");
 
 			ArrayList<T> inScreenShown = ViewUtils.removeUnshownViews(inScreen);
-			logger.info("There are " + inScreenShown.size() + " matched views is shown & in screen.");
-			
+
 			if (0 != inScreenShown.size()) {
 				mostSuitable = inScreenShown.get(0);
 
@@ -295,7 +343,7 @@ final class Athrun {
 
 		while (System.currentTimeMillis() < startTime + timeout) {
 
-//			updateActivities();
+			// updateActivities();
 
 			ArrayList<TextView> textViews = getAllTextView();
 
@@ -323,6 +371,10 @@ final class Athrun {
 
 	private TextView findViewByText(String text) {
 		return findViewByText(text, getMaxTimeToFindView());
+	}
+	
+	private TextView findViewByTextAndIndex(String text, int index) {
+		return findViewsByText(text, getMaxTimeToFindView()).get(index);
 	}
 
 	// andsun add
@@ -400,9 +452,9 @@ final class Athrun {
 		ArrayList<View> all = ViewUtils.getAllViews(false);
 		all = ViewUtils.removeInvisibleViews(all);
 		ArrayList<T> lists = ViewUtils.filterViews(view, all);
-		
-		logger.info("Find " + lists.size() + " " + view.getClass().getName());
-		
+
+		logger.info("Find " + lists.size() + " " + view.getName());
+
 		ArrayList<T> list = ViewUtils.removeInvisibleViews(lists);
 		ArrayList<T> listReturn = ViewUtils.removeUnshownViews(list);
 		return listReturn;
@@ -481,21 +533,22 @@ final class Athrun {
 			e.printStackTrace();
 		}
 	}
-	
+
 	boolean waitForActivity(String name, int timeout) {
 		return activityUtils.waitForActivity(name, timeout);
 	}
-	
+
 	boolean waitForText(String text, int timeout) {
 		TextView textView = findViewByText(text, timeout);
 		return (null != textView) ? true : false;
 	}
-	
-	//taobao skuview=============================================
+
+	// taobao skuview=============================================
 	SkuOptionElement findSkuOptionByText(String text) throws Exception {
-		Class<?> skuSelectOption = Class.forName("com.taobao.tao.component.skunative.SkuSelectOption");
-		logger.info(skuSelectOption.toString());
-		
+		Class<?> skuSelectOption = Class
+				.forName("com.taobao.tao.component.skunative.SkuSelectOption");
+		logger.info("Search for " + skuSelectOption.getName());
+
 		final long startTime = System.currentTimeMillis();
 		logger.info("maxTimeToFindView is " + getMaxTimeToFindView());
 
@@ -507,10 +560,12 @@ final class Athrun {
 			for (View view : all) {
 
 				if (skuSelectOption.isAssignableFrom(view.getClass())) {
-					Method getText = view.getClass().getDeclaredMethod("getText");
-					
-					if (((String)getText.invoke(view)).equalsIgnoreCase(text)) {
-						Object obj = getConstructor(SkuOptionElement.class).newInstance(inst, view);
+					Method getText = view.getClass().getDeclaredMethod(
+							"getText");
+
+					if (((String) getText.invoke(view)).equalsIgnoreCase(text)) {
+						Object obj = getConstructor(SkuOptionElement.class)
+								.newInstance(inst, view);
 						return SkuOptionElement.class.cast(obj);
 					}
 				}
@@ -520,5 +575,61 @@ final class Athrun {
 		logger.error("findSkuSelectOptionByText(" + text + ") return null",
 				new Throwable());
 		return null;
+	}
+
+	private ArrayList<View> findThirdPartyElementsByName(String className)
+			throws Exception {
+		ArrayList<View> thirdPartyViews = new ArrayList<View>();
+
+		Class<?> thirdPartyView = Class.forName(className);
+		logger.info("Search for " + thirdPartyView.getName());
+
+		final long startTime = System.currentTimeMillis();
+		logger.info("maxTimeToFindView is " + getMaxTimeToFindView());
+
+		while (System.currentTimeMillis() < startTime + getMaxTimeToFindView()) {
+
+			ArrayList<View> all = ViewUtils.getAllViews(false);
+			all = ViewUtils.removeInvisibleViews(all);
+
+			for (View view : all) {
+
+				if (thirdPartyView.isAssignableFrom(view.getClass())) {
+					thirdPartyViews.add(view);
+				}
+			}
+			
+			if (0 == thirdPartyViews.size()) {
+				continue;
+				
+			} else {
+				logger.info("findThirdPartyElementsByName(" + className + ") find "
+						+ thirdPartyViews.size() + " views .");
+				return thirdPartyViews;
+			}
+		}
+		
+		logger.error("findThirdPartyElementsByName(" + className + ") return null.");
+		return null;
+	}
+
+	ThirdPartyElement findElementsByName(String className, int index)
+			throws Exception {
+		ArrayList<View> allViews = findThirdPartyElementsByName(className);
+		ArrayList<View> visibaleViews = ViewUtils
+				.removeInvisibleViews(allViews);
+		ArrayList<View> views = ViewUtils.removeUnshownViews(visibaleViews);
+
+		if (0 == views.size()) {
+			logger.error("findElementsByName(" + className + ", " + index
+					+ ") return null.");
+			return null;
+		}
+		logger.info("Find " + views.size() + " " + className + " views that both visibale and shown.");
+
+		View view = views.get(index);
+		Object obj = getConstructor(ThirdPartyElement.class).newInstance(inst,
+				view);
+		return ThirdPartyElement.class.cast(obj);
 	}
 }
