@@ -23,6 +23,7 @@ public class OnTouchAction extends DeviceAction {
 	@Override
 	public void toJavaCode(Block methodBlock) {
 		createComment(methodBlock);
+		createWaitIfNeeded(methodBlock);
 		createTap(methodBlock);
 		createBlank(methodBlock);
 	}

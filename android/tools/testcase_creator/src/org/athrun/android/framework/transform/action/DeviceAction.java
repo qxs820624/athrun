@@ -27,11 +27,9 @@ public class DeviceAction extends BaseAction {
 	@Override
 	public void toJavaCode(Block methodBlock) {
 		createComment(methodBlock);
+		createWaitIfNeeded(methodBlock);
 
 		if (actiontype.equalsIgnoreCase(PRESS_KEY)) {
-			if (this.keyCode.contains("MENU")) {
-				createSleep(methodBlock);
-			}
 			createPressKey(methodBlock);
 
 		} else if (actiontype.equalsIgnoreCase(SLIDE)) {

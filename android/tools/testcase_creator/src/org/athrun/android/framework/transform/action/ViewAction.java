@@ -64,6 +64,7 @@ public class ViewAction extends BaseAction {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void toJavaCode(Block methodBlock) {
+		
 		if (!this.action.containsKey("viewid")
 				&& !this.action.containsKey("viewtext")) {
 			methodBlock.statements().add(
@@ -71,6 +72,7 @@ public class ViewAction extends BaseAction {
 							methodBlock, WARNING)));
 		}
 		createComment(methodBlock);
+		createWaitIfNeeded(methodBlock);
 
 		methodBlock.statements().add(getFindStatement());
 		methodBlock.statements().add(getOperationStatement());

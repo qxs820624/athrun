@@ -37,6 +37,7 @@ public class ViewGroupAction extends ViewAction {
 	@Override
 	public void toJavaCode(Block methodBlock) {
 		createComment(methodBlock);
+		createWaitIfNeeded(methodBlock);
 		
 		methodBlock.statements().add(getFindParentStatement());
 		methodBlock.statements().add(this.getFindStatement());
