@@ -122,6 +122,10 @@
             <zipfileset
                 excludes="META-INF/*.SF"
                 src="${lib.dir}/org.eclipse.osgi_3.7.1.R37x_v20110808-1106.jar" />
+            
+            <zipfileset
+                excludes="META-INF/*.SF"
+                src="${lib.dir}/log4j-1.2.16.jar" />
         </jar>
     </target>
 

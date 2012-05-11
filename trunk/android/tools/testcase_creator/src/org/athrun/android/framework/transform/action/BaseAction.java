@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.MethodInvocation;
@@ -11,6 +12,8 @@ import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.StringLiteral;
 
 public abstract class BaseAction implements IAction {
+	protected Logger logger = Logger.getLogger(getClass());
+	
 	private static final String COMMENT = "commentUsedForAthrun";
 	private static final String BLANK = "blankUsedForAthrun";
 	
