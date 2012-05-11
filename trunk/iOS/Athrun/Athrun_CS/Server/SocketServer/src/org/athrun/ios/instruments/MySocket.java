@@ -162,7 +162,7 @@ public class MySocket {
 				throw new Exception(guid);
 			}
 			System.out.println("Client response : " + guid);
-			System.out.println("Server reques   : null");
+			System.out.println("Server request  : Case setp executed. Please request the next setp");
 			os.print("null");
 			os.flush();
 
