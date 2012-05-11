@@ -18,10 +18,26 @@ fi
 #echo "123Get the next step.">&6; 
 echo $1>&6; 
 #将信息发送给socket连接 
-cat<&6; 
+#cat<&6;
+
+returnStr=`cat<&6`;
+
 #从socket读取返回信息，显示为标准输出 
 exec 6<&-; 
 exec 6>&-; 
+
+if [ "null" = "$returnStr" ] ;then
+    exec 6<>/dev/tcp/127.0.0.1/5566
+    echo "Get the next step.">&6;
+    cat<&6;
+    #从socket读取返回信息，显示为标准输出 
+    exec 6<&-; 
+    exec 6>&-; 
+#关闭socket的输入，输出 
+else
+    echo $returnStr
+fi
+
 #关闭socket的输入，输出 
 exit 0; 
 

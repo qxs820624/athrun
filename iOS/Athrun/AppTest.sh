@@ -15,7 +15,7 @@ function init_dir(){
 }
 
 if test -f $2;then
-    echo "The script $2 is  running!!"
+    echo "The script $file is  running!!"
     oneCmd="instruments -t /Developer/Platforms/iPhoneOS.platform/Developer/Library/Instruments/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate $1 -e UIASCRIPT $2 -e UIARESULTSPATH /Athrun/log/"
     $oneCmd
     echo "$2 run end!"
@@ -40,6 +40,5 @@ $delCmd
 
 echo "all script run end!"
 
-#×¢Òâ£º´Ë½Å±¾ÔÚMac 10.6.8°æ±¾ÔËĞĞÍ¨¹ı¡£ÔÚMac 10.7.3 °æ±¾ÏµÍ³ÖĞ£¬ instruments ÃüÁîÏà¶Ô 10.6.8°æ±¾ÓĞĞ©±ä»¯£¬ÃüÁîĞĞÔËĞĞinstruments ²ÉÓÃÈçÏÂÃüÁî£º
-#cmd="instruments -t /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Instruments/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate $1 -e UIASCRIPT $file -e UIARESULTSPATH /Athrun/log/"
-
+#æ³¨æ„ï¼šæ­¤è„šæœ¬åœ¨Mac 10.6.8ç‰ˆæœ¬è¿è¡Œé€šè¿‡ã€‚åœ¨Mac 10.7.3 ç‰ˆæœ¬ç³»ç»Ÿä¸­ï¼Œ instruments å‘½ä»¤ç›¸å¯¹ 10.6.8ç‰ˆæœ¬æœ‰äº›å˜åŒ–ï¼Œå‘½ä»¤è¡Œè¿è¡Œinstruments é‡‡ç”¨å¦‚ä¸‹å‘½ä»¤ï¼š
+#cmd="instruments -t /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Instruments/PlugIns/AutomationInstrument.bundle/Contents/

@@ -17,24 +17,22 @@ try {
 	
 	var step = 1;
 	var isEnd = false;
+	sendToServer ="Get the next step.";
 	while(!isEnd){
 		
-		var result = host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",["null"],60);	
+		var result = host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
 		var stdout = result.stdout.split("##");
 		var type = stdout[0];
 		var script =stdout[1];
-		var sendToServer ="null";
-			
-		// UIALogger.logMessage("type:" + type);
+		
+		//UIALogger.logMessage("result.stdout:" + result.stdout);
 		
 		switch(type)
 		{
-			case "null":
-				break;
 			case "stringType":
 			case "booleanType":
 			case "voidType":
-				sendToServer = new Function("return "+ script)();
+				sendToServer = eval(script);
 				if(sendToServer ==null)
 					sendToServer = "";
 				break;
@@ -67,11 +65,6 @@ try {
 				sendToServer ="null";
 				isEnd =true;
 		}
-		if(sendToServer != "null")
-		{
-			UIALogger.logMessage("sendToServer:" + sendToServer);
-			host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
-		}
 	}
 	
 	UIALogger.logPass("The case was passed.");
@@ -86,6 +79,5 @@ try {
 	host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
 	UIALogger.logError(sendToServer);
 	UIALogger.logFail("The case was failed.");	
-	
 }
 
