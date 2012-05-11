@@ -34,6 +34,8 @@
         </activity>
         <activity android:name="org.athrun.android.app.WebViewActivity2" >
         </activity>
+        <activity android:name=".SameTextActivity" >
+        </activity>
 
     </application>
 

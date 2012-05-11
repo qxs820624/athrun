@@ -39,6 +39,10 @@
 		<Button android:id="@+id/btn_listview_activity"
 			android:layout_width="match_parent" android:layout_height="wrap_content"
 			android:text="@string/listview" />
+		
+		<Button android:id="@+id/btn_sametext_activity"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:text="@string/sametext" />
 
 		<include android:id="@+id/include_checkbox"
 			android:layout_width="match_parent" android:layout_height="wrap_content"

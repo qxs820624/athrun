@@ -318,5 +318,6 @@
     <string name="three_two">Third level second node</string>
     <string name="gridview">GridView</string>
     <string name="mapview">MapView</string>
-    <string name="another_app">Another App</string>   
+    <string name="another_app">Another App</string>
+    <string name="sametext">same text</string>   
 </resources>
