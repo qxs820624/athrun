@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.athrun.android.framework.transform.action.ActionType;
 import org.athrun.android.framework.transform.action.BaseAction;
 import org.athrun.android.framework.transform.action.DeviceAction;
@@ -27,7 +28,8 @@ import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
-public class AthrunTestCase {
+public final class AthrunTestCase {
+	private final Logger logger = Logger.getLogger(getClass());
 
 	private static final String NEWLINE = "blankUsedForAthrun();";
 	private static final String COMMENT = "commentUsedForAthrun";
@@ -66,7 +68,7 @@ public class AthrunTestCase {
 		imports.add(TAOBAOVIEW_IMPORTS);
 	}
 
-	public AthrunTestCase(File xmlFile) {
+	private AthrunTestCase(File xmlFile) {
 		this.ast = AST.newAST(AST.JLS3);
 		this.compilationUnit = ast.newCompilationUnit();
 		this.xmlFile = xmlFile;
@@ -80,7 +82,7 @@ public class AthrunTestCase {
 	 * @param mainActivity
 	 * @param testMethodName
 	 */
-	void init(String testCaseName, String testPackageName, String mainActivity,
+	private void init(String testCaseName, String testPackageName, String mainActivity,
 			String testMethodName) {
 		this.testCaseName = testCaseName;
 		this.testMethodName = testMethodName;
@@ -92,6 +94,7 @@ public class AthrunTestCase {
 		setPackage(testPackageName);
 		setImports(imports);
 		setConstructor(getAppPackageName(), this.mainActivityName);
+		logger.info("init() finished.");
 	}
 
 	private String getAppPackageName() {
@@ -108,12 +111,14 @@ public class AthrunTestCase {
 		athrunTestCaseClass.modifiers().add(
 				ast.newModifier(ModifierKeyword.PUBLIC_KEYWORD));
 		compilationUnit.types().add(athrunTestCaseClass);
+		logger.info("createTestCaseClass(" + testCaseName + ") finished.");
 	}
 
 	private void setPackage(String testPackageName) {
 		PackageDeclaration packageDeclaration = ast.newPackageDeclaration();
 		packageDeclaration.setName(ast.newName(testPackageName));
 		this.compilationUnit.setPackage(packageDeclaration);
+		logger.info("setPackage(" + testPackageName + ") finished.");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -123,6 +128,8 @@ public class AthrunTestCase {
 			importDeclaration.setName(ast.newName(imp));
 			compilationUnit.imports().add(importDeclaration);
 		}
+		
+		logger.info("setImports() finished.");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -149,6 +156,7 @@ public class AthrunTestCase {
 		superConstructorInvocation.arguments().add(appPackage);
 		superConstructorInvocation.arguments().add(appMainActivity);
 		this.athrunTestCaseClass.bodyDeclarations().add(constructor);
+		logger.info("setConstructor() finished.");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -167,24 +175,37 @@ public class AthrunTestCase {
 		testMethodDeclaration.setBody(testMethodBlock);
 
 		athrunTestCaseClass.bodyDeclarations().add(testMethodDeclaration);
+		logger.info("initTestMethod() finished.");
 
 		return testMethodBlock;
 	}
 
 	private void addTestStatements(Block testMethodBlock) {
+		int i = 1;
 		for (IAction action : actions) {
+			logger.debug("Transform the " + i + " action.");
 			action.toJavaCode(testMethodBlock);
+			i++;
 		}
+		
+		logger.info("addTestStatements() finished.");
 	}
 
 	private void initActions() {
 		List<Map<String, String>> xmlActions = XmlParser
 				.getAllActions(this.xmlFile);
-
+		
+		logger.info("There are " + xmlActions.size() + " actions recorded in xml file.");
+		
+		int i = 1;
 		for (Map<String, String> action : xmlActions) {
 			IAction iAction = null;
+			
+			logger.debug("This is the " + i + " action.");
+			logger.debug("The original content is: " + action.toString());
 
 			if (isDevice(action)) {
+				logger.debug("It is a DeviceAction.");
 				iAction = getDeviceAction(action);
 
 			} else if (isView(action)) {
@@ -192,11 +213,16 @@ public class AthrunTestCase {
 
 			} else {
 				// actions that does not support now
+				logger.warn("This is an Unknow action.");
 				iAction = getUnkownAction(action);
 			}
+			
+			i++;
 
 			this.actions.add(iAction);
 		}
+		
+		logger.info("initActions() finished, add " + this.actions.size() + " instance of iAction.");
 	}
 
 	private IAction getDeviceAction(Map<String, String> action) {
@@ -215,26 +241,32 @@ public class AthrunTestCase {
 		IAction iAction = null;
 
 		if (isInAbsListView(action)) {
+			logger.debug("This an AbsListViewAction.");
 			iAction = actionFactory.getAction(action,
 					ActionType.AbsListViewAction);
 
 		} else if (isInViewGroup(action)) {
+			logger.debug("This a ViewGroupAction.");
 			iAction = actionFactory.getAction(action,
 					ActionType.ViewGroupAction);
 
 		} else if (isTaobaoSkuViewAction(action)) {
+			logger.debug("This a TaobaoSkuViewAction.");
 			iAction = actionFactory.getAction(action,
 					ActionType.TaobaoSkuViewAction);
 
 		} else if (isTextView(action)) {
+			logger.debug("This a TextViewAction.");
 			iAction = actionFactory
 					.getAction(action, ActionType.TextViewAction);
 
 		} else if (isOptionItemAction(action)) {
+			logger.debug("This an OptionItemAction.");
 			iAction = actionFactory.getAction(action,
 					ActionType.OptionItemAction);
 
 		} else {
+			logger.debug("This a default ViewAction.");
 			iAction = actionFactory.getAction(action, ActionType.ViewAction);
 		}
 
@@ -252,7 +284,7 @@ public class AthrunTestCase {
 	}
 
 	private boolean isView(Map<String, String> action) {
-		return action.containsKey("viewtype");
+		return action.containsKey("viewtype") || action.containsKey("itemtype");
 	}
 
 	private boolean isTextView(Map<String, String> action) {
@@ -299,7 +331,7 @@ public class AthrunTestCase {
 	 * @param path
 	 *            The folder path that stores the java files.
 	 */
-	void toJavaFile(String path) {
+	private void toJavaFile(String path) {
 		try {
 			FileUtils.writeStringToFile(new File(path + "/" + this.testCaseName
 					+ ".java"), format(this.toJavaCode()));
