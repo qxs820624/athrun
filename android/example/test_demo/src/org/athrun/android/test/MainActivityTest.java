@@ -10,6 +10,7 @@ import org.athrun.android.framework.viewelement.TextViewElement;
 import org.athrun.android.framework.viewelement.ViewElement;
 import org.athrun.android.framework.viewelement.ViewGroupElement;
 
+import android.util.Log;
 import android.widget.AbsListView;
 
 public class MainActivityTest extends AthrunTestCase {
@@ -212,5 +213,10 @@ public class MainActivityTest extends AthrunTestCase {
 		for (int i = 0; i < 10; i++) {
 			gallery.slide(ViewOperation.Direction.LEFT);
 		}
+	}
+	
+	public void testGetChildCount() throws Exception {
+		ViewGroupElement root = findElementById("mainroot", ViewGroupElement.class);
+		Log.i(LOG_TAG, String.valueOf(root.getDirectChildCount()));
 	}
 }
