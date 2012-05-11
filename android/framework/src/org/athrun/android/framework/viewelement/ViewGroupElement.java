@@ -143,7 +143,7 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 	}
 	
 	private void getAllChildView(ViewGroup viewGroup, ArrayList<View> views) {
-		ViewUtils.addChildren(views, viewGroup, false);
+		ViewUtils.addChildren(views, viewGroup, true);
 	}
 	
 	private ArrayList<View> getAllChildren() {
