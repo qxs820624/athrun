@@ -7,6 +7,7 @@ import org.athrun.android.framework.Test;
 import org.athrun.android.framework.viewelement.CheckableElement;
 import org.athrun.android.framework.viewelement.TextViewElement;
 import org.athrun.android.framework.viewelement.ViewElement;
+import org.athrun.android.framework.viewelement.ViewGroupElement;
 
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -136,5 +137,23 @@ public class TextViewActivityTest extends AthrunTestCase {
 				TextViewElement.class);
 		myEditText.inputText("123rfgt@#");
 		assertEquals("Hello world123rfgt@#", myEditText.getText());
+	}
+	
+	public void testFindByTextAndIndex() throws Exception {
+		findElementById("btn_sametext_activity").doClick();
+//		TextViewElement buttonOne = findElementByText("Same Text", 0);
+//		buttonOne.doClick();
+		TextViewElement buttonTwo = findElementByText("Same Text", 1);
+		buttonTwo.doClick();
+		assertEquals("Button Two Clicked.", findToastElement().getText());
+	}
+	
+	public void testFindChild() throws Exception {
+		findElementById("btn_sametext_activity").doClick();
+		ViewGroupElement groupElement = findElementById("sameroot", ViewGroupElement.class);
+		assertEquals(3, groupElement.getChildCount());
+		groupElement.getChildByIndex(0).doClick();
+		groupElement.getChildByIndex(1).doClick();
+		groupElement.getChildByIndex(2).doClick();
 	}
 }

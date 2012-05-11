@@ -15,6 +15,7 @@ public class ListViewActivityTest extends AthrunTestCase {
 
 	public ListViewActivityTest() throws Exception {
 		super("org.athrun.android.app", "org.athrun.android.app.MainActivity");
+		AthrunTestCase.setMaxTimeToFindView(5000);
 	}
 
 	@Test
