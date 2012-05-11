@@ -132,8 +132,8 @@ public class MySocket {
 				socket.close();
 				throw new Exception(request);
 			}
-			// System.out.println(new Date() + "Client request : " + request);
-			System.out.println("Server reply   : " + script);
+			System.out.println("Client request  : " + request);
+			System.out.println("Server response : " + script);
 
 			os.print(script);
 			os.flush();
@@ -161,8 +161,8 @@ public class MySocket {
 				socket.close();
 				throw new Exception(guid);
 			}
-			System.out.println("Client request : " + guid);
-			// System.out.println(new Date() + "\tServer reply   : null");
+			System.out.println("Client response : " + guid);
+			System.out.println("Server reques   : null");
 			os.print("null");
 			os.flush();
 
