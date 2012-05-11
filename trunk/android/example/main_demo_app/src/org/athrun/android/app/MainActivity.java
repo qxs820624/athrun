@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
 	private Button btn_scrollview;
 	private Button btn_webview;
 	private Button btn_listview;
+	private Button btn_sametextview;
 	private View includeView;
 	private CheckBox checkBox;
 	private TextView textView;
@@ -69,6 +70,7 @@ public class MainActivity extends Activity {
 		btn_scrollview = (Button) findViewById(R.id.btn_scrollview_activity);
 		btn_webview = (Button) findViewById(R.id.btn_webview_activity);
 		btn_listview = (Button) findViewById(R.id.btn_listview_activity);
+		btn_sametextview = (Button) findViewById(R.id.btn_sametext_activity);
 		
 		includeView = findViewById(R.id.include_checkbox);
 		checkBox = (CheckBox) includeView.findViewById(R.id.my_checkbox);
@@ -112,6 +114,7 @@ public class MainActivity extends Activity {
 		setOnListener(btn_scrollview, ScrollActivity.class);
 		setOnListener(btn_webview, WebViewActivity.class);
 		setOnListener(btn_listview, ListViewActivity.class);
+		setOnListener(btn_sametextview, SameTextActivity.class);
 		
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
