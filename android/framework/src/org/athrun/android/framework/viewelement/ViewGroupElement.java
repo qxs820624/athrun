@@ -160,8 +160,25 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 		return getAllChildren().size();
 	}
 	
+	public int getDirectChildCount() {
+		return getAllDirectChild().size();
+	}
+	
+	private ArrayList<View> getAllDirectChild() {
+		ArrayList<View> allDirectChild = new ArrayList<View>();
+		
+		for (int i = 0; i < viewGroup.getChildCount(); i++) {
+			View child = viewGroup.getChildAt(i);
+			if (child.isShown()) {
+				allDirectChild.add(child);
+			}
+		}
+		
+		return allDirectChild;
+	}
+	
 	private View getChildViewByIndex(int index) {
-		ArrayList<View> allChildren = getAllChildren();
+		ArrayList<View> allChildren = getAllDirectChild();
 		final int max = allChildren.size() - 1;
 		
 		if (index > max) {
