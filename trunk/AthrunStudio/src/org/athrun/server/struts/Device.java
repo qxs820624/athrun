@@ -15,7 +15,7 @@ public class Device {
 	/**
 	 * @param iDevice
 	 */
-	public Device(IDevice iDevice) {
+	public Device(IDevice iDevice, boolean isRemote) {
 		// TODO Auto-generated constructor stub
 		this.manufacturer = iDevice.getProperty("ro.product.manufacturer");
 		this.model = iDevice.getProperty("ro.product.model");
@@ -24,8 +24,40 @@ public class Device {
 		this.ipAddress = iDevice.getProperty("dhcp.eth0.ipaddress");
 		this.cpuAbi = iDevice.getProperty("ro.product.cpu.abi");
 		this.serialNumber = iDevice.getSerialNumber();
+		this.isRemote = isRemote;
 	}
 
+	/**
+	 * @param manufacturer
+	 * @param model
+	 * @param device
+	 * @param sdk
+	 * @param ipAddress
+	 * @param cpuAbi
+	 * @param serialNumber
+	 */
+	public Device(String manufacturer, String model, String device, String sdk,
+			String ipAddress, String cpuAbi, String serialNumber,
+			boolean isRemote) {
+		this.manufacturer = manufacturer;
+		this.model = model;
+		this.device = device;
+		this.sdk = sdk;
+		this.ipAddress = ipAddress;
+		this.cpuAbi = cpuAbi;
+		this.serialNumber = serialNumber;
+		this.isRemote = isRemote;
+	}
+
+	/**
+	 * @return the isRemote
+	 */
+	public boolean isRemote() {
+		return isRemote;
+	}
+
+	private String remoteUrl;
+	private boolean isRemote;
 	private String manufacturer;
 	private String model;
 	private String device;
@@ -83,4 +115,38 @@ public class Device {
 		return cpuAbi;
 	}
 
+	/**
+	 * @return the remoteUrl
+	 * @example t-taichan3.taobao.ali.com:8080/AthrunStudio/
+	 */
+	public String getRemoteUrl() {
+		return remoteUrl;
+	}
+
+	/**
+	 * @param remoteUrl
+	 *            the remoteUrl to set
+	 */
+	public void setRemoteUrl(String remoteUrl) {
+		this.remoteUrl = remoteUrl;
+	}
+
+	public String getHref() {
+		String shortPath = "remote.jsp?serialNumber=" + getSerialNumber();
+		if (isRemote) {
+			return "http://" + getRemoteUrl() + shortPath;
+		} else {
+			return shortPath;
+		}
+	}
+
+	public String getJpg() {
+		String shortPath = "JpgGen.jpg?ts=0&serialNumber="
+				+ getSerialNumber();
+		if (isRemote) {
+			return "http://" + getRemoteUrl() + shortPath;
+		} else {
+			return shortPath;
+		}
+	}
 }

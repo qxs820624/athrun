@@ -9,6 +9,7 @@ import java.util.List;
 import org.athrun.ddmlib.IDevice;
 import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
+import org.athrun.server.service.RemoteDeviceManager;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -34,9 +35,14 @@ public class Devices {
 		for (String serialNumber : DeviceManager.getDeviceList().keySet()) {
 			IDevice device = DeviceManager.getDeviceList()
 					.get(serialNumber);
-			Device deviceStru = new Device(device);			
+			Device deviceStru = new Device(device, false);			
 			devices.add(deviceStru);
 		}
+		
+		for (Device de : RemoteDeviceManager.getDevices()) {
+			devices.add(de);
+		}		
+				
 		return devices;		
 	}
 }
