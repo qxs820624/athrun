@@ -11,12 +11,7 @@ import java.util.Properties;
  */
 public class PropertiesUtil {
 	public static Properties AthrunProperties; 
-	
-	
-	public static String getHost(){
-		return AthrunProperties.getProperty("host");
-	}
-	
+			
 	public static String getPort(){
 		return AthrunProperties.getProperty("port");
 	}

@@ -49,6 +49,7 @@ public class RemoteRegister extends HttpServlet {
 	}
 
 	/**
+	 * @see RemoteDeviceManager#register
 	 * @param request
 	 * @return
 	 */
@@ -61,12 +62,14 @@ public class RemoteRegister extends HttpServlet {
 		String cpuAbi = request.getParameter("cpuAbi");
 		String serialNumber = request.getParameter("sn");
 
-		String url = request.getParameter("url");
-		url = url.replaceFirst(".+?:", request.getRemoteHost() + ":"); // 用ip地址换掉
+		String url = request.getRemoteHost() + ":"
+				+ request.getParameter("port") + "/"
+				+ request.getParameter("cp") + "/"; // 用ip地址换掉
 
 		Device device = new Device(manufacturer, model, devicePara, sdk,
 				ipAddress, cpuAbi, serialNumber, true);
 		device.setRemoteUrl(url);
+		device.setRemoteAddr(request.getRemoteHost());
 
 		return device;
 	}

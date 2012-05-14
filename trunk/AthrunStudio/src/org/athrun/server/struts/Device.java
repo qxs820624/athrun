@@ -24,7 +24,7 @@ public class Device {
 		this.ipAddress = iDevice.getProperty("dhcp.eth0.ipaddress");
 		this.cpuAbi = iDevice.getProperty("ro.product.cpu.abi");
 		this.serialNumber = iDevice.getSerialNumber();
-		this.isRemote = isRemote;
+		this.isRemote = isRemote;		
 	}
 
 	/**
@@ -65,6 +65,14 @@ public class Device {
 	private String ipAddress;
 	private String cpuAbi;
 	private String serialNumber;
+	private String RemoteAddr;
+
+	/**
+	 * @return the remoteAddr
+	 */
+	public String getRemoteAddr() {
+		return RemoteAddr;
+	}
 
 	/**
 	 * @return the serialNumber
@@ -129,6 +137,10 @@ public class Device {
 	 */
 	public void setRemoteUrl(String remoteUrl) {
 		this.remoteUrl = remoteUrl;
+	}
+	
+	public void setRemoteAddr(String remoteAddr){
+		this.RemoteAddr = remoteAddr;
 	}
 
 	public String getHref() {

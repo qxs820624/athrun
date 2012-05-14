@@ -30,7 +30,9 @@ import org.athrun.server.utils.OneParameterRunnable;
 import org.athrun.server.utils.ReservedPortExhaust;
 
 /**
- * @author taichan 负责开启截图和事件服务
+ * 负责开启截图和事件服务
+ * 
+ * @author taichan
  */
 public class DeviceManager {
 	private static AthrunDeviceChanged deviceChangedInstance = new AthrunDeviceChanged();
@@ -42,6 +44,40 @@ public class DeviceManager {
 		AndroidDebugBridge.addDeviceChangeListener(deviceChangedInstance);
 		AndroidDebugBridge
 				.addDebugBridgeChangeListener(debugBridgeChangedInstance);
+		startUpdateDevicesToRemote();
+	}
+
+	private static boolean updateToRemote = false;
+
+	/**
+	 * @author taichan
+	 */
+	private static void startUpdateDevicesToRemote() {
+		if (!updateToRemote) {
+
+			new Thread(new OneParameterRunnable(deviceList) {
+
+				@Override
+				public void run() {
+					Map<String, IDevice> deviceList = (Map<String, IDevice>) getParameter();
+					while (true) {
+						try {
+							Thread.sleep(3 * 3600 * 1000); // 等待 3 分钟
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						for (IDevice iDevice : deviceList.values()) {
+							RemoteDeviceManager.register(new Device(iDevice,
+									true));
+						}
+					}
+				}
+			}).start();
+
+			updateToRemote = true;
+		}
 	}
 
 	public static void RemoveAdb() {
@@ -70,12 +106,7 @@ public class DeviceManager {
 			}
 		}
 		CaptureManager.getInstance().add(serialNumber);
-		try {
-			RemoteDeviceManager.register(new Device(device, true));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		RemoteDeviceManager.register(new Device(device, true));
 	}
 
 	/**
