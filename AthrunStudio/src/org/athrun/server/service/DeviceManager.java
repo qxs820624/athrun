@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -23,6 +24,7 @@ import org.athrun.server.adb.AthrunDebugBridgeChanged;
 import org.athrun.server.adb.AthrunDeviceChanged;
 import org.athrun.server.adb.OutputStreamShellOutputReceiver;
 import org.athrun.server.log.Log;
+import org.athrun.server.struts.Device;
 import org.athrun.server.utils.ForwardPortManager;
 import org.athrun.server.utils.OneParameterRunnable;
 import org.athrun.server.utils.ReservedPortExhaust;
@@ -68,6 +70,12 @@ public class DeviceManager {
 			}
 		}
 		CaptureManager.getInstance().add(serialNumber);
+		try {
+			RemoteDeviceManager.register(new Device(device, true));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -232,6 +240,7 @@ public class DeviceManager {
 			deviceList.remove(serialNumber);
 		}
 		CaptureManager.getInstance().remove(serialNumber);
+		RemoteDeviceManager.unRegister(new Device(device, true));
 	}
 
 	static Object closeAllLock = new Object();

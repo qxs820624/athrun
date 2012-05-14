@@ -22,15 +22,15 @@ public class jsontest {
 
 	@Test
 	public void test() throws InterruptedException {
-		
+
 		DeviceManager.CreateAdb();
 		Thread.sleep(1000 * 5);
-		
+
 		Devices devices = new Devices();
 
 		for (String serialNumber : DeviceManager.getDeviceList().keySet()) {
 			IDevice device = DeviceManager.getDeviceList().get(serialNumber);
-			devices.add(new Device(device));
+			devices.add(new Device(device, false));
 		}
 
 		JSONObject fromObject = JSONObject.fromObject(devices);

@@ -40,17 +40,15 @@
 					</tr>
 					<tr>
 						<td>开始远程</td>
-						<td><a
-							href="remote.jsp?serialNumber=<s:property value='serialNumber' />"><s:property
-									value="serialNumber" /></a></td>
+						<td><a href="<s:property value='getHref()' />"
+							target="_blank"> <s:property value="serialNumber" /></a></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="right" style="height: 200px;">
-			<a href="remote.jsp?serialNumber=<s:property value='serialNumber' />"
-				style="background:transparent url(/AthrunStudio/JpgGen.jpg?ts=0&serialNumber=<s:property value='serialNumber' />); width:120px; height:200px; background-size:cover; display:block;"
-				title="点击图片开始远程"> 
-			</a>
+			<a href="<s:property value='getHref()' />" target="_blank"
+				style="background:transparent url(<s:property value='getJpg()' />); width:120px; height:200px; background-size:cover; display:block;"
+				title="点击图片开始远程"> </a>
 		</div></li>
 </s:iterator>
