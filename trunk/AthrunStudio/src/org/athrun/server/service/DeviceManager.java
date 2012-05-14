@@ -62,7 +62,7 @@ public class DeviceManager {
 					Map<String, IDevice> deviceList = (Map<String, IDevice>) getParameter();
 					while (true) {
 						try {
-							Thread.sleep(3 * 3600 * 1000); // 等待 3 分钟
+							Thread.sleep(3 * 60 * 1000); // 等待 3 分钟
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

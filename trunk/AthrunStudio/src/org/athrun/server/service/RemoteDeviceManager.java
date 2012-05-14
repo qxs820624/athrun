@@ -16,6 +16,7 @@ import java.util.Map;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -122,7 +123,11 @@ public class RemoteDeviceManager {
 			ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			httpClient.execute(httpget, responseHandler);
 		} catch (UnknownHostException e) {
-			Log.w("remoteRegister", "Can't reach the host: " + e.getMessage());
+			Log.w("RemoteDeviceRegister",
+					"Can't reach the host: " + e.getMessage());
+		} catch (HttpHostConnectException e) {
+			Log.w("RemoteDeviceRegister",
+					"Can't reach the host: " + e.getMessage());
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -155,6 +160,9 @@ public class RemoteDeviceManager {
 			httpClient.execute(httpget, responseHandler);
 		} catch (UnknownHostException e) {
 			Log.w("remoteRegister", "Can't reach the host: " + e.getMessage());
+		} catch (HttpHostConnectException e) {
+			Log.w("RemoteDeviceRegister",
+					"Can't reach the host: " + e.getMessage());
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,7 +184,7 @@ public class RemoteDeviceManager {
 				while (true) {
 					r.addAll();
 					try {
-						Thread.sleep(10 * 3600 * 1000); // 等 10 分钟
+						Thread.sleep(10 * 60 * 1000); // 等 10 分钟
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -199,6 +207,7 @@ public class RemoteDeviceManager {
 
 	/**
 	 * 只要收到 add 或 remote，就把列表清掉
+	 * 
 	 * @param device
 	 */
 	protected void maintain(Device device) {
