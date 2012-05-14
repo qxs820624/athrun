@@ -14,7 +14,7 @@ public class DeviceAction extends BaseAction {
 	public static final String ON_TOUCH = "onTouch";
 	private static final String SLIDE = "slide";
 
-	private static final String GETDEVICE = "getDevice";
+	private static final String GET_DEVICE = "getDevice";
 	private static final String PRESSKEYS = "pressKeys";
 
 	private String keyCode;
@@ -41,7 +41,7 @@ public class DeviceAction extends BaseAction {
 
 	protected MethodInvocation createGetDevice() {
 		MethodInvocation getDevice = ast.newMethodInvocation();
-		getDevice.setName(ast.newSimpleName(GETDEVICE));
+		getDevice.setName(ast.newSimpleName(GET_DEVICE));
 
 		return getDevice;
 	}
