@@ -390,7 +390,6 @@ public final class AthrunTestCase {
 		System.out.println("Usage:");
 		System.out
 				.println("-xmlFilePath [xmlFilePath] -testCaseName [testCaseName] -testPackageName [testPackageName] -mainActivityName [mainActivityName] -testMethodName [testMethodName] -javaFilePath [javaFilePath]");
-
 	}
 
 	public static void main(String args[]) {
