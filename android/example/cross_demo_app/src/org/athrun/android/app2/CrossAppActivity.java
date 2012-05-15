@@ -31,7 +31,6 @@ public class CrossAppActivity extends Activity {
 				Toast.makeText(CrossAppActivity.this,
 						"Button in another app is pressed!", Toast.LENGTH_SHORT)
 						.show();
-				
 			}
 		});
 	}
