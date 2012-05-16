@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,7 +24,6 @@ import android.widget.Toast;
 public class ListViewActivity extends Activity {
 	private static final String LOG_TAG = "ListViewActivity";
 	private ListView listView;
-	private Button button;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,7 +31,6 @@ public class ListViewActivity extends Activity {
 		setContentView(R.layout.listview_layout);
 
 		listView = (ListView) findViewById(R.id.my_listview);
-//		button = (Button) findViewById(R.id.listview_button);
 		
 		ArrayList<HashMap<String, Object>> listitem = new ArrayList<HashMap<String, Object>>();
 		for (int i = 0; i < 100; i++) {
