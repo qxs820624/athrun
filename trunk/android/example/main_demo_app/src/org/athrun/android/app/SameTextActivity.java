@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 public class SameTextActivity extends Activity implements OnTouchListener,
 		OnGestureListener {
+	private View view;
+	
 	private Button sameButtonOne;
 	private Button sameButtonTwo;
 	private Button sameButtonThree;
@@ -33,8 +35,9 @@ public class SameTextActivity extends Activity implements OnTouchListener,
 	}
 
 	private void init() {
+		view = findViewById(R.id.sameroot);
 		sameButtonOne = (Button) findViewById(R.id.same_one);
-		sameButtonOne.setLongClickable(true);
+//		sameButtonOne.setLongClickable(true);
 		sameButtonTwo = (Button) findViewById(R.id.same_two);
 		sameButtonThree = (Button) findViewById(R.id.same_three);
 
@@ -46,8 +49,8 @@ public class SameTextActivity extends Activity implements OnTouchListener,
 						Toast.LENGTH_SHORT).show();
 			}
 		});
-		
-		sameButtonOne.setOnTouchListener(this);
+		view.setLongClickable(true);
+		view.setOnTouchListener(this);
 
 		sameButtonTwo.setOnClickListener(new OnClickListener() {
 
@@ -79,14 +82,14 @@ public class SameTextActivity extends Activity implements OnTouchListener,
 			float velocityY) {
 		if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE
 				&& Math.abs(velocityX) > FLING_MIN_VELOCITY) {
-			Toast.makeText(this, "left", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "left", Toast.LENGTH_SHORT).show();
 			sameButtonOne.scrollBy(-200, 0);
 			sameButtonTwo.scrollBy(-200, 0);
 			sameButtonThree.scrollBy(-200, 0);
 
 		} else if (e2.getX() - e1.getX() > FLING_MIN_DISTANCE
 				&& Math.abs(velocityX) > FLING_MIN_VELOCITY) {
-			Toast.makeText(this, "right", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(this, "right", Toast.LENGTH_SHORT).show();
 			sameButtonOne.scrollBy(200, 0);
 			sameButtonTwo.scrollBy(200, 0);
 			sameButtonThree.scrollBy(200, 0);
@@ -104,6 +107,7 @@ public class SameTextActivity extends Activity implements OnTouchListener,
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		// TODO Auto-generated method stub
+//		Toast.makeText(this, "onScroll()", Toast.LENGTH_SHORT).show();
 		return false;
 	}
 
