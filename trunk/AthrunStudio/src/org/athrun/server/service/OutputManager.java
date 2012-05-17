@@ -16,11 +16,6 @@ import java.util.Map;
 public class OutputManager {
 
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * @param serialNumber
 	 * 
 	 */

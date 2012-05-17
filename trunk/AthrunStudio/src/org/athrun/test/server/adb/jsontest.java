@@ -11,7 +11,7 @@ import org.athrun.ddmlib.IDevice;
 import org.athrun.server.service.DeviceManager;
 import org.athrun.server.struts.Device;
 import org.athrun.server.struts.Devices;
-import org.athrun.server.struts.HelloWorld;
+import org.athrun.server.struts.ProcessQuery;
 import org.junit.Test;
 
 /**

@@ -17,6 +17,7 @@ public class RemoteRegister extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * @author taichan
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public RemoteRegister() {
@@ -42,7 +43,7 @@ public class RemoteRegister extends HttpServlet {
 			} else {
 				if (type.equalsIgnoreCase("remove")) {
 					String sn = request.getParameter("sn");
-					RemoteDeviceManager.remove(remoteAddr, sn);
+					RemoteDeviceManager.remove(remoteAddr, sn, true);
 				} else {
 					throw new RuntimeException("Not supported type");
 				}

@@ -1,14 +1,11 @@
 package org.athrun.server.listener;
 
-import java.util.Properties;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
 import org.athrun.server.service.RemoteDeviceManager;
-import org.athrun.server.utils.PropertiesUtil;
 
 /**
  * Application Lifecycle Listener implementation class DeviceSetupListener
@@ -18,6 +15,7 @@ public class DeviceSetupListener implements ServletContextListener {
 
     /**
      * Default constructor. 
+     * @author taichan
      */
     public DeviceSetupListener() {
         // TODO Auto-generated constructor stub

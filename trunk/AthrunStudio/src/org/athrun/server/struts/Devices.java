@@ -7,11 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.athrun.ddmlib.IDevice;
-import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
 import org.athrun.server.service.RemoteDeviceManager;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * @author taichan

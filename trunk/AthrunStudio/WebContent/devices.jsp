@@ -169,9 +169,9 @@ a:hover {
 <script type="text/javascript">
 	$('.search-button').click(function() {
 		$.ajax({
-			url : "device/HelloWorld.action",
+			url : "device/ProcessQuery.action",
 			method : "post",
-			data : "userName=" + $("#search-input").val(),
+			data : "query=" + $("#search-input").val(),
 			// 一系列其他你需要的参数（详见文档）
 			success : function(dataFromServer) {
 				// 处理服务端返回的数据dataFromServer

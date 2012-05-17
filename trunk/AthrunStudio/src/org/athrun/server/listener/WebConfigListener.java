@@ -19,6 +19,7 @@ public class WebConfigListener implements ServletContextListener {
 
 	/**
 	 * Default constructor.
+	 * @author taichan
 	 */
 	public WebConfigListener() {
 		// TODO Auto-generated constructor stub

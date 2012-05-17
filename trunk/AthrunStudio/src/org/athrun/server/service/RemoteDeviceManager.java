@@ -82,21 +82,28 @@ public class RemoteDeviceManager {
 	/**
 	 * @param remoteAddr
 	 * @param sn
+	 * @param needMaintain 内部轮询检查不用maintain，外部请求需要maintain
 	 */
-	public static void remove(String remoteAddr, String sn) {
+	public static void remove(String remoteAddr, String sn, boolean needMaintain) {
 		synchronized (remoteDeviceMap) {
 			Map<String, Device> list = remoteDeviceMap.get(remoteAddr);
 			if (list != null) {
 				Device device = list.remove(sn);
-				if (device != null) {
-					maintain(remoteAddr, sn, device);
+				if (needMaintain) {
+					if (device != null) {
+						maintain(remoteAddr, sn, device);
+					}
 				}
 			}
 		}
 	}
 
+	/**
+	 * 内部轮询检查，要求维护remoteDeviceMap
+	 * @param device
+	 */	
 	private void remove(Device device) {
-		remove(device.getRemoteAddr(), device.getSerialNumber());
+		remove(device.getRemoteAddr(), device.getSerialNumber(), false);
 	}
 
 	/**
@@ -126,7 +133,7 @@ public class RemoteDeviceManager {
 		} catch (IOException e) {
 			Log.w("RemoteDeviceRegister",
 					"Can't reach the host: " + e.getMessage());
-		} 
+		}
 
 	}
 
@@ -176,7 +183,7 @@ public class RemoteDeviceManager {
 				while (true) {
 					r.addAll();
 					try {
-						Thread.sleep(10 * 60 * 1000); // 等 10 分钟
+						Thread.sleep(5 * 60 * 1000); // 等 5 分钟
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -240,7 +247,8 @@ public class RemoteDeviceManager {
 							"Read jpg timeout, remove the remote device.");
 					remove(device);
 				} catch (ConnectTimeoutException e) {
-					Log.i("RemoteDeviceManager", e.getMessage()+", remove the remote device.");
+					Log.i("RemoteDeviceManager", e.getMessage()
+							+ ", remove the remote device.");
 					remove(device);
 				} catch (IOException e) {
 					e.printStackTrace();
