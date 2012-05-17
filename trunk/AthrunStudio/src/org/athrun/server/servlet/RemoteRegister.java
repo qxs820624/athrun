@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.athrun.server.service.RemoteDeviceManager;
 import org.athrun.server.struts.Device;
+import org.athrun.server.utils.PropertiesUtil;
 
 /**
  * Servlet implementation class RemoteRegister
@@ -31,7 +32,8 @@ public class RemoteRegister extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String remoteAddr = request.getRemoteAddr();
 		String localAddr = request.getLocalAddr();
-		if (!remoteAddr.equals(localAddr)) {
+		if (!remoteAddr.equals(localAddr)
+				|| PropertiesUtil.getIncludeLocalMachine()) {
 			String type = request.getParameter("type");
 			if (type.equalsIgnoreCase("add")) {
 				Device device = getDeviceFromRequest(request);
@@ -62,9 +64,8 @@ public class RemoteRegister extends HttpServlet {
 		String cpuAbi = request.getParameter("cpuAbi");
 		String serialNumber = request.getParameter("sn");
 
-		String url = request.getRemoteHost() + ":"
-				+ request.getParameter("port") + "/"
-				+ request.getParameter("cp") + "/"; // 用ip地址换掉
+		String url = getHost(request) + ":" + request.getParameter("port")
+				+ "/" + request.getParameter("cp") + "/"; // 用ip地址换掉
 
 		Device device = new Device(manufacturer, model, devicePara, sdk,
 				ipAddress, cpuAbi, serialNumber, true);
@@ -72,5 +73,26 @@ public class RemoteRegister extends HttpServlet {
 		device.setRemoteAddr(request.getRemoteHost());
 
 		return device;
+	}
+
+	private String getHost(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+
 	}
 }

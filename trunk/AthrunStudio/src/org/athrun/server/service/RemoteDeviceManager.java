@@ -16,6 +16,7 @@ import java.util.Map;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -34,7 +35,7 @@ import org.athrun.server.utils.PropertiesUtil;
  */
 public class RemoteDeviceManager {
 
-	private static String RemoteRegisterUrl = "http://t-taichan3.taobao.ali.com:8080/AthrunStudio/RemoteRegister";
+	private static String RemoteRegisterUrl = "http://kelude.taobao.net/athrun/RemoteRegister";
 
 	static Map<String, Map<String, Device>> remoteDeviceMap = new HashMap<String, Map<String, Device>>();
 
@@ -122,19 +123,10 @@ public class RemoteDeviceManager {
 			HttpGet httpget = new HttpGet(RemoteRegisterUrl + uri.toString());
 			ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			httpClient.execute(httpget, responseHandler);
-		} catch (UnknownHostException e) {
-			Log.w("RemoteDeviceRegister",
-					"Can't reach the host: " + e.getMessage());
-		} catch (HttpHostConnectException e) {
-			Log.w("RemoteDeviceRegister",
-					"Can't reach the host: " + e.getMessage());
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Log.w("RemoteDeviceRegister",
+					"Can't reach the host: " + e.getMessage());
+		} 
 
 	}
 
@@ -246,6 +238,9 @@ public class RemoteDeviceManager {
 				} catch (SocketTimeoutException e) {
 					Log.i("RemoteDeviceManager",
 							"Read jpg timeout, remove the remote device.");
+					remove(device);
+				} catch (ConnectTimeoutException e) {
+					Log.i("RemoteDeviceManager", e.getMessage()+", remove the remote device.");
 					remove(device);
 				} catch (IOException e) {
 					e.printStackTrace();

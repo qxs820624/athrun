@@ -130,7 +130,7 @@ a:hover {
 	<ul id="list">
 		<h3>
 			<div>
-				<img alt="AthrunLogo" src="img/AthrunLogo-small.png">
+				<img alt="AthrunLogo" src="img/athrun_logo_small.png">
 			</div>
 			<input id="search-input" type="text" title="" style="height: 29px;">
 			<div role="button" class="search-button" tabindex="0" title="搜索"
