@@ -6,7 +6,7 @@
 	<constant name="struts.devMode" value="true" />
 
 	<package name="default" extends="struts-default" namespace="/device">
-		<action name="HelloWorld" class="org.athrun.server.struts.HelloWorld">
+		<action name="ProcessQuery" class="org.athrun.server.struts.ProcessQuery">
 			<result name="SUCCESS">/success.jsp</result>
 		</action>
 	</package>

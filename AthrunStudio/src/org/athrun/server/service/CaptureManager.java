@@ -3,11 +3,9 @@
  */
 package org.athrun.server.service;
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -19,7 +17,6 @@ import org.athrun.ddmlib.AdbCommandRejectedException;
 import org.athrun.ddmlib.IDevice;
 import org.athrun.ddmlib.SyncException;
 import org.athrun.ddmlib.TimeoutException;
-import org.athrun.server.utils.ForwardPortManager;
 import org.athrun.server.utils.InOutStructure;
 import org.athrun.server.utils.OneParameterRunnable;
 import org.athrun.server.utils.ReservedPortExhaust;

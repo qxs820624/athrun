@@ -5,14 +5,13 @@ package org.athrun.server.struts;
 
 import org.athrun.ddmlib.IDevice;
 
-import com.opensymphony.xwork2.ActionSupport;
-
 /**
  * @author taichan
  * 
  */
 public class Device {
 	/**
+	 * @author taichan
 	 * @param iDevice
 	 */
 	public Device(IDevice iDevice, boolean isRemote) {

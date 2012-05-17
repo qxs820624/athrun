@@ -4,13 +4,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +60,7 @@ public class DeviceManager {
 					Map<String, IDevice> deviceList = (Map<String, IDevice>) getParameter();
 					while (true) {
 						try {
-							Thread.sleep(3 * 60 * 1000); // 等待 3 分钟
+							Thread.sleep(2 * 60 * 1000); // 等待 2 分钟
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
