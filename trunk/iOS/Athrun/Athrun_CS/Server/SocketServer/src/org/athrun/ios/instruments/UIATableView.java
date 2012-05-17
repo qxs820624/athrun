@@ -21,5 +21,10 @@ public class UIATableView extends UIAElement {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public UIATableCell [] cells() throws Exception{
+		
+		return UIAElementHelp.cellsArray(this.guid + ".cells()");
+	}
 
 }
