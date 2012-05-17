@@ -7,7 +7,7 @@ package org.athrun.ios.instruments;
 public class RunType {
 
 	/**
-	 * 设定用例运行方式 DEBUG = ture 则调试方式单步运行,速度较慢; DEBUG = false 则在需要时才进行通信,速度较快
+	 * 设定用例运行方式 DEBUG = true 则调试方式单步运行,速度较慢; DEBUG = false 则在需要时才进行通信,速度较快
 	 */
 	public static boolean DEBUG = false;
 

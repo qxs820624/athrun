@@ -3,6 +3,8 @@
  */
 package org.athrun.ios.instruments;
 
+import net.sf.json.JSONObject;
+
 /**
  * @author ziyu.hch
  * 
@@ -23,6 +25,15 @@ public class UIAElement {
 	protected String name;
 	protected String label;
 	protected String value;
+	protected String type;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public String getGuid() {
 		return guid;
@@ -65,6 +76,50 @@ public class UIAElement {
 	}
 
 	// -----------------------------------------------------
+
+	public UIAElement findElementByText(String text) throws Exception {
+
+		return findElementByText(text, UIAElement.class);
+	}
+
+	/**
+	 * 根据元素的显示文本和元素类型查找指定元素
+	 * 
+	 * @param text
+	 *            要查找的元素的name，value或者 label值
+	 * @param elmentType
+	 *            要查找元素的类型 ，如：UIABuuton.class
+	 * @return 返回查找到的具体元素
+	 * @throws Exception
+	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
+	 */
+
+	@SuppressWarnings("unchecked")
+	public <T> T findElementByText(String text, Class<T> elmentType)
+			throws Exception {
+
+		String[] type = elmentType.getName().split("\\.");
+		String elementJSON = MySocket.getText("findElement('" + this.guid
+				+ "','" + text + "','" + type[type.length - 1] + "')");
+
+		JSONObject element = JSONObject.fromObject(elementJSON);
+
+		return (T) JSONObject.toBean(element, elmentType);
+	}
+
+	public void printElementTree() throws Exception {
+
+		String elementTree = MySocket.getText("printElementTree('" + this.guid
+				+ "')");
+
+		System.out
+				.println("-----------------------------------------------------");
+		System.out.println("LogElementTree:");
+		System.out.println(elementTree.replaceAll("###", "\n"));
+		System.out
+				.println("-----------------------------------------------------");
+	}
 
 	/**
 	 * Get the element's parent element

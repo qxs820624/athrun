@@ -348,6 +348,22 @@ class UIAElementHelp {
 		return elements;
 	}
 
+	public static UIATableCell[] cellsArray(String guid) throws Exception{
+
+		UIATableCell[] elements;
+		if (DEBUG) {
+			elements = (UIATableCell[]) elementsJSONArray(guid, UIATableCell.class);
+		} else {
+			String[] guids = guidArray(guid);
+			elements = new UIATableCell[guids.length];
+			for (int i = 0; i < guids.length; i++) {
+				UIATableCell element = new UIATableCell(guids[i]);
+				elements[i] = element;
+			}
+		}
+		return elements;
+	}
+	
 	public static UIAElement getElement(String guid) throws Exception {
 
 		UIAElement element;
