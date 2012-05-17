@@ -105,6 +105,12 @@ public interface IViewElement {
 	 * @return True if the view is displayed, false otherwise.
 	 */
 	boolean isDisplayed();
+	
+	/**
+	 * Returns true if this view has focus.
+	 * @return
+	 */
+	boolean isFocused();
 
 	/**
 	 * Returns this view's identifier.

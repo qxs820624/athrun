@@ -153,6 +153,11 @@ public class ViewElement implements IViewElement {
 		return view.hasWindowFocus() && view.isEnabled() && view.isShown()
 				&& (getWidth() > 0) && (getHeight() > 0);
 	}
+	
+	@Override
+	public boolean isFocused() {
+		return view.isFocused();
+	}
 
 	@Override
 	public int getId() {
