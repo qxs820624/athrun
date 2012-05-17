@@ -7,12 +7,12 @@ import java.util.Properties;
 
 /**
  * @author taichan
- *
+ * 
  */
 public class PropertiesUtil {
-	public static Properties AthrunProperties; 
-			
-	public static String getPort(){
+	public static Properties AthrunProperties;
+
+	public static String getPort() {
 		return AthrunProperties.getProperty("port");
 	}
 
@@ -22,5 +22,10 @@ public class PropertiesUtil {
 	public static String getContextPath() {
 		// TODO Auto-generated method stub
 		return AthrunProperties.getProperty("contextPath");
+	}
+
+	public static boolean getIncludeLocalMachine() {
+		return AthrunProperties.getProperty("includeLocalMachine")
+				.equalsIgnoreCase("true");
 	}
 }

@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
 <title>Athrun PC-Mobile Demo</title>
 <link rel="stylesheet" type="text/css"
-	href="/AthrunStudio/css/athrun.css">
+	href="/athrun/css/athrun.css">
 </head>
 
 
@@ -25,8 +25,8 @@
 
 	<span>!!! 请用支持 HTML 5 的浏览器 !!!</span>
 	<br />
-	<img id="start" src="/AthrunStudio/img/start.png" title="start" />
-	<img id="stop" src="/AthrunStudio/img/stop.png" title="stop" />
+	<img id="start" src="/athrun/img/start.png" title="start" />
+	<img id="stop" src="/athrun/img/stop.png" title="stop" />
 	<div>
 		<img id="imgtag" style="display: none;"></img>
 	</div>
@@ -82,7 +82,7 @@
 			context.textBaseline = 'top';
 			context.fillText('Stoped', width / 2 - 80, height / 2);
 		}
-		imgtag.src = "/AthrunStudio/JpgGen.jpg?ts=0&serialNumber="
+		imgtag.src = "/athrun/JpgGen.jpg?ts=0&serialNumber="
 				+ serialNumber;
 
 		var timestamp = 0;
@@ -113,7 +113,7 @@
 						alert("error!");
 					}; //它在图像载入失败后调用，图像载入失败不会调用onload事件。
 					timestamp = (new Date()).valueOf();
-					img.src = "/AthrunStudio/JpgGen.jpg?ts=" + timestamp
+					img.src = "/athrun/JpgGen.jpg?ts=" + timestamp
 							+ "&serialNumber=" + serialNumber; //开始加载图片,加载图片是异步过程。
 
 				});
@@ -140,7 +140,7 @@
 			$('input:radio[name=resize]').change(
 					function() {
 						txt = $('input:radio:checked[name=resize]').val();
-						$.post("/AthrunStudio/imageSize?serialNumber="
+						$.post("/athrun/imageSize?serialNumber="
 								+ serialNumber, {
 							rate : txt
 						});
@@ -148,7 +148,7 @@
 			$('#qualityRate').focusout(
 					function(e) {
 						txt = $('#qualityRate').val();
-						$.post("/AthrunStudio/imageQuality?serialNumber="
+						$.post("/athrun/imageQuality?serialNumber="
 								+ serialNumber, {
 							rate : txt
 						});
