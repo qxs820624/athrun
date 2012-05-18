@@ -31,7 +31,7 @@ public class RemoteRegister extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String remoteAddr = request.getRemoteAddr();
+		String remoteAddr = getHost(request);
 		String localAddr = request.getLocalAddr();
 		if (!remoteAddr.equals(localAddr)
 				|| PropertiesUtil.getIncludeLocalMachine()) {
