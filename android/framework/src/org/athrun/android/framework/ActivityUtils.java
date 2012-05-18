@@ -317,13 +317,13 @@ class ActivityUtils {
 		finishActivity(getCurrentActivity());
 		sleep(MINIPAUSE);
 
-		// try {
-		// this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-		// sleep(100);
-		// this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-		//
-		// } catch (Throwable ignored) {
-		// }
+		try {
+			this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+			sleep(100);
+			this.inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+
+		} catch (Throwable ignored) {
+		}
 
 		this.activityStack.clear();
 		logger.info("finishOpenedActivities()");
