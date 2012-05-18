@@ -1,1 +1,1 @@
-java -cp keluderunner.jar org.athrun.android.kelude.KeludeRunner %*
+java -cp C:\AthrunLog\tool\keluderunner.jar org.athrun.android.kelude.KeludeRunner %*
