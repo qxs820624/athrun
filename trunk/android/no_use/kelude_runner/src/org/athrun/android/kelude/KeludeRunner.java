@@ -101,7 +101,7 @@ public final class KeludeRunner {
 	}
 
 	private String clean() throws Exception {
-		return ShellCommandRunner.run("adb shell rm " + REPORT_FILE_DIR + "/"
+		return ShellCommandRunner.run("adb -s " + this.device + " shell rm " + REPORT_FILE_DIR + "/"
 				+ REPORT_FILE_NAME);
 	}
 	
