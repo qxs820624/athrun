@@ -10,8 +10,10 @@ public class AthrunCSTest extends IOSTestCase {
 		UIAApplication app = target.frontMostApp();
 		UIAWindow win = app.mainWindow();
 
+		win.printElementTree();
+		win.findElementByTextType("搜索", UIAButton.class).tap();
+
 		UIAElement[] buttons = app.tabBar().buttons();
-		buttons[1].tap();
 
 		assertEquals("首页", buttons[0].name());
 		assertTrue(buttons[1].isEnabled());
@@ -19,6 +21,10 @@ public class AthrunCSTest extends IOSTestCase {
 		// 搜索宝贝
 		win.searchBars()[0].tap();
 		app.keyboard().typeString("iphone\\n");
-		buttons[0].tap();
+
+		win.findElementByTextType("首页", UIAButton.class).tap();
+		win.findElementByText("充值中心").tap();
+		target.delay(2);
+		win.findElementByText("Error").tap();
 	}
 }
