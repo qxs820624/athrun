@@ -77,9 +77,20 @@ public class UIAElement {
 
 	// -----------------------------------------------------
 
+	/**
+	 * 根据元素的显示文本查找元素
+	 * 
+	 * @param text
+	 *            要查找的元素的name，value或者 label值
+	 * @return 返回查找到满足条件的第一个元素实例
+	 * @throws Exception
+	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
+	 */
 	public UIAElement findElementByText(String text) throws Exception {
 
-		return findElementByText(text, UIAElement.class);
+		return this.findElementByTextType(text, UIAElement.class);
+
 	}
 
 	/**
@@ -89,19 +100,58 @@ public class UIAElement {
 	 *            要查找的元素的name，value或者 label值
 	 * @param elmentType
 	 *            要查找元素的类型 ，如：UIABuuton.class
-	 * @return 返回查找到的具体元素
+	 * @return 返回查找到满足条件的第一个元素实例
 	 * @throws Exception
 	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
 	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
 	 */
-
-	@SuppressWarnings("unchecked")
-	public <T> T findElementByText(String text, Class<T> elmentType)
+	public <T> T findElementByTextType(String text, Class<T> elmentType)
 			throws Exception {
 
+		return this.findElementByTextIndexType(text, 0, elmentType);
+	}
+
+	/**
+	 * 根据元素的显示文本和索引查找指定元素
+	 * 
+	 * @param text
+	 *            要查找的元素的name，value或者 label值
+	 * @param index
+	 *            满足 text、 elementType 条件的第几个元素，第一个为 0
+	 * @return 返回查找到满足条件的元素实例
+	 * @throws Exception
+	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
+	 */
+	public UIAElement findElementByTextIndex(String text, int index)
+			throws Exception {
+
+		return this.findElementByTextIndexType(text, index, UIAElement.class);
+	}
+
+	/**
+	 * 根据元素的显示文本和元素类型查找指定元素
+	 * 
+	 * @param text
+	 *            要查找的元素的name，value或者 label值
+	 * @param elmentType
+	 *            要查找元素的类型 ，如：UIABuuton.class
+	 * @param index
+	 *            满足 text、 elementType 条件的第几个元素，第一个为 0
+	 * @return 返回查找到满足条件的元素实例
+	 * @throws Exception
+	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T findElementByTextIndexType(String text, int index,
+			Class<T> elmentType) throws Exception {
+
 		String[] type = elmentType.getName().split("\\.");
+		// function findElement(root, text, index, elementType)
 		String elementJSON = MySocket.getText("findElement('" + this.guid
-				+ "','" + text + "','" + type[type.length - 1] + "')");
+				+ "','" + text + "'," + index + ",'" + type[type.length - 1]
+				+ "')");
 
 		JSONObject element = JSONObject.fromObject(elementJSON);
 
