@@ -192,7 +192,7 @@ public class RemoteDeviceManager {
 				}
 
 			}
-		}).start();
+		},"check-devices").start();
 	}
 
 	/**

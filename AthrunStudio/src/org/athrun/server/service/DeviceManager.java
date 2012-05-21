@@ -72,7 +72,7 @@ public class DeviceManager {
 						}
 					}
 				}
-			}).start();
+			}, "UpdateDeviceToRemote").start();
 
 			updateToRemote = true;
 		}
@@ -208,7 +208,7 @@ public class DeviceManager {
 							e.printStackTrace();
 						}
 					}
-				}).start();
+				},"gsnap-sync").start();
 				Thread.sleep(2000);
 				break;
 			default:

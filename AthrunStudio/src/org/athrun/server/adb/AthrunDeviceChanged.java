@@ -71,11 +71,11 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 	// 延迟添加设备，以防事件变化太快，造成不必要的事件响应
 	private void DelayAdd(String serialNumber, IDevice device) {
 		boolean canAdd = serialList.add(serialNumber);
-//		if (canAdd) {
-//			System.out.println("设备" + serialNumber + "：加入Delay列表");
-//		} else {
-//			System.out.println("[Debug]设备" + serialNumber + "：不需要再加入Delay列表");
-//		}
+		// if (canAdd) {
+		// System.out.println("设备" + serialNumber + "：加入Delay列表");
+		// } else {
+		// System.out.println("[Debug]设备" + serialNumber + "：不需要再加入Delay列表");
+		// }
 
 		// TODO 传参不规范，要改
 		currentSerialNumber = serialNumber;
@@ -95,14 +95,15 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 				// TODO Auto-generated method stub
 				if (serialList.contains(serialNumber1)) {
 					serialList.remove(serialNumber1);
-//					System.out.println("设备" + serialNumber1 + "：从Delay列表中处理完毕");
+					// System.out.println("设备" + serialNumber1 +
+					// "：从Delay列表中处理完毕");
 					DeviceManager.add(device1);
-				} 
-//				else {
-//					System.out.println("[Debug]设备" + serialNumber1 + "：已经被删除");
-//				}
+				}
+				// else {
+				// System.out.println("[Debug]设备" + serialNumber1 + "：已经被删除");
+				// }
 			}
-		}, serialNumber).start();
+		}, "DelayAdd-" + serialNumber).start();
 	}
 
 	private static IDevice currentDevice;
@@ -113,12 +114,12 @@ public class AthrunDeviceChanged implements IDeviceChangeListener {
 	// 取消添加设备
 	private void CancelAdd(String serialNumber) {
 		boolean canRemove = serialList.remove(serialNumber);
-//		if (canRemove) {
-//			System.out.println("设备" + serialNumber + "：从Delay列表删除");
-//		} else {
-//			System.out.println("[Debug]设备" + serialNumber
-//					+ "：不存在，不需要从Delay列表删除");
-//		}
+		// if (canRemove) {
+		// System.out.println("设备" + serialNumber + "：从Delay列表删除");
+		// } else {
+		// System.out.println("[Debug]设备" + serialNumber
+		// + "：不存在，不需要从Delay列表删除");
+		// }
 	}
 
 }
