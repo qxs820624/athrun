@@ -3,6 +3,7 @@
  */
 package org.athrun.ios.instruments;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -81,10 +82,10 @@ public class UIAElement {
 	 * 根据元素的显示文本查找元素
 	 * 
 	 * @param text
-	 *            要查找的元素的name，value或者 label值
+	 *            要查找的元素的name，value 或者 label值 包含的文本
 	 * @return 返回查找到满足条件的第一个元素实例
 	 * @throws Exception
-	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             当根据指定的 text 和 elmentType 未找到元素时，返回 UIAElementNil
 	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
 	 */
 	public UIAElement findElementByText(String text) throws Exception {
@@ -97,12 +98,12 @@ public class UIAElement {
 	 * 根据元素的显示文本和元素类型查找指定元素
 	 * 
 	 * @param text
-	 *            要查找的元素的name，value或者 label值
+	 *            要查找的元素的name，value 或者 label值 包含的文本
 	 * @param elmentType
 	 *            要查找元素的类型 ，如：UIABuuton.class
 	 * @return 返回查找到满足条件的第一个元素实例
 	 * @throws Exception
-	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             当根据指定的 text 和 elmentType 未找到元素时，返回 UIAElementNil
 	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
 	 */
 	public <T> T findElementByTextType(String text, Class<T> elmentType)
@@ -115,12 +116,12 @@ public class UIAElement {
 	 * 根据元素的显示文本和索引查找指定元素
 	 * 
 	 * @param text
-	 *            要查找的元素的name，value或者 label值
+	 *            要查找的元素的name，value 或者 label值 包含的文本
 	 * @param index
 	 *            满足 text、 elementType 条件的第几个元素，第一个为 0
 	 * @return 返回查找到满足条件的元素实例
 	 * @throws Exception
-	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             当根据指定的 text 和 elmentType 未找到元素时，返回 UIAElementNil
 	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
 	 */
 	public UIAElement findElementByTextIndex(String text, int index)
@@ -133,14 +134,14 @@ public class UIAElement {
 	 * 根据元素的显示文本和元素类型查找指定元素
 	 * 
 	 * @param text
-	 *            要查找的元素的name，value或者 label值
+	 *            要查找的元素的name，value 或者 label值 包含的文本
 	 * @param elmentType
 	 *            要查找元素的类型 ，如：UIABuuton.class
 	 * @param index
 	 *            满足 text、 elementType 条件的第几个元素，第一个为 0
 	 * @return 返回查找到满足条件的元素实例
 	 * @throws Exception
-	 *             当指定的 name 和 elmentType 未找到元素时，返回 UIAElementNil
+	 *             当根据指定的 text 和 elmentType 未找到元素时，返回 UIAElementNil
 	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
 	 */
 	@SuppressWarnings("unchecked")
@@ -148,16 +149,73 @@ public class UIAElement {
 			Class<T> elmentType) throws Exception {
 
 		String[] type = elmentType.getName().split("\\.");
-		// function findElement(root, text, index, elementType)
+		String eType = type[type.length - 1];
+		// invoke function findElement(root, text, index, elementType).
 		String elementJSON = MySocket.getText("findElement('" + this.guid
-				+ "','" + text + "'," + index + ",'" + type[type.length - 1]
-				+ "')");
+				+ "','" + text + "'," + index + ",'" + eType + "')");
+
+		if (elementJSON.equals("UIAElementNil")) {
+			String exception = elementJSON + "  元素 " + this.guid
+					+ " 下，根据条件: text ='" + text + "',index =" + index
+					+ ",elmentType ='" + eType + "' 未能找到对应元素!";
+			System.err.println(exception);
+			throw new Exception(exception);
+		}
 
 		JSONObject element = JSONObject.fromObject(elementJSON);
 
 		return (T) JSONObject.toBean(element, elmentType);
 	}
 
+	/**
+	 * 根据元素的显示文本查找当前元素下所有满足条件的 element.
+	 * 
+	 * @param text
+	 *            要查找的元素的name，value 或者 label值 包含的文本
+	 * @return UIAElement[] 返回查找到满足条件的元素数组
+	 * @throws Exception
+	 *             当根据指定的 text 未找到元素时，返回空JSON数组 "[]".
+	 *             字符串导致转换成JSON数组对象失败，抛出异常结束用例
+	 */
+	public UIAElement[] findElements(String text) throws Exception {
+		return findElements(text, UIAElement.class);
+	}
+
+	/**
+	 * 根据元素的显示文本查找当前元素下所有满足条件的 element.
+	 * 
+	 * @param text
+	 *            要查找的元素的name，value 或者 label值 包含的文本
+	 * @param elmentType
+	 *            要查找元素的类型 ，如：UIABuuton.class
+	 * @return UIAElement[] 返回查找到满足条件的元素数组
+	 * @throws Exception
+	 *             当根据指定的 text 和 elmentType 未找到元素时，返回空JSON数组 "[]".
+	 *             字符串导致转换成JSON数组对象失败，抛出异常结束用例
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T[] findElements(String text, Class<T> elmentType)
+			throws Exception {
+
+		String[] type = elmentType.getName().split("\\.");
+		String eType = type[type.length - 1];
+
+		String elementsJSON = MySocket.getText("findElements('" + this.guid
+				+ "','" + text + "','" + eType + "')");
+
+		JSONArray jsonElementArray = JSONArray.fromObject(elementsJSON);
+
+		return (T[]) JSONArray.toArray(jsonElementArray, elmentType);
+	}
+
+	/**
+	 * 树形结构打印出当前元素节点下的所有子元素
+	 * 
+	 * @throws Exception
+	 *             C/S Socket 通讯异常
+	 * 
+	 */
 	public void printElementTree() throws Exception {
 
 		String elementTree = MySocket.getText("printElementTree('" + this.guid
