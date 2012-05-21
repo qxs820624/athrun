@@ -32,6 +32,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.IntentFilter;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 
 /**
@@ -55,8 +56,6 @@ class ActivityUtils {
 	private Stack<Activity> activityStack;
 	private Timer activitySyncTimer;
 
-	private static ActivityUtils instance;
-
 	/**
 	 * Constructor that takes in the instrumentation and the start activity.
 	 * 
@@ -68,7 +67,7 @@ class ActivityUtils {
 	 *            the {@code Sleeper} instance
 	 * 
 	 */
-	private ActivityUtils(Instrumentation inst, Activity activity) {
+	ActivityUtils(Instrumentation inst, Activity activity) {
 		this.inst = inst;
 		this.activity = activity;
 		createStackAndPushStartActivity();
@@ -76,14 +75,6 @@ class ActivityUtils {
 		setupActivityMonitor();
 		setupActivityStackListener();
 		logger.info("Construct instance of ActivityUtils finished.");
-	}
-
-	static ActivityUtils getInstance(Instrumentation inst, Activity activity) {
-		if (null == instance) {
-			instance = new ActivityUtils(inst, activity);
-		}
-
-		return instance;
 	}
 
 	private void createStackAndPushStartActivity() {
@@ -208,32 +199,43 @@ class ActivityUtils {
 		return activity;
 	}
 
-	/**
-	 * Waits for the given {@link Activity}.
-	 * 
-	 * @param name
-	 *            the name of the {@code Activity} to wait for e.g.
-	 *            {@code "MyActivity"}
-	 * @param timeout
-	 *            the amount of time in milliseconds to wait
-	 * @return {@code true} if {@code Activity} appears before the timeout and
-	 *         {@code false} if it does not
-	 * 
-	 */
+	// /**
+	// * Waits for the given {@link Activity}.
+	// *
+	// * @param name
+	// * the name of the {@code Activity} to wait for e.g.
+	// * {@code "MyActivity"}
+	// * @param timeout
+	// * the amount of time in milliseconds to wait
+	// * @return {@code true} if {@code Activity} appears before the timeout and
+	// * {@code false} if it does not
+	// *
+	// */
+	// boolean waitForActivity(String name, int timeout) {
+	// long now = System.currentTimeMillis();
+	// final long endTime = now + timeout;
+	// while (!getCurrentActivity().getClass().getSimpleName().equals(name)
+	// && now < endTime) {
+	// now = System.currentTimeMillis();
+	// }
+	//
+	// if (now < endTime) {
+	// return true;
+	//
+	// } else {
+	// return false;
+	// }
+	// }
+
 	boolean waitForActivity(String name, int timeout) {
-		long now = System.currentTimeMillis();
-		final long endTime = now + timeout;
-		while (!getCurrentActivity().getClass().getSimpleName().equals(name)
-				&& now < endTime) {
-			now = System.currentTimeMillis();
+		long now = SystemClock.uptimeMillis();
+		long endTime = now + timeout;
+		while ((!getCurrentActivity().getClass().getSimpleName().equals(name))
+				&& (now < endTime)) {
+			now = SystemClock.uptimeMillis();
 		}
 
-		if (now < endTime) {
-			return true;
-
-		} else {
-			return false;
-		}
+		return now < endTime;
 	}
 
 	void goBackToActivity(String name) {
@@ -266,8 +268,10 @@ class ActivityUtils {
 
 	public void finalize() throws Throwable {
 		try {
-			if (this.activityMonitor != null)
+			if (this.activityMonitor != null) {
 				this.inst.removeMonitor(this.activityMonitor);
+			}
+//			this.activityStack.clear();
 
 		} catch (Exception ignored) {
 		}
