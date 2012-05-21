@@ -73,7 +73,7 @@ public final class AthrunDevice {
 
 	private AthrunDevice(Instrumentation inst, Activity activity) {
 		this.inst = inst;
-		this.activityUtils = ActivityUtils.getInstance(inst, activity);
+		this.activityUtils = new ActivityUtils(inst, activity);
 		this.viewOperation = ViewOperation.getInstance(inst);
 
 		this.screenWidth = ScreenUtils.getScreenWidth(inst.getTargetContext());
@@ -87,6 +87,10 @@ public final class AthrunDevice {
 		}
 
 		return instance;
+	}
+	
+	ActivityUtils getActivityUtils() {
+		return this.activityUtils;
 	}
 
 	/**
@@ -469,6 +473,8 @@ public final class AthrunDevice {
 	private ViewCoordinate getMiddleRight() {
 		return new ViewCoordinate(getScreenWidth(), getScreenHeight() / 2);
 	}
+	
+	
 	
 	public static void waitMoment(int seconds) {
 		try {

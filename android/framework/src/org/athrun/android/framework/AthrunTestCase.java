@@ -18,23 +18,18 @@
  */
 package org.athrun.android.framework;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
 import org.athrun.android.framework.utils.AthrunConnectorThread;
+import org.athrun.android.framework.utils.RClassUtils;
 import org.athrun.android.framework.viewelement.AbsListViewElement;
 import org.athrun.android.framework.viewelement.IViewElement;
 import org.athrun.android.framework.viewelement.ScrollViewElement;
 import org.athrun.android.framework.viewelement.TextViewElement;
-import org.athrun.android.framework.viewelement.ThirdPartyElement;
-import org.athrun.android.framework.viewelement.ToastElement;
 import org.athrun.android.framework.viewelement.ViewElement;
-import org.athrun.android.framework.webview.WebViewElement;
 
-import android.R.integer;
-import android.R.string;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -106,7 +101,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 */
 	private Athrun getAthrun() {
 		if (athrun == null) {
-			athrun = new Athrun(getInstrumentation(), getActivity());
+			athrun = new Athrun(getInstrumentation(), getActivity(), maxTimeToFindView);
 		}
 		return athrun;
 	}
@@ -132,7 +127,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 		logger.info("setUp()...");
 		this.inst = getInstrumentation();
 		this.athrun = getAthrun();
-		this.athrun.setMaxTimeToFindView(maxTimeToFindView);
+		this.athrun.getElementFinder().setTimeout(maxTimeToFindView);
 		ViewElement.setMaxTimeToFindView(maxTimeToFindView);
 		AthrunConnectorThread.start();
 		logger.info("setUp() finished.");
@@ -143,7 +138,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 		logger.info("tearDown()...");
 
 		try {
-			athrun.finishAllActivities();
+			athrun.getActivityUtils().finishOpenedActivities();
 			AthrunConnectorThread.stop();
 			
 		} catch (Throwable e) {
@@ -177,9 +172,10 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * @return The {@code ViewElement} or its subclass.
 	 * @throws Exception
 	 */
-	public <T extends ViewElement> T findElementById(String name,
+	public <T> T findElementById(String name,
 			Class<T> returnType) throws Exception {
-		return athrun.findElementById(name, returnType);
+		int intId = RClassUtils.getIdByName(this.inst.getTargetContext().getPackageName(), name);
+		return this.findElementById(intId, returnType);
 	}
 
 	/**
@@ -210,9 +206,9 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * @return The {@code ViewElement} or its subclass.
 	 * @throws Exception
 	 */
-	public <T extends ViewElement> T findElementById(int id, Class<T> returnType)
+	public <T> T findElementById(int id, Class<T> returnType)
 			throws Exception {
-		return athrun.findElementById(id, returnType);
+		return athrun.getElementFinder().findElementById(id, 0, returnType);
 	}
 
 	/**
@@ -224,7 +220,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * @throws Exception
 	 */
 	public ViewElement findElementById(int id) throws Exception {
-		return athrun.findElementById(id, ViewElement.class);
+		return this.findElementById(id, ViewElement.class);
 	}
 
 	/**
@@ -237,29 +233,29 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * @throws Exception
 	 */
 	public ViewElement findElementById(String name) throws Exception {
-		return athrun.findElementById(name, ViewElement.class);
+		return this.findElementById(name, ViewElement.class);
 	}
 
-	/**
-	 * Return an instance of {@code ViewElement} or its subclass by the id tree and
-	 * return type. This method is used to find a view that is contained in
-	 * another view.
-	 * 
-	 * @param <T>
-	 *            The {@code ViewElement} or its subclass.
-	 * @param idTree
-	 *            Parent id plus child id with ">", but without whitespace.
-	 *            Example: parentId>childId.
-	 * @param returnType
-	 *            The {@code ViewElement} or its subclass, this parameter
-	 *            determines the return type of this method.
-	 * @return The {@code ViewElement} or its subclass.
-	 * @throws Exception
-	 */
-	public <T extends ViewElement> T findElementInTree(String idTree,
-			Class<T> returnType) throws Exception {
-		return athrun.findElementInTree(idTree, returnType);
-	}
+//	/**
+//	 * Return an instance of {@code ViewElement} or its subclass by the id tree and
+//	 * return type. This method is used to find a view that is contained in
+//	 * another view.
+//	 * 
+//	 * @param <T>
+//	 *            The {@code ViewElement} or its subclass.
+//	 * @param idTree
+//	 *            Parent id plus child id with ">", but without whitespace.
+//	 *            Example: parentId>childId.
+//	 * @param returnType
+//	 *            The {@code ViewElement} or its subclass, this parameter
+//	 *            determines the return type of this method.
+//	 * @return The {@code ViewElement} or its subclass.
+//	 * @throws Exception
+//	 */
+//	public <T extends ViewElement> T findElementInTree(String idTree,
+//			Class<T> returnType) throws Exception {
+//		return athrun.findElementInTree(idTree, returnType);
+//	}
 
 	/**
 	 * Return an instance of {@code TextViewElement} by the given text.
@@ -270,53 +266,23 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * @throws Exception
 	 */
 	public TextViewElement findElementByText(String text) throws Exception {
-		return athrun.findElementByText(text, TextViewElement.class);
+		return this.findElementByText(text, 0, false);
+	}
+	
+	public TextViewElement findElementByText(String text, int index) throws Exception {
+		return this.findElementByText(text, index, false);
 	}
 	
 	/**
-	 * Return an instance of {@code TextViewElement} by the given text and index.
-	 * @param text Text to be found.
-	 * @param index 
+	 * 
+	 * @param text
+	 * @param index
+	 * @param isEqual
 	 * @return
 	 * @throws Exception
 	 */
-	public TextViewElement findElementByText(String text, int index) throws Exception {
-		return athrun.findElementByText(text, index, TextViewElement.class);
-	}
-
-	/**
-	 * Find all specified type of Views in current Activity and return them in
-	 * specified athrun type.
-	 * 
-	 * @deprecated This method has poor performance.
-	 * @param <T>
-	 *            Subclass of {@code ViewElement}.
-	 * @param view
-	 *            Subclass of {@code View}
-	 * @param returnType
-	 *            Specified athrun type.
-	 * @return An arraylist that contains the specified athrun viewelements.
-	 * @throws Exception
-	 */
-	public <T extends ViewElement> ArrayList<T> findElementsByType(
-			Class<? extends View> view, Class<T> returnType) throws Exception {
-		return athrun.findElementsByType(view, returnType);
-	}
-
-	/**
-	 * @author shidun Return an instance of {@code TmtsWebView} subclass by the
-	 *         given name.
-	 * 
-	 * @param <T>
-	 *            The {@code WebViewElement} subclass.
-	 * @param name
-	 *            String name of webview id, the string after @+id/ defined in
-	 *            layout files.
-	 * @return The {@code WebViewElement} subclass.
-	 * @throws Exception
-	 */
-	public WebViewElement findWebViewById(String name) throws Exception {
-		return athrun.findWebViewById(name);
+	public TextViewElement findElementByText(String text, int index, boolean isEqual) throws Exception {
+		return athrun.getElementFinder().findElementByText(text, index, isEqual, TextViewElement.class);
 	}
 
 	/**
@@ -335,30 +301,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 */
 	public <T extends ViewElement> T findElementByIndex(int index,
 			Class<? extends View> view, Class<T> returnType) throws Exception {
-		return athrun.findElementByIndex(index, view, returnType);
-	}
-
-	/**
-	 * Return an instance of {@code ToastElement} which contains the specified
-	 * message.
-	 * 
-	 * @param message
-	 *            String help to identify the Toast, no need to pass exact
-	 *            content, you can even pass "" to it, but this is not
-	 *            recommended.
-	 * @return Instance of {@code ToastElement}.
-	 * @throws Exception
-	 */
-	public ToastElement findToastElement(String message) throws Exception {
-		return athrun.findToastElement(message);
-	}
-
-	/**
-	 * Return an instance of {@code ToastElement} which contains the specified
-	 * message.
-	 */
-	public ToastElement findToastElement() throws Exception {
-		return athrun.findToastElement("");
+		return athrun.getElementFinder().findElementByIndex(index, view, returnType);
 	}
 	
 	public ScrollViewElement findScrollElementByIndex(int index) throws Exception {
@@ -380,11 +323,11 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * @throws Exception
 	 */
 	public SkuOptionElement findSkuOptionByText(String text) throws Exception {
-		return athrun.findSkuOptionByText(text);
+		return athrun.getElementFinder().findSkuOptionByText(text);
 	}
 	
-	public ThirdPartyElement findElementByName(String className, int index) throws Exception {
-		return athrun.findElementsByName(className, index);
+	public boolean waitForText(String text, int timeout) {
+		return athrun.getElementFinder().waitForText(text, timeout);
 	}
 
 	/**
@@ -412,51 +355,6 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	/**
-	 * Return an instance of ViewOperation.
-	 * 
-	 * @return An instance of ViewOperation.
-	 */
-	public ViewOperation getViewOperation() {
-		return ViewOperation.getInstance(inst);
-	}
-
-	/**
-	 * when we meet some case that need us to wait ,use this method   avoid drop-dead halt
-	 * 2011/12/08
-	 * Modified by bingyang.djj 2011-12-26, correct compile error.
-	 * @author andsun sunzhaoliang31@163.com
-	 * @param whichtowait  that text or activity appear when end the wait
-	 * @param type  when 0: text  ;  when 1: activity ;
-	 * @return
-	 * @throws Exception (this method may be lead to loop forever)
-	 */
-	public boolean doWaitForEnd(String whichtowait, int type) throws Exception{
-		int counter = 0;
-		switch(type){
-		case 0:
-			while(!athrun.waitForText(whichtowait, 2000)){
-				Thread.sleep(2000);
-				++counter;
-				if(counter >= 30){					
-					return false;
-				}
-			}
-			break;
-		case 1:
-				while(!athrun.waitForActivity(whichtowait, 2000)){
-					Thread.sleep(2000);
-					++counter;
-					if(counter >= 30)
-						return false;
-				}
-			break;
-		default:
-				break;
-		}
-		return true;
-	}
-	
-	/**
 	 * get the activity name that display in the front screen
 	 * 2011/12/08
 	 * @author andsun sunzhaoliang31@163.com
@@ -479,18 +377,5 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 		ac.setIntent(mintent);
 		ac.startActivityIfNeeded(mintent, 0);
 		activityManager.killBackgroundProcesses(ActivityName); 
-	}
-
-	/**
-	 * this method looks like  findTmtsTextViewByText(String text),the difference between this two methods
-	 * is my method find the exact view, that find all views that contains that text.
-	 * 2011/12/22
-	 * @author andsun sunzhaoliang31@163.com
-	 * @param text
-	 * @return
-	 * @throws Exception
-	 */
-	public TextViewElement findElementByTextEqual(String text) throws Exception {
-		return athrun.findElementByTextEqual(text, TextViewElement.class);
 	}
 }

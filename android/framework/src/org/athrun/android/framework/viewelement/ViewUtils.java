@@ -228,7 +228,7 @@ public final class ViewUtils {
 	public static <T extends View> ArrayList<T> removeUnshownViews(ArrayList<T> viewList) {
 		ArrayList<T> tmpViewList = new ArrayList<T>(viewList.size());
 		for (T view : viewList) {
-			if (view != null && view.isShown()) {
+			if (view != null && view.isShown() && view.hasWindowFocus()) {
 				tmpViewList.add(view);
 			}
 		}
@@ -244,13 +244,14 @@ public final class ViewUtils {
 	 *            the ArrayList to filter form
 	 * @return an ArrayList with filtered views
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T extends View> ArrayList<T> filterViews(
-			Class<T> classToFilterBy, ArrayList<View> viewList) {
+			Class<?> classToFilterBy, ArrayList<View> viewList) {
 		ArrayList<T> filteredViews = new ArrayList<T>(viewList.size());
 		for (View view : viewList) {
 			if (view != null
 					&& classToFilterBy.isAssignableFrom(view.getClass())) {
-				filteredViews.add(classToFilterBy.cast(view));
+				filteredViews.add((T) view);
 			}
 		}
 		return filteredViews;
