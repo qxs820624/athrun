@@ -10,7 +10,7 @@
 
 
 
-__element = "UIAElmentNil";
+__element = "UIAElementNil";
 __elementArray =[];
 __elementTree ="";
 __index = 0;
@@ -18,11 +18,6 @@ target = UIATarget.localTarget();
 app = target.frontMostApp();
 win = app.mainWindow();
 host = target.host();	
-
-var ee = eval("findElement('target','首',0)");
-
-//var ee =eval("printElementTree('target')");
-UIALogger.logMessage("ee :" + ee);
 
 UIALogger.logStart("The case is running.");
 
@@ -98,7 +93,7 @@ try {
 }
 
 function findElement(root, text, index, elementType){
-	__element = "UIAElmentNil";
+	__element = "UIAElementNil";
 	__index = 0;
 	target.pushTimeout(0);
 	__findElement(eval(root),root, text, index, elementType);
@@ -136,9 +131,47 @@ function __findElement(root, script, text, index, elementType){
 				}
 				__index++;
 			}
-		}else{
-			__findElement(elements[i] , script + ".elements()[" + i + "]", text,index , elementType);
 		}
+		
+		__findElement(elements[i] , script + ".elements()[" + i + "]", text,index , elementType);
+		
+	}
+}
+
+function findElements(root, text, elementType){
+	__elementArray =[];
+	target.pushTimeout(0);
+	__findElements(eval(root),root, text, elementType);
+	target.popTimeout();
+	
+	return __elementArray.toJSONString();
+}
+
+function __findElements(root, script, text, elementType){
+		
+	var elements = root.elements();
+	
+	for(var i = 0 ; i<elements.length ;i++){
+	
+		if(__assertContainText(elements[i],text)){
+			
+			var obj = {};
+			obj.guid = script + ".elements()[" + i + "]";
+			obj.type = __getClass(elements[i]);
+			obj.name =  elements[i].name();
+			obj.value = elements[i].value();
+			obj.label = elements[i].label();
+			obj.rect = elements[i].rect();
+			
+			if(elementType == "UIAElement"){	
+				__elementArray.push(obj);
+				UIALogger.logMessage("UIAElement : " + obj.toJSONString());	
+			}else if( __getClass(elements[i])== elementType){
+				__elementArray.push(obj);
+			}
+		}
+		__findElements(elements[i] , script + ".elements()[" + i + "]", text , elementType);
+		
 	}
 }
 
