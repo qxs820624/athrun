@@ -38,7 +38,7 @@ public class DeviceManager {
 
 	public static void CreateAdb() {
 		AndroidDebugBridge.init(false);
-		AndroidDebugBridge.createBridge("adb.exe", false);
+		AndroidDebugBridge.createBridge("adb", false);
 		AndroidDebugBridge.addDeviceChangeListener(deviceChangedInstance);
 		AndroidDebugBridge
 				.addDebugBridgeChangeListener(debugBridgeChangedInstance);

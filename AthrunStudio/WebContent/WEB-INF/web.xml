@@ -68,7 +68,4 @@
     <servlet-name>RemoteRegister</servlet-name>
     <url-pattern>/RemoteRegister</url-pattern>
   </servlet-mapping>
-  <listener>
-    <listener-class>org.athrun.server.listener.WebConfigListener</listener-class>
-  </listener>
 </web-app>
