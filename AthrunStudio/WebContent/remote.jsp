@@ -11,13 +11,9 @@
 
 
 
-<!-- kelude组件样式库 -->
-<link type="text/css" rel="stylesheet"
-	href="http://assets.kelude.taobao.net/doc/widget/css/kelude-all.css">
-
 <!-- jQuery库 -->
 <script type="text/javascript"
-	src="http://assets.kelude.taobao.net/doc/widget/js/jquery.js"></script>
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
 
 
@@ -129,6 +125,16 @@
 		var clickDrag = new Array();
 		var drawCount = 0;
 		var paint;
+		var actionNumber = 0;
+
+		function addActionNumber() {
+			if (actionNumber > 9) {
+				actionNumber=0;
+			}
+			else{
+				actionNumber++;
+			}
+		}
 
 		function addClick(x, y, dragging) {
 			clickX.push(x);
@@ -183,6 +189,7 @@
 			$('#myCanvas').mouseup(
 					function(e) {
 						paint = false;
+						addActionNumber();
 						clickX.length = 0; // clear
 						clickY.length = 0; // clear
 						clickDrag.length = 0; // clear
@@ -281,6 +288,7 @@
 			url = url + "&y=" + y * resize;
 			url = url + "&action=" + action;
 			url = url + "&serialNumber=" + serialNumber;
+			url = url + "&an=" + actionNumber;
 
 			$('#eventSent').text(url);
 
@@ -309,10 +317,6 @@
 			});
 		}
 	</script>
-
-	<!-- kelude组件脚本库，可置底加载 -->
-	<script type="text/javascript"
-		src="http://assets.kelude.taobao.net/doc/widget/js/kelude.js"></script>
 
 
 </body>
