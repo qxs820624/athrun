@@ -85,7 +85,7 @@ public class EventManager {
 						e.printStackTrace();
 					}
 				}
-			});
+			},"event-sync");
 			th.start();
 			Thread.sleep(2000);
 

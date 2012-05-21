@@ -61,7 +61,7 @@ public class CaptureManager {
 								e.printStackTrace();
 							}
 						}
-					});
+					}, "delay-return-" + serialNumber);
 					thread.start();
 					threadlist.put(serialNumber, thread);
 				}
@@ -328,9 +328,9 @@ public class CaptureManager {
 		// device.getSyncService().pushFile(file.getAbsolutePath(), remotePath,
 		// new NullSyncProgressMonitor());
 		// 导致：ADB server didn't ACK
-		
+
 		CommandRunner.pushFile(device, file.getAbsolutePath(), remotePath);
-		
+
 		System.out.println("capture agent uploaded.");
 	}
 
