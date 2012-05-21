@@ -41,15 +41,14 @@ public class Event extends HttpServlet {
 		String y = request.getParameter("y");
 		String action = request.getParameter("action"); // 0��down 1��up 2��move
 		String keyCode = request.getParameter("keyCode");
+		String actionNumber = request.getParameter("an");
 
 		String metaState = "-1";
-		String downTime = "10";
-		String eventTime = "10";
 
 		String cmd;
 		if (type.equalsIgnoreCase("pointer")) {
-			cmd = type + "/" + downTime + "/" + eventTime + "/" + action + "/"
-					+ x + "/" + y + "/" + metaState;
+			cmd = type + "/" + action + "/" + x + "/" + y + "/" + metaState
+					+ "/" + actionNumber;
 		} else {
 			if (type.equalsIgnoreCase("key")) {
 				cmd = type + "/" + action + "/" + keyCode;
