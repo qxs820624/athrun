@@ -190,15 +190,38 @@ var Athrun = {
 	assertPopWindowTitle : function(expectTitle, message) {
 
 		delay(5);
-		var actualTitle = alertWindow.name();
+		var actualTitle = popWindow.name();
 		if (expectTitle == actualTitle) {
 			var passMsg = "弹出窗口的实际title为 # " + actualTitle + " # 与期望的title # "
 					+ expectTitle + " # 相符,"
 					+ (!message ? "" : message + " #校验成功");
 			UIALogger.logMessage(passMsg);
 		} else {
-			var passMsg = "弹出窗口的实际title为 # " + actualTitle + " # 与期望的title # "
+			var msg = "弹出窗口的实际title为 # " + actualTitle + " # 与期望的title # "
 					+ expectTitle + " # 不相符,"
+					+ (!message ? "" : message + " #校验失败");
+			UIALogger.logWarning(msg);
+		}
+	},
+	
+	/**
+	 * 验证弹出的弹出框是否为期望的，通过popWindow内的文本进行判断，看是否包含期盼的文本值
+	 */
+	assertPopWindowContent : function(expectText, message) {
+
+		popWinContent ="";
+		delay(5);
+		target.pushTimeout(0);
+		__popWinContent(popWindow);
+		target.popTimeout();
+		if (popWinContent.search(expectText) != -1 ? true : false) {
+			var passMsg = "弹出窗口的实际内容文本为 # " + popWinContent + " # 包含期望的文本 # "
+					+ expectText + " # "
+					+ (!message ? "" : message + " #校验成功");
+			UIALogger.logMessage(passMsg);
+		} else {
+			var msg = "弹出窗口的实际内容文本为 # " + popWinContent + " # 不包含期望的文本 # "
+					+ expectText + " # "
 					+ (!message ? "" : message + " #校验失败");
 			UIALogger.logWarning(msg);
 		}
@@ -232,7 +255,8 @@ var Athrun = {
 /**
  * 全局变量 代表弹窗的对话框
  */
-alertWindow = null;
+popWindow = null;
+popWinContent="";
 
 /**
  * UIATarget 默认会捕获弹出的窗口，并点击相应的默认操作按钮，必须进行处理才能操作其它按钮，
@@ -243,7 +267,7 @@ alertWindow = null;
  * onAlert事件完成之前，动作被阻塞，无法操作弹出窗口。完成onAlert事件后继续往下运行。
  */
 UIATarget.onAlert = function onAlert(alert) {
-	alertWindow = alert;
+	popWindow = alert;
 	UIATarget.localTarget().delay(1);
 	var msg = "There is a  popWindow  appeared and the title is "
 			+ alert.name();
@@ -251,5 +275,13 @@ UIATarget.onAlert = function onAlert(alert) {
 
 	return true;
 }
-
+function __popWinContent(element){
+		
+	popWinContent += element.name();
+	var elements = element.elements();
+	
+	for(var i = 0 ; i<elements.length ;i++){
+		__popWinContent(elements[i]);
+	}
+}
 // end
