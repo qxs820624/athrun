@@ -48,4 +48,48 @@ public class UIATarget {
 		System.out
 				.println("-----------------------------------------------------");
 	}
+
+	/**
+	 * 向上滑动窗口,滑动一个范围，200单位 即向上滑动大约半个屏幕的高度
+	 * 
+	 * @throws Exception
+	 */
+	public void scrollUp() throws Exception {
+
+		MySocket.getVoid(this.guid
+				+ ".dragFromToForDuration({x : 150,y : 300}, {x : 150,y : 100}, 1)");
+	}
+
+	/**
+	 * 向下滑动窗口,滑动一个范围，200单位 即向下滑动大约半个屏幕的高度
+	 * 
+	 * @throws Exception
+	 */
+	public void scrollDown() throws Exception {
+
+		MySocket.getVoid(this.guid
+				+ ".dragFromToForDuration({x : 150,y : 100}, {x : 150,y : 300}, 1)");
+	}
+
+	/**
+	 * 向左边滑动窗口,滑动一个范围，200单位 （360*480）一般是换页
+	 * 
+	 * @throws Exception
+	 */
+	public void scrollLeft() throws Exception {
+
+		MySocket.getVoid(this.guid
+				+ ".dragFromToForDuration({x : 260,y : 200}, {x : 60,y : 200}, 1)");
+	}
+
+	/**
+	 * 向右边滑动窗口,滑动一个范围，200 一般是换页
+	 * 
+	 * @throws Exception
+	 */
+	public void scrollRight() throws Exception {
+
+		MySocket.getVoid(this.guid
+				+ ".dragFromToForDuration({x : 60,y : 200}, {x : 260,y : 200}, 1)");
+	}
 }
