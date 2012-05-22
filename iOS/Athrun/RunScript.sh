@@ -8,5 +8,5 @@ $oneCmd
 echo "$1 run end!"
 
 
-delCmd="rm -rf /Athrun/*.trace"
+delCmd="rm -rf ./*.trace"
 $delCmd
