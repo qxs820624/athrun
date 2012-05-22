@@ -3,26 +3,19 @@
  */
 package org.athrun.server.service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.conn.HttpHostConnectException;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.athrun.server.log.Log;
 import org.athrun.server.servlet.RemoteRegister;
 import org.athrun.server.struts.Device;
@@ -34,6 +27,9 @@ import org.athrun.server.utils.PropertiesUtil;
  * 
  */
 public class RemoteDeviceManager {
+
+	static final int UpdateStatusTime = 2 * 60 * 1000;
+	static final int CheckStatusTime = 5 * 60 * 1000;
 
 	private static String RemoteRegisterUrl = "http://kelude.taobao.net/athrun/RemoteRegister";
 
@@ -125,16 +121,30 @@ public class RemoteDeviceManager {
 		uri.append("&").append("port=").append(PropertiesUtil.getPort());
 		uri.append("&").append("cp=").append(PropertiesUtil.getContextPath());
 
+		httpGet(RemoteRegisterUrl + uri.toString());
+
+	}
+
+	private static boolean httpGet(String uri) {
+		StringBuilder sb = new StringBuilder();
 		try {
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpGet httpget = new HttpGet(RemoteRegisterUrl + uri.toString());
-			ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			httpClient.execute(httpget, responseHandler);
+			URL url = new URL(uri);
+			URLConnection connection = url.openConnection();
+			connection.setConnectTimeout(3000);
+			connection.setReadTimeout(3000);
+			InputStream in = connection.getInputStream();
+			BufferedReader bin = new BufferedReader(new InputStreamReader(in));
+			String s = null;
+			while ((s = bin.readLine()) != null) {
+				sb.append(s);
+			}
+			bin.close();
 		} catch (IOException e) {
 			Log.w("RemoteDeviceRegister",
 					"Can't reach the host: " + e.getMessage());
+			return false;
 		}
-
+		return true;
 	}
 
 	private static String encode(String content) {
@@ -152,23 +162,7 @@ public class RemoteDeviceManager {
 		uri.append("?").append("type=").append("remove");
 		uri.append("&").append("sn=").append(device.getSerialNumber());
 
-		try {
-			DefaultHttpClient httpClient = new DefaultHttpClient();
-			HttpGet httpget = new HttpGet(RemoteRegisterUrl + uri.toString());
-			ResponseHandler<String> responseHandler = new BasicResponseHandler();
-			httpClient.execute(httpget, responseHandler);
-		} catch (UnknownHostException e) {
-			Log.w("remoteRegister", "Can't reach the host: " + e.getMessage());
-		} catch (HttpHostConnectException e) {
-			Log.w("RemoteDeviceRegister",
-					"Can't reach the host: " + e.getMessage());
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		httpGet(RemoteRegisterUrl + uri.toString());
 	}
 
 	private void RemoteDeviceManager() {
@@ -183,7 +177,7 @@ public class RemoteDeviceManager {
 				while (true) {
 					r.addAll();
 					try {
-						Thread.sleep(5 * 60 * 1000); // 等 5 分钟
+						Thread.sleep(RemoteDeviceManager.CheckStatusTime);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -192,7 +186,7 @@ public class RemoteDeviceManager {
 				}
 
 			}
-		},"check-devices").start();
+		}, "check-devices").start();
 	}
 
 	/**
@@ -233,25 +227,8 @@ public class RemoteDeviceManager {
 		synchronized (checklist) {
 			for (Device device : checklist) {
 				String jpgUrl = device.getJpg();
-				try {
-					HttpParams httpParams = new BasicHttpParams();
-					HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
-					HttpConnectionParams.setSoTimeout(httpParams, 3000);
-					DefaultHttpClient httpClient = new DefaultHttpClient(
-							httpParams);
-					HttpGet httpget = new HttpGet(jpgUrl);
-					ResponseHandler<String> responseHandler = new BasicResponseHandler();
-					httpClient.execute(httpget, responseHandler);
-				} catch (SocketTimeoutException e) {
-					Log.i("RemoteDeviceManager",
-							"Read jpg timeout, remove the remote device.");
-					remove(device);
-				} catch (ConnectTimeoutException e) {
-					Log.i("RemoteDeviceManager", e.getMessage()
-							+ ", remove the remote device.");
-					remove(device);
-				} catch (IOException e) {
-					e.printStackTrace();
+
+				if (!httpGet(jpgUrl)) {
 					remove(device);
 				}
 			}

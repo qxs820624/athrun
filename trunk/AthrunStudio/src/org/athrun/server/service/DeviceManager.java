@@ -60,7 +60,7 @@ public class DeviceManager {
 					Map<String, IDevice> deviceList = (Map<String, IDevice>) getParameter();
 					while (true) {
 						try {
-							Thread.sleep(2 * 60 * 1000); // 等待 2 分钟
+							Thread.sleep(RemoteDeviceManager.UpdateStatusTime); // 等待 2 分钟
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
