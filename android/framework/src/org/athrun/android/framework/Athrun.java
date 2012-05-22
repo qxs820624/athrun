@@ -53,7 +53,7 @@ final class Athrun {
 	 */
 	Athrun(Instrumentation inst, Activity activity, int timeout) {
 		this.inst = inst;
-		this.athrunDevice = AthrunDevice.getInstance(inst, activity);
+		this.athrunDevice = new AthrunDevice(inst, activity);
 		this.elementFinder = ElementFinder.getInstance(timeout, inst);
 		logger.info("Construct instance of Athrun finished.");
 	}
@@ -70,7 +70,6 @@ final class Athrun {
 		return athrunDevice.getActivityUtils();
 	}
 	
-
 	String getPackageName() {
 		return inst.getTargetContext().getPackageName();
 	}
