@@ -3,12 +3,16 @@ package org.athrun.server.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.athrun.server.service.EventServiceManager;
 import org.athrun.server.utils.ForwardPortManager;
 import org.athrun.server.utils.ReservedPortExhaust;
 
@@ -43,37 +47,43 @@ public class Event extends HttpServlet {
 		String keyCode = request.getParameter("keyCode");
 		String actionNumber = request.getParameter("an");
 
-		String metaState = "-1";
+		String metaState = "0";
+		String serialNumber = request.getParameter("serialNumber");
 
 		String cmd;
 		if (type.equalsIgnoreCase("pointer")) {
 			cmd = type + "/" + action + "/" + x + "/" + y + "/" + metaState
 					+ "/" + actionNumber;
+			sendPointer(serialNumber, cmd, action);
 		} else {
 			if (type.equalsIgnoreCase("key")) {
 				cmd = type + "/" + action + "/" + keyCode;
+				sendKey(serialNumber, cmd);
 			} else {
 				throw new NotImplementedException();
 			}
 		}
 
-		String serialNumber = request.getParameter("serialNumber");
-
-		try {
-			Socket server;
-			server = new Socket("127.0.0.1",
-					ForwardPortManager.getEventPort(serialNumber));
-			PrintWriter out = new PrintWriter(server.getOutputStream());
-			out.print(cmd);
-			out.flush();
-			out.close();
-			server.close();
-		} catch (ReservedPortExhaust e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		response.getWriter().write("finish");
 
+	}
+
+	private void sendKey(String serialNumber, String cmd) {
+		EventServiceManager.Send(serialNumber, cmd);
+	}
+
+	private void sendPointer(String serialNumber, String cmd, String action) {
+		// 根据时间，过滤不必要的请求
+		if (action.equalsIgnoreCase("2")) {
+			EventServiceManager.processPointerMove(serialNumber, cmd);
+		} else {
+			if (action.equalsIgnoreCase("1")) {
+				EventServiceManager.processPointerUp(serialNumber, cmd);
+			} else {
+				EventServiceManager.processPointerDown(serialNumber, cmd);
+			}
+
+		}
 	}
 
 }

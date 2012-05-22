@@ -210,11 +210,11 @@ public class CaptureManager {
 						}
 					}
 					capOutputManager.clear(serialNumber);
-					if (countermap.get(serialNumber) >= 9) {
+					if (countermap.get(serialNumber) >= 99) {
 						long end = System.currentTimeMillis();
 						if (timemap.get(serialNumber) != 0) {
-							System.out.println("10次截图平均帧数(" + serialNumber
-									+ ")" + 10.0 * 1000
+							System.out.println("100次截图平均帧数(" + serialNumber
+									+ ")" + 100.0 * 1000
 									/ (end - timemap.get(serialNumber)));
 						}
 						timemap.put(serialNumber, end);

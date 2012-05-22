@@ -168,6 +168,7 @@
 						var mouseY = e.pageY - this.offsetTop;
 
 						paint = true;
+						addActionNumber();
 						addClick(e.pageX - this.offsetLeft, e.pageY
 								- this.offsetTop);
 						sendEvent(e.pageX - this.offsetLeft, e.pageY
@@ -188,8 +189,7 @@
 
 			$('#myCanvas').mouseup(
 					function(e) {
-						paint = false;
-						addActionNumber();
+						paint = false;						
 						clickX.length = 0; // clear
 						clickY.length = 0; // clear
 						clickDrag.length = 0; // clear
