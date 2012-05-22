@@ -46,14 +46,17 @@ public class EventServiceManager {
 
 					try {
 						String[] lastCmd = null;
+						List<String> list = new ArrayList<String>();
+						String serialNumber = null;
 						while (true) {
 							String[] cmd = pointerQueue.poll();
 							if (cmd != null) {
 								// 处理第一个
-								Send(cmd[0], cmd[1]);
+								serialNumber = cmd[0];
+								list.add(cmd[1]);
 								// 略过10个
 
-								for (int i = 0; i < 100; i++) {
+								for (int i = 0; i < 10; i++) {
 									String[] cmdIgore = pointerQueue.poll();
 									if (cmdIgore == null) {
 										break;
@@ -67,10 +70,16 @@ public class EventServiceManager {
 								if (lastCmd != null) {
 									System.out.println("拿回" + lastCmd[0] + ","
 											+ lastCmd[1]);
-									Send(lastCmd[0], lastCmd[1]);
+									list.add(lastCmd[1]);
 								}
 								break;
 							}
+						}
+						if (!list.isEmpty()) {
+							EventRunner eventRunner = new EventRunner(
+									serialNumber);
+							eventRunner.addAll(list);
+							eventRunner.run();
 						}
 					} catch (NoSuchElementException e) {
 						// 说明已经被processPointerDownup处理过了
@@ -94,8 +103,8 @@ public class EventServiceManager {
 	 */
 	private static void waitMoveFinish(String serialNumber, String cmd) {
 		Object waitingObj = new Object();
-		waitingList.add(waitingObj);
 		synchronized (waitingObj) {
+			waitingList.add(waitingObj);
 			try {
 				waitingObj.wait();
 			} catch (InterruptedException e) {
@@ -112,30 +121,55 @@ public class EventServiceManager {
 
 	public static void processPointerUp(String serialNumber, String cmd) {
 		waitMoveFinish(serialNumber, cmd);
-		Send(serialNumber, cmd);
+		EventRunner eventRunner = new EventRunner(serialNumber);
+		eventRunner.add(cmd);
+		eventRunner.run();
 	}
 
 	public static void processPointerDown(String serialNumber, String cmd) {
 		pointerQueue.clear();
-		Send(serialNumber, cmd);
+		EventRunner eventRunner = new EventRunner(serialNumber);
+		eventRunner.add(cmd);
+		eventRunner.run();
 	}
 
-	public static void Send(String serialNumber, String cmd) {
-		try {
-			Socket server;
-			server = new Socket("127.0.0.1",
-					ForwardPortManager.getEventPort(serialNumber));
-			PrintWriter out = new PrintWriter(server.getOutputStream());
-			out.print(cmd);
-			out.flush();
-			out.close();
-			server.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ReservedPortExhaust e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static class EventRunner {
+		private List<String> cmds;
+		private String serialNumber;
+
+		public EventRunner(String serialNumber) {
+			cmds = new ArrayList<String>();
+			this.serialNumber = serialNumber;
+		}
+
+		public void add(String cmd) {
+			cmds.add(cmd);
+		}
+
+		public void addAll(List list) {
+			cmds.addAll(list);
+		}
+
+		public void run() {
+			try {
+				Socket server;
+				server = new Socket("127.0.0.1",
+						ForwardPortManager.getEventPort(serialNumber));
+				PrintWriter out = new PrintWriter(server.getOutputStream());
+				for (String cmd : cmds) {
+					out.println(cmd);
+					out.flush();
+				}
+				out.close();
+				server.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ReservedPortExhaust e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cmds.clear();
 		}
 	}
 }
