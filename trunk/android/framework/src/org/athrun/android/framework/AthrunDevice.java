@@ -54,7 +54,6 @@ public final class AthrunDevice {
 	private Instrumentation inst;
 	private ActivityUtils activityUtils;
 
-	private static AthrunDevice instance;
 	private ViewOperation viewOperation;
 
 	private int screenWidth;
@@ -71,7 +70,7 @@ public final class AthrunDevice {
 	private static final int offsetX = 10;
 	private static final int offsetY = 50;
 
-	private AthrunDevice(Instrumentation inst, Activity activity) {
+	AthrunDevice(Instrumentation inst, Activity activity) {
 		this.inst = inst;
 		this.activityUtils = new ActivityUtils(inst, activity);
 		this.viewOperation = ViewOperation.getInstance(inst);
@@ -79,14 +78,6 @@ public final class AthrunDevice {
 		this.screenWidth = ScreenUtils.getScreenWidth(inst.getTargetContext());
 		this.screenHeight = ScreenUtils
 				.getScreenHeight(inst.getTargetContext());
-	}
-
-	static AthrunDevice getInstance(Instrumentation inst, Activity activity) {
-		if (null == instance) {
-			instance = new AthrunDevice(inst, activity);
-		}
-
-		return instance;
 	}
 	
 	ActivityUtils getActivityUtils() {
