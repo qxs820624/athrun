@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.athrun.server.service.EventServiceManager;
+import org.athrun.server.service.EventServiceManager.EventRunner;
 import org.athrun.server.utils.ForwardPortManager;
 import org.athrun.server.utils.ReservedPortExhaust;
 
@@ -69,7 +70,9 @@ public class Event extends HttpServlet {
 	}
 
 	private void sendKey(String serialNumber, String cmd) {
-		EventServiceManager.Send(serialNumber, cmd);
+		EventRunner eventRunner = new EventRunner(serialNumber);
+		eventRunner.add(cmd);
+		eventRunner.run();
 	}
 
 	private void sendPointer(String serialNumber, String cmd, String action) {
