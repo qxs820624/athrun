@@ -18,20 +18,20 @@ public class MainActivityTest extends AthrunTestCase {
 
 	public MainActivityTest() throws Exception {
 		super("org.athrun.android.app", "org.athrun.android.app.MainActivity");
-		AthrunTestCase.setMaxTimeToFindView(2000);
+		AthrunTestCase.setMaxTimeToFindView(10000);
 	}
 
 	@Test
 	public void testWaitForActivity() throws Exception {
 		// log("This is a test for log() method");
-		assertEquals(true, getDevice().waitForActivity("MainActivity", 1000));
-		assertEquals(false, getDevice().waitForActivity("ScrollActivity", 1000));
+		assertEquals(true, getDevice().waitForActivity("MainActivity", 5000));
+		assertEquals(false, getDevice().waitForActivity("ScrollActivity", 5000));
 		findElementByText("ScrollView").doClick();
-		assertEquals(true, getDevice().waitForActivity("ScrollActivity", 1000));
-		assertEquals(false, getDevice().waitForActivity("MainActivity", 1000));
+		assertEquals(true, getDevice().waitForActivity("ScrollActivity", 5000));
+		assertEquals(false, getDevice().waitForActivity("MainActivity", 5000));
 		getDevice().pressBack();
-		assertEquals(true, getDevice().waitForActivity("MainActivity", 1000));
-		assertEquals(false, getDevice().waitForActivity("ScrollActivity", 1000));
+		assertEquals(true, getDevice().waitForActivity("MainActivity", 5000));
+		assertEquals(false, getDevice().waitForActivity("ScrollActivity", 5000));
 	}
 
 	@Test
@@ -45,15 +45,6 @@ public class MainActivityTest extends AthrunTestCase {
 	}
 
 	@Test
-	public void testFindTmtsViewInTree() throws Exception {
-		findElementInTree("include_checkbox>my_checkbox", ViewElement.class)
-				.doClick();
-		TextViewElement tmtsTextView = findElementInTree(
-				"include_checkbox>textview", TextViewElement.class);
-		assertEquals("CheckBox is checked!", tmtsTextView.getText());
-	}
-
-	@Test
 	public void testFindViewByIdDirect() throws Exception {
 		findElementById("my_checkbox").doClick();
 		assertEquals("CheckBox is checked!",
@@ -63,14 +54,14 @@ public class MainActivityTest extends AthrunTestCase {
 	@Test
 	public void testLongClick() throws Exception {
 		findElementById("my_imageview", ViewElement.class).doLongClick();
-		assertEquals("LongClick", findToastElement("").getText());
+		assertEquals(true, waitForText("LongClick", 2000));
 	}
 
 	@Test
 	public void testPressMenu() throws Exception {
 		getDevice().pressMenu();
 		findElementByText("Toast").doClick();
-		assertEquals("Hello World", findToastElement("Hello World").getText());
+		assertEquals(true, waitForText("Hello World", 2000));
 	}
 
 	@Test
@@ -96,7 +87,7 @@ public class MainActivityTest extends AthrunTestCase {
 		ViewElement tmtsView = listView.getChildByIndex(35, ViewElement.class);
 		tmtsView.doLongClick();
 		findElementByText("Item One").doClick();
-		assertEquals("1 pressed!", findToastElement("").getText());
+		assertEquals(true, waitForText("1 pressed!", 2000));
 	}
 
 	@Test
@@ -108,8 +99,8 @@ public class MainActivityTest extends AthrunTestCase {
 		listView.scrollToLine(9);
 		assertEquals(9, listView.getLastVisiblePosition());
 		findElementByText("OK").doClick();
-		assertEquals("Botton OK in dialog with list is pressed!",
-				findToastElement("").getText());
+		assertEquals(true,
+				waitForText("Botton OK in dialog with list is pressed!", 2000));
 	}
 
 	@Test
@@ -129,8 +120,7 @@ public class MainActivityTest extends AthrunTestCase {
 	@Test
 	public void testFindToastById() throws Exception {
 		findElementById("my_imageview", ViewElement.class).doLongClick();
-		assertNotNull(findToastElement(""));
-		assertEquals("LongClick", findToastElement("").getText());
+		assertEquals(true, waitForText("LongClick", 2000));
 	}
 
 	@Test
@@ -155,7 +145,7 @@ public class MainActivityTest extends AthrunTestCase {
 	public void testFindViewByIntId() throws Exception {
 		findElementById(R.id.btn_scrollview_activity, ViewElement.class)
 				.doClick();
-		assertEquals(true, getDevice().waitForActivity("ScrollActivity", 2000));
+		assertEquals(true, getDevice().waitForActivity("ScrollActivity", 5000));
 	}
 
 	@Test
@@ -193,16 +183,7 @@ public class MainActivityTest extends AthrunTestCase {
 	public void testFindViewOutOfScreen3() throws Exception {
 		ViewGroupElement rootGroup = findElementById("mainroot",
 				ViewGroupElement.class);
-		rootGroup.getChildByIndex(7, ViewElement.class).doClick();
-	}
-
-	@Test
-	public void testFindViewOutOfScreen4() throws Exception {
-		ViewGroupElement rootGroup = findElementById("mainroot",
-				ViewGroupElement.class);
-		String button = rootGroup.getChildByIndex(7, TextViewElement.class)
-				.getText();
-		assertEquals("GridView", button);
+		rootGroup.getChildByIndex(4, ViewElement.class).doClick();
 	}
 
 	@Test

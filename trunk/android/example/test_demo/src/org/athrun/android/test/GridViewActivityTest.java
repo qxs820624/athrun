@@ -26,7 +26,7 @@ public class GridViewActivityTest extends AthrunTestCase {
 		TextViewElement view = item.getChildByIndex(1, TextViewElement.class);
 		assertEquals("Item.0", view.getText());
 		item.doClick();
-		assertEquals("Item 0 is clicked!", findToastElement("").getText());
+		assertEquals(true, waitForText("Item 0 is clicked!", 2000));
 		assertEquals(true,
 				getDevice().waitForActivity("ListViewActivity", 2000));
 		getDevice().pressBack();
@@ -45,7 +45,7 @@ public class GridViewActivityTest extends AthrunTestCase {
 		assertEquals("Item.19", item.getChildByIndex(1, TextViewElement.class)
 				.getText());
 		item.doClick();
-		assertEquals("Item 19 is clicked!", findToastElement("").getText());
+		assertEquals(true, waitForText("Item 19 is clicked!", 2000));
 		AbsListViewElement listView = findElementById("my_listview",
 				AbsListViewElement.class);
 		assertNotNull(listView);
@@ -56,7 +56,7 @@ public class GridViewActivityTest extends AthrunTestCase {
 		assertEquals("Item20", groupChild.getText());
 		group.doLongClick();
 		findElementByText("Item One").doClick();
-		assertEquals("1 pressed!", findToastElement("").getText());
+		assertEquals(true, waitForText("1 pressed!", 2000));
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class GridViewActivityTest extends AthrunTestCase {
 		assertEquals("Item20", textView2.getText());
 		group.doLongClick();
 		findElementByText("Item One").doClick();
-		assertEquals("1 pressed!", findToastElement().getText());
+		assertEquals(true, waitForText("1 pressed!", 2000));
 	}
 	
 	@Test
@@ -82,8 +82,8 @@ public class GridViewActivityTest extends AthrunTestCase {
 		listView.scrollToLine(9);
 		assertEquals(9, listView.getLastVisiblePosition());
 		findElementByText("OK").doClick();
-		assertEquals("Botton OK in dialog with list is pressed!",
-				findToastElement("").getText());
+		assertEquals(true,
+				waitForText("Botton OK in dialog with list is pressed!", 2000));
 	}
 
 }

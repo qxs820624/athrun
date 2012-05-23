@@ -14,7 +14,7 @@ public class WebViewTest extends AthrunTestCase {
 	@Test
 	public void testZoomInOut() throws Exception {
 		findElementByText("WebView").doClick();
-		WebViewElement webview = findWebViewById("mywebview");
+		WebViewElement webview = findElementById("mywebview", WebViewElement.class);
 		webview.zoomIn();
 		webview.zoomIn();
 		webview.zoomIn();
@@ -25,7 +25,7 @@ public class WebViewTest extends AthrunTestCase {
 	@Test
 	public void testSearch() throws Exception {
 		findElementByText("WebView").doClick();
-		WebViewElement webview = findWebViewById("mywebview");
+		WebViewElement webview = findElementById("mywebview", WebViewElement.class);
 		webview.excuteJs("document.getElementsByName('q')[0].value='iphone4s'");
 		webview.excuteJs("document.getElementsByClassName('btn-bg')[0].click()");
 		String result = webview.excuteJsAndReturn("document.body.innerText");
@@ -36,7 +36,7 @@ public class WebViewTest extends AthrunTestCase {
 	@Test
 	public void testGetText() throws Exception {
 		findElementByText("WebView").doClick();
-		WebViewElement webview = findWebViewById("mywebview");
+		WebViewElement webview = findElementById("mywebview", WebViewElement.class);
 		String result = webview.excuteJsAndReturn("document.body.innerText");
 		assertTrue(result, result.contains("比价"));
 		Thread.sleep(5000);
