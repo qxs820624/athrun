@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/Athrun/trunk/iOS/InstrumentDriver/json-lib/commons-beanutils-1.8.0.jar"/>
-	<classpathentry kind="lib" path="D:/Athrun/trunk/iOS/InstrumentDriver/json-lib/commons-collections-3.2.1.jar"/>
-	<classpathentry kind="lib" path="D:/Athrun/trunk/iOS/InstrumentDriver/json-lib/commons-lang-2.5.jar"/>
-	<classpathentry kind="lib" path="D:/Athrun/trunk/iOS/InstrumentDriver/json-lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="D:/Athrun/trunk/iOS/InstrumentDriver/json-lib/ezmorph-1.0.6.jar"/>
-	<classpathentry kind="lib" path="D:/Athrun/trunk/iOS/InstrumentDriver/json-lib/json-lib-2.4-jdk15.jar"/>
-	<classpathentry kind="lib" path="D:/Athrun/trunk/iOS/InstrumentDriver/json-lib/junit-4.8.1.jar"/>
+	<classpathentry kind="lib" path="/Users/jerryding/Documents/workspace/InstrumentDriver/json-lib/commons-beanutils-1.8.0.jar"/>
+	<classpathentry kind="lib" path="/Users/jerryding/Documents/workspace/InstrumentDriver/json-lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="/Users/jerryding/Documents/workspace/InstrumentDriver/json-lib/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/jerryding/Documents/workspace/InstrumentDriver/json-lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/jerryding/Documents/workspace/InstrumentDriver/json-lib/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="/Users/jerryding/Documents/workspace/InstrumentDriver/json-lib/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="/Users/jerryding/Documents/workspace/InstrumentDriver/json-lib/junit-4.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
