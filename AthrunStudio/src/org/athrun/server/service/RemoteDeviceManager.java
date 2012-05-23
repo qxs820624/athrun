@@ -78,7 +78,8 @@ public class RemoteDeviceManager {
 	/**
 	 * @param remoteAddr
 	 * @param sn
-	 * @param needMaintain 内部轮询检查不用maintain，外部请求需要maintain
+	 * @param needMaintain
+	 *            内部轮询检查不用maintain，外部请求需要maintain
 	 */
 	public static void remove(String remoteAddr, String sn, boolean needMaintain) {
 		synchronized (remoteDeviceMap) {
@@ -96,8 +97,9 @@ public class RemoteDeviceManager {
 
 	/**
 	 * 内部轮询检查，要求维护remoteDeviceMap
+	 * 
 	 * @param device
-	 */	
+	 */
 	private void remove(Device device) {
 		remove(device.getRemoteAddr(), device.getSerialNumber(), false);
 	}
@@ -111,10 +113,10 @@ public class RemoteDeviceManager {
 		StringBuilder uri = new StringBuilder();
 		uri.append("?").append("type=").append("add");
 		uri.append("&").append("cpuAbi=").append(device.getCpuAbi());
-		uri.append("&").append("device=").append(device.getDevice());
+		uri.append("&").append("device=").append(encode(device.getDevice()));
 		uri.append("&").append("ipAddress=").append(device.getIpAddress());
 		uri.append("&").append("manufacturer=")
-				.append(device.getManufacturer());
+				.append(encode(device.getManufacturer()));
 		uri.append("&").append("model=").append(encode(device.getModel()));
 		uri.append("&").append("sdk=").append(device.getSdk());
 		uri.append("&").append("sn=").append(device.getSerialNumber());
