@@ -127,7 +127,7 @@ public class RemoteDeviceManager {
 
 	}
 
-	private static boolean httpGet(String uri) {
+	public static boolean httpGet(String uri) {
 		StringBuilder sb = new StringBuilder();
 		try {
 			URL url = new URL(uri);
@@ -139,6 +139,9 @@ public class RemoteDeviceManager {
 			String s = null;
 			while ((s = bin.readLine()) != null) {
 				sb.append(s);
+			}
+			if (sb.length() == 0) {
+				return false;
 			}
 			bin.close();
 		} catch (IOException e) {
