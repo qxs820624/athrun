@@ -99,7 +99,6 @@ public class AbsListViewElement extends ViewGroupElement {
 
 			@Override
 			public void run() {
-				// Log.i(LOG_TAG, "scrollToLine(" + realLine + ")");
 				logger.info("scrollToLine(" + realLine + ")");
 				absListView.setSelection(realLine);
 			}
@@ -124,24 +123,19 @@ public class AbsListViewElement extends ViewGroupElement {
 		while (System.currentTimeMillis() < startTime + getMaxTimeToFindView()) {
 			if (null == absListView.getChildAt(realIndex
 					- absListView.getFirstVisiblePosition())) {
-				// Log.i(LOG_TAG, "getChildByIndex(" + realIndex
-				// + ") return null, sleep");
 				logger.info("getChildByIndex(" + realIndex
 						+ ") return null, sleep");
 				sleep(RETRY_TIME);
+				continue;
 
 			} else {
-				// Log.i(LOG_TAG, "getChildByIndex(" + realIndex + ") succeed");
 				logger.info("getChildByIndex(" + realIndex + ") succeed");
 				inst.waitForIdleSync();
 				return absListView.getChildAt(realIndex
 						- absListView.getFirstVisiblePosition());
 			}
 		}
-		// AthrunLog.e(LOG_TAG, "getChildByIndex(" + realIndex + ") return null"
-		// , new Throwable());
-		logger.error("getChildByIndex(" + realIndex + ") return null.",
-				new Throwable());
+		logger.error("getChildByIndex(" + realIndex + ") return null.");
 
 		return null;
 	}
@@ -155,14 +149,14 @@ public class AbsListViewElement extends ViewGroupElement {
 				logger.info("getChildByIndexInScreen(" + index
 						+ ") return null, sleep");
 				sleep(RETRY_TIME);
+				continue;
 
 			} else {
 				return absListView.getChildAt(index);
 			}
 		}
 
-		logger.error("getChildByIndexInScreen(" + index + ") return null.",
-				new Throwable());
+		logger.error("getChildByIndexInScreen(" + index + ") return null.");
 		return null;
 	}
 

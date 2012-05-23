@@ -218,9 +218,11 @@ public class ViewElement implements IViewElement {
 		return ScreenUtils.getScreenWidth(view.getContext());
 	}
 
-	protected static void sleep(int time) {
+	protected void sleep(int time) {
 		try {
 			Thread.sleep(time);
+			this.inst.waitForIdleSync();
+			
 		} catch (InterruptedException ignored) {
 			ignored.printStackTrace();
 		}

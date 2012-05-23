@@ -72,7 +72,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 */
 	private Instrumentation inst;
 
-	private static int maxTimeToFindView = IViewElement.ANR_TIME;
+	private static int maxTimeToFindView = 4 * IViewElement.ANR_TIME;
 	
 	// andsun add
 	private Activity ac ;
@@ -100,10 +100,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * @return An instance of {@link Athrun}.
 	 */
 	private Athrun getAthrun() {
-		if (athrun == null) {
-			athrun = new Athrun(getInstrumentation(), getActivity(), maxTimeToFindView);
-		}
-		return athrun;
+		return new Athrun(getInstrumentation(), getActivity(), maxTimeToFindView);
 	}
 
 	@Override
@@ -138,7 +135,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 		logger.info("tearDown()...");
 
 		try {
-			athrun.getActivityUtils().finishOpenedActivities();
+			this.athrun.getActivityUtils().finishOpenedActivities();
 			AthrunConnectorThread.stop();
 			
 		} catch (Throwable e) {

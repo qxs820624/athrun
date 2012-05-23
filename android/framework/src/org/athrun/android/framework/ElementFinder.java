@@ -19,23 +19,14 @@ import android.widget.TextView;
 public class ElementFinder {
 	private final Logger logger = LogConfigure.getLogger(getClass());
 
-	private static ElementFinder instance;
 	private static int timeout = IViewElement.ANR_TIME;
 
 	private ViewFinder viewFinder;
 	private Instrumentation inst;
 
-	private ElementFinder(int timeout, Instrumentation inst) {
+	ElementFinder(int timeout, Instrumentation inst) {
 		this.viewFinder = new ViewFinder();
 		this.inst = inst;
-	}
-
-	static ElementFinder getInstance(int timeout, Instrumentation inst) {
-		if (null == instance) {
-			instance = new ElementFinder(timeout, inst);
-		}
-
-		return instance;
 	}
 
 	void setTimeout(int timeout) {

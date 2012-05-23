@@ -54,7 +54,7 @@ final class Athrun {
 	Athrun(Instrumentation inst, Activity activity, int timeout) {
 		this.inst = inst;
 		this.athrunDevice = new AthrunDevice(inst, activity);
-		this.elementFinder = ElementFinder.getInstance(timeout, inst);
+		this.elementFinder = new ElementFinder(timeout, inst);
 		logger.info("Construct instance of Athrun finished.");
 	}
 
