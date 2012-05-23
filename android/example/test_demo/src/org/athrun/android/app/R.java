@@ -88,11 +88,11 @@ public final class R {
         public static final int my_linearlayout=0x7f05001f;
         public static final int my_listview=0x7f05000a;
         public static final int my_multiautocompletetextview=0x7f050024;
-        public static final int my_progressbar=0x7f050031;
+        public static final int my_progressbar=0x7f05003b;
         public static final int my_textview=0x7f050020;
         public static final int my_togglebutton=0x7f050026;
-        public static final int mywebview=0x7f050032;
-        public static final int next_webview=0x7f050030;
+        public static final int mywebview=0x7f05003c;
+        public static final int next_webview=0x7f05003a;
         public static final int same_one=0x7f050018;
         public static final int same_three=0x7f05001a;
         public static final int same_two=0x7f050019;
@@ -109,7 +109,17 @@ public final class R {
         public static final int textviewtree_two_one=0x7f05002c;
         public static final int textviewtree_two_three=0x7f05002e;
         public static final int textviewtree_two_two=0x7f05002d;
-        public static final int webview_extend=0x7f05002f;
+        public static final int viewgroup_1=0x7f05002f;
+        public static final int viewgroup_10=0x7f050038;
+        public static final int viewgroup_2=0x7f050030;
+        public static final int viewgroup_3=0x7f050031;
+        public static final int viewgroup_4=0x7f050032;
+        public static final int viewgroup_5=0x7f050033;
+        public static final int viewgroup_6=0x7f050034;
+        public static final int viewgroup_7=0x7f050035;
+        public static final int viewgroup_8=0x7f050036;
+        public static final int viewgroup_9=0x7f050037;
+        public static final int webview_extend=0x7f050039;
     }
     public static final class layout {
         public static final int checkbox_layout=0x7f030000;
@@ -122,8 +132,9 @@ public final class R {
         public static final int scrollview_layout=0x7f030007;
         public static final int textview_layout=0x7f030008;
         public static final int textview_tree_layout=0x7f030009;
-        public static final int webview_extend_layout=0x7f03000a;
-        public static final int webview_layout=0x7f03000b;
+        public static final int viewgroup_layout=0x7f03000a;
+        public static final int webview_extend_layout=0x7f03000b;
+        public static final int webview_layout=0x7f03000c;
     }
     public static final class string {
         public static final int another_app=0x7f040012;
