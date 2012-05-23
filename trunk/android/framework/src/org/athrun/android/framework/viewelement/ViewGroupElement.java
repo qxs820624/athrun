@@ -152,7 +152,20 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 
 	private ArrayList<View> getAllChildren() {
 		ArrayList<View> allChindren = new ArrayList<View>();
-		getAllChildView(viewGroup, allChindren);
+		
+		final long startTime = System.currentTimeMillis();
+		while (System.currentTimeMillis() < startTime + getMaxTimeToFindView()) {
+			getAllChildView(viewGroup, allChindren);
+			
+			if (allChindren.isEmpty()) {
+				sleep(IViewElement.RETRY_TIME);
+				continue;
+				
+			} else {
+				break;
+			}
+		}
+		
 		return allChindren;
 	}
 
@@ -170,14 +183,27 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 	}
 
 	private ArrayList<View> getAllDirectChild() {
+		final long startTime = System.currentTimeMillis();
 		ArrayList<View> allDirectChild = new ArrayList<View>();
 
-		for (int i = 0; i < viewGroup.getChildCount(); i++) {
-			View child = viewGroup.getChildAt(i);
-			if (child != null && child.isShown()
-					&& child.getVisibility() == View.VISIBLE
-					&& child.hasWindowFocus()) {
-				allDirectChild.add(child);
+		while (System.currentTimeMillis() < startTime + getMaxTimeToFindView()) {
+			
+			for (int i = 0; i < viewGroup.getChildCount(); i++) {
+				View child = viewGroup.getChildAt(i);
+				if (child != null && child.isShown()
+						&& child.getVisibility() == View.VISIBLE
+						&& child.hasWindowFocus()) {
+					allDirectChild.add(child);
+				}
+			}
+
+			if (allDirectChild.isEmpty()) {
+				logger.warn("allDirectChild.isEmpty() sleep.");
+				sleep(IViewElement.RETRY_TIME);
+				continue;
+				
+			} else {
+				break;
 			}
 		}
 
@@ -189,7 +215,9 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 		final int max = allChildren.size() - 1;
 
 		if (index > max) {
-			logger.error("index > max number of direct visiable children:" + max + " , getChildViewByIndex(" + index + ") return null.");
+			logger.error("index > max number of direct visiable children:"
+					+ max + " , getChildViewByIndex(" + index
+					+ ") return null.");
 			return null;
 		}
 
