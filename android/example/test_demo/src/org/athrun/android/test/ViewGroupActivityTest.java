@@ -33,4 +33,12 @@ public class ViewGroupActivityTest extends AthrunTestCase {
 				groupElement.getChildByIndex(1, ViewGroupElement.class)
 						.getDirectChildCount());
 	}
+	
+	public void testFetchText() throws Exception {
+		getDevice().pressMenu();
+		findElementByText("ViewGroup").doClick();
+		ViewGroupElement groupElement = findElementById("viewgroup_2",
+				ViewGroupElement.class);
+		assertEquals("410", groupElement.fetchText());
+	}
 }

@@ -95,41 +95,6 @@ public class TextViewActivityTest extends AthrunTestCase {
 		assertEquals(true, checkBox.isChecked());
 	}
 
-//	@Test
-//	public void testFindViewsByIndex() throws Exception {
-//		findElementById("btn_textview_activity").doClick();
-//		ArrayList<CheckableElement> list = findElementsByType(
-//				CompoundButton.class, CheckableElement.class);
-//		assertEquals(2, list.size());
-//		CheckableElement checkBox = list.get(0);
-//		checkBox.doClick();
-//		assertEquals(true, checkBox.isChecked());
-//	}
-
-//	@Test
-//	public void testFindViewsByIndex2() throws Exception {
-//		findElementById("btn_textview_activity").doClick();
-//		ArrayList<CheckableElement> list = findElementsByType(
-//				CompoundButton.class, CheckableElement.class);
-//		assertEquals(2, list.size());
-//		CheckableElement toggleButton = list.get(1);
-//		assertEquals("OFF", toggleButton.getText());
-//		toggleButton.doClick();
-//		Thread.sleep(3000);
-//		assertEquals("ON", toggleButton.getText());
-//	}
-
-//	@Test
-//	public void testGetViewsByIndex3() throws Exception {
-//		findElementById("btn_textview_activity").doClick();
-//		ArrayList<TextViewElement> list = findElementsByType(TextView.class,
-//				TextViewElement.class);
-//		assertEquals(11, list.size());
-//		TextViewElement textView = list.get(10);
-//		textView.setText("fuyun");
-//		assertEquals("fuyun", textView.getText());
-//	}
-
 	@Test
 	public void testInputText() throws Exception {
 		findElementById("btn_textview_activity").doClick();
@@ -138,15 +103,6 @@ public class TextViewActivityTest extends AthrunTestCase {
 		myEditText.inputText("123rfgt@#");
 		assertEquals("Hello world123rfgt@#", myEditText.getText());
 	}
-	
-//	public void testFindByTextAndIndex() throws Exception {
-//		findElementById("btn_sametext_activity").doClick();
-////		TextViewElement buttonOne = findElementByText("Same Text", 0);
-////		buttonOne.doClick();
-//		TextViewElement buttonTwo = findElementByText("Same Text", 1);
-//		buttonTwo.doClick();
-//		assertEquals("Button Two Clicked.", findToastElement().getText());
-//	}
 	
 	public void testFindChild() throws Exception {
 		findElementById("btn_sametext_activity").doClick();
