@@ -8,7 +8,7 @@ import org.athrun.ios.instrumentdriver.RunType;
 public class InstrumentDriverTestCase extends TestCase {
 
 	private String appPath = "/Users/jerryding/taobao4iphone/build/Distribution-iphonesimulator/taobao4iphone.app";
-	private Boolean isDebug = false;
+	private Boolean isDebug = true;
 
 	public String getAppPath() {
 		return appPath;
@@ -37,8 +37,13 @@ public class InstrumentDriverTestCase extends TestCase {
 		super.setUp();
 		RunType.DEBUG = this.isDebug;
 
-		Runtime.getRuntime().exec(
-				"/bin/bash /Athrun/RunScript.sh " + this.appPath, null);
+		String cmd = String
+				.format("/bin/bash instruments -t /Developer/Platforms/iPhoneOS.platform/Developer/Library/Instruments/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate  %s -e UIASCRIPT ./Lib/CSRunner.js -e UIARESULTSPATH /Athrun/log/",
+						this.appPath);
+		// Runtime.getRuntime().exec("/bin/bash /Athrun/RunScript.sh " +
+		// this.appPath, null);
+		
+		Runtime.getRuntime().exec(cmd, null);
 	}
 
 	@Override
@@ -46,5 +51,6 @@ public class InstrumentDriverTestCase extends TestCase {
 		// TODO Auto-generated method stub
 		super.tearDown();
 		MySocket.sendExit();
+		Runtime.getRuntime().exec("/bin/bash rm -rf *.trace ", null);
 	}
 }
