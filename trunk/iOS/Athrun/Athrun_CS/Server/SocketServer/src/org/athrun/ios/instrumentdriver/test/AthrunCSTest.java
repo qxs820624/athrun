@@ -25,6 +25,6 @@ public class AthrunCSTest extends InstrumentDriverTestCase {
 		win.findElementByText("首页", UIAButton.class).tap();
 		win.findElementByText("充值中心").tap();
 		target.delay(2);
-		win.findElementByText("Error").tap();
+		//win.findElementByText("Error").tap();
 	}
 }
