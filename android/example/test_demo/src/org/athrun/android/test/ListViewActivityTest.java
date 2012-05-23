@@ -74,7 +74,7 @@ public class ListViewActivityTest extends AthrunTestCase {
 		getDevice().pressDown();
 		getDevice().pressDown();
 		getDevice().pressEnter();
-		assertEquals("Item 1 clicked!", findToastElement("Item").getText());
+		assertEquals(true, waitForText("Item 1 clicked!", 2000));
 	}
 
 	@Test
