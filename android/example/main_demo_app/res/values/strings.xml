@@ -319,5 +319,5 @@
     <string name="gridview">GridView</string>
     <string name="mapview">MapView</string>
     <string name="another_app">Another App</string>
-    <string name="sametext">same text</string>   
+    <string name="sametext">same text</string>
 </resources>

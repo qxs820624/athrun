@@ -160,6 +160,7 @@ public class MainActivity extends Activity {
 		menu.add(Menu.NONE, 1, Menu.NONE, "Dialog");
 		menu.add(Menu.NONE, 2, Menu.NONE, "Toast");
 		menu.add(Menu.NONE, 3, Menu.NONE, "Dialog With List");
+		menu.add(Menu.NONE, 4, Menu.NONE, "ViewGroup");
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -178,6 +179,9 @@ public class MainActivity extends Activity {
 		case 3:
 			createDialogWithList();
 			break;
+			
+		case 4:
+			startActivity(ViewGroupActivity.class);
 
 		default:
 			break;
