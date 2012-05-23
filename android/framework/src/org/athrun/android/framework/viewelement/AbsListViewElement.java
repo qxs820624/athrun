@@ -249,7 +249,7 @@ public class AbsListViewElement extends ViewGroupElement {
 
 		} else if (listItem instanceof ViewGroup) {
 			ArrayList<View> allViews = new ArrayList<View>();
-			ViewUtils.addChildren(allViews, absListView, false);
+			ViewUtils.addChildren(allViews, (ViewGroup) listItem, false);
 			allTextViews = ViewUtils.filterViews(TextView.class, allViews);
 		}
 

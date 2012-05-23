@@ -156,26 +156,18 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	public AthrunDevice getDevice() {
 		return athrun.getDevice();
 	}
-
+	
 	/**
-	 * Return an instance of {@code ViewElement} or its subclass by the given name
-	 * and return type.
-	 * 
-	 * @param <T>
-	 *            The {@code ViewElement} or its subclass.
-	 * @param name
-	 *            String name of view id, the string after @+id/ defined in
-	 *            layout files.
+	 * Return an instance of {@code ViewElement} or its subclass by the given id and return type.
+	 * @param id
+	 * @param index
 	 * @param returnType
-	 *            The {@code ViewElement} or its subclass, this parameter
-	 *            determines the return type of this method.
-	 * @return The {@code ViewElement} or its subclass.
+	 * @return
 	 * @throws Exception
 	 */
-	public <T> T findElementById(String name,
-			Class<T> returnType) throws Exception {
-		int intId = RClassUtils.getIdByName(this.inst.getTargetContext().getPackageName(), name);
-		return this.findElementById(intId, returnType);
+	public <T> T findElementById(int id, int index, Class<T> returnType)
+			throws Exception {
+		return athrun.getElementFinder().findElementById(id, index, returnType);
 	}
 
 	/**
@@ -208,7 +200,12 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 */
 	public <T> T findElementById(int id, Class<T> returnType)
 			throws Exception {
-		return athrun.getElementFinder().findElementById(id, 0, returnType);
+		return this.findElementById(id, 0, returnType);
+	}
+	
+	public ViewElement findElementById(int id, int index)
+			throws Exception {
+		return this.findElementById(id, index, ViewElement.class);
 	}
 
 	/**
@@ -222,18 +219,47 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	public ViewElement findElementById(int id) throws Exception {
 		return this.findElementById(id, ViewElement.class);
 	}
+	
+	public <T> T findElementById(String literalId, int index, Class<T> returnType) throws Exception {
+		int intId = RClassUtils.getIdByName(this.inst.getTargetContext().getPackageName(), literalId);
+		return this.findElementById(intId, index, returnType);
+	}
 
+	/**
+	 * Return an instance of {@code ViewElement} or its subclass by the given name
+	 * and return type.
+	 * 
+	 * @param <T>
+	 *            The {@code ViewElement} or its subclass.
+	 * @param literalId
+	 *            String name of view id, the string after @+id/ defined in
+	 *            layout files.
+	 * @param returnType
+	 *            The {@code ViewElement} or its subclass, this parameter
+	 *            determines the return type of this method.
+	 * @return The {@code ViewElement} or its subclass.
+	 * @throws Exception
+	 */
+	public <T> T findElementById(String literalId,
+			Class<T> returnType) throws Exception {
+		return this.findElementById(literalId, 0, returnType);
+	}
+	
+	public ViewElement findElementById(String literalId, int index) throws Exception {
+		return this.findElementById(literalId, index, ViewElement.class);
+	}
+	
 	/**
 	 * Return an instance of {@code ViewElement} by the given name.
 	 * 
-	 * @param name
+	 * @param literalId
 	 *            String name of view id, the string after @+id/ defined in
 	 *            layout files.
 	 * @return The {@code ViewElement}.
 	 * @throws Exception
 	 */
-	public ViewElement findElementById(String name) throws Exception {
-		return this.findElementById(name, ViewElement.class);
+	public ViewElement findElementById(String literalId) throws Exception {
+		return this.findElementById(literalId, 0);
 	}
 
 //	/**
