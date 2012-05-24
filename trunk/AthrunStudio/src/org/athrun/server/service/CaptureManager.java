@@ -232,18 +232,19 @@ public class CaptureManager {
 	// 启动截图
 	// 截图完成后，回调返回
 	public void register(OutputStream output, String serialNumber) {
-		synchronized (capOutputManager) {
-			capOutputManager.add(new OutputBean(output, serialNumber));
-		}
-		StartCapture(serialNumber);
+		if (threadlist.containsKey(serialNumber)) {
+			// 说明注册的图片在capture thread list里，会被处理			
+			synchronized (capOutputManager) {
+				capOutputManager.add(new OutputBean(output, serialNumber));
+			}
+			StartCapture(serialNumber);
 
-		// 等待回调返回
-		synchronized (output) {
-			try {
-				output.wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			// 等待回调返回
+			synchronized (output) {
+				try {
+					output.wait(30000);
+				} catch (InterruptedException e) {
+				}
 			}
 		}
 	}
