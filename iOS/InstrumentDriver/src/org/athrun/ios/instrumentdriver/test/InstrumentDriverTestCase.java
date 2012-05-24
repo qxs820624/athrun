@@ -49,6 +49,6 @@ public class InstrumentDriverTestCase extends TestCase {
 		// TODO Auto-generated method stub
 		super.tearDown();
 		MySocket.sendExit();
-		Runtime.getRuntime().exec("/bin/bash rm -rf *.trace ", null);
+		Runtime.getRuntime().exec("rm -rf *.trace ");
 	}
 }
