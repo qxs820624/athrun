@@ -40,10 +40,8 @@ public class InstrumentDriverTestCase extends TestCase {
 		String cmd = String
 				.format("/bin/bash instruments -t /Developer/Platforms/iPhoneOS.platform/Developer/Library/Instruments/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate  %s -e UIASCRIPT ./JSLib/CSRunner.js -e UIARESULTSPATH /Athrun/log/",
 						this.appPath);
-		// Runtime.getRuntime().exec("/bin/bash /Athrun/RunScript.sh " +
-		// this.appPath, null);
-		
-		Runtime.getRuntime().exec(cmd, null);
+	 
+		Runtime.getRuntime().exec(cmd);
 	}
 
 	@Override
