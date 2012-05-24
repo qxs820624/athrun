@@ -48,9 +48,10 @@ public class ViewElement implements IViewElement {
 		this.view = view;
 		logViewInfo();
 	}
-	
+
 	protected void logViewInfo() {
-		logger.info("Construct an instance of " + this.getClass().getSimpleName() + " finished.");
+		logger.info("Construct an instance of "
+				+ this.getClass().getSimpleName() + " finished.");
 	}
 
 	private void beforeClick() {
@@ -80,7 +81,7 @@ public class ViewElement implements IViewElement {
 		viewOperation.clickOnScreen(getViewCenter().getX(), getViewCenter()
 				.getY());
 	}
-    
+
 	/**
 	 * Perform click on this view by send command to monkey.
 	 */
@@ -91,9 +92,9 @@ public class ViewElement implements IViewElement {
 	}
 
 	@Override
-	public void doLongClick() {
-		logger.info("doLongClick().");
-		
+	public void doLongClick(int time) {
+		logger.info("doLongClick(" + time + ").");
+
 		if (null == view) {
 			logger.error("View is null, doLongClick() failed.");
 		}
@@ -106,11 +107,16 @@ public class ViewElement implements IViewElement {
 			ViewUtils.hideSoftInputFromWindow(inst, view);
 			sleep(RETRY_TIME);
 			inst.waitForIdleSync();
-			viewOperation.clickLongOnScreen(x, y);
+			viewOperation.clickLongOnScreen(x, y, time);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void doLongClick() {
+		this.doLongClick(0);
 	}
 
 	@Override
@@ -153,7 +159,7 @@ public class ViewElement implements IViewElement {
 		return view.hasWindowFocus() && view.isEnabled() && view.isShown()
 				&& (getWidth() > 0) && (getHeight() > 0);
 	}
-	
+
 	@Override
 	public boolean isFocused() {
 		return view.isFocused();
@@ -222,7 +228,7 @@ public class ViewElement implements IViewElement {
 		try {
 			Thread.sleep(time);
 			this.inst.waitForIdleSync();
-			
+
 		} catch (InterruptedException ignored) {
 			ignored.printStackTrace();
 		}

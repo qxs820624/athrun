@@ -78,6 +78,12 @@ public interface IViewElement {
 	 * Perform long click on this view.
 	 */
 	void doLongClick();
+	
+	/**
+	 * Perform long click on this view by the given time.
+	 * @param time time in milliseconds.
+	 */
+	void doLongClick(int time);
 
 	/**
 	 * Call this to try to give focus to a specific view or to one of its
