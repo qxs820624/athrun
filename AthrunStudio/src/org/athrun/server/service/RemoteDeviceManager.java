@@ -82,17 +82,17 @@ public class RemoteDeviceManager {
 	 *            内部轮询检查不用maintain，外部请求需要maintain
 	 */
 	public static void remove(String remoteAddr, String sn, boolean needMaintain) {
-		synchronized (remoteDeviceMap) {
-			Map<String, Device> list = remoteDeviceMap.get(remoteAddr);
-			if (list != null) {
-				Device device = list.remove(sn);
-				if (needMaintain) {
-					if (device != null) {
-						maintain(remoteAddr, sn, device);
-					}
+
+		Map<String, Device> list = remoteDeviceMap.get(remoteAddr);
+		if (list != null) {
+			Device device = list.remove(sn);
+			if (needMaintain) {
+				if (device != null) {
+					maintain(remoteAddr, sn, device);
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -129,13 +129,14 @@ public class RemoteDeviceManager {
 
 	public static boolean httpGet(String uri) {
 		StringBuilder sb = new StringBuilder();
+		BufferedReader bin = null;
 		try {
 			URL url = new URL(uri);
 			URLConnection connection = url.openConnection();
 			connection.setConnectTimeout(3000);
 			connection.setReadTimeout(3000);
 			InputStream in = connection.getInputStream();
-			BufferedReader bin = new BufferedReader(new InputStreamReader(in));
+			bin = new BufferedReader(new InputStreamReader(in));
 			String s = null;
 			while ((s = bin.readLine()) != null) {
 				sb.append(s);
@@ -143,11 +144,15 @@ public class RemoteDeviceManager {
 			if (sb.length() == 0) {
 				return false;
 			}
-			bin.close();
 		} catch (IOException e) {
 			Log.w("RemoteDeviceRegister",
 					"Can't reach the host: " + e.getMessage());
 			return false;
+		} finally {
+			try {
+				bin.close();
+			} catch (Exception e) {
+			}
 		}
 		return true;
 	}
