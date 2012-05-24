@@ -90,7 +90,7 @@ public class ViewOperation {
 	 *            the y coordinate
 	 * @throws InterruptedException
 	 */
-	public void clickLongOnScreen(float x, float y) throws InterruptedException {
+	public void clickLongOnScreen(float x, float y, int time) throws InterruptedException {
 		long downTime = SystemClock.uptimeMillis();
 		long eventTime = SystemClock.uptimeMillis();
 		MotionEvent event = MotionEvent.obtain(downTime, eventTime,
@@ -111,8 +111,14 @@ public class ViewOperation {
 						/ 2, y + ViewConfiguration.getTouchSlop() / 2, 0);
 		inst.sendPointerSync(event);
 		inst.waitForIdleSync();
-		Thread.sleep((int)(ViewConfiguration.getLongPressTimeout() * 2.5F));
-
+		
+		if (time > 0) {
+			Thread.sleep(time);
+			
+		} else {
+			Thread.sleep((int)(ViewConfiguration.getLongPressTimeout() * 2.5F));
+		}
+		
 		eventTime = SystemClock.uptimeMillis();
 		event = MotionEvent.obtain(downTime, eventTime, MotionEvent.ACTION_UP,
 				x, y, 0);
