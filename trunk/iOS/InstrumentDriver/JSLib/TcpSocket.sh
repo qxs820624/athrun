@@ -13,7 +13,7 @@ fi
 #将信息发送给socket连接 
 echo $1>&6; 
 
-#从socket读取返回信息，显示为标准输出 
+#从socket读取返回信息
 returnStr=`cat<&6`;
 
 exec 6<&-; 
