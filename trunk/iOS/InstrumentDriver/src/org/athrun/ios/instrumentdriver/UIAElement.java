@@ -145,8 +145,8 @@ public class UIAElement {
 	 *             字符串导致转换成JSON对象失败，抛出异常结束用例
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> T findElementByText(String text, int index,
-			Class<T> elmentType) throws Exception {
+	public <T> T findElementByText(String text, int index, Class<T> elmentType)
+			throws Exception {
 
 		String[] type = elmentType.getName().split("\\.");
 		String eType = type[type.length - 1];
@@ -329,6 +329,10 @@ public class UIAElement {
 	public UIASwitch[] switches() throws Exception {
 
 		return UIAElementHelp.switchArray(this.guid + ".switches()");
+	}
+
+	public UIASlider[] sliders() throws Exception {
+		return UIAElementHelp.sliderArray(this.guid + ".sliders()");
 	}
 
 	public UIATabBar tabBar() throws Exception {

@@ -5,7 +5,7 @@ package org.athrun.ios.instrumentdriver;
 
 /**
  * @author ziyu.hch
- *
+ * 
  */
 public class UIAPicker extends UIAElement {
 
@@ -22,6 +22,8 @@ public class UIAPicker extends UIAElement {
 		// TODO Auto-generated constructor stub
 	}
 
-	//public 
-	
+	public UIAPickerWheel[] wheels() throws Exception {
+		return UIAElementHelp.pickerWheelArray(this.guid + ".wheels()");
+	}
+
 }

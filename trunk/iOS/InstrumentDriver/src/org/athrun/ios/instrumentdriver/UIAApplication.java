@@ -34,6 +34,10 @@ public class UIAApplication {
 		return UIAElementHelp.getActionSheet(this.guid + ".actionSheet()");
 	}
 
+	public UIAAlert alert() throws Exception {
+		return UIAElementHelp.getAlert(this.guid + ".alert()");
+	}
+
 	public UIAKeyboard keyboard() throws Exception {
 
 		return UIAElementHelp.getKeyboard(this.guid + ".keyboard()");

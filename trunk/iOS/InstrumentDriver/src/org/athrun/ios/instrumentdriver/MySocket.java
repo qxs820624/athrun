@@ -53,7 +53,7 @@ public class MySocket {
 			os.close();
 			is.close();
 			socket.close();
-			server.close();
+			//server.close();
 		} catch (Exception e) {
 
 			System.out.println("Error:" + e);

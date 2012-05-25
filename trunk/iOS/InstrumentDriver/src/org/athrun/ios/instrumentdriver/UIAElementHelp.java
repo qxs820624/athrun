@@ -14,7 +14,8 @@ import net.sf.json.JSONObject;
  */
 class UIAElementHelp {
 
-	private static <T> Object elementsJSONArray(String guid, Class<T> classType) throws Exception {
+	private static <T> Object elementsJSONArray(String guid, Class<T> classType)
+			throws Exception {
 
 		String elementsJSON = MySocket.getJSONArray(guid);
 		JSONArray jsonElementArray = JSONArray.fromObject(elementsJSON);
@@ -22,7 +23,8 @@ class UIAElementHelp {
 		return JSONArray.toArray(jsonElementArray, classType);
 	}
 
-	private static <T> Object getJSONObject(String guid, Class<T> classType) throws Exception {
+	private static <T> Object getJSONObject(String guid, Class<T> classType)
+			throws Exception {
 
 		String elementJSON = MySocket.getJSONObject(guid);
 		JSONObject element = JSONObject.fromObject(elementJSON);
@@ -47,7 +49,7 @@ class UIAElementHelp {
 	 *            代表当前对象的脚本字符串
 	 * 
 	 * @return The UIAElement Array
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static UIAElement[] elementArray(String guid) throws Exception {
 
@@ -131,7 +133,8 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIANavigationBar[] navigationBarArray(String guid) throws Exception {
+	public static UIANavigationBar[] navigationBarArray(String guid)
+			throws Exception {
 
 		UIANavigationBar[] elements;
 		if (DEBUG) {
@@ -182,7 +185,8 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIASecureTextField[] secureTextFieldArray(String guid)throws Exception {
+	public static UIASecureTextField[] secureTextFieldArray(String guid)
+			throws Exception {
 
 		UIASecureTextField[] elements;
 		if (DEBUG) {
@@ -298,7 +302,8 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIAActivityIndicator[] activityIndicatorArray(String guid) throws Exception {
+	public static UIAActivityIndicator[] activityIndicatorArray(String guid)
+			throws Exception {
 
 		UIAActivityIndicator[] elements;
 		if (DEBUG) {
@@ -348,11 +353,12 @@ class UIAElementHelp {
 		return elements;
 	}
 
-	public static UIATableCell[] cellsArray(String guid) throws Exception{
+	public static UIATableCell[] cellsArray(String guid) throws Exception {
 
 		UIATableCell[] elements;
 		if (DEBUG) {
-			elements = (UIATableCell[]) elementsJSONArray(guid, UIATableCell.class);
+			elements = (UIATableCell[]) elementsJSONArray(guid,
+					UIATableCell.class);
 		} else {
 			String[] guids = guidArray(guid);
 			elements = new UIATableCell[guids.length];
@@ -363,7 +369,41 @@ class UIAElementHelp {
 		}
 		return elements;
 	}
-	
+
+	public static UIAPickerWheel[] pickerWheelArray(String guid)
+			throws Exception {
+
+		UIAPickerWheel[] elements;
+		if (DEBUG) {
+			elements = (UIAPickerWheel[]) elementsJSONArray(guid,
+					UIAPickerWheel.class);
+		} else {
+			String[] guids = guidArray(guid);
+			elements = new UIAPickerWheel[guids.length];
+			for (int i = 0; i < guids.length; i++) {
+				UIAPickerWheel element = new UIAPickerWheel(guids[i]);
+				elements[i] = element;
+			}
+		}
+		return elements;
+	}
+
+	public static UIASlider[] sliderArray(String guid) throws Exception {
+
+		UIASlider[] elements;
+		if (DEBUG) {
+			elements = (UIASlider[]) elementsJSONArray(guid, UIASlider.class);
+		} else {
+			String[] guids = guidArray(guid);
+			elements = new UIASlider[guids.length];
+			for (int i = 0; i < guids.length; i++) {
+				UIASlider element = new UIASlider(guids[i]);
+				elements[i] = element;
+			}
+		}
+		return elements;
+	}
+
 	public static UIAElement getElement(String guid) throws Exception {
 
 		UIAElement element;
@@ -386,7 +426,8 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIANavigationBar getNavigationBar(String guid) throws Exception {
+	public static UIANavigationBar getNavigationBar(String guid)
+			throws Exception {
 
 		UIANavigationBar element;
 		if (DEBUG) {
@@ -460,6 +501,17 @@ class UIAElementHelp {
 			element = (UIAStatusBar) getJSONObject(guid, UIAStatusBar.class);
 		} else {
 			element = new UIAStatusBar(guid);
+		}
+		return element;
+	}
+
+	public static UIAAlert getAlert(String guid) throws Exception {
+
+		UIAAlert element;
+		if (DEBUG) {
+			element = (UIAAlert) getJSONObject(guid, UIAAlert.class);
+		} else {
+			element = new UIAAlert(guid);
 		}
 		return element;
 	}
