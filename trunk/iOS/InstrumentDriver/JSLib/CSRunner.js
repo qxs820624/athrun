@@ -1,20 +1,9 @@
 /**
- * 用例名称: C/S模式运行，启动脚本
- * 作   者: ziyu
- * 日   期: 2012-05-18
- * 备   注: Athrun C/S模式运行，启动脚本
- *
+ * 说   明: C/S模式运行，InstrumentDriver启动脚本 
+ * 作   者: ziyu 
+ * 日   期: 2012-05-18  
  */ 
 #import "./common.js"
-
-__element = "UIAElementNil";
-__elementArray =[];
-__elementTree ="";
-__index = 0;
-target = UIATarget.localTarget();
-app = target.frontMostApp();
-win = app.mainWindow();
-host = target.host();	
 
 UIALogger.logStart("The case is running.");
 
@@ -29,8 +18,6 @@ try {
 		var stdout = result.stdout.split("##");
 		var type = stdout[0];
 		var script =stdout[1];
-		
-		UIALogger.logMessage("type :" + type);
 		
 		switch(type)
 		{
@@ -81,9 +68,9 @@ try {
 		
 	sendToServer = "Error #" + e;
 	
-	//if has exception ,send the exception to server.
+	// if has exception ,send the exception to server.
 	host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
-	//end Exit
+	// end Exit
 	host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
 	UIALogger.logError(sendToServer);
 	UIALogger.logFail("The case was failed.");	
