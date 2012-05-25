@@ -40,6 +40,7 @@ public class ElementFinder {
 		if (views.isEmpty()) {
 			logger.error("findElementById(" + id + ", " + index + ", "
 					+ returnType.getName() + ") return null.");
+			return null;
 		}
 
 		return createInstance(views.get(index), returnType);
@@ -52,6 +53,7 @@ public class ElementFinder {
 		if (textViews.isEmpty()) {
 			logger.error("findElementByText(" + text + ", " + index + ", "
 					+ isEqual + ", " + returnType.getName() + ") return null.");
+			return null;
 		}
 
 		return createInstance(textViews.get(index), returnType);
@@ -64,6 +66,7 @@ public class ElementFinder {
 		if (views.isEmpty()) {
 			logger.error("findElementByIndex(" + index + ", " + view.getName()
 					+ ", " + returnType.getName() + ") return null.");
+			return null;
 		}
 
 		return createInstance(views.get(index), returnType);

@@ -29,9 +29,17 @@ import android.view.View;
  *
  */
 public class SlideableElement extends ViewElement implements ISlideableElement {
+	private int x;
+	private int y;
+	private int h;
+	private int w;
 
 	protected SlideableElement(Instrumentation inst, View view) {
 		super(inst, view);
+		this.x = getViewCenter().getX();
+		this.y = getViewCenter().getY();
+		this.h = getHeight();
+		this.w = getWidth();
 	}
 
 	@Override
@@ -65,9 +73,9 @@ public class SlideableElement extends ViewElement implements ISlideableElement {
 
 	private void dragUp(int speed) {
 		inst.waitForIdleSync();
-		int x = getViewCenter().getX();
-		int y = getViewCenter().getY();
-		int h = getHeight();
+//		int x = getViewCenter().getX();
+//		int y = getViewCenter().getY();
+//		int h = getHeight();
 
 		viewOperation.drag(x, x, y, y - h / 2, speed);
 		inst.waitForIdleSync();
@@ -75,9 +83,9 @@ public class SlideableElement extends ViewElement implements ISlideableElement {
 
 	private void dragDown(int speed) {
 		inst.waitForIdleSync();
-		int x = getViewCenter().getX();
-		int y = getViewCenter().getY();
-		int h = getHeight();
+//		int x = getViewCenter().getX();
+//		int y = getViewCenter().getY();
+//		int h = getHeight();
 
 		viewOperation.drag(x, x, y, y + h / 2, speed);
 		inst.waitForIdleSync();
@@ -85,9 +93,9 @@ public class SlideableElement extends ViewElement implements ISlideableElement {
 
 	private void dragLeft(int speed) {
 		inst.waitForIdleSync();
-		int x = getViewCenter().getX();
-		int y = getViewCenter().getY();
-		int w = getWidth();
+//		int x = getViewCenter().getX();
+//		int y = getViewCenter().getY();
+//		int w = getWidth();
 
 		viewOperation.drag(x, x - w / 2, y, y, speed);
 		inst.waitForIdleSync();
@@ -95,9 +103,9 @@ public class SlideableElement extends ViewElement implements ISlideableElement {
 
 	private void dragRight(int speed) {
 		inst.waitForIdleSync();
-		int x = getViewCenter().getX();
-		int y = getViewCenter().getY();
-		int w = getWidth();
+//		int x = getViewCenter().getX();
+//		int y = getViewCenter().getY();
+//		int w = getWidth();
 
 		viewOperation.drag(x, x + w / 2, y, y, speed);
 		inst.waitForIdleSync();
