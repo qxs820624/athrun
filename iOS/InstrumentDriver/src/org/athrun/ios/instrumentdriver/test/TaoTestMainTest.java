@@ -19,7 +19,7 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 		win.findElementByText("Hello Tao", UIAButton.class).tap();
 
-		assertEquals("Hello,taobao!", win.staticTexts()[3].name());
+		assertEquals("Hello,athrun!", win.staticTexts()[3].name());
 
 		win.findElementByText("Back").tap();
 
