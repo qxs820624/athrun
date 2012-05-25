@@ -1,0 +1,34 @@
+/**
+ * 
+ */
+package org.athrun.ios.instrumentdriver;
+
+/**
+ * @author jerryding
+ * 
+ */
+public class UIAAlert extends UIAElement {
+
+	/**
+	 * 
+	 */
+	public UIAAlert() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param guid
+	 */
+	public UIAAlert(String guid) {
+		super(guid);
+		// TODO Auto-generated constructor stub
+	}
+
+	public UIAButton defaultButton() throws Exception {
+		return UIAElementHelp.getButton(this.guid + ".defaultButton()");
+	}
+
+	public UIAButton cancelButton() throws Exception {
+		return UIAElementHelp.getButton(this.guid + ".cancelButton()");
+	}
+}

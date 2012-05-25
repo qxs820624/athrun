@@ -25,10 +25,10 @@ public class UIASwitch extends UIAElement {
 	/**
 	 * 设置 switch类型元素的开、关状态 true: on , false :off
 	 * 
-	 * @param value
+	 * @param i
 	 */
-	public void setValue(Boolean value) throws Exception {
-		MySocket.getVoid(this.guid + ".setValue(" + value + ")");
+	public void setTheValue(int i) throws Exception {
+		MySocket.getVoid(this.guid + ".setValue(" + i + ")");
 	}
 
 }

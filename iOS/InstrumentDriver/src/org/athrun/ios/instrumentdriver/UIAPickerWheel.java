@@ -26,4 +26,9 @@ public class UIAPickerWheel extends UIAPicker {
 		MySocket.getVoid(this.guid + ".selectValue('" + value + "')");
 
 	}
+
+	public void selectValue(int value) throws Exception {
+		MySocket.getVoid(this.guid + ".selectValue(" + value + ")");
+
+	}
 }
