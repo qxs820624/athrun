@@ -98,12 +98,20 @@ public class ElementFinder {
 	}
 
 	private <T extends View> ArrayList<T> getSuitableViews(ArrayList<T> matches) {
-		int matchedCounts = matches.size();
 		ArrayList<T> suitableViews = new ArrayList<T>();
+		if (null == matches) {
+			return suitableViews;
+		}
+		
+		int matchedCounts = matches.size();
 
 		if (1 == matchedCounts) {
-			suitableViews = matches;
-
+			logger.info("There is 1 matched view.");
+			View view = matches.get(0);
+			if (view.hasWindowFocus() && view.getVisibility() == View.VISIBLE && view.isShown()) {
+				suitableViews = matches;
+			}
+			
 		} else if (matchedCounts > 1) {
 
 			ArrayList<T> shown = ViewUtils.removeUnshownViews(matches);
