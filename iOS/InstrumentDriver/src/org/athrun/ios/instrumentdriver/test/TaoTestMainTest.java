@@ -1,19 +1,12 @@
 package org.athrun.ios.instrumentdriver.test;
 
-import org.athrun.ios.instrumentdriver.UIAApplication;
 import org.athrun.ios.instrumentdriver.UIAButton;
 import org.athrun.ios.instrumentdriver.UIASecureTextField;
-import org.athrun.ios.instrumentdriver.UIATarget;
 import org.athrun.ios.instrumentdriver.UIATextField;
-import org.athrun.ios.instrumentdriver.UIAWindow;
 
 public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 	public void testDemo1() throws Exception {
-
-		UIATarget target = UIATarget.localTarget();
-		UIAApplication app = target.frontMostApp();
-		UIAWindow win = app.mainWindow();
 
 		win.findElementByText("Demo 1").tap();
 
@@ -34,10 +27,6 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 	public void testDemo2() throws Exception {
 
-		UIATarget target = UIATarget.localTarget();
-		UIAApplication app = target.frontMostApp();
-		UIAWindow win = app.mainWindow();
-
 		win.findElementByText("Demo 2").tap();
 		win.printElementTree();
 
@@ -49,10 +38,6 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 	public void testDemo3() throws Exception {
 
-		UIATarget target = UIATarget.localTarget();
-		UIAApplication app = target.frontMostApp();
-		UIAWindow win = app.mainWindow();
-		
 		win.findElementByText("Demo 3").tap();
 		win.sliders()[0].dragToValue(0.12);
 		target.frontMostApp().mainWindow().switches()[0].setTheValue(0);
