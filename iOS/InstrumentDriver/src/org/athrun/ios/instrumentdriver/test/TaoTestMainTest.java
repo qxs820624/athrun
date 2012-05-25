@@ -12,7 +12,7 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 		win.printElementTree();
 		win.findElementByText("name", UIATextField.class).tap();
-		app.keyboard().typeString("taobao\\n");
+		app.keyboard().typeString("athrun\\n");
 
 		win.findElementByText("", UIASecureTextField.class).tap();
 		app.keyboard().typeString("abcdefg\\n");
