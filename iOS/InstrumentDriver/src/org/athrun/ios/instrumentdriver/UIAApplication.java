@@ -26,7 +26,7 @@ public class UIAApplication {
 	 */
 	public UIAWindow mainWindow() throws Exception {
 
-		return new UIAWindow(this.guid + ".mainWindow()");
+		return new UIAWindow("win");
 		// return UIAElementHelp.getWindow(this.guid + ".mainWindow()");
 	}
 
