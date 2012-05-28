@@ -6,7 +6,7 @@ public class UIATarget {
 
 	public UIATarget() {
 
-		this.guid = "UIATarget.localTarget()";
+		this.guid = "target";
 	}
 
 	/**
@@ -22,7 +22,7 @@ public class UIATarget {
 	 */
 	public UIAApplication frontMostApp() {
 
-		return new UIAApplication(this.guid + ".frontMostApp()");
+		return new UIAApplication("app");
 	}
 
 	public void delay(int second) throws Exception {
