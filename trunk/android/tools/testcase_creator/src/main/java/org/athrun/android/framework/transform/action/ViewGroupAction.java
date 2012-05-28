@@ -30,7 +30,7 @@ public class ViewGroupAction extends ViewAction {
 		super(action, ast);
 		this.parentName = getRandomName();
 		this.parentType = action.get(PARENT_TYPE);
-		this.viewType = action.get("itemtype");
+		this.viewType = action.get("viewtype");
 	}
 
 	@SuppressWarnings("unchecked")
