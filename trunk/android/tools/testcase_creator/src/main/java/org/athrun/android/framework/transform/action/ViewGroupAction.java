@@ -63,7 +63,7 @@ public class ViewGroupAction extends ViewAction {
 		} else {
 			findParent = createFindStatement(
 					super.getMethodInvocation(getParentIndex(),
-							this.action.get(PARENT_TYPE), parentReturnType),
+							getParentType(), parentReturnType),
 					this.parentName, parentReturnType);
 		}
 
