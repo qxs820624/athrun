@@ -26,6 +26,8 @@ public class ViewGroupAction extends ViewAction {
 	protected String parentType;
 	protected String viewType;
 
+	private static final String DEFAULT_INDEX = "0";
+
 	public ViewGroupAction(Map<String, String> action, AST ast) {
 		super(action, ast);
 		this.parentName = getRandomName();
@@ -38,19 +40,20 @@ public class ViewGroupAction extends ViewAction {
 	public void toJavaCode(Block methodBlock) {
 		createComment(methodBlock);
 		createWaitIfNeeded(methodBlock);
-		
+
 		methodBlock.statements().add(getFindParentStatement());
 		methodBlock.statements().add(this.getFindStatement());
 		methodBlock.statements().add(getOperationStatement());
-		
+
 		createBlank(methodBlock);
 	}
-	
+
 	protected VariableDeclarationStatement getFindParentStatement() {
 		return getFindParentStatement(VIEWGROUP_ELEMENT);
 	}
 
-	protected VariableDeclarationStatement getFindParentStatement(String parentReturnType) {
+	protected VariableDeclarationStatement getFindParentStatement(
+			String parentReturnType) {
 		VariableDeclarationStatement findParent = null;
 		if (this.action.containsKey(PARENT_ID)) {
 			findParent = createFindStatement(super.getMethodInvocation(
@@ -58,13 +61,18 @@ public class ViewGroupAction extends ViewAction {
 					this.parentName, parentReturnType);
 
 		} else {
-			findParent = createFindStatement(super.getMethodInvocation(
-					this.action.get(PARENT_INDEX),
-					this.action.get(PARENT_TYPE), parentReturnType),
+			findParent = createFindStatement(
+					super.getMethodInvocation(getParentIndex(),
+							this.action.get(PARENT_TYPE), parentReturnType),
 					this.parentName, parentReturnType);
 		}
 
 		return findParent;
+	}
+
+	protected String getParentIndex() {
+		return this.action.containsKey(PARENT_INDEX) ? this.action
+				.get(PARENT_INDEX) : DEFAULT_INDEX;
 	}
 
 	protected String getParentType() {
@@ -74,8 +82,8 @@ public class ViewGroupAction extends ViewAction {
 		return null;
 	}
 
-	protected void createFindChildByIdInvocation(MethodInvocation methodInvocation,
-			String viewId, String returnType) {
+	protected void createFindChildByIdInvocation(
+			MethodInvocation methodInvocation, String viewId, String returnType) {
 		methodInvocation.setExpression(ast.newName(this.parentName));
 		super.createFindByIdInvocation(methodInvocation, viewId, returnType);
 	}
@@ -87,7 +95,8 @@ public class ViewGroupAction extends ViewAction {
 		NumberLiteral indexParam = ast.newNumberLiteral(this.action.get(INDEX));
 
 		TypeLiteral returnTypeParam = ast.newTypeLiteral();
-		returnTypeParam.setType(ast.newSimpleType(ast.newSimpleName(getChildReturnType())));
+		returnTypeParam.setType(ast.newSimpleType(ast
+				.newSimpleName(getChildReturnType())));
 
 		methodInvocation.arguments().add(indexParam);
 		methodInvocation.arguments().add(returnTypeParam);
@@ -112,28 +121,20 @@ public class ViewGroupAction extends ViewAction {
 		return createFindStatement(this.getMethodInvocation(), this.viewName,
 				getChildReturnType());
 	}
-	
+
 	protected String getChildReturnType() {
 		String returnType = null;
-		
+
 		if (this.viewType.contains("Layout")) {
 			returnType = VIEWGROUP_ELEMENT;
-			
+
 		} else if (this.viewType.contains("Text")) {
 			returnType = TEXTVIEW_ELEMENT;
-			
+
 		} else {
 			returnType = VIEW_ELEMENT;
 		}
-		
+
 		return returnType;
 	}
-	
-//	protected String getParentId() {
-//		String parentId = this.action.get(PARENT_ID);
-//		if (parentId.startsWith("@")) {
-//			parentId = parentId.replace("@", "");
-//		}
-//		return parentId;
-//	}
 }
