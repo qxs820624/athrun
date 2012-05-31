@@ -4,14 +4,11 @@
 package org.athrun.ios.instrumentdriver;
 
 /**
- * @author jerryding
+ * @author ziyu.hch
  * 
  */
 public class UIASlider extends UIAElement {
 
-	/**
-	 * 
-	 */
 	public UIASlider() {
 		// TODO Auto-generated constructor stub
 	}

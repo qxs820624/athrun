@@ -8,16 +8,21 @@ import org.athrun.ios.instrumentdriver.UIAApplication;
 import org.athrun.ios.instrumentdriver.UIATarget;
 import org.athrun.ios.instrumentdriver.UIAWindow;
 
+/**
+ * @author ziyu.hch
+ * 
+ */
 public class InstrumentDriverTestCase extends TestCase {
 
 	public UIATarget target;
 	public UIAApplication app;
 	public UIAWindow win;
 
-	// private String appPath =
-	// "/Users/jerryding/taobao4iphone/build/Distribution-iphonesimulator/taobao4iphone.app";
-	private String appPath = "/Users/jerryding/Desktop/TaoTest/build/Debug-iphonesimulator/TaoTest.app";
-
+	// private String appPath
+	// ="/Users/jerryding/taobao4iphone/build/Distribution-iphonesimulator/taobao4iphone.app";
+	private String appPath = "/Users/athrun/Desktop/TaoTest/build/Debug-iphonesimulator/TaoTest.app";
+	// private String appPath
+	// ="/Users/athrun/Desktop/ios_cs/PNTB/build/Debug-iphonesimulator/PNTB.app";
 	private Boolean isDebug = true;
 
 	public String getAppPath() {

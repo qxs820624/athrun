@@ -6,6 +6,10 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * @author ziyu.hch
+ * 
+ */
 public class MySocket {
 
 	/* instrument 接收返回的命令，几种处理类型的枚举 */
@@ -53,7 +57,7 @@ public class MySocket {
 			os.close();
 			is.close();
 			socket.close();
-			//server.close();
+			// server.close();
 		} catch (Exception e) {
 
 			System.out.println("Error:" + e);
@@ -127,6 +131,7 @@ public class MySocket {
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (request.startsWith("Error")) {
+				System.err.println(guid);
 				os.close();
 				is.close();
 				socket.close();
@@ -156,13 +161,15 @@ public class MySocket {
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (guid.startsWith("Error")) {
+				System.err.println(guid);
 				os.close();
 				is.close();
 				socket.close();
 				throw new Exception(guid);
 			}
 			System.out.println("Client response : " + guid);
-			System.out.println("Server request  : Case setp executed. Please request the next setp");
+			System.out
+					.println("Server request  : Case setp executed. Please request the next setp");
 			os.print("null");
 			os.flush();
 

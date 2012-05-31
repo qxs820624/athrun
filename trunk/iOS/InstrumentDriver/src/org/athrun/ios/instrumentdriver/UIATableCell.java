@@ -4,14 +4,11 @@
 package org.athrun.ios.instrumentdriver;
 
 /**
- * @author jerryding
- *
+ * @author ziyu.hch
+ * 
  */
 public class UIATableCell extends UIAElement {
 
-	/**
-	 * 
-	 */
 	public UIATableCell() {
 		// TODO Auto-generated constructor stub
 	}

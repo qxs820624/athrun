@@ -2,6 +2,13 @@ package org.athrun.ios.instrumentdriver.test;
 
 import org.athrun.ios.instrumentdriver.*;
 
+
+
+/**
+ * @author ziyu.hch
+ * 
+ * This is a demo case.
+ */
 public class AthrunCSTest extends InstrumentDriverTestCase {
 
 	public void testTest() throws Exception {
