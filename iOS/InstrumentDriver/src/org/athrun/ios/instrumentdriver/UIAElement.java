@@ -25,7 +25,7 @@ public class UIAElement {
 	protected Rect rect;
 	protected String name;
 	protected String label;
-	protected String value;
+	protected String val;
 	protected String type;
 
 	public String getType() {
@@ -68,12 +68,12 @@ public class UIAElement {
 		this.label = label;
 	}
 
-	public String getValue() {
-		return value;
+	public String getVal() {
+		return val;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setVal(String value) {
+		this.val = value;
 	}
 
 	// -----------------------------------------------------
@@ -450,7 +450,7 @@ public class UIAElement {
 
 	public String value() throws Exception {
 
-		return RunType.DEBUG ? this.value : MySocket.getText(this.guid
+		return RunType.DEBUG ? this.val : MySocket.getText(this.guid
 				+ ".value()");
 	}
 

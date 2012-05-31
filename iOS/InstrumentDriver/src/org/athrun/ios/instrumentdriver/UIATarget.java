@@ -1,5 +1,9 @@
 package org.athrun.ios.instrumentdriver;
 
+/**
+ * @author ziyu.hch
+ * 
+ */
 public class UIATarget {
 
 	private String guid = null;

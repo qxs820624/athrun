@@ -30,7 +30,7 @@ public class UIATextView extends UIAElement {
 	 * @param value
 	 *            要设置的文本
 	 */
-	public void setTheValue(String value) throws Exception {
+	public void setValue(String value) throws Exception {
 		MySocket.getVoid(this.guid + ".setValue('" + value + "')");
 	}
 

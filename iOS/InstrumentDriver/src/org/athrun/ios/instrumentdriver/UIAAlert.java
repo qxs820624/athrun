@@ -4,7 +4,7 @@
 package org.athrun.ios.instrumentdriver;
 
 /**
- * @author jerryding
+ * @author ziyu.hch
  * 
  */
 public class UIAAlert extends UIAElement {

@@ -1,5 +1,9 @@
 package org.athrun.ios.instrumentdriver;
 
+/**
+ * @author ziyu.hch
+ * 
+ */
 public class Size {
 
 	public int width;
