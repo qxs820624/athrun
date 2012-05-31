@@ -60,7 +60,7 @@ public class MySocket {
 			// server.close();
 		} catch (Exception e) {
 
-			System.out.println("Error:" + e);
+			System.out.println("Exception:" + e);
 		}
 	}
 
@@ -130,7 +130,7 @@ public class MySocket {
 			request = is.readLine();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
-			if (request.startsWith("Error")) {
+			if (request.startsWith("Exception")) {
 				System.err.println(guid);
 				os.close();
 				is.close();
@@ -160,7 +160,7 @@ public class MySocket {
 			guid = is.readLine();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
-			if (guid.startsWith("Error")) {
+			if (guid.startsWith("Exception")) {
 				System.err.println(guid);
 				os.close();
 				is.close();
