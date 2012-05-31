@@ -1,18 +1,18 @@
 package org.athrun.ios.instrumentdriver.test;
 
-import junit.framework.TestCase;
-
 import org.athrun.ios.instrumentdriver.MySocket;
 import org.athrun.ios.instrumentdriver.RunType;
 import org.athrun.ios.instrumentdriver.UIAApplication;
 import org.athrun.ios.instrumentdriver.UIATarget;
 import org.athrun.ios.instrumentdriver.UIAWindow;
+import org.junit.After;
+import org.junit.Before;
 
 /**
  * @author ziyu.hch
  * 
  */
-public class InstrumentDriverTestCase extends TestCase {
+public class InstrumentDriverTestCase {
 
 	public UIATarget target;
 	public UIAApplication app;
@@ -46,10 +46,9 @@ public class InstrumentDriverTestCase extends TestCase {
 		this.isDebug = isDebug;
 	}
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		// TODO Auto-generated method stub
-		super.setUp();
 
 		this.target = UIATarget.localTarget();
 		this.app = target.frontMostApp();
@@ -64,10 +63,10 @@ public class InstrumentDriverTestCase extends TestCase {
 		Runtime.getRuntime().exec(cmd);
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		// TODO Auto-generated method stub
-		super.tearDown();
+
 		MySocket.sendExit();
 		Runtime.getRuntime().exec("rm -rf *.trace ");
 	}

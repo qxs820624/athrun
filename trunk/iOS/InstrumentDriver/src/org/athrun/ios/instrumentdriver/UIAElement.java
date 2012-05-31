@@ -150,12 +150,12 @@ public class UIAElement {
 
 		String[] type = elmentType.getName().split("\\.");
 		String eType = type[type.length - 1];
-		// invoke function findElement(root, text, index, elementType).
+
 		String elementJSON = MySocket.getText("findElement('" + this.guid
 				+ "','" + text + "'," + index + ",'" + eType + "')");
-
+		System.err.println();
 		if (elementJSON.equals("UIAElementNil")) {
-			String exception = elementJSON + "  元素 " + this.guid
+			String exception = elementJSON + ". 元素 " + this.guid
 					+ " 下，根据条件: text ='" + text + "',index =" + index
 					+ ",elmentType ='" + eType + "' 未能找到对应元素!";
 			System.err.println(exception);

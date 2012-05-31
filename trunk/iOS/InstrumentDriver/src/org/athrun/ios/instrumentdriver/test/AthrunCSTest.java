@@ -1,17 +1,23 @@
 package org.athrun.ios.instrumentdriver.test;
 
-import org.athrun.ios.instrumentdriver.*;
+import org.athrun.ios.instrumentdriver.UIAApplication;
+import org.athrun.ios.instrumentdriver.UIAButton;
+import org.athrun.ios.instrumentdriver.UIAElement;
+import org.athrun.ios.instrumentdriver.UIATarget;
+import org.athrun.ios.instrumentdriver.UIAWindow;
+import org.junit.Test;
 
-
+import static org.junit.Assert.*;
 
 /**
  * @author ziyu.hch
  * 
- * This is a demo case.
+ *         This is a demo.
  */
 public class AthrunCSTest extends InstrumentDriverTestCase {
 
-	public void testTest() throws Exception {
+	@Test
+	public void Demo() throws Exception {
 
 		UIATarget target = UIATarget.localTarget();
 		UIAApplication app = target.frontMostApp();
@@ -32,6 +38,6 @@ public class AthrunCSTest extends InstrumentDriverTestCase {
 		win.findElementByText("首页", UIAButton.class).tap();
 		win.findElementByText("充值中心").tap();
 		target.delay(2);
-		//win.findElementByText("Error").tap();
+		// win.findElementByText("Error").tap();
 	}
 }

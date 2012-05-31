@@ -3,15 +3,35 @@ package org.athrun.ios.instrumentdriver.test;
 import org.athrun.ios.instrumentdriver.UIAButton;
 import org.athrun.ios.instrumentdriver.UIASecureTextField;
 import org.athrun.ios.instrumentdriver.UIATextField;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author ziyu.hch
  * 
- *         This is a demo case.
+ *         This is a demo.
  */
 public class TaoTestMainTest extends InstrumentDriverTestCase {
 
-	public void testDemo1() throws Exception {
+	@Before
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		// Do something before each test case running.
+	}
+
+	@After
+	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+		// Do something after each test method ran end.
+	}
+
+	@Test
+	public void Demo1() throws Exception {
 
 		win.printElementTree();
 
@@ -21,7 +41,7 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 		// win.findElementByText("Demo 1").buttons()[0].tap();
 		win.findElementByText("name", UIATextField.class).tap();
 		// win.findElementByText("name",UIATextField.class).setValue("athrun");
-		app.keyboard().typeString("athrun\n");
+		app.keyboard().typeString("athrun\\n");
 
 		win.findElementByText("", UIASecureTextField.class).tap();
 		app.keyboard().typeString("abcdefg\\n");
@@ -34,7 +54,8 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 	}
 
-	public void testDemo2() throws Exception {
+	@Test
+	public void Demo2() throws Exception {
 
 		win.findElementByText("Demo 2").touchAndHold(1);
 		win.printElementTree();
@@ -45,7 +66,8 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 		win.findElementByText("Back").tap();
 	}
 
-	public void testDemo3() throws Exception {
+	@Test
+	public void Demo3() throws Exception {
 
 		win.findElementByText("Demo 3").touchAndHold(1);
 		win.sliders()[0].dragToValue(0.12);
