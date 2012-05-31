@@ -34,7 +34,7 @@ function __findElement(root, script, text, index, elementType) {
 			obj.guid = script + ".elements()[" + i + "]";
 			obj.type = __getClass(elements[i]);
 			obj.name = elements[i].name();
-			obj.value = elements[i].value();
+			obj.val = elements[i].value();
 			obj.label = elements[i].label();
 			obj.rect = elements[i].rect();
 
@@ -80,7 +80,7 @@ function __findElements(root, script, text, elementType) {
 			obj.guid = script + ".elements()[" + i + "]";
 			obj.type = __getClass(elements[i]);
 			obj.name = elements[i].name();
-			obj.value = elements[i].value();
+			obj.val = elements[i].value();
 			obj.label = elements[i].label();
 			obj.rect = elements[i].rect();
 
@@ -117,7 +117,7 @@ function __logElementTree(root, space, script) {
 		obj.guid = script + ".elements()[" + i + "]";
 		obj.type = __getClass(elements[i]);
 		obj.name = elements[i].name();
-		obj.value = elements[i].value();
+		obj.val = elements[i].value();
 		obj.label = elements[i].label();
 		obj.rect = elements[i].rect();
 		__elementTree += "+" + space + JSON.stringify(obj) + "###";

@@ -15,6 +15,8 @@ try {
 	while(!isEnd){
 		
 		var result = host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
+		UIALogger.logMessage("stdout : " + result.stdout);
+		
 		var stdout = result.stdout.split("##");
 		var type = stdout[0];
 		var script =stdout[1];
@@ -38,7 +40,7 @@ try {
 					element.guid = script +"[" + i + "]";	
 					element.label = elements[i].label();
 					element.name = elements[i].name();
-					element.value = elements[i].value();
+					element.val = elements[i].value();
 					element.rect  = elements[i].rect();
 					elementArray.push(element);
 				}
@@ -51,12 +53,11 @@ try {
 				e.guid = script;
 				e.label = element.label();
 				e.name = element.name();
-				e.value = element.value();
+				e.val = element.value();
 				e.rect  = element.rect();
 				sendToServer = JSON.stringify(e);
 				break;
 			default:
-				sendToServer ="null";
 				isEnd =true;
 		}
         UIALogger.logMessage("sendToServer : " + sendToServer);
