@@ -1,7 +1,5 @@
 /**
- * 说   明: C/S模式运行，InstrumentDriver启动脚本 
- * 作   者: ziyu 
- * 日   期: 2012-05-18  
+ * 说 明: C/S模式运行，InstrumentDriver启动脚本 作 者: ziyu 日 期: 2012-05-18
  */ 
 #import "./common.js"
 
@@ -58,7 +56,7 @@ try {
 				sendToServer = JSON.stringify(e);
 				break;
 			default:
-				isEnd =true;
+				isEnd = true;
 		}
         UIALogger.logMessage("sendToServer : " + sendToServer);
 	}
@@ -67,7 +65,7 @@ try {
 
 } catch (e) {
 		
-	sendToServer = "Error #" + e;
+	sendToServer = "Exception # " + e + ". The script is : " + script;
 	
 	// if has exception ,send the exception to server.
 	host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
