@@ -23,6 +23,7 @@ import org.athrun.server.adb.AthrunDeviceChanged;
 import org.athrun.server.adb.OutputStreamShellOutputReceiver;
 import org.athrun.server.log.Log;
 import org.athrun.server.struts.Device;
+import org.athrun.server.utils.DeviceConfig;
 import org.athrun.server.utils.ForwardPortManager;
 import org.athrun.server.utils.OneParameterRunnable;
 import org.athrun.server.utils.ReservedPortExhaust;
@@ -60,7 +61,9 @@ public class DeviceManager {
 					Map<String, IDevice> deviceList = (Map<String, IDevice>) getParameter();
 					while (true) {
 						try {
-							Thread.sleep(RemoteDeviceManager.UpdateStatusTime); // 等待 2 分钟
+							Thread.sleep(RemoteDeviceManager.UpdateStatusTime); // 等待
+																				// 2
+																				// 分钟
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -165,9 +168,12 @@ public class DeviceManager {
 						try {
 							OutputStream os = new ByteArrayOutputStream();
 
-							device.executeShellCommand(
-									CaptureManager.remotePath
-											+ " /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
+							String cmdString = CaptureManager.remotePath
+									+ " /sdcard/test/1.jpg /dev/graphics/fb0 50 2";
+							if (DeviceConfig.needAdjust(device.getSerialNumber())) {
+								cmdString += " 0 8 16";
+							}
+							device.executeShellCommand(cmdString,
 									new OutputStreamShellOutputReceiver(os));
 							String content = os.toString();
 							os.flush();
@@ -190,7 +196,8 @@ public class DeviceManager {
 													+ " /sdcard/test/1.jpg /dev/graphics/fb0 50 2",
 											new OutputStreamShellOutputReceiver(
 													os));
-									System.out.println("第二次输出：" + os.toString());
+									System.out
+											.println("第二次输出：" + os.toString());
 								}
 							}
 
@@ -208,7 +215,7 @@ public class DeviceManager {
 							e.printStackTrace();
 						}
 					}
-				},"gsnap-sync").start();
+				}, "gsnap-sync").start();
 				Thread.sleep(2000);
 				break;
 			default:
