@@ -61,15 +61,16 @@ public class EventServiceManager {
 									if (cmdIgore == null) {
 										break;
 									}
-									System.out.println("略过" + cmdIgore[0] + ","
-											+ cmdIgore[1]);
+//									System.out.println("略过" + cmdIgore[0] + ","
+//											+ cmdIgore[1]);
 									lastCmd = cmdIgore;
 								}
 							} else {
 								// 处理lastCmd
 								if (lastCmd != null) {
-									System.out.println("拿回" + lastCmd[0] + ","
-											+ lastCmd[1]);
+									// System.out.println("拿回" + lastCmd[0] +
+									// ","
+									// + lastCmd[1]);
 									list.add(lastCmd[1]);
 								}
 								break;
