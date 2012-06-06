@@ -56,7 +56,7 @@ public class InstrumentDriverTestCase {
 
 		RunType.DEBUG = this.isDebug;
 
-		String shellCmd = String.format("/Athrun/runTests.sh");
+		String shellCmd = String.format("./JSLib/runTests.sh %s", appPath);
 		String[] cmd = { "/bin/sh", "-c", shellCmd };
 		Runtime.getRuntime().exec(cmd);
 	}
