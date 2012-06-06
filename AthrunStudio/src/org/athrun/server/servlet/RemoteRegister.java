@@ -64,12 +64,13 @@ public class RemoteRegister extends HttpServlet {
 		String ipAddress = request.getParameter("ipAddress");
 		String cpuAbi = request.getParameter("cpuAbi");
 		String serialNumber = request.getParameter("sn");
+		String solution = request.getParameter("sl");
 
 		String url = getHost(request) + ":" + request.getParameter("port")
 				+ "/" + request.getParameter("cp") + "/"; // 用ip地址换掉
 
 		Device device = new Device(manufacturer, model, devicePara, sdk,
-				ipAddress, cpuAbi, serialNumber, true);
+				ipAddress, cpuAbi, serialNumber, solution, true);
 		device.setRemoteUrl(url);
 		device.setRemoteAddr(request.getRemoteHost());
 

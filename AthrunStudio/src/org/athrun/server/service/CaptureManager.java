@@ -3,6 +3,7 @@
  */
 package org.athrun.server.service;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -40,6 +41,7 @@ public class CaptureManager {
 	static Map<String, byte[]> bylist = new HashMap<String, byte[]>(); // 一次读1024个字节
 	static Map<String, byte[]> memorylist = new HashMap<String, byte[]>(); // 图片存储内存
 	static Map<String, Object> lockSocket = new HashMap<String, Object>();
+	static Map<String, FramebufferInfo> framebufferlist = new HashMap<String, FramebufferInfo>();
 
 	static Map<String, Integer> countermap = new HashMap<String, Integer>();
 	static Map<String, Long> timemap = new HashMap<String, Long>();
@@ -131,6 +133,46 @@ public class CaptureManager {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+
+	/**
+	 * use cache
+	 * @param serialNumber
+	 * @return
+	 */
+	public static FramebufferInfo getCaptureInfo(String serialNumber) {
+		synchronized (lockSocket.get(serialNumber)) {
+			if (framebufferlist.containsKey(serialNumber)) {
+				return framebufferlist.get(serialNumber);
+			} else {
+				InOutStructure inOutStructure;
+				try {
+					inOutStructure = InOutStructure
+							.GetCaptureInOutBySerialNumber(serialNumber);
+
+					inOutStructure.GetOut().println("info");
+					inOutStructure.GetOut().flush();
+
+					byte[] b = new byte[50];
+					DataInputStream in = inOutStructure.getIn();
+
+					in.read(b);
+					String result = new String(b).trim();
+
+					FramebufferInfo info = new FramebufferInfo(result);
+					framebufferlist.put(serialNumber, info);
+					return info;
+
+				} catch (ReservedPortExhaust e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return null;
 		}
 	}
 
@@ -233,7 +275,7 @@ public class CaptureManager {
 	// 截图完成后，回调返回
 	public void register(OutputStream output, String serialNumber) {
 		if (threadlist.containsKey(serialNumber)) {
-			// 说明注册的图片在capture thread list里，会被处理			
+			// 说明注册的图片在capture thread list里，会被处理
 			synchronized (capOutputManager) {
 				capOutputManager.add(new OutputBean(output, serialNumber));
 			}

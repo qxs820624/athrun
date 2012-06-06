@@ -4,12 +4,14 @@
 package org.athrun.server.struts;
 
 import org.athrun.ddmlib.IDevice;
+import org.athrun.server.service.CaptureManager;
 
 /**
  * @author taichan
  * 
  */
 public class Device {
+
 	/**
 	 * @author taichan
 	 * @param iDevice
@@ -23,7 +25,16 @@ public class Device {
 		this.ipAddress = iDevice.getProperty("dhcp.eth0.ipaddress");
 		this.cpuAbi = iDevice.getProperty("ro.product.cpu.abi");
 		this.serialNumber = iDevice.getSerialNumber();
-		this.isRemote = isRemote;		
+		this.solution = CaptureManager
+				.getCaptureInfo(iDevice.getSerialNumber()).getSolution();
+		this.isRemote = isRemote;
+	}
+
+	/**
+	 * @return the solution
+	 */
+	public String getSolution() {
+		return solution;
 	}
 
 	/**
@@ -34,10 +45,11 @@ public class Device {
 	 * @param ipAddress
 	 * @param cpuAbi
 	 * @param serialNumber
+	 * @param solution
 	 */
 	public Device(String manufacturer, String model, String device, String sdk,
 			String ipAddress, String cpuAbi, String serialNumber,
-			boolean isRemote) {
+			String solution, boolean isRemote) {
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.device = device;
@@ -46,6 +58,7 @@ public class Device {
 		this.cpuAbi = cpuAbi;
 		this.serialNumber = serialNumber;
 		this.isRemote = isRemote;
+		this.solution = solution;
 	}
 
 	/**
@@ -65,6 +78,7 @@ public class Device {
 	private String cpuAbi;
 	private String serialNumber;
 	private String RemoteAddr;
+	private String solution;
 
 	/**
 	 * @return the remoteAddr
@@ -137,8 +151,8 @@ public class Device {
 	public void setRemoteUrl(String remoteUrl) {
 		this.remoteUrl = remoteUrl;
 	}
-	
-	public void setRemoteAddr(String remoteAddr){
+
+	public void setRemoteAddr(String remoteAddr) {
 		this.RemoteAddr = remoteAddr;
 	}
 
@@ -152,8 +166,7 @@ public class Device {
 	}
 
 	public String getJpg() {
-		String shortPath = "JpgGen.jpg?ts=0&serialNumber="
-				+ getSerialNumber();
+		String shortPath = "JpgGen.jpg?ts=0&serialNumber=" + getSerialNumber();
 		if (isRemote) {
 			return "http://" + getRemoteUrl() + shortPath;
 		} else {

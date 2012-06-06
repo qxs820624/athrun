@@ -122,6 +122,10 @@ public class RemoteDeviceManager {
 		uri.append("&").append("sn=").append(device.getSerialNumber());
 		uri.append("&").append("port=").append(PropertiesUtil.getPort());
 		uri.append("&").append("cp=").append(PropertiesUtil.getContextPath());
+		uri.append("&")
+				.append("sl=")
+				.append(CaptureManager.getCaptureInfo(device.getSerialNumber())
+						.getSolution());
 
 		httpGet(RemoteRegisterUrl + uri.toString());
 

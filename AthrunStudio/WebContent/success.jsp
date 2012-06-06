@@ -27,16 +27,16 @@
 						<td><s:property value="device" /></td>
 					</tr>
 					<tr>
-						<td>IP地址</td>
-						<td><s:property value="ipAddress" /></td>
-					</tr>
-					<tr>
 						<td>CPU指令集</td>
 						<td><s:property value="cpuAbi" /></td>
 					</tr>
 					<tr>
 						<td>SDK版本</td>
 						<td><s:property value="sdk" /></td>
+					</tr>					
+					<tr>
+						<td>分辩率</td>
+						<td><s:property value="solution" /></td>
 					</tr>
 					<tr>
 						<td>开始远程</td>
