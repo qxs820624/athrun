@@ -56,10 +56,8 @@ public class InstrumentDriverTestCase {
 
 		RunType.DEBUG = this.isDebug;
 
-		String cmd = String
-				.format("/bin/bash instruments -t /Developer/Platforms/iPhoneOS.platform/Developer/Library/Instruments/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate %s -e UIASCRIPT ./JSLib/CSRunner.js -e UIARESULTSPATH /Athrun/log/",
-						this.appPath);
-
+		String shellCmd = String.format("/Athrun/runTests.sh");
+		String[] cmd = { "/bin/sh", "-c", shellCmd };
 		Runtime.getRuntime().exec(cmd);
 	}
 
@@ -68,6 +66,8 @@ public class InstrumentDriverTestCase {
 		// TODO Auto-generated method stub
 
 		MySocket.sendExit();
-		Runtime.getRuntime().exec("rm -rf *.trace ");
+		String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
+		Runtime.getRuntime().exec(cmd);
+
 	}
 }
