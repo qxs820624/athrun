@@ -19,5 +19,5 @@ instruments \
 -t $TRACETEMPLATE \
 "$APP_LOCATION" \
 -e UIASCRIPT  ./JSLib/CSRunner.js \
--e UIARESULTSPATH  /Athrun/log/
+-e UIARESULTSPATH  ./JSLib/log/
 
