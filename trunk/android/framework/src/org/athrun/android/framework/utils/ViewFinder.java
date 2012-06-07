@@ -59,7 +59,7 @@ public class ViewFinder {
 			for (TextView textView : textViews) {
 
 				String current = textView.getText().toString();
-				if (current.equals(text)
+				if (current.contains(text)
 						&& !(isEqual && !current.equalsIgnoreCase(text))) {
 					matches.add(textView);
 				}
