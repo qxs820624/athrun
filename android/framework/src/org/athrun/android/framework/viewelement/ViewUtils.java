@@ -15,7 +15,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., HuaXing road, Hangzhou,China. 
  Email:taichan@taobao.com,shidun@taobao.com,bingyang.djj@taobao.com
-*/
+ */
 package org.athrun.android.framework.viewelement;
 
 import java.lang.reflect.Field;
@@ -31,8 +31,8 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.InputMethodManager;
-
 
 /**
  * This class contains view methods. Example is getViews(),
@@ -82,8 +82,9 @@ public final class ViewUtils {
 				// do nothing here
 			}
 		}
-		
-		logger.debug("There are " + allViews.size() + " views in current screen.");
+
+		logger.debug("There are " + allViews.size()
+				+ " views in current screen.");
 		return allViews;
 	}
 
@@ -224,8 +225,9 @@ public final class ViewUtils {
 		}
 		return tmpViewList;
 	}
-	
-	public static <T extends View> ArrayList<T> removeUnshownViews(ArrayList<T> viewList) {
+
+	public static <T extends View> ArrayList<T> removeUnshownViews(
+			ArrayList<T> viewList) {
 		ArrayList<T> tmpViewList = new ArrayList<T>(viewList.size());
 		for (T view : viewList) {
 			if (view != null && view.isShown() && view.hasWindowFocus()) {
@@ -333,41 +335,66 @@ public final class ViewUtils {
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 	}
-	
+
 	public static boolean isViewOutOfScreen(View view) {
 		return (isViewOutOfTop(view) || isViewOutOfBottom(view)
 				|| isViewOutOfLeft(view) || isViewOutOfRight(view));
 	}
-	
+
 	private static boolean isViewOutOfRight(View view) {
-		return getViewLeft(view) >= ScreenUtils.getScreenWidth(view.getContext());
+		return getViewLeft(view) >= ScreenUtils.getScreenWidth(view
+				.getContext());
 	}
-	
+
 	private static boolean isViewOutOfLeft(View view) {
 		return getViewRight(view) <= 0;
 	}
-	
+
 	private static boolean isViewOutOfBottom(View view) {
-		return getViewTop(view) >= ScreenUtils.getScreenHeight(view.getContext());
+		return getViewTop(view) >= ScreenUtils.getScreenHeight(view
+				.getContext());
 	}
-	
+
 	private static boolean isViewOutOfTop(View view) {
 		return getViewBottom(view) <= 0;
 	}
-	
+
 	private static int getViewTop(View view) {
 		return getViewCoordinate(view).getY();
 	}
-	
+
 	private static int getViewBottom(View view) {
 		return getViewTop(view) + view.getHeight();
 	}
-	
+
 	private static int getViewLeft(View view) {
 		return getViewCoordinate(view).getX();
 	}
-	
+
 	private static int getViewRight(View view) {
 		return getViewLeft(view) + view.getWidth();
+	}
+
+	public static boolean viewIsSameOrDescendant(View child, View parent) {
+
+		if (child == parent) {
+			return true;
+		}
+
+		ViewParent middleParent = getViewParent(child);
+
+		while ((middleParent != null) && (middleParent != parent)) {
+			middleParent = getViewParent(middleParent);
+		}
+
+		return middleParent == parent;
+	}
+
+	private static ViewParent getViewParent(View view) {
+		return view.getParent();
+	}
+
+	private static ViewParent getViewParent(ViewParent view) {
+		return view.getParent();
 	}
 }
