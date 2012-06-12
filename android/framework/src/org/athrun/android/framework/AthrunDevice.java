@@ -20,8 +20,10 @@ package org.athrun.android.framework;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -327,6 +329,81 @@ public final class AthrunDevice {
 		return (ActivityManager) inst.getTargetContext().getSystemService(
 				Context.ACTIVITY_SERVICE);
 	}
+	
+	private int getCurrentProcessUid() {
+		int uid = 0;
+		ActivityManager mActivityManager = getActivityManager();
+		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
+				.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
+			if (appProcessInfo.processName.contains(inst.getTargetContext().getPackageName())) {
+				uid = appProcessInfo.uid;
+			}
+		}
+		return uid;
+	}
+
+	private int getCurrentProcessPid() {
+		int pid = 0;
+		ActivityManager mActivityManager = getActivityManager();
+		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
+				.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
+			if (appProcessInfo.processName.contains(inst.getTargetContext().getPackageName())) {
+				pid = appProcessInfo.pid;
+			}
+		}
+		return pid;
+	}
+
+	/**
+	 * get Current Process traffic
+	 * @param 
+	 * @return  rcv & snd by array
+	 * @throws Exception
+	 */
+	String[] getTraffic() throws Exception {
+		String result[] = new String[2];
+		int uid = getCurrentProcessUid();
+		String str1 = "/proc/uid_stat/" + uid +"/tcp_rcv";
+		String str2 = "/proc/uid_stat/" + uid +"/tcp_snd";
+		try{
+			FileReader fileRcv = new FileReader(str1);
+			FileReader fileSnd = new FileReader(str2);
+			BufferedReader localBufferedReader1 = new BufferedReader(fileRcv);
+			BufferedReader localBufferedReader2 = new BufferedReader(fileSnd);
+			result[0]=localBufferedReader1.readLine();
+			result[1]=localBufferedReader2.readLine();
+			return result;
+		}catch (IOException e) {
+			
+		}
+		return result;
+	}
+
+	/**
+	 * get Current Process memory
+	 * @param 
+	 * @return  memory value
+	 * @throws Exception
+	 */
+	String getPidMemory() throws Exception {
+		int pid = getCurrentProcessPid();
+		String str1 = "/proc/" + pid + "/status";
+		String str2 = "";
+		try {
+			FileReader fr = new FileReader(str1);
+			BufferedReader localBufferedReader = new BufferedReader(fr, 8192);
+			while ((str2 = localBufferedReader.readLine()) != null) {
+				if (str2.indexOf("VmRSS") >= 0) {
+					return "" + str2;
+				}
+			}
+		} catch (IOException e) {
+		}
+		return str2;
+	}
+	
 
 	/**
 	 * Return available memory of the device.
