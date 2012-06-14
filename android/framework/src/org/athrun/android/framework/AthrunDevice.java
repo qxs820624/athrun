@@ -15,7 +15,7 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., HuaXing road, Hangzhou,China. 
  Email:taichan@taobao.com,shidun@taobao.com,bingyang.djj@taobao.com
-*/
+ */
 package org.athrun.android.framework;
 
 import java.io.BufferedReader;
@@ -37,10 +37,10 @@ import android.app.ActivityManager;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.view.KeyEvent;
-
 
 /**
  * This class represents the device, and contains methods to operate device,
@@ -50,7 +50,7 @@ import android.view.KeyEvent;
  * 
  */
 public final class AthrunDevice {
-	
+
 	private final Logger logger = LogConfigure.getLogger(AthrunDevice.class);
 
 	private Instrumentation inst;
@@ -66,7 +66,7 @@ public final class AthrunDevice {
 	private static final String EMULATOR_IMEI = "000000000000000";
 
 	private static final String KEY_EVENT_COMMAND = "SHELL_COMMAND: adb shell input keyevent ";
-	
+
 	private static final String ENTER_TEXT_COMMAND = "SHELL_COMMAND: adb shell input text ";
 
 	private static final int offsetX = 10;
@@ -81,7 +81,7 @@ public final class AthrunDevice {
 		this.screenHeight = ScreenUtils
 				.getScreenHeight(inst.getTargetContext());
 	}
-	
+
 	ActivityUtils getActivityUtils() {
 		return this.activityUtils;
 	}
@@ -126,7 +126,7 @@ public final class AthrunDevice {
 	public void pressBack() {
 		try {
 			Thread.sleep(IViewElement.ANR_TIME);
-			
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -195,32 +195,37 @@ public final class AthrunDevice {
 	public void pressVolumeUp() {
 		pressKeys(KeyEvent.KEYCODE_VOLUME_UP);
 	}
-    
+
 	/**
 	 * Start athrun client first to use this method.
 	 */
 	public static void pressBackAcrossApp() {
 		pressKeyAcrossApp(KeyEvent.KEYCODE_BACK);
 	}
-    
+
 	/**
 	 * Start athrun client first to use this method.
 	 */
 	public static void pressEnterAcrossApp() {
 		pressKeyAcrossApp(KeyEvent.KEYCODE_DPAD_CENTER);
 	}
-	
+
 	/**
 	 * Start athrun client first to use this method.
-	 * @param keyCode keycode to send.
+	 * 
+	 * @param keyCode
+	 *            keycode to send.
 	 */
 	public static void pressKeyAcrossApp(int keyCode) {
-		AthrunConnectorThread.execute(KEY_EVENT_COMMAND + String.valueOf(keyCode));
+		AthrunConnectorThread.execute(KEY_EVENT_COMMAND
+				+ String.valueOf(keyCode));
 	}
-	
+
 	/**
 	 * Start athrun client first to use this method.
-	 * @param text text to input
+	 * 
+	 * @param text
+	 *            text to input
 	 */
 	public static void enterText(String text) {
 		AthrunConnectorThread.execute(ENTER_TEXT_COMMAND + text);
@@ -318,8 +323,7 @@ public final class AthrunDevice {
 
 	/**
 	 * Simulate an incoming sms. Only work on emulator now.</p> In order to use
-	 * this method, you should run athrun client on PC
-	 * first.
+	 * this method, you should run athrun client on PC first.
 	 */
 	public static void incomingMessage() {
 		AthrunConnectorThread.execute("SMS:54321");
@@ -329,14 +333,46 @@ public final class AthrunDevice {
 		return (ActivityManager) inst.getTargetContext().getSystemService(
 				Context.ACTIVITY_SERVICE);
 	}
+
+	private WifiManager getWifiManager() {
+		return (WifiManager) inst.getTargetContext().getSystemService(
+				Context.WIFI_SERVICE);
+
+	}
+
+	/**
+	 * disconnected wifi
+	 * 
+	 * @param
+	 * @return true if succeed
+	 * @throws Exception
+	 */
+	public boolean disconnectWifi() {
+		boolean s = true;
+		getWifiManager().disconnect();
+		return s;
+	}
 	
+	/**
+	 * reconnected wifi 
+	 * @param
+	 * @return true if succeed
+	 * @throws Exception
+	 */
+	public boolean reconnectWifi() {
+		boolean s = true;
+		getWifiManager().reconnect();
+		return s;
+	}
+
 	private int getCurrentProcessUid() {
 		int uid = 0;
 		ActivityManager mActivityManager = getActivityManager();
 		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
 				.getRunningAppProcesses();
 		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
-			if (appProcessInfo.processName.contains(inst.getTargetContext().getPackageName())) {
+			if (appProcessInfo.processName.contains(inst.getTargetContext()
+					.getPackageName())) {
 				uid = appProcessInfo.uid;
 			}
 		}
@@ -349,7 +385,8 @@ public final class AthrunDevice {
 		List<ActivityManager.RunningAppProcessInfo> appProcessList = mActivityManager
 				.getRunningAppProcesses();
 		for (ActivityManager.RunningAppProcessInfo appProcessInfo : appProcessList) {
-			if (appProcessInfo.processName.contains(inst.getTargetContext().getPackageName())) {
+			if (appProcessInfo.processName.contains(inst.getTargetContext()
+					.getPackageName())) {
 				pid = appProcessInfo.pid;
 			}
 		}
@@ -358,33 +395,35 @@ public final class AthrunDevice {
 
 	/**
 	 * get Current Process traffic
-	 * @param 
-	 * @return  rcv & snd by array
+	 * 
+	 * @param
+	 * @return rcv & snd by array
 	 * @throws Exception
 	 */
 	String[] getTraffic() throws Exception {
 		String result[] = new String[2];
 		int uid = getCurrentProcessUid();
-		String str1 = "/proc/uid_stat/" + uid +"/tcp_rcv";
-		String str2 = "/proc/uid_stat/" + uid +"/tcp_snd";
-		try{
+		String str1 = "/proc/uid_stat/" + uid + "/tcp_rcv";
+		String str2 = "/proc/uid_stat/" + uid + "/tcp_snd";
+		try {
 			FileReader fileRcv = new FileReader(str1);
 			FileReader fileSnd = new FileReader(str2);
 			BufferedReader localBufferedReader1 = new BufferedReader(fileRcv);
 			BufferedReader localBufferedReader2 = new BufferedReader(fileSnd);
-			result[0]=localBufferedReader1.readLine();
-			result[1]=localBufferedReader2.readLine();
+			result[0] = localBufferedReader1.readLine();
+			result[1] = localBufferedReader2.readLine();
 			return result;
-		}catch (IOException e) {
-			
+		} catch (IOException e) {
+
 		}
 		return result;
 	}
 
 	/**
 	 * get Current Process memory
-	 * @param 
-	 * @return  memory value
+	 * 
+	 * @param
+	 * @return memory value
 	 * @throws Exception
 	 */
 	String getPidMemory() throws Exception {
@@ -403,7 +442,6 @@ public final class AthrunDevice {
 		}
 		return str2;
 	}
-	
 
 	/**
 	 * Return available memory of the device.
@@ -457,15 +495,16 @@ public final class AthrunDevice {
 		df.applyPattern("##.##%");
 		return df.format(avail / total);
 	}
-    
+
 	/**
 	 * 
-	 * @param direction directions defined in {@code OperationDirection}
+	 * @param direction
+	 *            directions defined in {@code OperationDirection}
 	 */
 	public void slide(ViewOperation.Direction direction) {
 		slide(direction, 20);
 	}
-	
+
 	public void slide(ViewOperation.Direction direction, int speed) {
 
 		switch (direction) {
@@ -541,22 +580,20 @@ public final class AthrunDevice {
 	private ViewCoordinate getMiddleRight() {
 		return new ViewCoordinate(getScreenWidth(), getScreenHeight() / 2);
 	}
-	
-	
-	
+
 	public static void waitMoment(int seconds) {
 		try {
 			TimeUnit.SECONDS.sleep(seconds);
-			
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void monkeyPress(String key) {
 		AthrunConnectorThread.execute("MONKEY: press " + key);
 	}
-	
+
 	public void tap(int x, int y) {
 		this.viewOperation.clickOnScreen(x, y);
 	}
