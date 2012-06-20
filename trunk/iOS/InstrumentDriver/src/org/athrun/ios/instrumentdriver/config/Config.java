@@ -21,7 +21,7 @@ public class Config {
 						.getResource("/athrun.properties").getPath();
 				prop.load(new FileInputStream(file));
 			} catch (Exception e) {
-				throw new Error("未找到athrun.properties文件，请检查配置");
+				throw new Error("未找到athrun.properties文件，请将config目录添加到build path的source中。");
 			}
 		}
 		String value = prop.getProperty(key);
