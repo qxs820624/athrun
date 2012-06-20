@@ -5,6 +5,8 @@ import org.athrun.ios.instrumentdriver.RunType;
 import org.athrun.ios.instrumentdriver.UIAApplication;
 import org.athrun.ios.instrumentdriver.UIATarget;
 import org.athrun.ios.instrumentdriver.UIAWindow;
+import org.athrun.ios.instrumentdriver.config.Config;
+import org.athrun.ios.instrumentdriver.config.DriverUtil;
 import org.junit.After;
 import org.junit.Before;
 
@@ -20,31 +22,10 @@ public class InstrumentDriverTestCase {
 
 	// private String appPath
 	// ="/Users/jerryding/taobao4iphone/build/Distribution-iphonesimulator/taobao4iphone.app";
-	private String appPath = "/Users/athrun/Desktop/TaoTest/build/Debug-iphonesimulator/TaoTest.app";
+	private String appPath = DriverUtil.getApp();
 	// private String appPath
 	// ="/Users/athrun/Desktop/ios_cs/PNTB/build/Debug-iphonesimulator/PNTB.app";
-	private Boolean isDebug = true;
-
-	public String getAppPath() {
-		return appPath;
-	}
-
-	/**
-	 * set the test app's file path.
-	 * 
-	 * @param appPath
-	 */
-	public void setAppPath(String appPath) {
-		this.appPath = appPath;
-	}
-
-	public Boolean getIsDebug() {
-		return isDebug;
-	}
-
-	public void setIsDebug(Boolean isDebug) {
-		this.isDebug = isDebug;
-	}
+	private Boolean isDebug = DriverUtil.isDebug();
 
 	@Before
 	public void setUp() throws Exception {
