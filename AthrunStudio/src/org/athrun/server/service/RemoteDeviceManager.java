@@ -162,12 +162,15 @@ public class RemoteDeviceManager {
 	}
 
 	private static String encode(String content) {
+		if (content == null) {
+			return null;
+		}
 		try {
 			return URLEncoder.encode(content, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			return "";
 		}
 	}
 
