@@ -5,8 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
 <title>Athrun PC-Mobile Demo</title>
-<link rel="stylesheet" type="text/css"
-	href="/athrun/css/athrun.css">
+<link rel="stylesheet" type="text/css" href="/athrun/css/athrun.css">
 </head>
 
 
@@ -41,7 +40,8 @@
 		<br /> <input type="radio" value="1" name="resize">高清</input> <input
 			type="radio" value="2" name="resize" checked="checked">清晰</input> <input
 			type="radio" value="3" name="resize">流畅</input> <br /> <span>压缩率</span><input
-			id="qualityRate" type="text" value="50" /> <br /> <span
+			id="qualityRate" type="text" value="50" /> <br /> <input
+			id="rotateRate" type="button" value="旋转" /> <br /> <span
 			id="eventSent">eventSent Msg</span> <br /> <span id="eventResult">eventResult
 			Msg</span>
 
@@ -59,9 +59,11 @@
 
 
 	<script>
-		var serialNumber =	"<%=request.getParameter("serialNumber")%>" ;
+		var serialNumber =	"<%=request.getParameter("serialNumber")%>";
 
 		var width, height;
+
+		var rotateRate = 0;
 
 		var imgtag = document.getElementById('imgtag');
 		var canvas = document.getElementById('myCanvas');
@@ -69,8 +71,7 @@
 		imgtag.onload = function() {
 			width = this.width;
 			height = this.height;
-			canvas.width = width;
-			canvas.height = height;
+			adjustCanvasSize(canvas, context);
 			context.drawImage(imgtag, 0, 0, width, height);
 
 			context.fillStyle = '#f00';
@@ -78,8 +79,7 @@
 			context.textBaseline = 'top';
 			context.fillText('Stoped', width / 2 - 80, height / 2);
 		}
-		imgtag.src = "/athrun/JpgGen.jpg?ts=0&serialNumber="
-				+ serialNumber;
+		imgtag.src = "/athrun/JpgGen.jpg?ts=0&serialNumber=" + serialNumber;
 
 		var timestamp = 0;
 
@@ -120,6 +120,16 @@
 			window.location.reload(true);
 		});
 
+		$('#rotateRate').click(function() {
+			rotateRate++;
+			if (rotateRate >= 4) {
+				rotateRate = 0;
+			}
+			//var canvas = document.getElementById('myCanvas');
+			//var context = canvas.getContext('2d');
+			adjustCanvasSize(canvas, context);
+		});
+
 		var clickX = new Array();
 		var clickY = new Array();
 		var clickDrag = new Array();
@@ -127,11 +137,20 @@
 		var paint;
 		var actionNumber = 0;
 
+		function adjustCanvasSize(canvas, context) {
+			canvas.width = (rotateRate % 2) ? height : width;
+			canvas.height = (rotateRate % 2) ? width : height;
+
+			context.translate(
+					(rotateRate == 1 || rotateRate == 2) ? canvas.width : 0,
+					(rotateRate == 2 || rotateRate == 3) ? canvas.height : 0);
+			context.rotate(Math.PI * rotateRate / 2);
+		}
+
 		function addActionNumber() {
 			if (actionNumber > 9) {
-				actionNumber=0;
-			}
-			else{
+				actionNumber = 0;
+			} else {
 				actionNumber++;
 			}
 		}
@@ -143,22 +162,18 @@
 		}
 
 		function loadWhileStart() {
-			$('input:radio[name=resize]').change(
-					function() {
-						txt = $('input:radio:checked[name=resize]').val();
-						$.post("/athrun/imageSize?serialNumber="
-								+ serialNumber, {
-							rate : txt
-						});
-					});
-			$('#qualityRate').focusout(
-					function(e) {
-						txt = $('#qualityRate').val();
-						$.post("/athrun/imageQuality?serialNumber="
-								+ serialNumber, {
-							rate : txt
-						});
-					});
+			$('input:radio[name=resize]').change(function() {
+				txt = $('input:radio:checked[name=resize]').val();
+				$.post("/athrun/imageSize?serialNumber=" + serialNumber, {
+					rate : txt
+				});
+			});
+			$('#qualityRate').focusout(function(e) {
+				txt = $('#qualityRate').val();
+				$.post("/athrun/imageQuality?serialNumber=" + serialNumber, {
+					rate : txt
+				});
+			});
 			$('.controls').removeClass("stoped");
 			$('.controls').addClass("started");
 
@@ -189,7 +204,7 @@
 
 			$('#myCanvas').mouseup(
 					function(e) {
-						paint = false;						
+						paint = false;
 						clickX.length = 0; // clear
 						clickY.length = 0; // clear
 						clickDrag.length = 0; // clear
@@ -268,14 +283,33 @@
 			for ( var i = 0; i < clickX.length; i++) {
 				context.beginPath();
 				if (clickDrag[i] && i) {//当是拖动而且i!=0时，从上一个点开始画线。  
-					context.moveTo(clickX[i - 1], clickY[i - 1]);
+					var p = adjustDrawPoint(clickX[i - 1], clickY[i - 1]);
+					context.moveTo(p[0],p[1]);
 				} else {
-					context.moveTo(clickX[i] - 1, clickY[i]);
+					var p = adjustDrawPoint(clickX[i] - 1, clickY[i]);
+					context.moveTo(p[0],p[1]);
 				}
-				context.lineTo(clickX[i], clickY[i]);
+				var pt = adjustDrawPoint(clickX[i], clickY[i]);
+				context.lineTo(pt[0],pt[1]);
 				context.closePath();
 				context.stroke();
 
+			}
+		}
+
+		function adjustDrawPoint(x, y) {
+			if (rotateRate == 0) {
+				return [ x, y ];
+			} else {
+				if (rotateRate == 1) {
+					return [ y, height - x ];
+				} else {
+					if (rotateRate == 2) {
+						return [ width - x, height - y ];
+					} else {//rotateRate==3
+						return [ width - y, x ];
+					}
+				}
 			}
 		}
 
