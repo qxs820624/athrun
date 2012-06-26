@@ -150,7 +150,7 @@ public class RemoteDeviceManager {
 			}
 		} catch (IOException e) {
 			Log.w("RemoteDeviceRegister",
-					"Can't reach the host: " + e.getMessage());
+					"Can't reach the host: " + e.getMessage() + ". " + uri);
 			return false;
 		} finally {
 			try {
