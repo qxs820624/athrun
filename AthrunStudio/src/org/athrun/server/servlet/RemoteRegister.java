@@ -72,7 +72,7 @@ public class RemoteRegister extends HttpServlet {
 		Device device = new Device(manufacturer, model, devicePara, sdk,
 				ipAddress, cpuAbi, serialNumber, solution, true);
 		device.setRemoteUrl(url);
-		device.setRemoteAddr(request.getRemoteHost());
+		device.setRemoteAddr(getHost(request));
 
 		return device;
 	}
