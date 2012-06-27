@@ -35,13 +35,12 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 		win.printElementTree();
 
-		win.findElementByText("Demo 1").touchAndHold(1);
+		win.findElementByText("Demo 1").touchAndHold();
 
 		// win.findElementArrayByText("Demo 1")[0].buttons()[0].tap();
 		// win.findElementByText("Demo 1").buttons()[0].tap();
-		win.findElementByText("name", UIATextField.class).tap();
-		// win.findElementByText("name",UIATextField.class).setValue("athrun");
-		app.keyboard().typeString("athrun\\n");
+		win.findElementByText("name", UIATextField.class).setValue("athrun");
+		// app.keyboard().typeString("athrun\\n");
 
 		win.findElementByText("", UIASecureTextField.class).tap();
 		app.keyboard().typeString("abcdefg\\n");

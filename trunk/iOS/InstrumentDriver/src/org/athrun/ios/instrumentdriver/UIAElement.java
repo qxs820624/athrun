@@ -386,6 +386,10 @@ public class UIAElement {
 		MySocket.getVoid(this.guid + ".tap()");
 	}
 
+	public void touchAndHold() throws Exception{
+		touchAndHold(1);
+	}
+	
 	public void touchAndHold(int seconds) throws Exception {
 
 		MySocket.getVoid(this.guid + ".touchAndHold(" + seconds + ")");
