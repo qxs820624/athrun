@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>All Samples</key>
+	<array>
+		<dict>
+			<key>LogType</key>
+			<string>Pass</string>
+			<key>Message</key>
+			<string>The case is running.</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:15Z</date>
+			<key>Type</key>
+			<integer>4</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : stringType##printElementTree('win')\n</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:17Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : +{"guid":"win.elements()[0]","type":"UIANavigationBar","name":"Main","val":null,"label":null,"rect":{"origin":{"x":0,"y":20},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[0].elements()[0]","type":"UIAImage","name":null,"val":null,"label":null,"rect":{"origin":{"x":0,"y":20},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[0].elements()[1]","type":"UIAStaticText","name":"Main","val":"Main","label":"Main","rect":{"origin":{"x":136,"y":28},"size":{"width":47,"height":27}}}###+{"guid":"win.elements()[1]","type":"UIATableView","name":"Empty list","val":"rows 1 to 10 of 14","label":"Empty list","rect":{"origin":{"x":0,"y":64},"size":{"width":320,"height":416}}}###+----{"guid":"win.elements()[1].elements()[0]","type":"UIATableCell","name":"Demo 1, test textFeid and button","val":null,"label":null,"rect":{"origin":{"x":0,"y":64},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[0].elements()[0]","type":"UIAStaticText","name":"Demo 1, test textFeid and button","val":"Demo 1, test textFeid and button","label":"Demo 1, test textFeid and button","rect":{"origin":{"x":0,"y":64},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[1]","type":"UIATableCell","name":"Demo 2, test Pickers","val":null,"label":null,"rect":{"origin":{"x":0,"y":108},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[1].elements()[0]","type":"UIAStaticText","name":"Demo 2, test Pickers","val":"Demo 2, test Pickers","label":"Demo 2, test Pickers","rect":{"origin":{"x":0,"y":108},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[2]","type":"UIATableCell","name":"Demo 3, test imageView","val":null,"label":null,"rect":{"origin":{"x":0,"y":152},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[2].elements()[0]","type":"UIAStaticText","name":"Demo 3, test imageView","val":"Demo 3, test imageView","label":"Demo 3, test imageView","rect":{"origin":{"x":0,"y":152},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[3]","type":"UIATableCell","name":"Demo 4, test dailogView","val":null,"label":null,"rect":{"origin":{"x":0,"y":196},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[3].elements()[0]","type":"UIAStaticText","name":"Demo 4, test dailogView","val":"Demo 4, test dailogView","label":"Demo 4, test dailogView","rect":{"origin":{"x":0,"y":196},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[4]","type":"UIATableCell","name":"Demo 5, test table row 5","val":null,"label":null,"rect":{"origin":{"x":0,"y":240},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[4].elements()[0]","type":"UIAStaticText","name":"Demo 5, test table row 5","val":"Demo 5, test table row 5","label":"Demo 5, test table row 5","rect":{"origin":{"x":0,"y":240},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[5]","type":"UIATableCell","name":"Demo 6, test table row 6","val":null,"label":null,"rect":{"origin":{"x":0,"y":284},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[5].elements()[0]","type":"UIAStaticText","name":"Demo 6, test table row 6","val":"Demo 6, test table row 6","label":"Demo 6, test table row 6","rect":{"origin":{"x":0,"y":284},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[6]","type":"UIATableCell","name":"Demo 7, test table row 7","val":null,"label":null,"rect":{"origin":{"x":0,"y":328},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[6].elements()[0]","type":"UIAStaticText","name":"Demo 7, test table row 7","val":"Demo 7, test table row 7","label":"Demo 7, test table row 7","rect":{"origin":{"x":0,"y":328},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[7]","type":"UIATableCell","name":"Demo 8, test table row 8","val":null,"label":null,"rect":{"origin":{"x":0,"y":372},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[7].elements()[0]","type":"UIAStaticText","name":"Demo 8, test table row 8","val":"Demo 8, test table row 8","label":"Demo 8, test table row 8","rect":{"origin":{"x":0,"y":372},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[8]","type":"UIATableCell","name":"Demo 9, test table row 9","val":null,"label":null,"rect":{"origin":{"x":0,"y":416},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[8].elements()[0]","type":"UIAStaticText","name":"Demo 9, test table row 9","val":"Demo 9, test table row 9","label":"Demo 9, test table row 9","rect":{"origin":{"x":0,"y":416},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[9]","type":"UIATableCell","name":"Demo 10, test table row 10","val":null,"label":null,"rect":{"origin":{"x":0,"y":460},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[9].elements()[0]","type":"UIAStaticText","name":"Demo 10, test table row 10","val":"Demo 10, test table row 10","label":"Demo 10, test table row 10","rect":{"origin":{"x":0,"y":460},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[10]","type":"UIATableCell","name":"Demo 11, test table row 11","val":null,"label":null,"rect":{"origin":{"x":0,"y":504},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[10].elements()[0]","type":"UIAStaticText","name":"Demo 11, test table row 11","val":"Demo 11, test table row 11","label":"Demo 11, test table row 11","rect":{"origin":{"x":0,"y":504},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[11]","type":"UIATableCell","name":"Demo 12, test table row 12","val":null,"label":null,"rect":{"origin":{"x":0,"y":548},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[11].elements()[0]","type":"UIAStaticText","name":"Demo 12, test table row 12","val":"Demo 12, test table row 12","label":"Demo 12, test table row 12","rect":{"origin":{"x":0,"y":548},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[12]","type":"UIATableCell","name":"Demo 13, test table row 13","val":null,"label":null,"rect":{"origin":{"x":0,"y":592},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[12].elements()[0]","type":"UIAStaticText","name":"Demo 13, test table row 13","val":"Demo 13, test table row 13","label":"Demo 13, test table row 13","rect":{"origin":{"x":0,"y":592},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[1].elements()[13]","type":"UIATableCell","name":"Demo 14, test table row 14","val":null,"label":null,"rect":{"origin":{"x":0,"y":636},"size":{"width":320,"height":44}}}###+--------{"guid":"win.elements()[1].elements()[13].elements()[0]","type":"UIAStaticText","name":"Demo 14, test table row 14","val":"Demo 14, test table row 14","label":"Demo 14, test table row 14","rect":{"origin":{"x":0,"y":636},"size":{"width":320,"height":44}}}###+{"guid":"win.elements()[2]","type":"UIAToolbar","name":null,"val":null,"label":null,"rect":{"origin":{"x":0,"y":480},"size":{"width":320,"height":44}}}###+----{"guid":"win.elements()[2].elements()[0]","type":"UIAImage","name":null,"val":null,"label":null,"rect":{"origin":{"x":0,"y":480},"size":{"width":320,"height":44}}}###</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:17Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : stringType##findElement('win','Demo 1',0,'UIAElement')</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:18Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : {"guid":"win.elements()[1].elements()[0]","type":"UIATableCell","name":"Demo 1, test textFeid and button","val":null,"label":null,"rect":{"origin":{"x":0,"y":64},"size":{"width":320,"height":44}}}</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:18Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : voidType##win.elements()[1].elements()[0].touchAndHold(1)</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:19Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.frontMostApp().mainWindow().elements()[1].elements()[0].touchAndHold("1")</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:19Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : </string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:20Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : stringType##findElement('win','name',0,'UIATextField')</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:21Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : {"guid":"win.elements()[3]","type":"UIATextField","name":null,"val":"input you name.","label":null,"rect":{"origin":{"x":107,"y":176},"size":{"width":135,"height":31}}}</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:21Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : voidType##win.elements()[3].tap()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:22Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.frontMostApp().mainWindow().elements()[3].tap()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:22Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : </string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:22Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : JSONObject##app.keyboard()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:23Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : {"type":"UIAKeyboard","guid":"app.keyboard()","label":null,"name":null,"val":null,"rect":{"origin":{"x":0,"y":264},"size":{"width":320,"height":216}}}</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:23Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : voidType##app.keyboard().typeString('athrun\n')</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:24Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.frontMostApp().keyboard().typeString("athrun\n")</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:24Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : </string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:25Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : stringType##findElement('win','',0,'UIASecureTextField')</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:26Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : {"guid":"win.elements()[4]","type":"UIASecureTextField","name":null,"val":"","label":null,"rect":{"origin":{"x":107,"y":221},"size":{"width":135,"height":31}}}</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:26Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : voidType##win.elements()[4].tap()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:27Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.frontMostApp().mainWindow().elements()[4].tap()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:27Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : </string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:27Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : JSONObject##app.keyboard()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:28Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : {"type":"UIAKeyboard","guid":"app.keyboard()","label":null,"name":null,"val":null,"rect":{"origin":{"x":0,"y":264},"size":{"width":320,"height":216}}}</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:28Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : voidType##app.keyboard().typeString('abcdefg\n')</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:29Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.frontMostApp().keyboard().typeString("abcdefg\n")</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:29Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : </string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:30Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : stringType##findElement('win','Hello Tao',0,'UIAButton')</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:31Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : {"guid":"win.elements()[7]","type":"UIAButton","name":"Hello Tao","val":null,"label":"Hello Tao","rect":{"origin":{"x":128,"y":325},"size":{"width":92,"height":37}}}</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:31Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : voidType##win.elements()[7].tap()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:32Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Debug</string>
+			<key>Message</key>
+			<string>target.frontMostApp().mainWindow().elements()[7].tap()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:32Z</date>
+			<key>Type</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : </string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:32Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : JSONArray##win.staticTexts()</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:33Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : [{"type":"UIAStaticText","guid":"win.staticTexts()[0]","label":"点击按钮获取name的输入显示在中间的Label","name":"点击按钮获取name的输入显示在中间的Label","val":"点击按钮获取name的输入显示在中间的Label","rect":{"origin":{"x":20,"y":118},"size":{"width":340,"height":21}}},{"type":"UIAStaticText","guid":"win.staticTexts()[1]","label":"Name:","name":"Name:","val":"Name:","rect":{"origin":{"x":44,"y":176},"size":{"width":55,"height":26}}},{"type":"UIAStaticText","guid":"win.staticTexts()[2]","label":"PWD:","name":"PWD:","val":"PWD:","rect":{"origin":{"x":49,"y":231},"size":{"width":45,"height":21}}},{"type":"UIAStaticText","guid":"win.staticTexts()[3]","label":"Hello,atheism!","name":"Hello,atheism!","val":"Hello,atheism!","rect":{"origin":{"x":114,"y":276},"size":{"width":106,"height":28}}}]</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:33Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>stdout : exitType</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:34Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Default</string>
+			<key>Message</key>
+			<string>sendToServer : [{"type":"UIAStaticText","guid":"win.staticTexts()[0]","label":"点击按钮获取name的输入显示在中间的Label","name":"点击按钮获取name的输入显示在中间的Label","val":"点击按钮获取name的输入显示在中间的Label","rect":{"origin":{"x":20,"y":118},"size":{"width":340,"height":21}}},{"type":"UIAStaticText","guid":"win.staticTexts()[1]","label":"Name:","name":"Name:","val":"Name:","rect":{"origin":{"x":44,"y":176},"size":{"width":55,"height":26}}},{"type":"UIAStaticText","guid":"win.staticTexts()[2]","label":"PWD:","name":"PWD:","val":"PWD:","rect":{"origin":{"x":49,"y":231},"size":{"width":45,"height":21}}},{"type":"UIAStaticText","guid":"win.staticTexts()[3]","label":"Hello,atheism!","name":"Hello,atheism!","val":"Hello,atheism!","rect":{"origin":{"x":114,"y":276},"size":{"width":106,"height":28}}}]</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:34Z</date>
+			<key>Type</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>LogType</key>
+			<string>Pass</string>
+			<key>Message</key>
+			<string>The case was passed.</string>
+			<key>Timestamp</key>
+			<date>2012-06-27T09:24:34Z</date>
+			<key>Type</key>
+			<integer>5</integer>
+		</dict>
+	</array>
+	<key>version</key>
+	<integer>2</integer>
+</dict>
+</plist>
