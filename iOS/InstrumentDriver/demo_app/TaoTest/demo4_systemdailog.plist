@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>command</key>
+		<string>simluteTouch</string>
+		<key>element</key>
+		<string>Main:Demo4_Dailog_Segmented</string>
+	</dict>
+	<dict>
+		<key>command</key>
+		<string>simluteTouch</string>
+		<key>element</key>
+		<string>Demo4DetailPage:SegmentedItem_confirm</string>
+	</dict>
+	<dict>
+		<key>command</key>
+		<string>simluteTouch</string>
+		<key>element</key>
+		<string>Demo4DetailPage:ConfirmDailogOKButton</string>
+	</dict>
+	<dict>
+		<key>command</key>
+		<string>simluteTouch</string>
+		<key>element</key>
+		<string>Demo4DetailPage:SegmentedItem_other</string>
+	</dict>
+	<dict>
+		<key>command</key>
+		<string>simluteTouch</string>
+		<key>element</key>
+		<string>Demo4DetailPage:ConfirmDailogOKButton</string>
+	</dict>
+	<dict>
+		<key>command</key>
+		<string>simluteTouch</string>
+		<key>element</key>
+		<string>NavigationItem:BackItem</string>
+	</dict>
+	<dict>
+		<key>command</key>
+		<string>scrollToRow</string>
+		<key>element</key>
+		<string>Main:MainTable</string>
+		<key>rowIndex</key>
+		<string>3</string>
+	</dict>
+</array>
+</plist>
