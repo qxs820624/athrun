@@ -12,7 +12,7 @@ try {
 	sendToServer ="Get the next step.";
 	while(!isEnd){
 		
-		var result = host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
+		var result = host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
 		UIALogger.logMessage("stdout : " + result.stdout);
 		
 		var stdout = result.stdout.split("##");
@@ -68,9 +68,9 @@ try {
 	sendToServer = "Exception # " + e + ". The script is : " + script;
 	
 	// if has exception ,send the exception to server.
-	host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
+	host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
 	// end Exit
-	host.performTaskWithPathArgumentsTimeout("/Athrun/TcpSocket.sh",[sendToServer],60);
+	host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
 	UIALogger.logError(sendToServer);
 	UIALogger.logFail("The case was failed.");	
 }
