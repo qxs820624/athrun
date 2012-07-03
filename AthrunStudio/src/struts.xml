@@ -4,11 +4,29 @@
    "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<constant name="struts.devMode" value="true" />
-
+	<constant name="struts.multipart.maxSize" value="20971520"/>
+	
 	<package name="default" extends="struts-default" namespace="/device">
 		<action name="ProcessQuery" class="org.athrun.server.struts.ProcessQuery">
 			<result name="SUCCESS">/success.jsp</result>
 		</action>
+		<action name="InstallTestApk" class="org.athrun.server.struts.InstallTestApk">
+			<result name="SUCCESS">/install.jsp</result>
+		</action>
+		<action name="execTestcase" class="org.athrun.server.struts.ExecTestCase">
+			<result name="SUCCESS">/install.jsp</result>
+		</action>
+		
+		<action name ="fileUpload" class ="org.athrun.server.struts.FileUploadAction">      
+            <!-- 验证上传文件的类型 -->    
+            <interceptor-ref name ="fileUpload">      
+                     
+            </interceptor-ref>      
+            <interceptor-ref name ="defaultStack"/>      
+            <!-- 如果加入了验证上传文件的类型,必须要加input -->    
+            <result name ="input" >/devices.jsp</result>    
+            <result name ="success">/showUpload.jsp </result>      
+        </action>
 	</package>
 	
 </struts>
