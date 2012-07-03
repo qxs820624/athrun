@@ -1,16 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=GB18030"
-	pageEncoding="GB18030"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@taglib uri="/struts-tags" prefix="s"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=GB18030">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Athrun PC-Mobile Demo</title>
 <link rel="stylesheet" type="text/css" href="/athrun/css/athrun.css">
 </head>
 
 
 
-<!-- jQuery¿â -->
+<!-- jQueryåº“ -->
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
@@ -18,7 +20,7 @@
 
 <body>
 
-	<span>!!! ÇëÓÃÖ§³Ö HTML 5 µÄä¯ÀÀÆ÷ !!!</span>
+	<span>!!! è¯·ç”¨æ”¯æŒ HTML 5 çš„æµè§ˆå™¨ !!!</span>
 	<br />
 	<img id="start" src="/athrun/img/start.png" title="start" />
 	<img id="stop" src="/athrun/img/stop.png" title="stop" />
@@ -37,27 +39,43 @@
 		<br />
 		<button id="VOLUME_UP">VOLUME_UP</button>
 		<button id="VOLUME_DOWN">VOLUME_DOWN</button>
-		<br /> <input type="radio" value="1" name="resize">¸ßÇå</input> <input
-			type="radio" value="2" name="resize" checked="checked">ÇåÎú</input> <input
-			type="radio" value="3" name="resize">Á÷³©</input> <br /> <span>Ñ¹ËõÂÊ</span><input
+		<br /> <input type="radio" value="1" name="resize">é«˜æ¸…</input> <input
+			type="radio" value="2" name="resize" checked="checked">æ¸…æ™°</input> <input
+			type="radio" value="3" name="resize">æµç•…</input> <br /> <span>å‹ç¼©ç‡</span><input
 			id="qualityRate" type="text" value="50" /> <br /> <input
-			id="rotateRate" type="button" value="Ğı×ª" /> <br /> <span
+			id="rotateRate" type="button" value="ä»€ä¹ˆä¸œä¸œ" /> <br /> <span
 			id="eventSent">eventSent Msg</span> <br /> <span id="eventResult">eventResult
 			Msg</span>
 
 	</div>
 
 	<dir>
-		<span> Ê¹ÓÃËµÃ÷£º</span>
+		<span> ä½¿ç”¨è¯´æ˜ï¼š</span>
 		<br />
-		<span> 1. µã»÷À¶É«Start°´Å¥</span>
+		<span> 1. ç‚¹å‡»è“è‰²StartæŒ‰é’®</span>
 		<br />
-		<span> 2. ÔÚÆÁÄ»ÀïÓÃÊó±ê²Ù×÷</span>
+		<span> 2. åœ¨å±å¹•é‡Œç”¨é¼ æ ‡æ“ä½œ</span>
 		<br />
-		<span> 3. µãºìÉ«Stop°´Å¥»òÕßF5Ë¢ĞÂ£¬ÖØĞÂ¿ªÊ¼</span>
+		<span> 3. ç‚¹çº¢è‰²StopæŒ‰é’®æˆ–è€…F5åˆ·æ–°ï¼Œé‡æ–°å¼€å§‹</span>
 	</dir>
 
-
+	ä¸Šä¼ äº§å“apkæ–‡ä»¶ï¼š
+	<s:form action ="fileUpload" namespace="/device" method ="POST" enctype ="multipart/form-data">      
+        <s:fielderror /> 
+        <s:hidden name="serialNumber" value="%{#parameters.serialNumber}"></s:hidden>   
+        <s:file name ="upload"/>
+        <s:submit />      
+    </s:form >
+    
+    æ‰§è¡Œæµ‹è¯•è„šæœ¬ï¼š
+    <s:form action="execTestcase" namespace="/device" method="POST">
+    	<s:hidden name="serialNumber" value="%{#parameters.serialNumber}"></s:hidden>
+        <s:textfield name="packageName" label="åŒ…å" value="com.taobao.taobao"/>
+        <s:textfield name="activityName" label="Activityå" value="com.taobao.tao.Welcome"/>
+        <s:textarea name="testCmds" label="æµ‹è¯•å‘½ä»¤åºåˆ—" cols="40" rows="10" value=""/>
+        <s:submit value="submit" name="submit" />
+    </s:form>
+    
 	<script>
 		var serialNumber =	"<%=request.getParameter("serialNumber")%>";
 
@@ -100,17 +118,17 @@
 					img.onload = function() {
 
 						context.drawImage(img, 0, 0, width, height);
-						redraw(); // ÖØ»æÊó±ê
+						redraw(); // é‡ç»˜é¼ æ ‡
 						$('#start').trigger('click');
 
-					}; //ËüÔÚÍ¼ÏñÍêÈ«ÔØÈëµ½ÄÚ´æÖ®ºóµ÷ÓÃ¡£
+					}; //å®ƒåœ¨å›¾åƒå®Œå…¨è½½å…¥åˆ°å†…å­˜ä¹‹åè°ƒç”¨ã€‚
 
 					img.onerror = function() {
 						alert("error!");
-					}; //ËüÔÚÍ¼ÏñÔØÈëÊ§°Üºóµ÷ÓÃ£¬Í¼ÏñÔØÈëÊ§°Ü²»»áµ÷ÓÃonloadÊÂ¼ş¡£
+					}; //å®ƒåœ¨å›¾åƒè½½å…¥å¤±è´¥åè°ƒç”¨ï¼Œå›¾åƒè½½å…¥å¤±è´¥ä¸ä¼šè°ƒç”¨onloadäº‹ä»¶ã€‚
 					timestamp = (new Date()).valueOf();
 					img.src = "/athrun/JpgGen.jpg?ts=" + timestamp
-							+ "&serialNumber=" + serialNumber; //¿ªÊ¼¼ÓÔØÍ¼Æ¬,¼ÓÔØÍ¼Æ¬ÊÇÒì²½¹ı³Ì¡£
+							+ "&serialNumber=" + serialNumber; //å¼€å§‹åŠ è½½å›¾ç‰‡,åŠ è½½å›¾ç‰‡æ˜¯å¼‚æ­¥è¿‡ç¨‹ã€‚
 
 				});
 
@@ -193,7 +211,7 @@
 
 			$('#myCanvas').mousemove(
 					function(e) {
-						if (paint) {//ÊÇ²»ÊÇ°´ÏÂÁËÊó±ê  
+						if (paint) {//æ˜¯ä¸æ˜¯æŒ‰ä¸‹äº†é¼ æ ‡  
 							addClick(e.pageX - this.offsetLeft, e.pageY
 									- this.offsetTop, true);
 							sendEvent(e.pageX - this.offsetLeft, e.pageY
@@ -282,7 +300,7 @@
 
 			for ( var i = 0; i < clickX.length; i++) {
 				context.beginPath();
-				if (clickDrag[i] && i) {//µ±ÊÇÍÏ¶¯¶øÇÒi!=0Ê±£¬´ÓÉÏÒ»¸öµã¿ªÊ¼»­Ïß¡£  
+				if (clickDrag[i] && i) {//å½“æ˜¯æ‹–åŠ¨è€Œä¸”i!=0æ—¶ï¼Œä»ä¸Šä¸€ä¸ªç‚¹å¼€å§‹ç”»çº¿ã€‚  
 					var p = adjustDrawPoint(clickX[i - 1], clickY[i - 1]);
 					context.moveTo(p[0],p[1]);
 				} else {
@@ -327,7 +345,7 @@
 			$('#eventSent').text(url);
 
 			$.get(url, function(data) {
-				$('#eventResult').text("Í¬²½Íê³É");
+				$('#eventResult').text("åŒæ­¥å®Œæˆ");
 			});
 		}
 
@@ -347,7 +365,7 @@
 			url = url + "&serialNumber=" + serialNumber;
 
 			$.get(url + "&action=" + action, function(data) {
-				$('#eventResult').text("Í¬²½Íê³É");
+				$('#eventResult').text("åŒæ­¥å®Œæˆ");
 			});
 		}
 	</script>
