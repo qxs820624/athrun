@@ -93,6 +93,15 @@ public class DeviceManager {
 	public static Map<String, IDevice> getDeviceList() {
 		return deviceList;
 	}
+	
+	// add by wuhe
+	public static IDevice getDeviceBySerialNumber(String serialNumber) {
+		if (serialNumber == null) {
+			return null;
+		}
+		
+		return deviceList.get(serialNumber);
+	}
 
 	// 说明device已经连接
 	public static void add(IDevice device) {
