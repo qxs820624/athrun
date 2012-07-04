@@ -4,12 +4,15 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +25,7 @@ import org.athrun.ddmlib.NullOutputReceiver;
 import org.athrun.ddmlib.RawImage;
 import org.athrun.ddmlib.ShellCommandUnresponsiveException;
 import org.athrun.ddmlib.TimeoutException;
+import org.athrun.server.service.CaptureManager;
 
 public class AthrunTestRunner {
 
@@ -134,7 +138,7 @@ public class AthrunTestRunner {
 	    closeMonkeyConnection(); 
 	}
 	
-	public static void listenTcRunning() {
+	public static void listenTcRunning(String snapshotDir, String serialNumber) {
 		
 		try {
 			while(true) {
@@ -151,6 +155,11 @@ public class AthrunTestRunner {
 					if (line.equals("run::snapshot-req")) {
 						//TODO: 在这里进行截屏动作，注意，必须是同步的！！
 						System.out.println("HERE！进行截屏！！");
+						
+						String fileName = new Date().getTime() + ".png";
+						OutputStream os = new FileOutputStream(new File(snapshotDir + File.separator + fileName));
+						CaptureManager.getInstance().register(os, serialNumber);
+						
 						monkeyWriter.write("run::snapshot-ack" + "\n");
 						monkeyWriter.flush();
 					}

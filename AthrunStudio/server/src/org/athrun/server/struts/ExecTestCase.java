@@ -84,13 +84,21 @@ public class ExecTestCase extends ActionSupport {
 		String webRoot = ServletActionContext.getServletContext().getRealPath("/");
 		String apksPath = webRoot + File.separator + "apks";
 		File apksFolder = new File(apksPath);
-		
 		if (!apksFolder.exists()) {
 			return "ERROR";
 		}
 		
-		// 暂时硬编码
-		//String productPkgName = "com.taobao.taobao";
+		String snapshotsPath = webRoot + File.separator + "snapshots";
+		File snapshotsFolder = new File(snapshotsPath);
+		if (!snapshotsFolder.exists()) {
+			snapshotsFolder.mkdir();
+		}
+		
+		String deviceSnapshotsPath = snapshotsPath + File.separator + serialNumber;
+		File deviceSnapshotsFolder = new File(deviceSnapshotsPath);
+		if (!deviceSnapshotsFolder.exists()) {
+			deviceSnapshotsFolder.mkdir();
+		}
 		
         // 执行测试脚本
         IDevice device = DeviceManager.getDeviceBySerialNumber(serialNumber);
@@ -102,7 +110,7 @@ public class ExecTestCase extends ActionSupport {
 				System.out.println("testCmds: " + testCmds);
 				AthrunTestRunner.start(device);
 				AthrunTestRunner.runTestScript(testCmds);
-				AthrunTestRunner.listenTcRunning();
+				AthrunTestRunner.listenTcRunning(deviceSnapshotsPath, serialNumber);
 				AthrunTestRunner.stop();
 				//Thread.sleep(20000);
 			} catch (InterruptedException e) {
