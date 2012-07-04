@@ -43,7 +43,7 @@
 			type="radio" value="2" name="resize" checked="checked">清晰</input> <input
 			type="radio" value="3" name="resize">流畅</input> <br /> <span>压缩率</span><input
 			id="qualityRate" type="text" value="50" /> <br /> <input
-			id="rotateRate" type="button" value="什么东东" /> <br /> <span
+			id="rotateRate" type="button" value="旋转" /> <br /> <span
 			id="eventSent">eventSent Msg</span> <br /> <span id="eventResult">eventResult
 			Msg</span>
 
