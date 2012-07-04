@@ -17,9 +17,9 @@ import org.apache.commons.io.FileUtils;
 public class ResourceManager {
 
 	private static final String FILERUNSHELL = "/runTests.sh";
-	private static final String FILETCPSHELL = "/runTests.sh";
+	private static final String FILETCPSHELL = "/TcpSocket.sh";
 	private static final String FILERUNNERJS = "/CSRunner.js";
-	private static final String FILECOMMONJS = "/CSRunner.js";
+	private static final String FILECOMMONJS = "/common.js";
 	
 	private static final String home = System.getProperty("user.home");
 	private static final String instrumentFolder = "InstrumentDriver";
