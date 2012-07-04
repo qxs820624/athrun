@@ -28,7 +28,7 @@ public class InstrumentDriverTestCase {
 	private Boolean isDebug = DriverUtil.isDebug();
 
 	@BeforeClass
-	public void prepareResource() throws Exception {
+	public static void prepareResource() throws Exception {
 		ResourceManager.updateResource();
 
 		String[] cmdrun = { "chmod", "777",
