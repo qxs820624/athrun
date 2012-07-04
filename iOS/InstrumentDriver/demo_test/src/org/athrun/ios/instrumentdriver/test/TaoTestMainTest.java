@@ -1,6 +1,7 @@
 package org.athrun.ios.instrumentdriver.test;
 
 import org.athrun.ios.instrumentdriver.UIAButton;
+import org.athrun.ios.instrumentdriver.UIAElement;
 import org.athrun.ios.instrumentdriver.UIASecureTextField;
 import org.athrun.ios.instrumentdriver.UIATextField;
 import org.junit.After;
@@ -33,25 +34,21 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 	@Test
 	public void Demo1() throws Exception {
-
-		win.printElementTree();
-
+		win.printElementTree();		
+		
 		win.findElementByText("Demo 1").touchAndHold();
-
-		// win.findElementArrayByText("Demo 1")[0].buttons()[0].tap();
-		// win.findElementByText("Demo 1").buttons()[0].tap();
+		
+		UIAElement[] eles = win.elements();
+		System.out.println(eles.length);
+		
 		win.findElementByText("name", UIATextField.class).setValue("athrun");
-		// app.keyboard().typeString("athrun\\n");
-
-		win.findElementByText("", UIASecureTextField.class).tap();
+		
+		win.secureTextFields()[0].tap();
 		app.keyboard().typeString("abcdefg\\n");
 
-		win.findElementByText("Hello Tao", UIAButton.class).tap();
+		win.findElementByText("Hello Tao").tap();
 
 		assertEquals("Hello,athrun!", win.staticTexts()[3].name());
-
-		win.findElementByText("Back").tap();
-
 	}
 
 	@Test
