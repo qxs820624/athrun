@@ -11,6 +11,7 @@ import org.athrun.ios.instrumentdriver.config.DriverUtil;
 import org.athrun.ios.instrumentdriver.config.ResourceManager;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  * @author ziyu.hch
@@ -22,10 +23,21 @@ public class InstrumentDriverTestCase {
 	public UIAApplication app;
 	public UIAWindow win;
 
-
 	private String appPath = DriverUtil.getApp();
 
 	private Boolean isDebug = DriverUtil.isDebug();
+
+	@BeforeClass
+	public void prepareResource() throws Exception {
+		ResourceManager.updateResource();
+
+		String[] cmdrun = { "chmod", "777",
+				String.format("%s", ResourceManager.getRunShell()) };
+		Runtime.getRuntime().exec(cmdrun);
+		String[] cmdtcp = { "chmod", "777",
+				String.format("%s", ResourceManager.getTcpShell()) };
+		Runtime.getRuntime().exec(cmdtcp);
+	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -35,17 +47,12 @@ public class InstrumentDriverTestCase {
 		this.win = app.mainWindow();
 
 		RunType.DEBUG = this.isDebug;
-		
-		ResourceManager.updateResource();
-		
-		String[] cmdrun = {"chmod", "777", String.format("%s", ResourceManager.getRunShell())};
-		Runtime.getRuntime().exec(cmdrun);
-		String[] cmdtcp = {"chmod", "777", String.format("%s", ResourceManager.getTcpShell())};
-		Runtime.getRuntime().exec(cmdtcp);
 
-		String shellCmd = String.format("%s %s %s", ResourceManager.getRunShell(), appPath, ResourceManager.getInstrumentRoot());
+		String shellCmd = String.format("%s %s %s",
+				ResourceManager.getRunShell(), appPath,
+				ResourceManager.getInstrumentRoot());
 
-		String[] cmd = { "/bin/sh", "-c", shellCmd};
+		String[] cmd = { "/bin/sh", "-c", shellCmd };
 		Runtime.getRuntime().exec(cmd);
 	}
 
