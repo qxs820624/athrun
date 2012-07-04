@@ -153,10 +153,7 @@ public class AthrunTestRunner {
 					
 					// 指示服务端截屏
 					if (line.equals("run::snapshot-req")) {
-						//TODO: 在这里进行截屏动作，注意，必须是同步的！！
-						System.out.println("HERE！进行截屏！！");
-						
-						String fileName = new Date().getTime() + ".png";
+						String fileName = new Date().getTime() + ".jpg";
 						OutputStream os = new FileOutputStream(new File(snapshotDir + File.separator + fileName));
 						CaptureManager.getInstance().register(os, serialNumber);
 						
