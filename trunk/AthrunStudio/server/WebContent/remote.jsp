@@ -75,6 +75,13 @@
         <s:textarea name="testCmds" label="测试命令序列" cols="40" rows="10" value=""/>
         <s:submit value="submit" name="submit" />
     </s:form>
+        脚本例子：
+<pre>
+    text "searchedit", "测试"
+    sleep 1000
+    snapshot
+    click "searchbtn"
+</pre>
     
 	<script>
 		var serialNumber =	"<%=request.getParameter("serialNumber")%>";
