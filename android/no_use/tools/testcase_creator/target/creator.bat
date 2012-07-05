@@ -1,1 +1,0 @@
-java -cp testcase_creator-1.0.0.jar org.athrun.android.framework.transform.AthrunTestCase %*
