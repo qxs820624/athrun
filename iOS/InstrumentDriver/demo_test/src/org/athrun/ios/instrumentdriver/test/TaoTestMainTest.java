@@ -60,7 +60,8 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 		win.pickers()[0].wheels()[2].selectValue(2015);
 		win.pickers()[1].wheels()[0].selectValue("1");
 		win.pickers()[1].wheels()[1].selectValue("杭州");
-		win.findElementByText("Back").tap();
+//		win.findElementByText("Back").tap();
+		win.navigationBar().leftButton().tap();
 	}
 
 	@Test
@@ -68,7 +69,7 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 
 		win.findElementByText("Demo 3").touchAndHold(1);
 		win.sliders()[0].dragToValue(0.12);
-		target.frontMostApp().mainWindow().switches()[0].setValue(0);
+		target.frontMostApp().mainWindow().switches()[0].setValue(false);
 		// app.navigationBar().leftButton().tap();
 		win.findElementByText("Back", UIAButton.class).tap();
 		target.scrollUp();

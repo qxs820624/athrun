@@ -4,6 +4,7 @@
 package org.athrun.ios.instrumentdriver;
 
 /**
+ * @author taichan
  * @author ziyu.hch
  * 
  */
@@ -25,9 +26,13 @@ public class UIASwitch extends UIAElement {
 	/**
 	 * 设置 switch类型元素的开、关状态 true: on , false :off
 	 * 
-	 * @param i
+	 * @param value A boolean value to represent the desired state, true for On, false for Off.
 	 */
-	public void setValue(int i) throws Exception {
+	public void setValue(Boolean value) throws Exception {
+		int i = 0;
+		if(value){
+			i = 1;
+		}
 		MySocket.getVoid(this.guid + ".setValue(" + i + ")");
 	}
 
