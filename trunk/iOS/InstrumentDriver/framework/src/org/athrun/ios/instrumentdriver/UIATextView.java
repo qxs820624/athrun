@@ -23,9 +23,7 @@ public class UIATextView extends UIAElement {
 	}
 
 	/**
-	 * 设置输入框的文本值 。
-	 * 
-	 * 调用 setValue(String value) 方法不能实现该功能
+	 * 设置输入框的文本值。
 	 * 
 	 * @param value
 	 *            要设置的文本
