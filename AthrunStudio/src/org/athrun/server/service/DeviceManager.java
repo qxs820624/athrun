@@ -170,8 +170,17 @@ public class DeviceManager {
 
 							String cmdString = CaptureManager.remotePath
 									+ " /sdcard/test/1.jpg /dev/graphics/fb0 50 2";
-							if (DeviceConfig.needAdjust(device.getSerialNumber())) {
-								cmdString += " 0 8 16";
+							if (DeviceConfig.needAdjust(device
+									.getSerialNumber())) {
+								if (DeviceConfig.getAdjustRGB(device
+										.getSerialNumber())) {
+									cmdString += " 0 8 16";
+								}
+								if (DeviceConfig.getAdjustWidth(device
+										.getSerialNumber()) != null) {
+									cmdString += " " + DeviceConfig.getAdjustWidth(device
+											.getSerialNumber()).toString();
+								}
 							}
 							device.executeShellCommand(cmdString,
 									new OutputStreamShellOutputReceiver(os));

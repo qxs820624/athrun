@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -24,11 +25,22 @@ import org.xml.sax.SAXException;
  */
 public class DeviceConfig {
 
-	private static List<String> adjustDevices;
+	public static class Device {
+		public Device(String name) {
+			this.name = name;
+		}
+
+		public String name;
+		public Boolean rgb;
+		public Integer width;
+
+	}
+
+	private static List<Device> deviceConfig;
 
 	public static void load(FileInputStream fileInputStream)
 			throws ParserConfigurationException, SAXException, IOException {
-		adjustDevices = new ArrayList<String>();
+		deviceConfig = new ArrayList<Device>();
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document doc = db.parse(fileInputStream);
@@ -42,13 +54,57 @@ public class DeviceConfig {
 			String nodeName = node.getNodeName();
 			if (nodeName.equals("device")) {
 				if (node.getTextContent().length() > 0) {
-					adjustDevices.add(node.getTextContent().trim());
+					Device device = new Device(node.getTextContent().trim());
+					NamedNodeMap attributes = node.getAttributes();
+					if (attributes.getLength() > 0) {
+						Node namedItemRGB = attributes.getNamedItem("rgb");
+						if (namedItemRGB != null) {
+							if (namedItemRGB.getTextContent().equalsIgnoreCase(
+									"true")) {
+								device.rgb = true;
+							}
+						}
+						Node namedItemWidth = attributes.getNamedItem("width");
+						if (namedItemWidth != null) {
+							if (!namedItemWidth.getTextContent().isEmpty()) {
+								device.width = Integer.parseInt(namedItemWidth
+										.getTextContent());
+							}
+						}
+					}
+					deviceConfig.add(device);
 				}
 			}
 		}
 	}
 
 	public static boolean needAdjust(String sn) {
-		return adjustDevices.contains(sn);
+		Device device = getDevice(sn);
+		if (device != null) {
+			return true;
+		}
+		return false;
+	}
+
+	private static Device getDevice(String sn) {
+		for (Device d : deviceConfig) {
+			if (d.name.equals(sn)) {
+				return d;
+			}
+		}
+		return null;
+	}
+
+	public static boolean getAdjustRGB(String sn) {
+		Device device = getDevice(sn);
+		if (true == device.rgb) {
+			return true;
+		}
+		return false;
+	}
+
+	public static Integer getAdjustWidth(String sn) {
+		Device device = getDevice(sn);
+		return device.width;		
 	}
 }

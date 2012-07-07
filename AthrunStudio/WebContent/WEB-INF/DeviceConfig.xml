@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AdjustRGB>
-    <device>
+    <device rgb="true">
 425839303248445A474E
     </device>
-    <device>
-1C1D679CD1DC    </device>
-    <device>
+    <device rgb="true">
+1C1D679CD1DC
+    </device>
+    <device rgb="true">
 1234567890ABCDEF       
+    </device>
+    <device width="544" rgb="true">
+    HC21GV200170
     </device>
 </AdjustRGB>
