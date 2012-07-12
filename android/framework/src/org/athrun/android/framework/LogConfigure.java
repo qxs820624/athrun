@@ -15,8 +15,10 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., HuaXing road, Hangzhou,China. 
  Email:taichan@taobao.com,shidun@taobao.com,bingyang.djj@taobao.com
-*/
+ */
 package org.athrun.android.framework;
+
+import java.io.File;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -26,25 +28,43 @@ import de.mindpipe.android.logging.log4j.LogConfigurator;
 
 /**
  * Configure log4j
+ * 
+ * @author taichan
  * @author bingyang.djj
- *
+ * 
  */
 public final class LogConfigure {
 	private static Logger logger;
-	
+
+	private static boolean configured = false;
+
 	private LogConfigure() {
 		throw new AssertionError();
 	}
-	
-	static {
-        final LogConfigurator logConfigurator = new LogConfigurator();
-                
-        logConfigurator.setFileName(Environment.getExternalStorageDirectory() + "/Athrun/athrun.log");
-        logConfigurator.setRootLevel(Level.INFO);
-        logConfigurator.configure();
-    }
-	
+
+	public static void setLogger(String pkg) {
+		final LogConfigurator logConfigurator = new LogConfigurator();
+
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			logConfigurator.setFileName(Environment
+					.getExternalStorageDirectory() + "/Athrun/athrun.log");
+		} else {
+			String path = "/data/data/" + pkg + "/files/Athrun";
+			File file = new File(path);
+			if (!file.exists()) {
+				file.mkdir();
+			}
+			logConfigurator.setFileName(path + "/athrun.log");
+		}
+		logConfigurator.setRootLevel(Level.INFO);
+		logConfigurator.configure();
+		configured = true;
+	}
+
 	public static Logger getLogger(Class<?> clazz) {
+		if (!configured) {
+			throw new AssertionError("not configured");
+		}
 		logger = Logger.getLogger(clazz);
 		return logger;
 	}
