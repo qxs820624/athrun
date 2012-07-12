@@ -54,6 +54,7 @@ import android.widget.ScrollView;
  * TmtsTestCase, just make it to be an empty method and run test methods one by
  * one.
  * 
+ * @author taichan
  * @author bingyang.djj
  * 
  */
@@ -92,6 +93,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	@SuppressWarnings("unchecked")
 	public AthrunTestCase(String pkg, String activityClass) throws Exception {
 		super(pkg, Class.forName(activityClass));
+		LogConfigure.setLogger(pkg);
 	}
 
 	/**
