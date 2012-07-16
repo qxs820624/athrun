@@ -38,6 +38,8 @@ public class AthrunAptTool {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		System.out.println("dApkInternal: dApkInternal end");
 	}
 
 	// ʹ��apktool���н�����apktool d InstrumentRemoteRunner.apk tmts
@@ -114,15 +116,14 @@ public class AthrunAptTool {
 		bApkInternal(targetDir);
 	}
 	
-	private static void signApkInternal(String apksDir, String targetDir, String fileName) {
+	public static void signApkInternal(String apksDir, String targetFilePath) {
 		String[] jarsignerCmd = new String[] {
 				"jarsigner",
 				"-keystore",
-				apksDir + "debug.keystore",
+				apksDir + File.separator + "debug.keystore",
 				"-storepass",
 				"android",
-				targetDir + File.separator + "dist" + File.separator
-						+ fileName, "androiddebugkey" };
+				targetFilePath, "androiddebugkey" };
 
 		File logFile = new File(apksDir + File.separator + "apttool.log");
 		FileWriter fw = null;
@@ -168,6 +169,8 @@ public class AthrunAptTool {
 				e.printStackTrace();
 			}
 		}
+		
+		System.out.println("sign over!!");
 	}
 
 	// ʹ��javaǩ��߶�apk����ǩ��
@@ -184,11 +187,12 @@ public class AthrunAptTool {
 		String fileName = file.getName();
 
 		String apksDir = absolutePath.substring(0,
-				absolutePath.lastIndexOf(fileName));
+				absolutePath.lastIndexOf(fileName) - 1);
 
 		String targetDir = getTargetDir(apkFilePath, fileName);
-
-		signApkInternal(apksDir, targetDir, fileName);
+		String targetFilePath = targetDir + File.separator + "dist" + File.separator
+				+ fileName;
+		signApkInternal(apksDir, targetFilePath);
 	}
 	
 	public static void signApk(File apkFile) {
@@ -200,11 +204,12 @@ public class AthrunAptTool {
 		String apkFilePath = apkFile.getAbsolutePath();
 		String fileName = apkFile.getName();
 		String apksDir = apkFilePath.substring(0,
-				apkFilePath.lastIndexOf(fileName));
+				apkFilePath.lastIndexOf(fileName) - 1);
 		
 		String targetDir = getTargetDir(apkFilePath, fileName);
-
-		signApkInternal(apksDir, targetDir, fileName);
+		String targetFilePath = targetDir + File.separator + "dist" + File.separator
+				+ fileName;
+		signApkInternal(apksDir, targetFilePath);
 	}
 	
 	public static String getTargetApkPath(File apkFile) {

@@ -127,14 +127,28 @@ public class FileUploadAction extends ActionSupport {
         File imageFile = new File(apksDir + File.separator + imageFileName);     
         copy(upload, imageFile);
         
+        // 五和：因为重新打包，有的包会出现失败的情形，换一种思路，采用7z.exe来去除签名信息
+        ApkFileOperate apkFileOperate = new ApkFileOperate();
+		apkFileOperate.setPathOf7zexe(apksDir + File.separator + "7z.exe");
+		apkFileOperate.removeSignInfo(imageFile.getAbsolutePath());
+        
+		System.out.println("remove sign info......");
+		
+		// 重新签名
+        //AthrunAptTool.signApk(imageFile);
+		AthrunAptTool.signApkInternal(apksDir, imageFile.getAbsolutePath());
+        
         // 解包
         AthrunAptTool.dApk(imageFile);
         
         String imageFilePath = imageFile.getAbsolutePath();
         
+        
         String productManifestDir = imageFilePath.substring(0, imageFilePath.lastIndexOf(".apk"));
         String productManifestPath = productManifestDir + File.separator + "AndroidManifest.xml";
         String productPkgName = ManifestReaderWriter.getProductPkgName(productManifestPath);
+        
+        
         
         // 从AndroidManifest.xml中读取activity信息，存入ActivityManager单例
         AppActivityContainer aac = ManifestReaderWriter.getActivityEntities(productManifestPath);
@@ -150,25 +164,6 @@ public class FileUploadAction extends ActionSupport {
 			aac.setAppName(realAppName);
 			aac.setAppIconPath(realIconPath);
 		}
-        
-        // 重新打包
-        //AthrunAptTool.bApk(imageFile);
-		// 五和：因为重新打包，有的包会出现失败的情形，换一种思路，采用7z.exe来去除签名信息
-		ApkFileOperate apkFileOperate = new ApkFileOperate();
-		apkFileOperate.setPathOf7zexe(apksDir + File.separator + "7z.exe");
-		apkFileOperate.removeSignInfo(imageFile.getAbsolutePath());
-        
-		System.out.println("remove sign info......");
-		try {
-			Thread.sleep(15000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		/*
-        // 签名
-        AthrunAptTool.signApk(imageFile);
         
         File tmtsApkFile = new File(apksDir + File.separator + "InstrumentRemoteRunner.apk");
         // 解包
@@ -207,7 +202,6 @@ public class FileUploadAction extends ActionSupport {
 				e.printStackTrace();
 			}
 		}
-        */
 		
         return SUCCESS;     
     }     

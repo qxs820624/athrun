@@ -171,7 +171,7 @@ public class ManifestReaderWriter {
         File file = new File(filePath);  
         SAXReader reader = new SAXReader();  
           
-        return reader.read(file);  
+        return reader.read(file);
     } 
     
     public String getAppAttrValue(Document document, String appAttrName) {
