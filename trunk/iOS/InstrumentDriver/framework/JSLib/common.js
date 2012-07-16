@@ -1,8 +1,3 @@
-/**
- * 说   明: C/S模式运行，InstrumentDriver 元素查找等公共方法 
- * 作   者: ziyu 
- * 日   期: 2012-05-18  
- */ 
 __element = "UIAElementNil";
 __elementArray = [];
 __elementTree = "";
