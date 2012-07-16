@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -35,8 +37,13 @@ public class ManifestReaderWriter {
 			e.printStackTrace();
 		}
 		*/
-		System.out.println(getProductPkgName("AndroidManifest.xml"));
+		//System.out.println(getProductPkgName("AndroidManifest.xml"));
 		//modifyTargetPackage("AndroidManifest.xml", "com.taobao.juhuasuan");
+		
+		AppActivityContainer aac = getActivityEntities("AndroidManifest.xml");
+		if (aac != null) {
+			System.out.println("aac is not null!!");
+		}
 	}
 	
 	public static String getProductPkgName(String manifestFilePath) {
@@ -54,6 +61,70 @@ public class ManifestReaderWriter {
 		
 		return "";
 	}
+	
+	public static String getAppName(String manifestFilePath) {
+		ManifestReaderWriter reader = new ManifestReaderWriter();
+		
+		try {
+			Document document = reader.getDocument(manifestFilePath);
+			
+			return reader.getAppAttrValue(document, "label");
+			
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	public static String getAppIconName(String manifestFilePath) {
+		ManifestReaderWriter reader = new ManifestReaderWriter();
+		
+		try {
+			Document document = reader.getDocument(manifestFilePath);
+			
+			return reader.getAppAttrValue(document, "icon");
+			
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	public static String getRealAppName(String resRootDir, String appName) {
+		if (appName.startsWith("@string/")) {
+			String key = appName.substring(8);
+			String stringsXmlPath = resRootDir + File.separator + "res" + File.separator + "values" + File.separator + "strings.xml";
+			
+			ManifestReaderWriter modifier = new ManifestReaderWriter();
+			
+			try {
+				Document document = modifier.getDocument(stringsXmlPath);
+				
+				return modifier.getStrValue(document, key);
+
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return "";
+	}
+	
+	public static String getRealIconPath(String resRootDir, String appIconName) {
+		if (appIconName.startsWith("@drawable/")) {
+			String key = appIconName.substring(10);
+			String iconPath = resRootDir + File.separator + "res" + File.separator + "drawable" + File.separator + key + ".png";
+			return iconPath;
+		}
+		
+		return "";
+	}
+	
 	
 	public static void modifyTargetPackage(String manifestFilePath, String targetPackage) {
 		ManifestReaderWriter modifier = new ManifestReaderWriter();
@@ -73,6 +144,22 @@ public class ManifestReaderWriter {
 		}
 	}
 	
+	public static AppActivityContainer getActivityEntities(String manifestFilePath) {
+		ManifestReaderWriter modifier = new ManifestReaderWriter();
+		
+		try {
+			Document document = modifier.getDocument(manifestFilePath);
+			
+			return modifier.getActivityEntities(document);
+			
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	/** 
      * ��ȡXML �ļ�. 
      * @param filePath 
@@ -85,12 +172,53 @@ public class ManifestReaderWriter {
         SAXReader reader = new SAXReader();  
           
         return reader.read(file);  
-    }  
+    } 
+    
+    public String getAppAttrValue(Document document, String appAttrName) {
+    	Element root = document.getRootElement();
+    	Element appNode = root.element("application");
+    	return appNode.attributeValue(appAttrName);
+    }
+    
+    public String getStrValue(Document document, String strKey) {
+    	Element root = document.getRootElement();
+    	List children = root.elements("string");
+    	
+    	for(Iterator iter = children.iterator(); iter.hasNext();) {
+    		Element child = (Element)iter.next();
+    		String name = child.attributeValue("name");
+    		if ((name != null)&&(name.equals(strKey))) {
+    			return child.getText();
+    		} else {
+    			continue;
+    		}
+    	}
+    	
+    	return "";
+    }
     
     public String getRootAttrValueByAttrName(Document document, String attributeName)  
     {  
         Element root = document.getRootElement();   
         return root.attributeValue(attributeName);
+    }
+    
+    private AppActivityContainer getActivityEntities(Document document) {
+    	AppActivityContainer aac = new AppActivityContainer();
+    	Element root = document.getRootElement();
+    	Element appNode = root.element("application");
+    	List children = appNode.elements();
+    	for(Iterator iter = children.iterator(); iter.hasNext();) {
+    		Element child = (Element)iter.next();
+    		if (child.getName().equals("activity")) {
+    			String activityName = child.attributeValue("name");
+    			String launchMode = child.attributeValue("launchMode");
+    			System.out.println("activityName: " + activityName + ", launchMode: " + launchMode);
+    			aac.addActivityEntity(new ActivityEntity(activityName, launchMode));
+    		}
+    	}
+    	
+    	return aac;
     }
       
     /** 
