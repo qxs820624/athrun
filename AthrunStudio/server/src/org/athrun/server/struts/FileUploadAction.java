@@ -18,6 +18,9 @@ import org.athrun.ddmlib.ShellCommandUnresponsiveException;
 import org.athrun.ddmlib.TimeoutException;
 import org.athrun.server.adb.OutputStreamShellOutputReceiver;
 import org.athrun.server.service.DeviceManager;
+import org.athrun.test.server.util.ActivityManager;
+import org.athrun.test.server.util.ApkFileOperate;
+import org.athrun.test.server.util.AppActivityContainer;
 import org.athrun.test.server.util.AthrunAptTool;
     
 import com.opensymphony.xwork2.ActionSupport;     
@@ -133,9 +136,37 @@ public class FileUploadAction extends ActionSupport {
         String productManifestPath = productManifestDir + File.separator + "AndroidManifest.xml";
         String productPkgName = ManifestReaderWriter.getProductPkgName(productManifestPath);
         
-        // 重新打包
-        AthrunAptTool.bApk(imageFile);
+        // 从AndroidManifest.xml中读取activity信息，存入ActivityManager单例
+        AppActivityContainer aac = ManifestReaderWriter.getActivityEntities(productManifestPath);
+		if (aac != null) {
+			ActivityManager.getInstance().put(serialNumber, aac);
+			
+			String appName = ManifestReaderWriter.getAppName(productManifestPath);
+			String realAppName = ManifestReaderWriter.getRealAppName(productManifestDir, appName);
+			
+			String appIconName = ManifestReaderWriter.getAppIconName(productManifestPath);
+			String realIconPath = ManifestReaderWriter.getRealIconPath(productManifestDir, appIconName);
+			
+			aac.setAppName(realAppName);
+			aac.setAppIconPath(realIconPath);
+		}
         
+        // 重新打包
+        //AthrunAptTool.bApk(imageFile);
+		// 五和：因为重新打包，有的包会出现失败的情形，换一种思路，采用7z.exe来去除签名信息
+		ApkFileOperate apkFileOperate = new ApkFileOperate();
+		apkFileOperate.setPathOf7zexe(apksDir + File.separator + "7z.exe");
+		apkFileOperate.removeSignInfo(imageFile.getAbsolutePath());
+        
+		System.out.println("remove sign info......");
+		try {
+			Thread.sleep(15000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		/*
         // 签名
         AthrunAptTool.signApk(imageFile);
         
@@ -168,14 +199,16 @@ public class FileUploadAction extends ActionSupport {
 		if (device != null) {
 			
 			try {
-				device.installPackage(modifiedProductApkPath, true);
+				device.installPackage(imageFile.getAbsolutePath(),true);
+				//device.installPackage(modifiedProductApkPath, true);
 				device.installPackage(modifiedTmtsApkPath, true);
 			} catch (InstallException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-        
+        */
+		
         return SUCCESS;     
     }     
     
