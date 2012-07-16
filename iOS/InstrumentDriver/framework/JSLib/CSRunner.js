@@ -1,6 +1,3 @@
-/**
- * 说 明: C/S模式运行，InstrumentDriver启动脚本 作 者: ziyu 日 期: 2012-05-18
- */ 
 #import "./common.js"
 
 UIALogger.logStart("The case is running.");
