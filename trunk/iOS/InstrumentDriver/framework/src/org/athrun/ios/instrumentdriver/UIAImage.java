@@ -10,5 +10,9 @@ public class UIAImage extends UIAElement {
 		super(guid);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public String url() throws Exception {
+		return MySocket.getText(this.guid + ".url()");
+	}
 
 }
