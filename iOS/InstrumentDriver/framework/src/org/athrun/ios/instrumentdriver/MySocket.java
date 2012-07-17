@@ -127,7 +127,12 @@ public class MySocket {
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
 
-			request = is.readLine();
+			StringBuffer builder = new StringBuffer();
+			String temp = null;
+			while ((temp = is.readLine()) != null) {
+				builder.append(temp);
+			}
+			request = builder.toString();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (request.startsWith("Exception")) {
