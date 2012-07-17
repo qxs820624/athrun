@@ -44,7 +44,13 @@ public class MySocket {
 					socket.getInputStream()));
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
-			request = is.readLine();
+
+			StringBuffer builder = new StringBuffer();
+			String temp = null;
+			while ((temp = is.readLine()) != null) {
+				builder.append(temp);
+			}
+			request = builder.toString();
 
 			System.out.println("Client request  : " + request);
 			System.out.println("Server response : " + exitMark + "  -End-");
