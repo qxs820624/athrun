@@ -162,7 +162,13 @@ public class MySocket {
 					socket.getInputStream()));
 
 			os = new PrintWriter(socket.getOutputStream());
-			guid = is.readLine();
+
+			StringBuffer builder2 = new StringBuffer();
+
+			while ((temp = is.readLine()) != null) {
+				builder2.append(temp);
+			}
+			guid = builder2.toString();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (guid.startsWith("Exception")) {
