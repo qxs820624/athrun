@@ -27,6 +27,7 @@ import android.app.Instrumentation;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 /**
@@ -270,5 +271,9 @@ public class AbsListViewElement extends ViewGroupElement {
 		}
 
 		return allText.toString();
+	}
+	
+	public Adapter getAdapter(){
+		return absListView.getAdapter(); 
 	}
 }
