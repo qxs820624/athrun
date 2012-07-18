@@ -14,7 +14,7 @@ import org.athrun.android.result.JunitKeludeLogConverter;
 public final class KeludeRunner {
 	private static final String RUNNER = "pl.polidea.instrumentation.PolideaInstrumentationTestRunner";
 
-	static final String REPORT_FILE_DIR = "/sdcard/kelude";
+	static final String REPORT_FILE_DIR = "/tmp";
 	static final String REPORT_FILE_NAME = "junitReport.xml";
 
 	private String[] commands;
