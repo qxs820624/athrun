@@ -66,4 +66,24 @@ public class UIAApplication {
 
 		return UIAElementHelp.getToolbar(this.guid + ".toolbar()");
 	}
+
+	/**
+	 * 树形结构打印出当前元素节点下的所有子元素
+	 * 
+	 * @throws Exception
+	 *             C/S Socket 通讯异常
+	 * 
+	 */
+	public void printElementTree() throws Exception {
+
+		String elementTree = MySocket.getText("printElementTree('" + this.guid
+				+ "')");
+
+		System.out
+				.println("-----------------------------------------------------");
+		System.out.println("LogElementTree:");
+		System.out.println(elementTree.replaceAll("###", "\n"));
+		System.out
+				.println("-----------------------------------------------------");
+	}
 }
