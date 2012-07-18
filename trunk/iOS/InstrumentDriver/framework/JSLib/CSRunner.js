@@ -6,7 +6,7 @@ try {
 	
 	var step = 1;
 	var isEnd = false;
-	sendToServer ="Get the next step.";
+	var sendToServer ="Get the next step.";
 	while(!isEnd){
 		
 		var result = host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
@@ -40,6 +40,9 @@ try {
 					elementArray.push(element);
 				}
 				sendToServer = JSON.stringify(elementArray);
+				if(sendToServer!=null){
+					sendToServer = sendToServer.replace(/\r\n/ig,"");
+				}
 				break;
 			case "JSONObject":
 				var element = eval(script);
@@ -51,6 +54,9 @@ try {
 				e.val = element.value();
 				e.rect  = element.rect();
 				sendToServer = JSON.stringify(e);
+				if(sendToServer!=null){
+					sendToServer = sendToServer.replace(/\r\n/ig,"");
+				}
 				break;
 			default:
 				isEnd = true;
