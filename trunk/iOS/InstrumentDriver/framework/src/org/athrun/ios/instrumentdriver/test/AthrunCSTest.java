@@ -1,13 +1,11 @@
 package org.athrun.ios.instrumentdriver.test;
 
-import org.athrun.ios.instrumentdriver.UIAApplication;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.athrun.ios.instrumentdriver.UIAButton;
 import org.athrun.ios.instrumentdriver.UIAElement;
-import org.athrun.ios.instrumentdriver.UIATarget;
-import org.athrun.ios.instrumentdriver.UIAWindow;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author ziyu.hch
@@ -18,10 +16,6 @@ public class AthrunCSTest extends InstrumentDriverTestCase {
 
 	@Test
 	public void Demo() throws Exception {
-
-		UIATarget target = UIATarget.localTarget();
-		UIAApplication app = target.frontMostApp();
-		UIAWindow win = app.mainWindow();
 
 		win.printElementTree();
 		win.findElementByText("搜索", UIAButton.class).tap();
