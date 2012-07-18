@@ -386,13 +386,23 @@ public class UIAElement {
 		MySocket.getVoid(this.guid + ".tap()");
 	}
 
-	public void touchAndHold() throws Exception{
+	public void tapWithOptions(String tapOffset) throws Exception {
+
+		MySocket.getVoid(this.guid + ".tapWithOptions(" + tapOffset + ")");
+	}
+
+	public void touchAndHold() throws Exception {
 		touchAndHold(1);
 	}
-	
+
 	/**
 	 * Touches the specified element and holds for the specified duration.
-	 * @param seconds The length of time to hold the touch on the element, in seconds.The default duration value for a tap is 0. The default value for touch-and-hold gestures (such as drag, pinch open, and pinch close) is 1.
+	 * 
+	 * @param seconds
+	 *            The length of time to hold the touch on the element, in
+	 *            seconds.The default duration value for a tap is 0. The default
+	 *            value for touch-and-hold gestures (such as drag, pinch open,
+	 *            and pinch close) is 1.
 	 * @throws Exception
 	 */
 	public void touchAndHold(int seconds) throws Exception {
