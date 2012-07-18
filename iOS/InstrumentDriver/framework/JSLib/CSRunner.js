@@ -41,7 +41,7 @@ try {
 				}
 				sendToServer = JSON.stringify(elementArray);
 				if(sendToServer!=null){
-					sendToServer = sendToServer.replace(/\r\n/ig,"");
+					sendToServer = sendToServer.toString().replace(/\\r\\n/ig,"");
 				}
 				break;
 			case "JSONObject":
@@ -55,7 +55,7 @@ try {
 				e.rect  = element.rect();
 				sendToServer = JSON.stringify(e);
 				if(sendToServer!=null){
-					sendToServer = sendToServer.replace(/\r\n/ig,"");
+					sendToServer = sendToServer.toString().replace(/\\r\\n/ig,"");
 				}
 				break;
 			default:
