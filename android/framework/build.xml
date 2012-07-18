@@ -72,9 +72,6 @@
                 excludes="META-INF/*.SF"
                 src="${lib.dir}/log4j-1.2.16.jar" />
 
-            <zipfileset
-                excludes="META-INF/*.SF"
-                src="${ext.dir}/the-missing-android-xml-junit-test-runner-release-1.3_2.jar" />
         </jar>
     </target>
 
