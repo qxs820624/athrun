@@ -44,13 +44,7 @@ public class MySocket {
 					socket.getInputStream()));
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
-
-			StringBuffer builder = new StringBuffer();
-			String temp = null;
-			while ((temp = is.readLine()) != null) {
-				builder.append(temp);
-			}
-			request = builder.toString();
+			request = is.readLine();
 
 			System.out.println("Client request  : " + request);
 			System.out.println("Server response : " + exitMark + "  -End-");
@@ -133,12 +127,7 @@ public class MySocket {
 
 			PrintWriter os = new PrintWriter(socket.getOutputStream());
 
-			StringBuffer builder = new StringBuffer();
-			String temp = null;
-			while ((temp = is.readLine()) != null) {
-				builder.append(temp);
-			}
-			request = builder.toString();
+			request = is.readLine();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (request.startsWith("Exception")) {
@@ -168,13 +157,7 @@ public class MySocket {
 					socket.getInputStream()));
 
 			os = new PrintWriter(socket.getOutputStream());
-
-			StringBuffer builder2 = new StringBuffer();
-
-			while ((temp = is.readLine()) != null) {
-				builder2.append(temp);
-			}
-			guid = builder2.toString();
+			guid = is.readLine();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (guid.startsWith("Exception")) {
