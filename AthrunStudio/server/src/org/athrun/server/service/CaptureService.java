@@ -22,7 +22,7 @@ public class CaptureService {
 		TaskResult tr = null;
 
 		try {
-			tr = future.get(20000, TimeUnit.MILLISECONDS);
+			tr = future.get(10000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
@@ -43,7 +43,7 @@ public class CaptureService {
 		TaskResult tr = null;
 		
 		try {
-			tr = future.get(3000, TimeUnit.MILLISECONDS);
+			tr = future.get(10000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
@@ -69,7 +69,7 @@ public class CaptureService {
 		TaskResult tr = null;
 		
 		try {
-			tr = future.get(3000, TimeUnit.MILLISECONDS);
+			tr = future.get(10000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
@@ -95,7 +95,7 @@ public class CaptureService {
 		TaskResult tr = null;
 		
 		try {
-			tr = future.get(3000, TimeUnit.MILLISECONDS);
+			tr = future.get(10000, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {

@@ -2,9 +2,7 @@ package org.athrun.server.service;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.concurrent.Callable;
-
 import org.athrun.server.utils.InOutStructure;
 import org.athrun.server.utils.ReservedPortExhaust;
 
@@ -36,16 +34,11 @@ public class InfoTask implements Callable<TaskResult> {
 			tr.setResult(result);
 			
 		} catch (ReservedPortExhaust e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
 		return tr;
 	}
-
 }
