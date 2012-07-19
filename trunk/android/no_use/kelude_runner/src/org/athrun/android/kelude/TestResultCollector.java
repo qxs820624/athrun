@@ -5,13 +5,18 @@ import java.io.IOException;
 public class TestResultCollector {
 	private String device;
 	private String resultPath;
+	private KeludeRunner runner;
 
-	private static final String DEVICE_FILE_PATH = KeludeRunner.REPORT_FILE_DIR
-			+ "/" + KeludeRunner.REPORT_FILE_NAME;
+	private String getDeviceFilePath()
+	{
+		return runner.getReportFileDir()
+				+ "/" + KeludeRunner.REPORT_FILE_NAME;
+	}
 
-	public TestResultCollector(String device, String resultPath) {
+	public TestResultCollector(String device, String resultPath, KeludeRunner runner) {
 		this.device = device;
 		this.resultPath = resultPath;
+		this.runner = runner;
 	}
 
 	String getJunitReport(String device) {
@@ -36,11 +41,11 @@ public class TestResultCollector {
 		StringBuilder filePath = new StringBuilder();
 		filePath.append("adb");
 		if (null == this.device) {
-			filePath.append(" pull ").append(DEVICE_FILE_PATH);
+			filePath.append(" pull ").append(getDeviceFilePath());
 
 		} else {
 			filePath.append(" -s ").append(device).append(" pull ")
-					.append(DEVICE_FILE_PATH);
+					.append(getDeviceFilePath());
 		}
 
 		return filePath.toString();
