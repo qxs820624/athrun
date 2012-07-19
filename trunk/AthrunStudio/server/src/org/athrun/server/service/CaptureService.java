@@ -15,6 +15,9 @@ public class CaptureService {
 	public TaskResult capture(String serialNumber, OutputStream os) {
 		CaptureTask task = new CaptureTask();
 		task.setSerialNumber(serialNumber);
+		// 设置截图请求时间
+		task.setRequestTime(System.currentTimeMillis());
+		
 		Future<TaskResult> future = executor.submit(task);
 		TaskResult tr = null;
 
