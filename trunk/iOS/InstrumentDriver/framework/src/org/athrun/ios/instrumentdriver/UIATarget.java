@@ -33,6 +33,10 @@ public class UIATarget {
 		MySocket.getVoid(this.guid + ".delay(" + second + ")");
 	}
 
+	public void tap(String xy) throws Exception {
+		MySocket.getVoid(this.guid + ".tap(" + xy + ")");
+	}
+
 	/**
 	 * 树形结构打印出当前元素节点下的所有子元素
 	 * 
