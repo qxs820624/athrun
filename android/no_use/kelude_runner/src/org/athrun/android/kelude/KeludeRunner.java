@@ -14,7 +14,7 @@ import org.athrun.android.result.JunitKeludeLogConverter;
 public final class KeludeRunner {
 	private static final String RUNNER = "pl.polidea.instrumentation.PolideaInstrumentationTestRunner";
 
-	static final String REPORT_FILE_DIR = "/tmp";
+
 	static final String REPORT_FILE_NAME = "junitReport.xml";
 
 	private String[] commands;
@@ -25,6 +25,7 @@ public final class KeludeRunner {
 
 	private String device;
 	private String testPackageName;
+	private String packageName;
 	private String resultPath;
 
 	KeludeRunner(String[] commands) {
@@ -38,6 +39,10 @@ public final class KeludeRunner {
 			commandMap.put(commands[i].replace("-", ""), commands[i + 1]);
 		}
 	}
+	
+	protected String getReportFileDir(){
+		return String.format("/data/data/%s/files", getPackageName());
+	}
 
 	private String getInstCommand() {
 		StringBuilder instCommand = new StringBuilder();
@@ -45,7 +50,7 @@ public final class KeludeRunner {
 		instCommand.append("adb -s ").append(getDeviceName())
 				.append(" shell am instrument -w")
 
-				.append(" -e junitOutputDirectory ").append(REPORT_FILE_DIR)
+				.append(" -e junitOutputDirectory ").append(getReportFileDir())
 				.append(" -e junitSplitLevel ").append("none")
 
 				.append(" -e junitSingleFileName ").append(REPORT_FILE_NAME)
@@ -86,6 +91,12 @@ public final class KeludeRunner {
 	private String getTestRunnerName() {
 		return RUNNER;
 	}
+	
+	protected String getPackageName()
+	{
+		this.packageName = this.commandMap.get("packageName");
+		return this.packageName;
+	}
 
 	private String getLocalReportPath() {
 		this.resultPath = this.commandMap.get("results_file");
@@ -101,7 +112,7 @@ public final class KeludeRunner {
 	}
 
 	private String clean() throws Exception {
-		return ShellCommandRunner.run("adb -s " + getDeviceName() + " shell rm " + REPORT_FILE_DIR + "/"
+		return ShellCommandRunner.run("adb -s " + getDeviceName() + " shell rm " + getReportFileDir() + "/"
 				+ REPORT_FILE_NAME);
 	}
 	
@@ -160,7 +171,7 @@ public final class KeludeRunner {
 
 			} else {
 				TestResultCollector resultCollector = new TestResultCollector(
-						runner.device, runner.resultPath);
+						runner.device, runner.resultPath, runner);
 				String result = resultCollector.getJunitReport(runner.device);
 
 				System.out.println("Pull file result: ");
