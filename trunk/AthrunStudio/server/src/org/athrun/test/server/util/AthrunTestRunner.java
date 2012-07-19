@@ -13,15 +13,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.imageio.ImageIO;
-
 import org.athrun.ddmlib.AdbCommandRejectedException;
 import org.athrun.ddmlib.AndroidDebugBridge;
 import org.athrun.ddmlib.IDevice;
-import org.athrun.ddmlib.NullOutputReceiver;
 import org.athrun.ddmlib.RawImage;
 import org.athrun.ddmlib.ShellCommandUnresponsiveException;
 import org.athrun.ddmlib.TimeoutException;
@@ -44,73 +40,14 @@ public class AthrunTestRunner {
 
 	// delay between key events
 	final static int KEY_INPUT_DELAY = 1000;
-
-	public static void main(String[] args) {
-		
-		//start();
-
-		/*
-		for(int i=0; i<10; i++) {
-			try {
-				sendMonkeyEvent("monkey command " + i);
-				
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
-		
-		/*
-		try {
-			sendMonkeyEvent("text \"searchedit\", \"测试\"");
-			sendMonkeyEvent("sleep 1000");
-			sendMonkeyEvent("click \"searchbtn\"");
-			sendMonkeyEvent("quit");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		stop();
-		*/
-	}
 	
 	public static void runTestScript(String script) {
-		//start(device);
-
-		/*
-		for(int i=0; i<10; i++) {
-			try {
-				sendMonkeyEvent("monkey command " + i);
-				
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
 		try {
 			sendMonkeyEvent(script);
 			sendMonkeyEvent("quit");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//stop();
 	}
 	
 	public static void start(IDevice device) {
@@ -119,13 +56,10 @@ public class AthrunTestRunner {
 	    try {
 			initAdbConnection(device);
 		} catch (TimeoutException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (AdbCommandRejectedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ShellCommandUnresponsiveException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    
@@ -155,7 +89,7 @@ public class AthrunTestRunner {
 					if (line.equals("run::snapshot-req")) {
 						String fileName = new Date().getTime() + ".jpg";
 						OutputStream os = new FileOutputStream(new File(snapshotDir + File.separator + fileName));
-						CaptureManager.getInstance().register(os, serialNumber);
+						CaptureManager.getInstance().register(serialNumber, os);
 						
 						monkeyWriter.write("run::snapshot-ack" + "\n");
 						monkeyWriter.flush();
@@ -165,17 +99,15 @@ public class AthrunTestRunner {
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
 					System.out.println("line is null!!");
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 
 	/***

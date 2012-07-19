@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.athrun.server.log.Log;
 import org.athrun.server.servlet.RemoteRegister;
@@ -37,11 +38,15 @@ public class RemoteDeviceManager {
 
 	public static List<Device> getDevices() {
 		ArrayList<Device> deviceList = new ArrayList<Device>();
-		for (String ip : remoteDeviceMap.keySet()) {
-			for (String serialNumber : remoteDeviceMap.get(ip).keySet()) {
-				deviceList.add(remoteDeviceMap.get(ip).get(serialNumber));
+		Set<String> ips = remoteDeviceMap.keySet();
+		if (ips != null) {
+			for (String ip : ips) {
+				for (String serialNumber : remoteDeviceMap.get(ip).keySet()) {
+					deviceList.add(remoteDeviceMap.get(ip).get(serialNumber));
+				}
 			}
 		}
+		
 		return deviceList;
 	}
 
@@ -124,7 +129,7 @@ public class RemoteDeviceManager {
 		uri.append("&").append("cp=").append(PropertiesUtil.getContextPath());
 		uri.append("&")
 				.append("sl=")
-				.append(encode(CaptureManager.getCaptureInfo(
+				.append(encode(CaptureManager.getInstance().getCaptureInfo(
 						device.getSerialNumber()).getSolution()));
 
 		httpGet(RemoteRegisterUrl + uri.toString());

@@ -25,8 +25,9 @@ public class Device {
 		this.ipAddress = iDevice.getProperty("dhcp.eth0.ipaddress");
 		this.cpuAbi = iDevice.getProperty("ro.product.cpu.abi");
 		this.serialNumber = iDevice.getSerialNumber();
-		this.solution = CaptureManager
+		this.solution = CaptureManager.getInstance()
 				.getCaptureInfo(iDevice.getSerialNumber()).getSolution();
+		
 		this.isRemote = isRemote;
 	}
 

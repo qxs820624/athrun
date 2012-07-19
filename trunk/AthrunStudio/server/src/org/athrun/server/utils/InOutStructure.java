@@ -1,34 +1,22 @@
-/**
- * 
- */
 package org.athrun.server.utils;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
 
-/**
- * @author taichan
- *
- */
 public class InOutStructure {
 	private DataInputStream in;
 	private PrintWriter out;
 
-	public InOutStructure(int port) throws IOException {
+	private void initialize(int port) throws Exception {
 		try {
 			Socket server = new Socket("127.0.0.1", port);
 			in = new DataInputStream(new BufferedInputStream(
 					server.getInputStream(), 1024));
 			out = new PrintWriter(server.getOutputStream());
-		} catch (UnknownHostException e) {			
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw e;
 		} 
 	}
 
@@ -40,25 +28,40 @@ public class InOutStructure {
 		return out;
 	}
 	
-	static Map<String, InOutStructure> inoutMap = new HashMap<String, InOutStructure>();
+	private InOutStructure() {
 		
-	public static InOutStructure GetCaptureInOutBySerialNumber(String serialNumber) throws ReservedPortExhaust, IOException{
-		synchronized (inoutMap) {
-			if(!inoutMap.containsKey(serialNumber)){
-				int port = ForwardPortManager.getCapturePort(serialNumber);
-				InOutStructure inOutStructure = new InOutStructure(port);
-				inoutMap.put(serialNumber, inOutStructure);
-			}
-			return inoutMap.get(serialNumber);			
-		}
 	}
+	
+	private static ThreadLocal<InOutStructure> iosLocal = new ThreadLocal<InOutStructure>(){
+		
+		@Override
+		public void set(InOutStructure value) {
+			super.set(value);
+		}
+		
+	};
+	
+	public static InOutStructure get() {
+		return (InOutStructure)(iosLocal.get());
+	}
+	
+	public static void set(InOutStructure ios) {
+		iosLocal.set(ios);
+	}
+		
+	public static InOutStructure getInOutStructure(String serialNumber) throws Exception{
+		assert serialNumber != null;
 
-	/**
-	 * @param serialNumber
-	 */
-	public static void reconnectCaptureInOut(String serialNumber) {
-		synchronized (inoutMap) {
-			inoutMap.remove(serialNumber);
-		}		
+		InOutStructure ios = InOutStructure.get();
+		if (ios == null) {
+			int port = ForwardPortManager.getCapturePort(serialNumber);
+			System.out.println("port: " + port);
+			InOutStructure inOutStructure = new InOutStructure();
+			inOutStructure.initialize(port);
+			InOutStructure.set(inOutStructure);
+			return inOutStructure;
+		}
+		
+		return ios;
 	}
 }
