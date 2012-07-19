@@ -1,11 +1,8 @@
 package org.athrun.server.service;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.concurrent.Callable;
-
 import org.athrun.server.utils.InOutStructure;
-import org.athrun.server.utils.ReservedPortExhaust;
 
 public class AdjustResizeTask implements Callable<TaskResult> {
 
@@ -37,13 +34,10 @@ public class AdjustResizeTask implements Callable<TaskResult> {
 		try {
 			inOutStructure.getIn().read(buffer);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		tr.setResult(buffer.toString());
 		return tr;
 	}
-
 }
