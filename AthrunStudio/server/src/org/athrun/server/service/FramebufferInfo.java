@@ -21,13 +21,42 @@ public class FramebufferInfo {
 	 * @param offset_green
 	 * @param offset_blue
 	 */
-	public FramebufferInfo(String framebufferInfo) {
-		String[] split = framebufferInfo.split(",");
-		this.width = split[0];
-		this.height = split[1];
-		this.offset_red = split[2];
-		this.offset_green = split[3];
-		this.offset_blue = split[4];
+	public FramebufferInfo() {
+		
+	}
+	
+	// 避免解析失败导致的异常
+	public void parseInfo(String framebufferInfo) {
+		if (framebufferInfo == null) {
+			return;
+		}
+		
+		String width = "";
+		String height = "";
+		String offset_red = "";
+		String offset_green = "";
+		String offset_blue = "";
+		boolean parseResult = false;
+		
+		try {
+			String[] split = framebufferInfo.split(",");
+			width = split[0];
+			height = split[1];
+			offset_red = split[2];
+			offset_green = split[3];
+			offset_blue = split[4];
+			parseResult = true;
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			//nothing to do
+		}
+		
+		if (parseResult) {
+			this.width = width;
+			this.height = height;
+			this.offset_red = offset_red;
+			this.offset_green = offset_green;
+			this.offset_blue = offset_blue;
+		}
 	}
 
 	/**

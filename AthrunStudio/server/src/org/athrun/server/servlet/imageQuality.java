@@ -37,7 +37,7 @@ public class imageQuality extends HttpServlet {
 		String value = request.getParameter("rate");
 		String serialNumber = request.getParameter("serialNumber");
 		try {
-			CaptureManager.processAdjustQuality(Integer.parseInt(value), serialNumber);
+			CaptureManager.getInstance().processAdjustQuality(Integer.parseInt(value), serialNumber);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

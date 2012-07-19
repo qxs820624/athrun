@@ -41,7 +41,7 @@ public class imageSize extends HttpServlet {
 		String value = request.getParameter("rate");
 		String serialNumber = request.getParameter("serialNumber");
 		try {
-			CaptureManager.processAdjustResize(Integer.parseInt(value),serialNumber);
+			CaptureManager.getInstance().processAdjustResize(Integer.parseInt(value),serialNumber);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
