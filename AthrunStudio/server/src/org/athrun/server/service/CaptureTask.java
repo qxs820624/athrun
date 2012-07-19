@@ -10,21 +10,27 @@ public class CaptureTask implements Callable<TaskResult> {
 
 	private String serialNumber;
 	
+	// 请求截屏时间
+	private long requestTime;
+	
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 	
+	public void setRequestTime(long requestTime) {
+		this.requestTime = requestTime;
+	}
+
+	// 实际测试发现：手机的每次截屏时间消耗很不均匀，对于配置较差的手机，最快的截屏消耗只要30ms，最慢时却要660ms
 	@Override
 	public TaskResult call() throws Exception {
 		TaskResult tr = new TaskResult();
 		
-		long start = System.currentTimeMillis();
-		
 		CaptureCache cc = CaptureCache.get();
 		long lastCaptureTime = cc.getLastCaptureTime();
-		long snapTimeConsume = cc.getSnapTimeConsume();
 		
-		if ((start - lastCaptureTime) < snapTimeConsume) {
+		// 如果请求时间小于最后截屏时间，则直接返回缓存的截屏图片数据
+		if (requestTime < lastCaptureTime) {
 			tr.setCached(true);
 			tr.setResult("screenshot complete!");
 			return tr;
@@ -53,20 +59,15 @@ public class CaptureTask implements Callable<TaskResult> {
 					break;
 				}
 			}
-
+	
+			cc.setLastCaptureTime(System.currentTimeMillis());
+			
+			// 将截屏结果缓存起来
+			TaskResult.cacheCaptureBuffer(serialNumber, captureBuffer, length);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		lastCaptureTime = System.currentTimeMillis();
-		snapTimeConsume = lastCaptureTime - start;
-		
-		cc.setLastCaptureTime(lastCaptureTime);
-		cc.setSnapTimeConsume(snapTimeConsume);
-		
-		// 将截屏结果缓存起来
-		TaskResult.cacheCaptureBuffer(serialNumber, captureBuffer, length);
-		
 		tr.setCached(true);
 		tr.setResult("2) screenshot complete!");
 		return tr;
