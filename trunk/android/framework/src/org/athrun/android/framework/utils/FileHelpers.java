@@ -6,18 +6,14 @@ package org.athrun.android.framework.utils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.log4j.Logger;
-import org.athrun.android.framework.AthrunDevice;
-import org.athrun.android.framework.LogConfigure;
+import android.util.Log;
 
 /**
  * @author taichan
  * 
  */
 public class FileHelpers {
-	private static final Logger logger = LogConfigure
-			.getLogger(AthrunDevice.class);
-
+	
 	public static void chmod(String filename, int permissions) {
 		// This was a bit problematic - there is an
 		// android.os.FileUtils.setPermissions()
@@ -37,24 +33,32 @@ public class FileHelpers {
 		// careful to catch any exceptions
 		// and print some output spew. /FF
 
-		try {
-			Class<?> fileUtils = Class.forName("android.os.FileUtils");
-			Method setPermissions = fileUtils.getMethod("setPermissions",
-					String.class, int.class, int.class, int.class);
-			int a = (Integer) setPermissions.invoke(null, filename,
-					permissions, -1, -1);
-			if (a != 0) {
-				logger.info("android.os.FileUtils.setPermissions() returned "
-						+ a + " for '" + filename + "', probably didn't work.");
-			}
-		} catch (ClassNotFoundException e) {
-			logger.info("android.os.FileUtils.setPermissions() failed - ClassNotFoundException.");
-		} catch (IllegalAccessException e) {
-			logger.info("android.os.FileUtils.setPermissions() failed - IllegalAccessException.");
-		} catch (InvocationTargetException e) {
-			logger.info("android.os.FileUtils.setPermissions() failed - InvocationTargetException.");
-		} catch (NoSuchMethodException e) {
-			logger.info("android.os.FileUtils.setPermissions() failed - NoSuchMethodException.");
+		try
+		{
+		    Class<?> fileUtils = Class.forName("android.os.FileUtils");
+		    Method setPermissions =
+		        fileUtils.getMethod("setPermissions", String.class, int.class, int.class, int.class);
+		    int a = (Integer) setPermissions.invoke(null, filename, permissions, -1, -1);
+		    if(a != 0)
+		    {
+				Log.i("NetHackDbg", "android.os.FileUtils.setPermissions() returned " + a + " for '" + filename + "', probably didn't work.");
+		    }
+		}
+		catch(ClassNotFoundException e)
+		{
+			Log.i("NetHackDbg", "android.os.FileUtils.setPermissions() failed - ClassNotFoundException.");
+		}
+		catch(IllegalAccessException e)
+		{
+			Log.i("NetHackDbg", "android.os.FileUtils.setPermissions() failed - IllegalAccessException.");
+		}
+		catch(InvocationTargetException e)
+		{
+			Log.i("NetHackDbg", "android.os.FileUtils.setPermissions() failed - InvocationTargetException.");
+		}
+		catch(NoSuchMethodException e)
+		{
+			Log.i("NetHackDbg", "android.os.FileUtils.setPermissions() failed - NoSuchMethodException.");
 		}
 	}
 }
