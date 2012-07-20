@@ -403,6 +403,22 @@ class UIAElementHelp {
 		}
 		return elements;
 	}
+	
+	public static UIATableGroup[] tableGroup(String guid) throws Exception {
+
+		UIATableGroup[] elements;
+		if (DEBUG) {
+			elements = (UIATableGroup[]) elementsJSONArray(guid, UIATableGroup.class);
+		} else {
+			String[] guids = guidArray(guid);
+			elements = new UIATableGroup[guids.length];
+			for (int i = 0; i < guids.length; i++) {
+				UIATableGroup element = new UIATableGroup(guids[i]);
+				elements[i] = element;
+			}
+		}
+		return elements;
+	}
 
 	public static UIAElement getElement(String guid) throws Exception {
 

@@ -5,7 +5,7 @@ package org.athrun.ios.instrumentdriver;
 
 /**
  * @author ziyu.hch
- *
+ * 
  */
 public class UIATableView extends UIAElement {
 
@@ -21,10 +21,15 @@ public class UIATableView extends UIAElement {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public UIATableCell [] cells() throws Exception{
-		
+
+	public UIATableCell[] cells() throws Exception {
+
 		return UIAElementHelp.cellsArray(this.guid + ".cells()");
+	}
+
+	public UIATableGroup[] groups() throws Exception {
+
+		return UIAElementHelp.tableGroup(this.guid + ".groups()");
 	}
 
 }
