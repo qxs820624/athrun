@@ -14,7 +14,7 @@ INSTRUMENT_ROOT=$2
 #APP_LOCATION="/Users/athrun/Desktop/TaoTest/build/Debug-iphonesimulator/TaoTest.app"
 
 echo $XCODE_PATH
-
+echo instruments -t $TRACETEMPLATE "$APP_LOCATION" -e UIASCRIPT  "$INSTRUMENT_ROOT"/CSRunner.js -e UIARESULTSPATH  "$INSTRUMENT_ROOT"/log/
 
 
 instruments \
@@ -22,4 +22,6 @@ instruments \
 "$APP_LOCATION" \
 -e UIASCRIPT  "$INSTRUMENT_ROOT"/CSRunner.js \
 -e UIARESULTSPATH  "$INSTRUMENT_ROOT"/log/
+
+
 
