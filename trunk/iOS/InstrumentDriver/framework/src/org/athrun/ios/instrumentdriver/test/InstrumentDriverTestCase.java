@@ -76,8 +76,10 @@ public class InstrumentDriverTestCase {
 
 		proc.waitFor();
 		proc.destroy();
+
 		String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
 		Process pro = Runtime.getRuntime().exec(cmd);
+		pro.waitFor();
 		pro.destroy();
 
 	}
