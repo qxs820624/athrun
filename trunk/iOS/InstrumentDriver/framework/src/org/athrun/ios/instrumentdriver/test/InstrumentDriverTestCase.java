@@ -63,7 +63,8 @@ public class InstrumentDriverTestCase {
 		System.out.println("shellCmd:\t" + shellCmd);
 
 		proc = Runtime.getRuntime().exec(cmd);
-		Thread instrument = new Thread(new StartInstruments(), "instrument");
+		Thread instrument = new Thread(new ReadInstrumentsOutPut(),
+				"instruments");
 		instrument.setPriority(6);
 		instrument.start();
 
@@ -84,7 +85,7 @@ public class InstrumentDriverTestCase {
 
 	}
 
-	class StartInstruments implements Runnable {
+	class ReadInstrumentsOutPut implements Runnable {
 
 		@Override
 		public void run() {
