@@ -5,12 +5,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.athrun.ddmlib.AdbCommandRejectedException;
 import org.athrun.ddmlib.IDevice;
 import org.athrun.ddmlib.SyncException;
 import org.athrun.ddmlib.TimeoutException;
+import org.athrun.server.struts.Device;
+import org.athrun.server.struts.Devices;
 import org.athrun.server.utils.ReservedPortExhaust;
 
 public class CaptureManager {
@@ -114,6 +117,10 @@ public class CaptureManager {
 			CaptureService service = new CaptureService();
 			captureServiceMap.put(serialNumber, service);
 		}
+		
+		// 通知服务端在线手机信息
+		List<Device> onlineDevices = Devices.getCurrent().getDevices();	
+		MsgProcessor.notifyOnlineDevices(onlineDevices);
 	}
 	
 	public CaptureService getCaptureService(String serialNumber) {

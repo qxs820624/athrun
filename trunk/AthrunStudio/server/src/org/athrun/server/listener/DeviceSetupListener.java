@@ -1,8 +1,11 @@
 package org.athrun.server.listener;
 
+import java.io.IOException;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.athrun.client.AthrunSlaveClient;
 import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
 import org.athrun.server.service.EventServiceManager;
@@ -14,6 +17,8 @@ import org.athrun.server.service.RemoteDeviceManager;
  */
 public class DeviceSetupListener implements ServletContextListener {
 
+	private AthrunSlaveClient client;
+	
 	/**
 	 * Default constructor.
 	 * 
@@ -32,6 +37,17 @@ public class DeviceSetupListener implements ServletContextListener {
 		DeviceManager.CreateAdb();
 		RemoteDeviceManager.getInstance();
 		EventServiceManager.getInstance();
+		
+		String host="10.13.47.33";
+		int port = 53024;
+		
+		client = new AthrunSlaveClient(host, port);
+		try {
+			client.run();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -40,6 +56,10 @@ public class DeviceSetupListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 		DeviceManager.RemoveAdb();
+		
+		if (client != null) {
+			client.shutdown();
+		}
 	}
 
 }
