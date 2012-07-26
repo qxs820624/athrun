@@ -19,8 +19,26 @@ public class AthrunSlaveClient {
 	private final String host;
     private final int port;
     private static ChannelFuture future;
+    private static String apksDir;
+    private static String snapshotsDir;
+    
+    public static String getApksDir() {
+		return apksDir;
+	}
 
-    public AthrunSlaveClient(String host, int port) {
+	public static void setApksDir(String apksDir) {
+		AthrunSlaveClient.apksDir = apksDir;
+	}
+	
+	public static String getSnapshotsDir() {
+		return snapshotsDir;
+	}
+
+	public static void setSnapshotsDir(String snapshotsDir) {
+		AthrunSlaveClient.snapshotsDir = snapshotsDir;
+	}
+
+	public AthrunSlaveClient(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -61,11 +79,20 @@ public class AthrunSlaveClient {
     	}
     }
     
-    // 发送消息给服务端
+    // 以同步的方式发送消息给服务端
     public synchronized static void sendAthrunMsg(AthrunMsg msg) {
     	Channel channel = future.getChannel();
     	if(channel != null) {
-    		channel.write(msg);
+    		ChannelFuture future = channel.write(msg);
+    		// 此处不能await，会遭致死锁！！
+    		/*
+    		try {
+				future.await();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			*/
     	}
     } 
 	

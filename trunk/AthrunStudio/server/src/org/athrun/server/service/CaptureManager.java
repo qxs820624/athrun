@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
+import org.athrun.client.AthrunSlaveClient;
 import org.athrun.ddmlib.AdbCommandRejectedException;
 import org.athrun.ddmlib.IDevice;
 import org.athrun.ddmlib.SyncException;
@@ -26,6 +28,31 @@ public class CaptureManager {
 
 	public static CaptureManager getInstance() {
 		return instance;
+	}
+	
+	public void runMonkeyTest(String serialNumber, String testcaseName, String packageName, String activityName, int testCount) {
+		CaptureService service = getCaptureService(serialNumber);
+		if (service != null) {
+			String snapshotsDir = AthrunSlaveClient.getSnapshotsDir();
+			String deviceSnapshotsPath = snapshotsDir + File.separator + serialNumber + File.separator + testcaseName;
+			File serialDirFile = new File(deviceSnapshotsPath);
+			// 会递归创建目录
+			serialDirFile.mkdirs();
+			
+			service.runMonkeyTest(serialNumber, deviceSnapshotsPath, packageName, activityName, testCount);
+			
+			/*
+			//FOR DEBUG
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			*/
+			
+			MsgProcessor.sendMonkeyResult(serialNumber, testcaseName, deviceSnapshotsPath);
+		}
 	}
 
 	public void processAdjustQuality(int qualityRate, String serialNumber)
@@ -75,7 +102,7 @@ public class CaptureManager {
 			return;
 		}
 		
-		TaskResult tr = service.capture(serialNumber, output);
+		TaskResult tr = service.capture(serialNumber);
 		
 		long internal = System.currentTimeMillis() - start;
 		
