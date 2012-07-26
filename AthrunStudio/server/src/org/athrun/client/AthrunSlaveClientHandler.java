@@ -18,6 +18,7 @@ import org.athrun.ddmlib.IDevice;
 import org.athrun.ddmlib.InstallException;
 import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
+import org.athrun.server.service.MobileCaptureBuffer;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
@@ -106,7 +107,31 @@ public class AthrunSlaveClientHandler extends SimpleChannelHandler {
 				ack.setInfo(ackObj.toString());
 
 				e.getChannel().write(ack);
-			} else if (key.equals("run-monkey-test")) {
+			} else if (key.equals("connect-ack")) {
+				String serialNumber = jsonObj.getString("serialNumber");
+				// 发起取截图任务
+				MobileCaptureBuffer captureBuffer = CaptureManager.getInstance().getSnapshot(serialNumber);
+				if (captureBuffer != null) {
+					AthrunMsg snapshotMsg = new AthrunMsg();
+
+					JSONObject snapshotObj = new JSONObject();
+					snapshotObj.put("key", "snapshot");
+					
+					snapshotMsg.setInfo(snapshotObj.toString());
+					
+					
+					snapshotMsg.setPicture(true);
+					snapshotMsg.setPictureContent(captureBuffer.getCaptureBuffer());
+					// 指定精确长度，避免内存拷贝
+					snapshotMsg.setPictureContentLength(captureBuffer.getCaptureLength());
+
+					e.getChannel().write(snapshotMsg);
+				}
+			}
+			
+			
+			
+			else if (key.equals("run-monkey-test")) {
 				//String serialNumber, String packageName, String activityName, int testCount
 				
 				String serialNumber = jsonObj.getString("serialNumber");
@@ -145,6 +170,7 @@ public class AthrunSlaveClientHandler extends SimpleChannelHandler {
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
 		e.getCause().printStackTrace();
-		e.getChannel().close();
+		// TODO：可能还是需要加上
+		//e.getChannel().close();
 	}
 }

@@ -5,23 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.util.Date;
-import java.util.concurrent.Callable;
 
-import org.apache.catalina.connector.ClientAbortException;
 import org.athrun.ddmlib.AdbCommandRejectedException;
 import org.athrun.ddmlib.IDevice;
 import org.athrun.ddmlib.ShellCommandUnresponsiveException;
 import org.athrun.ddmlib.TimeoutException;
 import org.athrun.server.adb.OutputStreamShellOutputReceiver;
-import org.athrun.server.service.CaptureManager;
-import org.athrun.server.service.DeviceManager;
-import org.athrun.server.service.TaskResult;
-import org.athrun.server.utils.InOutStructure;
 import org.athrun.test.server.util.AthrunTestRunner;
 
-public class MonkeyTestTask implements Callable<TaskResult> {
+public class MonkeyTestExecutor {
 	private String packageName;
 	
 	private String activityName;
@@ -34,7 +27,7 @@ public class MonkeyTestTask implements Callable<TaskResult> {
 	
 	private String deviceSnapshotsPath;
 	
-	public MonkeyTestTask(String packageName, String activityName,
+	public MonkeyTestExecutor(String packageName, String activityName,
 			int testCount) {
 		this.packageName = packageName;
 		this.activityName = activityName;
@@ -140,35 +133,7 @@ public class MonkeyTestTask implements Callable<TaskResult> {
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream(new File(deviceSnapshotsPath + File.separator + fileName));
-			//CaptureManager.getInstance().register(serialNumber, os);
-			
-			CaptureCache cc = CaptureCache.get();						
-			InOutStructure inOutStructure = InOutStructure
-					.getInOutStructure(serialNumber);
-
-			int length = 0;
-			byte[] captureBuffer = cc.getCaptureBuffer();
-			
-			ByteBuffer bb = ByteBuffer.wrap(captureBuffer);
-			
-			inOutStructure.GetOut().println("snap");
-			inOutStructure.GetOut().flush();
-			
-			byte[] buffer = new byte[1024];
-			
-			while(true) {
-				int read = inOutStructure.getIn().read(buffer);
-				length += read;
-				bb.put(buffer, 0, read);
-				
-				if (read != 1024) {
-					break;
-				}
-			}	
-			
-			// 将截屏结果写入文件		
-			out.write(captureBuffer, 0, length);
-			out.flush();
+			CaptureManager.getInstance().register(serialNumber, out);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,12 +150,5 @@ public class MonkeyTestTask implements Callable<TaskResult> {
 				}
 			}
 		}		
-	}
-
-	@Override
-	public TaskResult call() throws Exception {
-		execute();
-		
-		return null;
 	}
 }
