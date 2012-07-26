@@ -8,6 +8,8 @@ public class AthrunMsg {
 	private String info;
 
 	private byte[] pictureContent;
+	
+	private int pictureContentLength = -1;
 
 	private boolean isPicture;
 
@@ -37,6 +39,14 @@ public class AthrunMsg {
 
 	public void setPictureContent(byte[] pictureContent) {
 		this.pictureContent = pictureContent;
+	}
+	
+	public int getPictureContentLength() {
+		return pictureContentLength;
+	}
+
+	public void setPictureContentLength(int pictureContentLength) {
+		this.pictureContentLength = pictureContentLength;
 	}
 
 	/*
@@ -81,8 +91,15 @@ public class AthrunMsg {
 		int int_isPicture = isPicture ? 1 : 0;
 
 		byte[] picture_data = pictureContent;
-		int picture_data_length = (picture_data == null) ? 0
-				: picture_data.length;
+		int picture_data_length = 0;
+		
+		if (pictureContentLength != -1) {
+			picture_data_length = pictureContentLength;
+		} else {
+			picture_data_length = (picture_data == null) ? 0
+					: picture_data.length;
+		}
+		
 
 		int total_length = 0;
 
@@ -103,7 +120,7 @@ public class AthrunMsg {
 		// дͼƬ
 		if (isPicture) {
 			buf.writeInt(picture_data_length);
-			buf.writeBytes(picture_data);
+			buf.writeBytes(picture_data, 0, picture_data_length);
 		}
 	}
 }

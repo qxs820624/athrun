@@ -1,35 +1,10 @@
 package org.athrun.server.service;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.catalina.connector.ClientAbortException;
-
 public class TaskResult {
-	
-	static class MobileCaptureBuffer {
-		private final byte[] captureBuffer = new byte[500000];
-		private int captureLength = 0;
-		
-		public void cacheCaptureBuffer(byte[] buffer, int length) {
-			System.arraycopy(buffer, 0, captureBuffer, 0, length);
-			captureLength = length;
-		}
-		
-		public void writeToOutput(OutputStream out) {
-			try {
-				out.write(captureBuffer, 0, captureLength);
-				out.flush();
-				out.close();
-			} catch(ClientAbortException cae) {
-				cae.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} 
-		}
-	}
 	
 	private String result;
 	
@@ -72,6 +47,21 @@ public class TaskResult {
 			if (captureBuffer != null) {
 				captureBuffer.writeToOutput(out);
 			}
+		}
+	}
+	
+	public static MobileCaptureBuffer cloneCaptureBuffer(String serialNumber) {
+		MobileCaptureBuffer clone = null;
+		synchronized(TaskResult.class) {
+			MobileCaptureBuffer captureBuffer = captureBufferMap.get(serialNumber);
+			if (captureBuffer == null) {
+				return clone;
+			}
+			
+			clone = new MobileCaptureBuffer();
+			clone.clone(captureBuffer);
+			
+			return clone;
 		}
 	}
 }

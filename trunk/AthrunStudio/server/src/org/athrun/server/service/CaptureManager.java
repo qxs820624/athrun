@@ -119,6 +119,22 @@ public class CaptureManager {
 			TaskResult.writeToOutput(serialNumber, output);
 		}
 	}
+	
+	public MobileCaptureBuffer getSnapshot(String serialNumber) {
+		
+		CaptureService service = getCaptureService(serialNumber);
+		if (service == null) {
+			return null;
+		}
+		
+		TaskResult tr = service.capture(serialNumber);
+	
+		if ((tr != null) &&(tr.isCached())) {
+			return TaskResult.cloneCaptureBuffer(serialNumber);
+		}
+		
+		return null;
+	}
 
 	/**
 	 * @param serialNumber

@@ -1,5 +1,6 @@
 package org.athrun.server.service;
 
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,22 +12,12 @@ public class CaptureService {
 
 	private final ExecutorService executor = Executors.newSingleThreadExecutor();
 	
-	public TaskResult runMonkeyTest(String serialNumber, String deviceSnapshotsPath, String packageName, String activityName, int testCount) {
-		MonkeyTestTask task = new MonkeyTestTask(packageName, activityName, testCount);
+	public void runMonkeyTest(String serialNumber, String deviceSnapshotsPath, String packageName, String activityName, int testCount) {
+		MonkeyTestExecutor task = new MonkeyTestExecutor(packageName, activityName, testCount);
 		task.setSerialNumber(serialNumber);
 		task.setDeviceSnapshotsPath(deviceSnapshotsPath);
-		Future<TaskResult> future = executor.submit(task);
-		TaskResult tr = null;
-
-		try {
-			tr = future.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
 		
-		return tr;
+		task.execute();
 	}
 	
 	public TaskResult capture(String serialNumber) {

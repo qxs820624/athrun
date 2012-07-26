@@ -78,7 +78,7 @@ public class MsgProcessor {
 	private static void sendSnapshot(String serialNumber, String testcaseName, File snapshotFile) {
 		AthrunMsg msg = new AthrunMsg();
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("key", "snapshot");
+		jsonObject.put("key", "result");
 		jsonObject.put("serialNumber", serialNumber);
 		jsonObject.put("testcaseName", testcaseName);
 		jsonObject.put("fileName", snapshotFile.getName());
