@@ -1,10 +1,12 @@
 package org.athrun.server.listener;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.apache.struts2.ServletActionContext;
 import org.athrun.client.AthrunSlaveClient;
 import org.athrun.server.service.CaptureManager;
 import org.athrun.server.service.DeviceManager;
@@ -38,16 +40,39 @@ public class DeviceSetupListener implements ServletContextListener {
 		RemoteDeviceManager.getInstance();
 		EventServiceManager.getInstance();
 		
-		String host="10.13.47.33";
-		int port = 53024;
+		new Thread() {
+			public void run() {
+				String host="10.13.47.33";
+				int port = 53024;
+				
+				client = new AthrunSlaveClient(host, port);
+				try {
+					client.run();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}.start();
 		
-		client = new AthrunSlaveClient(host, port);
-		try {
-			client.run();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		String clsesDir = DeviceSetupListener.class.getResource("/").getPath();
+		int lastWebInfoPos = clsesDir.lastIndexOf("WEB-INF");
+		String webRootDir = clsesDir.substring(0, lastWebInfoPos);
+		String apksDir = webRootDir + "apks";
+		String snapshotsDir = webRootDir + "snapshots";
+		
+		System.out.println("apksDir: " + apksDir);
+		System.out.println("snapshotsDir: " + snapshotsDir);
+		/*
+		File file = new File(apksDir);
+		if (file.exists()) {
+			System.out.println("file exist!");
+			System.out.println("file is directory: " +  file.isDirectory());
 		}
+		*/
+		
+		AthrunSlaveClient.setApksDir(apksDir);
+		AthrunSlaveClient.setSnapshotsDir(snapshotsDir);
 	}
 
 	/**

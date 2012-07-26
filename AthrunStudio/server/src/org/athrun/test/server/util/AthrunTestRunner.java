@@ -85,16 +85,22 @@ public class AthrunTestRunner {
 						break;
 					}
 					
-					// 指示服务端截屏
-					if (line.equals("run::snapshot-req")) {
-						String fileName = new Date().getTime() + ".jpg";
-						OutputStream os = new FileOutputStream(new File(snapshotDir + File.separator + fileName));
-						CaptureManager.getInstance().register(serialNumber, os);
-						
-						monkeyWriter.write("run::snapshot-ack" + "\n");
-						monkeyWriter.flush();
+					OutputStream os = null;
+					try {
+						// 指示服务端截屏
+						if (line.equals("run::snapshot-req")) {
+							String fileName = new Date().getTime() + ".jpg";
+							os = new FileOutputStream(new File(snapshotDir + File.separator + fileName));
+							CaptureManager.getInstance().register(serialNumber, os);
+							
+							monkeyWriter.write("run::snapshot-ack" + "\n");
+							monkeyWriter.flush();
+						}
+					} finally {
+						if (os != null) {
+							os.close();
+						}
 					}
-					
 				} else {
 					try {
 						Thread.sleep(2000);
