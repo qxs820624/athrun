@@ -86,7 +86,7 @@ public class MonkeyTestExecutor {
 			new Thread(){
 				public void run(){
 					while(isRunning){
-						
+						// 可能需要从外面传进来
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
