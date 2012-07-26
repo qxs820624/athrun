@@ -83,7 +83,7 @@ public class MonkeyTestExecutor {
 		if (device != null) {
 			new RunTestMonkeyThread(device).start();
 			AthrunTestRunner.start(device);
-			new Thread(){
+			Thread snapshotThread = new Thread(){
 				public void run(){
 					while(isRunning){
 						// 可能需要从外面传进来
@@ -97,10 +97,14 @@ public class MonkeyTestExecutor {
 						snapshot(deviceSnapshotsPath);
 					}
 				}
-			}.start();
+			};
+			
+			snapshotThread.start();
+
 			try {
 				device.executeShellCommand(monkeyCmd(packageName, testCount), new OutputStreamShellOutputReceiver(System.out));
 				isRunning = false;
+				snapshotThread.join();
 			} catch (TimeoutException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -111,6 +115,9 @@ public class MonkeyTestExecutor {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ShellCommandUnresponsiveException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
