@@ -131,6 +131,58 @@ void  adb_trace_init(void)
     }
 }
 
+#if !ADB_HOST
+/*
+ * Implements ADB tracing inside the emulator.
+ */
+
+#include <stdarg.h>
+
+/*
+ * Redefine open and write for qemu_pipe.h that contains inlined references
+ * to those routines. We will redifine them back after qemu_pipe.h inclusion.
+ */
+
+#undef open
+#undef write
+#define open    adb_open
+#define write   adb_write
+#include <hardware/qemu_pipe.h>
+#undef open
+#undef write
+#define open    ___xxx_open
+#define write   ___xxx_write
+
+/* A handle to adb-debug qemud service in the emulator. */
+int   adb_debug_qemu = -1;
+
+/* Initializes connection with the adb-debug qemud service in the emulator. */
+static int adb_qemu_trace_init(void)
+{
+    char con_name[32];
+
+    if (adb_debug_qemu >= 0) {
+        return 0;
+    }
+
+    /* adb debugging QEMUD service connection request. */
+    snprintf(con_name, sizeof(con_name), "qemud:adb-debug");
+    adb_debug_qemu = qemu_pipe_open(con_name);
+    return (adb_debug_qemu >= 0) ? 0 : -1;
+}
+
+void adb_qemu_trace(const char* fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    char msg[1024];
+
+    if (adb_debug_qemu >= 0) {
+        vsnprintf(msg, sizeof(msg), fmt, args);
+        adb_write(adb_debug_qemu, msg, strlen(msg));
+    }
+}
+#endif  /* !ADB_HOST */
 
 apacket *get_apacket(void)
 {
@@ -295,6 +347,13 @@ void parse_banner(char *banner, atransport *t)
     if(!strcmp(type, "recovery")) {
         D("setting connection_state to CS_RECOVERY\n");
         t->connection_state = CS_RECOVERY;
+        update_transports();
+        return;
+    }
+
+    if(!strcmp(type, "sideload")) {
+        D("setting connection_state to CS_SIDELOAD\n");
+        t->connection_state = CS_SIDELOAD;
         update_transports();
         return;
     }
@@ -728,9 +787,13 @@ int launch_server(int server_port)
     /* get path of current program */
     GetModuleFileName( NULL, program_path, sizeof(program_path) );
 
+    char cmd[512];
+    snprintf(cmd, sizeof cmd, "adb adb-port %d fork-server server", dEFAULT_ADB_PORT);
+    D("taichan: cmd for server. %s\n",&cmd);
+
     ret = CreateProcess(
             program_path,                              /* program path  */
-            "adb fork-server server",
+            &cmd,
                                     /* the fork-server argument will set the
                                        debug = 2 in the child           */
             NULL,                   /* process handle is not inheritable */
@@ -793,7 +856,16 @@ int launch_server(int server_port)
         adb_close(fd[1]);
 
         // child process
-        int result = execl(path, "adb", "fork-server", "server", NULL);
+	D("taichan starting server: %s %d\n","adb-port", dEFAULT_ADB_PORT);
+
+	char port_str[10];
+
+	if (sscanf(port_str, "%d", &dEFAULT_ADB_PORT) != 1) {
+	    fprintf(stderr, "bad port number %d \n", dEFAULT_ADB_PORT);
+            return -1;
+        }
+
+        int result = execl(path, "adb" , "adb-port", port_str, "fork-server", "server", NULL);
         // this should not return
         fprintf(stderr, "OOPS! execl returned %d, errno: %d\n", result, errno);
     } else  {
@@ -835,12 +907,47 @@ void build_local_name(char* target_str, size_t target_size, int server_port)
   snprintf(target_str, target_size, "tcp:%d", server_port);
 }
 
+#if !ADB_HOST
+static int should_drop_privileges() {
+#ifndef ALLOW_ADBD_ROOT
+    return 1;
+#else /* ALLOW_ADBD_ROOT */
+    int secure = 0;
+    char value[PROPERTY_VALUE_MAX];
+
+   /* run adbd in secure mode if ro.secure is set and
+    ** we are not in the emulator
+    */
+    property_get("ro.kernel.qemu", value, "");
+    if (strcmp(value, "1") != 0) {
+        property_get("ro.secure", value, "1");
+        if (strcmp(value, "1") == 0) {
+            // don't run as root if ro.secure is set...
+            secure = 1;
+
+            // ... except we allow running as root in userdebug builds if the
+            // service.adb.root property has been set by the "adb root" command
+            property_get("ro.debuggable", value, "");
+            if (strcmp(value, "1") == 0) {
+                property_get("service.adb.root", value, "");
+                if (strcmp(value, "1") == 0) {
+                    secure = 0;
+                }
+            }
+        }
+    }
+    return secure;
+#endif /* ALLOW_ADBD_ROOT */
+}
+#endif /* !ADB_HOST */
+
 int adb_main(int is_daemon, int server_port)
 {
 #if !ADB_HOST
-    int secure = 0;
     int port;
     char value[PROPERTY_VALUE_MAX];
+
+    umask(000);
 #endif
 
     atexit(adb_cleanup);
@@ -866,31 +973,10 @@ int adb_main(int is_daemon, int server_port)
         exit(1);
     }
 #else
-    /* run adbd in secure mode if ro.secure is set and
-    ** we are not in the emulator
-    */
-    property_get("ro.kernel.qemu", value, "");
-    if (strcmp(value, "1") != 0) {
-        property_get("ro.secure", value, "1");
-        if (strcmp(value, "1") == 0) {
-            // don't run as root if ro.secure is set...
-            secure = 1;
-
-            // ... except we allow running as root in userdebug builds if the
-            // service.adb.root property has been set by the "adb root" command
-            property_get("ro.debuggable", value, "");
-            if (strcmp(value, "1") == 0) {
-                property_get("service.adb.root", value, "");
-                if (strcmp(value, "1") == 0) {
-                    secure = 0;
-                }
-            }
-        }
-    }
 
     /* don't listen on a port (default 5037) if running in secure mode */
     /* don't run as root if we are running in secure mode */
-    if (secure) {
+    if (should_drop_privileges()) {
         struct __user_cap_header_struct header;
         struct __user_cap_data_struct cap;
 
@@ -905,11 +991,14 @@ int adb_main(int is_daemon, int server_port)
         ** AID_INET to diagnose network issues (netcfg, ping)
         ** AID_GRAPHICS to access the frame buffer
         ** AID_NET_BT and AID_NET_BT_ADMIN to diagnose bluetooth (hcidump)
+        ** AID_SDCARD_R to allow reading from the SD card
         ** AID_SDCARD_RW to allow writing to the SD card
         ** AID_MOUNT to allow unmounting the SD card before rebooting
+        ** AID_NET_BW_STATS to read out qtaguid statistics
         */
         gid_t groups[] = { AID_ADB, AID_LOG, AID_INPUT, AID_INET, AID_GRAPHICS,
-                           AID_NET_BT, AID_NET_BT_ADMIN, AID_SDCARD_RW, AID_MOUNT };
+                           AID_NET_BT, AID_NET_BT_ADMIN, AID_SDCARD_R, AID_SDCARD_RW,
+                           AID_MOUNT, AID_NET_BW_STATS };
         if (setgroups(sizeof(groups)/sizeof(groups[0]), groups) != 0) {
             exit(1);
         }
@@ -1268,14 +1357,54 @@ int handle_host_request(char *service, transport_type ttype, char* serial, int r
 int recovery_mode = 0;
 #endif
 
+
+int dEFAULT_ADB_PORT = DEFAULT_ADB_PORT;
+char adb_s[512];
+
 int main(int argc, char **argv)
 {
+
+	if((argc > 1) && !strcmp(argv[1], "adb-port")){
+		D("get in by taichan.\n");
+		int adb_port;
+		if (argc < 3)
+		{
+			fprintf(stderr, "adb-port passed with no port number.\n");
+            return usage();
+		}
+		else{
+			adb_port = atoi(argv[2]);
+			if(adb_port==0) {
+				fprintf(stderr, "adb-port should passed with port number large than zero.\n");
+				return usage();
+			}
+			else{
+				fprintf(stdout, "start adb using fix port mode. with port %d.\n",adb_port);
+				dEFAULT_ADB_PORT = adb_port;
+			}
+			argv=argv+2;
+			argc--;
+		}
+
+		if(!strcmp(argv[1], "adb-s")){
+			strcpy(adb_s,argv[2]); 
+			fprintf(stdout, "%s.\n", &adb_s);
+			// TODO error handle
+			
+			argv=argv+2;
+			argc--;
+		}
+	}
+
 #if ADB_HOST
     adb_sysdeps_init();
     adb_trace_init();
     D("Handling commandline()\n");
     return adb_commandline(argc - 1, argv + 1);
 #else
+    /* If adbd runs inside the emulator this will enable adb tracing via
+     * adb-debug qemud service in the emulator. */
+    adb_qemu_trace_init();
     if((argc > 1) && (!strcmp(argv[1],"recovery"))) {
         adb_device_banner = "recovery";
         recovery_mode = 1;
@@ -1283,6 +1412,6 @@ int main(int argc, char **argv)
 
     start_device_log();
     D("Handling main()\n");
-    return adb_main(0, DEFAULT_ADB_PORT);
+    return adb_main(0, dEFAULT_ADB_PORT);
 #endif
 }
