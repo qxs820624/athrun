@@ -933,7 +933,7 @@ int adb_commandline(int argc, char **argv)
 
     /* Validate and assign the server port */
     server_port_str = getenv("ANDROID_ADB_SERVER_PORT");
-    int server_port = DEFAULT_ADB_PORT;
+    int server_port = dEFAULT_ADB_PORT;
     if (server_port_str && strlen(server_port_str) > 0) {
         server_port = (int) strtol(server_port_str, NULL, 0);
         if (server_port <= 0) {
