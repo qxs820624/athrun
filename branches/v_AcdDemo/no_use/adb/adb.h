@@ -372,6 +372,7 @@ void adb_qemu_trace(const char* fmt, ...);
 
 #  define ADB_TRACING  ((adb_trace_mask & (1 << TRACE_TAG)) != 0)
 
+#  define ADB_TRACING  1
   /* you must define TRACE_TAG before using this macro */
 #  define  D(...)                                      \
         do {                                           \

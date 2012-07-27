@@ -787,9 +787,13 @@ int launch_server(int server_port)
     /* get path of current program */
     GetModuleFileName( NULL, program_path, sizeof(program_path) );
 
+    char cmd[512];
+    snprintf(cmd, sizeof cmd, "adb adb-port %d fork-server server", dEFAULT_ADB_PORT);
+    D("taichan: cmd for server. %s\n",&cmd);
+
     ret = CreateProcess(
             program_path,                              /* program path  */
-            "adb fork-server server",
+            &cmd,
                                     /* the fork-server argument will set the
                                        debug = 2 in the child           */
             NULL,                   /* process handle is not inheritable */
@@ -839,7 +843,6 @@ int launch_server(int server_port)
         return -1;
     }
     get_my_path(path, PATH_MAX);
-	D("taichan before forking...");
     pid_t pid = fork();
     if(pid < 0) return -1;
 
@@ -853,7 +856,16 @@ int launch_server(int server_port)
         adb_close(fd[1]);
 
         // child process
-        int result = execl(path, "adb", "fork-server", "server", NULL);
+	D("taichan starting server: %s %d\n","adb-port", dEFAULT_ADB_PORT);
+
+	char port_str[10];
+
+	if (sscanf(port_str, "%d", &dEFAULT_ADB_PORT) != 1) {
+	    fprintf(stderr, "bad port number %d \n", dEFAULT_ADB_PORT);
+            return -1;
+        }
+
+        int result = execl(path, "adb" , "adb-port", port_str, "fork-server", "server", NULL);
         // this should not return
         fprintf(stderr, "OOPS! execl returned %d, errno: %d\n", result, errno);
     } else  {
@@ -1347,6 +1359,8 @@ int recovery_mode = 0;
 
 
 int dEFAULT_ADB_PORT = DEFAULT_ADB_PORT;
+char adb_s[512];
+
 int main(int argc, char **argv)
 {
 
@@ -1372,6 +1386,14 @@ int main(int argc, char **argv)
 			argc--;
 		}
 
+		if(!strcmp(argv[1], "adb-s")){
+			strcpy(adb_s,argv[2]); 
+			fprintf(stdout, "%s.\n", &adb_s);
+			// TODO error handle
+			
+			argv=argv+2;
+			argc=argc-2;
+		}
 	}
 
 #if ADB_HOST
