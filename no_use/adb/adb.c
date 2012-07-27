@@ -1383,7 +1383,7 @@ int main(int argc, char **argv)
 				dEFAULT_ADB_PORT = adb_port;
 			}
 			argv=argv+2;
-			argc--;
+			argc=argc-2;
 		}
 
 		if(!strcmp(argv[1], "adb-s")){
