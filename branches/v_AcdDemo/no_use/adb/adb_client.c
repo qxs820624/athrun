@@ -213,7 +213,6 @@ int adb_connect(const char *service)
 
     D("adb_connect: service %s\n", service);
     if(fd == -2) {
-	fprintf(stdout,"start by taichan...");
         fprintf(stdout,"* daemon not running. starting it now on port %d *\n",
                 __adb_server_port);
     start_server:
