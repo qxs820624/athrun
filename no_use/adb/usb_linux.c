@@ -550,8 +550,7 @@ static void register_device(const char *dev_name,
         */
     adb_mutex_lock(&usb_lock);
     for(usb = handle_list.next; usb != &handle_list; usb = usb->next){
-	D("taichan: dev name: %s\n",dev_name);
-        if(!strcmp(usb->fname, dev_name)) {	    
+        if(!strcmp(usb->fname, dev_name)) {
             adb_mutex_unlock(&usb_lock);
             return;
         }
