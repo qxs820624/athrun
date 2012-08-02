@@ -46,16 +46,24 @@ public class CaptureTask implements Callable<TaskResult> {
 		
 		try {
 			inOutStructure.GetOut().println("snap");
+			// flush会添加回车换行符
 			inOutStructure.GetOut().flush();
 			
 			byte[] buffer = new byte[1024];
 			
+			int dataLen = inOutStructure.getIn().readInt();
+			int remainder = dataLen;
+			
 			while(true) {
-				int read = inOutStructure.getIn().read(buffer);
+				// 准备接收的长度
+				int expect_recv_len = (remainder > 1024) ? 1024 : remainder;
+				int read = inOutStructure.getIn().read(buffer, 0, expect_recv_len);
 				length += read;
 				bb.put(buffer, 0, read);
 				
-				if (read != 1024) {
+				remainder = dataLen - length;
+				// 如果剩余接收长度为0，说明已经接收完全
+				if (remainder == 0) {
 					break;
 				}
 			}
