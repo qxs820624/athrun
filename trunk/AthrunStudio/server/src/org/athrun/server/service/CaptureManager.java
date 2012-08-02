@@ -41,16 +41,6 @@ public class CaptureManager {
 			
 			service.runMonkeyTest(serialNumber, deviceSnapshotsPath, packageName, activityName, testCount);
 			
-			/*
-			//FOR DEBUG
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			*/
-			
 			MsgProcessor.sendMonkeyResult(serialNumber, testcaseName, deviceSnapshotsPath);
 		}
 	}
