@@ -106,6 +106,8 @@ public class DeviceManager {
 	// 说明device已经连接
 	public static void add(IDevice device) {
 		String serialNumber = device.getSerialNumber();
+		
+		
 		synchronized (deviceList) {
 			if (deviceList.containsKey(serialNumber)) {
 				// 什么都不做
@@ -115,6 +117,8 @@ public class DeviceManager {
 				deviceList.put(serialNumber, device);
 			}
 		}
+
+		
 		CaptureManager.getInstance().add(serialNumber);
 		RemoteDeviceManager.register(new Device(device, true));
 	}
@@ -168,6 +172,7 @@ public class DeviceManager {
 				device.executeShellCommand("chmod 777 "
 						+ CaptureManager.remotePath,
 						new OutputStreamShellOutputReceiver(System.out));
+				/*
 				// & 代表将shell命令放入后台工作，但验证不可行，尝试启线程方式运行
 				new Thread(new OneParameterRunnable(device) {
 					@Override
@@ -175,6 +180,7 @@ public class DeviceManager {
 						// TODO Auto-generated method stub
 						IDevice device = (IDevice) getParameter();
 						try {
+							
 							OutputStream os = new ByteArrayOutputStream();
 
 							String cmdString = CaptureManager.remotePath
@@ -209,7 +215,7 @@ public class DeviceManager {
 											.println("第二次输出：" + os.toString());
 								}
 							}
-
+							
 						} catch (TimeoutException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -225,7 +231,12 @@ public class DeviceManager {
 						}
 					}
 				}, "gsnap-sync").start();
-				Thread.sleep(2000);
+				*/
+				//Thread.sleep(2000);
+				RunGsnap runGsnap = new RunGsnap();
+				runGsnap.setDevice(device);
+				runGsnap.run();
+				
 				break;
 			default:
 				break;
@@ -250,8 +261,9 @@ public class DeviceManager {
 			out.write('t');
 			out.flush();
 			InputStream in = server.getInputStream();
+			// 这里要读10个字节，逻辑不够严密
 			int number = in.read(b);
-			assert (number == 6); // 返回 finish
+			//assert (number == 6); // 返回 finish
 			in.close();
 			out.close();
 			server.close();
