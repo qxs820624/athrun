@@ -25,10 +25,11 @@ public class InfoTask implements Callable<TaskResult> {
 
 			inOutStructure.GetOut().println("info");
 			inOutStructure.GetOut().flush();
-
-			byte[] b = new byte[50];
+			
 			DataInputStream in = inOutStructure.getIn();
 
+			int msgLen = in.readInt();
+			byte[] b = new byte[msgLen];
 			int len = in.read(b);
 			String result = new String(b, 0, len).trim();
 			tr.setResult(result);
