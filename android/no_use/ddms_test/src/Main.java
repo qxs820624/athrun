@@ -7,9 +7,9 @@ import com.android.ddmlib.AndroidDebugBridge;
 public class Main {
 
 	public static MyDeviceChangeListener deviceChangedInstance = new MyDeviceChangeListener();
-	
+
 	public static void main(String[] argv) throws InterruptedException {
-				
+
 		System.out.println("123");
 		AndroidDebugBridge.init(false);
 
