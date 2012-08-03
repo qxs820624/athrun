@@ -24,6 +24,8 @@
 	<br />
 	<img id="start" src="/athrun/img/start.png" title="start" />
 	<img id="stop" src="/athrun/img/stop.png" title="stop" />
+		<b>当前帧数</b>
+	<b id="rate">0</b>
 	<div>
 		<img id="imgtag" style="display: none;"></img>
 	</div>
@@ -112,6 +114,7 @@
 						alert("error!");
 					}; //它在图像载入失败后调用，图像载入失败不会调用onload事件。
 					timestamp = (new Date()).valueOf();
+					caltulateRate(timestamp);
 					img.src = "/athrun/JpgGen.jpg?ts=" + timestamp
 							+ "&serialNumber=" + serialNumber; //开始加载图片,加载图片是异步过程。
 
@@ -139,6 +142,18 @@
 		var drawCount = 0;
 		var paint;
 		var actionNumber = 0;
+		
+		var rateIndex = 0;
+		var timeNow = (new Date()).valueOf();
+		function caltulateRate(time) {
+			if (rateIndex > 9) {
+				rateIndex = 0;
+				$('#rate').text(10000 / (time - timeNow));
+				timeNow = time;
+			} else {
+				rateIndex++;
+			}
+		}
 
 		function adjustCanvasSize(canvas, context) {
 			canvas.width = (rotateRate % 2) ? height : width;
