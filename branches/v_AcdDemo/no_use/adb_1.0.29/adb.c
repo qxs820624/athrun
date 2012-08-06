@@ -788,7 +788,12 @@ int launch_server(int server_port)
     GetModuleFileName( NULL, program_path, sizeof(program_path) );
 
     char cmd[512];
-    snprintf(cmd, sizeof cmd, "adb adb-port %d adb-s %s fork-server server", specified_adb_port, specified_serial_number);
+    if(is_specified){
+    	snprintf(cmd, sizeof cmd, "adb adb-port %d adb-s %s fork-server server", specified_adb_port, specified_serial_number);
+    }else{
+    	snprintf(cmd, sizeof cmd, "adb fork-server server");
+    }
+
 
     ret = CreateProcess(
             program_path,                              /* program path  */
@@ -1349,6 +1354,7 @@ int recovery_mode = 0;
 
 int specified_adb_port = DEFAULT_ADB_PORT;
 char specified_serial_number[512];
+int is_specified = 0;
 
 int main(int argc, char **argv)
 {
@@ -1380,6 +1386,7 @@ int main(int argc, char **argv)
 
 			argv=argv+2;
 			argc=argc-2;
+			is_specified = 1;
 		}
 	}
 
