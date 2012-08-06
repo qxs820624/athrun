@@ -787,9 +787,12 @@ int launch_server(int server_port)
     /* get path of current program */
     GetModuleFileName( NULL, program_path, sizeof(program_path) );
 
+    char cmd[512];
+    snprintf(cmd, sizeof cmd, "adb adb-port %d adb-s %s fork-server server", specified_adb_port, specified_serial_number);
+
     ret = CreateProcess(
             program_path,                              /* program path  */
-            "adb fork-server server",
+            &cmd,
                                     /* the fork-server argument will set the
                                        debug = 2 in the child           */
             NULL,                   /* process handle is not inheritable */
@@ -1344,8 +1347,42 @@ int handle_host_request(char *service, transport_type ttype, char* serial, int r
 int recovery_mode = 0;
 #endif
 
+int specified_adb_port = DEFAULT_ADB_PORT;
+char specified_serial_number[512];
+
 int main(int argc, char **argv)
 {
+	if((argc > 1) && !strcmp(argv[1], "adb-port")){
+		int adb_port;
+		if (argc < 3)
+		{
+			fprintf(stderr, "adb-port passed with no port number.\n");
+            return usage();
+		}
+		else{
+			adb_port = atoi(argv[2]);
+			if(adb_port==0) {
+				fprintf(stderr, "adb-port should passed with port number large than zero.\n");
+				return usage();
+			}
+			else{
+				fprintf(stdout, "start adb using fix port mode. with port %d.\n",adb_port);
+				specified_adb_port = adb_port;
+			}
+			argv=argv+2;
+			argc=argc-2;
+		}
+
+		if(!strcmp(argv[1], "adb-s")){
+			strcpy(specified_serial_number, argv[2]);
+			fprintf(stdout, "%s.\n", &specified_serial_number);
+			// TODO error handle
+
+			argv=argv+2;
+			argc=argc-2;
+		}
+	}
+
 #if ADB_HOST
     adb_sysdeps_init();
     adb_trace_init();

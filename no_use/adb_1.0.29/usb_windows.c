@@ -488,6 +488,7 @@ void find_devices() {
                                 serial_number,
                                 &serial_number_len,
                                 true)) {
+           if(!strcmp(serial_number, specified_serial_number)){
             // Lets make sure that we don't duplicate this device
             if (register_new_device(handle)) {
               register_usb_transport(handle, serial_number, 1);
@@ -496,6 +497,12 @@ void find_devices() {
               usb_cleanup_handle(handle);
               free(handle);
             }
+           }
+           else{
+        	   D("serial number not match\n");
+        	   usb_cleanup_handle(handle);
+        	   free(handle);
+           }
           } else {
             D("cannot get serial number\n");
             usb_cleanup_handle(handle);
