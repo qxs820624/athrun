@@ -791,7 +791,12 @@ int launch_server(int server_port)
     if(is_specified){
     	snprintf(cmd, sizeof cmd, "adb adb-port %d adb-s %s fork-server server", specified_adb_port, specified_serial_number);
     }else{
-    	snprintf(cmd, sizeof cmd, "adb fork-server server");
+    	if(is_remove_mode){
+    		snprintf(cmd, sizeof cmd, "adb adb-rm %s fork-server server", remove_serial_number);
+    	}else{
+    		snprintf(cmd, sizeof cmd, "adb fork-server server");
+    	}
+
     }
 
 
@@ -1354,10 +1359,20 @@ int recovery_mode = 0;
 
 int specified_adb_port = DEFAULT_ADB_PORT;
 char specified_serial_number[512];
+char remove_serial_number[1024];
 int is_specified = 0;
+int is_remove_mode = 0;
 
 int main(int argc, char **argv)
 {
+	if((argc > 1) && !strcmp(argv[1], "adb-rm")){
+		strcpy(remove_serial_number, argv[2]);
+		is_remove_mode = 1;
+		argv=argv+2;
+		argc=argc-2;
+	}
+
+
 	if((argc > 1) && !strcmp(argv[1], "adb-port")){
 		int adb_port;
 		if (argc < 3)
