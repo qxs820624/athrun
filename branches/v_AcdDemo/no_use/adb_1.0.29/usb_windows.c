@@ -488,21 +488,48 @@ void find_devices() {
                                 serial_number,
                                 &serial_number_len,
                                 true)) {
-           if(!strcmp(serial_number, specified_serial_number)){
-            // Lets make sure that we don't duplicate this device
-            if (register_new_device(handle)) {
-              register_usb_transport(handle, serial_number, 1);
-            } else {
-              D("register_new_device failed for %s\n", interf_name);
-              usb_cleanup_handle(handle);
-              free(handle);
+            if(is_specified){
+            	 if(!strcmp(serial_number, specified_serial_number)){
+                   // Lets make sure that we don't duplicate this device
+            	   if (register_new_device(handle)) {
+            	     register_usb_transport(handle, serial_number, 1);
+            	   } else {
+            	     D("register_new_device failed for %s\n", interf_name);
+            	     usb_cleanup_handle(handle);
+            	     free(handle);
+            	   }
+            	 }
+                 else{
+              	   D("serial number not the same\n");
+              	   usb_cleanup_handle(handle);
+              	   free(handle);
+                 }
+            }else if(is_remove_mode){
+           	  if(!strstr(remove_serial_number, serial_number)){
+                  // Lets make sure that we don't duplicate this device
+           	    if (register_new_device(handle)) {
+           	      register_usb_transport(handle, serial_number, 1);
+           	    } else {
+           	      D("register_new_device failed for %s\n", interf_name);
+           	      usb_cleanup_handle(handle);
+           	      free(handle);
+           	    }
+           	  }
+              else{
+          	    D("serial number not match\n");
+          	    usb_cleanup_handle(handle);
+          	    free(handle);
+              }
+            }else{
+           	    if (register_new_device(handle)) {
+           	      register_usb_transport(handle, serial_number, 1);
+           	    } else {
+           	      D("register_new_device failed for %s\n", interf_name);
+           	      usb_cleanup_handle(handle);
+           	      free(handle);
+           	    }
             }
-           }
-           else{
-        	   D("serial number not match\n");
-        	   usb_cleanup_handle(handle);
-        	   free(handle);
-           }
+
           } else {
             D("cannot get serial number\n");
             usb_cleanup_handle(handle);

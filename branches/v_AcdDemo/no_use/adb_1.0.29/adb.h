@@ -369,7 +369,9 @@ void adb_qemu_trace(const char* fmt, ...);
 
   extern int     specified_adb_port;
   extern char    specified_serial_number[512];
+  extern char    remove_serial_number[1024];
   extern int     is_specified;
+  extern int     is_remove_mode;
 
   extern unsigned char    adb_trace_output_count;
   void    adb_trace_init(void);
