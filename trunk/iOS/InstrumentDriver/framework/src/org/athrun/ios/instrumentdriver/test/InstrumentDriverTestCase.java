@@ -21,7 +21,11 @@ import org.junit.BeforeClass;
  * @author ziyu.hch
  * @author taichan
  */
-public class InstrumentDriverTestCase {
+public class InstrumentDriverTestCase extends ThreadGroup {
+
+	public InstrumentDriverTestCase() {
+		super("InstrumentDriverTestCase");
+	}
 
 	public UIATarget target;
 	public UIAApplication app;
@@ -30,6 +34,9 @@ public class InstrumentDriverTestCase {
 	private String appPath = DriverUtil.getApp();
 
 	private Boolean isDebug = DriverUtil.isDebug();
+
+	private Boolean isSimulator = DriverUtil.isSimulator();
+	private String udid = DriverUtil.getUDID();
 	private String[] cmd = {};
 	Process proc = null;
 
@@ -54,19 +61,16 @@ public class InstrumentDriverTestCase {
 
 		RunType.DEBUG = this.isDebug;
 
-		String shellCmd = String.format("%s %s %s",
+		String shellCmd = String.format("%s %s %s %s %s",
 				ResourceManager.getRunShell(), appPath,
-				ResourceManager.getInstrumentRoot());
+				ResourceManager.getInstrumentRoot(), isSimulator, udid);
 
 		this.cmd = new String[] { "/bin/sh", "-c", shellCmd };
 
 		System.out.println("shellCmd:\t" + shellCmd);
 
 		proc = Runtime.getRuntime().exec(cmd);
-		Thread instrument = new Thread(new ReadInstrumentsOutPut(),
-				"instruments");
-		instrument.setPriority(6);
-		instrument.start();
+		new Thread(new ReadInstrumentsOutPut(), "instruments").start();
 
 	}
 
@@ -78,10 +82,10 @@ public class InstrumentDriverTestCase {
 		proc.waitFor();
 		proc.destroy();
 
-		String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
-		Process pro = Runtime.getRuntime().exec(cmd);
-		pro.waitFor();
-		pro.destroy();
+		// String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
+		// Process pro = Runtime.getRuntime().exec(cmd);
+		// pro.waitFor();
+		// pro.destroy();
 
 	}
 
@@ -102,7 +106,8 @@ public class InstrumentDriverTestCase {
 
 				while ((str = bufferR.readLine()) != null) {
 
-					System.err.println("Instruments:\t" + str);
+					System.err.println("Instruments:\t"
+							+ str.replace(" +0000", ""));
 				}
 
 			} catch (UnsupportedEncodingException e) {
@@ -114,4 +119,9 @@ public class InstrumentDriverTestCase {
 		}
 	}
 
+	// @Override
+	// public void uncaughtException(Thread thread, Throwable exception) {
+	//
+	// exception.printStackTrace();
+	// }
 }

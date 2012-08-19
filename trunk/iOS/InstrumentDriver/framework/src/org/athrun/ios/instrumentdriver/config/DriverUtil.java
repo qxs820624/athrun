@@ -48,6 +48,12 @@ public class DriverUtil {
 		}
 	}
 	
+	public static String getUDID(){
+		String udid = Config.get("udid");
+		logger.debug("udid:"+udid);
+		return udid;
+	}
+	
 	public static int getTimeOut(){
 		int timeout = 0;
 		try {
