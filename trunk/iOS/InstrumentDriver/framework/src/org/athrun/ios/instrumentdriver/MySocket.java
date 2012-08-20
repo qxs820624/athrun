@@ -130,7 +130,7 @@ public class MySocket {
 		try {
 			Socket socket = null;
 
-			final ExecutorService exec = Executors.newFixedThreadPool(1);
+			ExecutorService exec = Executors.newFixedThreadPool(1);
 			Callable<Socket> call = new Callable<Socket>() {
 				@Override
 				public Socket call() throws Exception {
@@ -176,6 +176,7 @@ public class MySocket {
 			socket.close();
 
 			// 第二次建立socket，获取 上一步运行的结果
+			exec = Executors.newFixedThreadPool(1);
 			try {
 				Future<Socket> future = exec.submit(call);
 				// 超时时间 20s
