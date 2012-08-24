@@ -75,6 +75,7 @@ public class TaoTestMainTest extends InstrumentDriverTestCase {
 		win.findElementByText("Back", UIAButton.class).tap();
 		target.scrollUp();
 		target.scrollDown();
+		
 	}
 
 }
