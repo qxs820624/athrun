@@ -455,6 +455,16 @@ class UIAElementHelp {
 		return element;
 	}
 
+	public static UIAPopover getPopover(String guid) throws Exception{
+		UIAPopover element;
+		if(DEBUG){
+			element = (UIAPopover) getJSONObject(guid, UIAPopover.class);
+		}else{
+			element = new UIAPopover(guid);
+		}
+		return element;
+	}
+	
 	public static UIATabBar getTabBar(String guid) throws Exception {
 
 		UIATabBar element;
