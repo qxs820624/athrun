@@ -293,8 +293,11 @@ public class UIAElement {
 
 		return UIAElementHelp.pickerArray(this.guid + ".pickers()");
 	}
-
-	// popover
+	
+	public UIAPopover popover() throws Exception{
+		return UIAElementHelp.getPopover(this.guid+".popover()");
+	}
+	
 	// progressIndicators
 
 	public UIAScrollView[] scrollViews() throws Exception {
