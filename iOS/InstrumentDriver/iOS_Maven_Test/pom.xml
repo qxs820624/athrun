@@ -16,6 +16,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<forkMode>never</forkMode>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
 					<includes>
 						<include>**/*Test.java</include>
