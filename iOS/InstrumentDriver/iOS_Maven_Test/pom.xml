@@ -7,8 +7,8 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>iOS_Test</name>
-	<url>http://maven.apache.org</url>
+	<name>instrumentDriver-ios-test-archetype</name>
+	<url>http://code.taobao.org/p/athrun/src/</url>
 
 	<build>
 		<plugins>
@@ -21,11 +21,21 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
-					
+
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -36,5 +46,5 @@
 			<artifactId>instrumentDriver</artifactId>
 			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
 </project>
