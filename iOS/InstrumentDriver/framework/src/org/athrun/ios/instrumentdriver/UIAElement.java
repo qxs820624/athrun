@@ -293,11 +293,11 @@ public class UIAElement {
 
 		return UIAElementHelp.pickerArray(this.guid + ".pickers()");
 	}
-	
-	public UIAPopover popover() throws Exception{
-		return UIAElementHelp.getPopover(this.guid+".popover()");
+
+	public UIAPopover popover() throws Exception {
+		return UIAElementHelp.getPopover(this.guid + ".popover()");
 	}
-	
+
 	// progressIndicators
 
 	public UIAScrollView[] scrollViews() throws Exception {
@@ -392,6 +392,11 @@ public class UIAElement {
 	public void tapWithOptions(String tapOffset) throws Exception {
 
 		MySocket.getVoid(this.guid + ".tapWithOptions(" + tapOffset + ")");
+	}
+
+	public void dragInsideWithOptions(String dragOptions) throws Exception {
+		MySocket.getVoid(this.guid + ".dragInsideWithOptions(" + dragOptions
+				+ ")");
 	}
 
 	public void touchAndHold() throws Exception {
