@@ -288,7 +288,11 @@ public class UIAElement {
 	}
 
 	// pageIndicators
-
+	public UIAPageIndicator[] pageIndicators() throws Exception{
+		return UIAElementHelp.pageIndicatorArray(this.guid+".pageIndicators()");
+	}
+	
+	
 	public UIAPicker[] pickers() throws Exception {
 
 		return UIAElementHelp.pickerArray(this.guid + ".pickers()");

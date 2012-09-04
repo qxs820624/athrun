@@ -20,7 +20,7 @@ public class MySocket {
 
 	/* instrument 接收返回的命令，几种处理类型的枚举 */
 	enum ReturnedType {
-		voidType, stringType, booleanType, JSONObject, JSONArray, exitType
+		voidType, stringType, booleanType, numberType, JSONObject, JSONArray, exitType
 	}
 
 	public static ServerSocket server = null;
@@ -94,6 +94,17 @@ public class MySocket {
 
 	public static String getText(String script) throws Exception {
 		return send(ReturnedType.stringType + "##" + script);
+	}
+
+	public static int getInt(String script) throws Exception {
+		try {
+			return Integer.parseInt(send(ReturnedType.numberType + "##"
+					+ script));
+		} catch (NumberFormatException e) {
+			return 0;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	public static Boolean getBoolen(String script) throws Exception {

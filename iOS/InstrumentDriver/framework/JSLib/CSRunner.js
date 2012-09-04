@@ -21,6 +21,7 @@ try {
 			case "stringType":
 			case "booleanType":
 			case "voidType":
+			case "numberType":
 				sendToServer = eval(script);
 				if(sendToServer ==null)
 					sendToServer = "";

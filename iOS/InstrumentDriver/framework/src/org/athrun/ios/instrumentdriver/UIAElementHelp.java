@@ -117,6 +117,23 @@ class UIAElementHelp {
 		return elements;
 	}
 
+	public static UIAPageIndicator[] pageIndicatorArray(String guid)
+			throws Exception {
+		UIAPageIndicator[] elements = null;
+		if (DEBUG) {
+			elements = (UIAPageIndicator[]) elementsJSONArray(guid,
+					UIAPageIndicator.class);
+		} else {
+			String[] guids = guidArray(guid);
+			elements = new UIAPageIndicator[guids.length];
+			for(int i = 0; i < guids.length; i++){
+				UIAPageIndicator element = new UIAPageIndicator(guids[i]);
+				elements[i] = element;
+			}
+		}
+		return elements;
+	}
+
 	public static UIAPicker[] pickerArray(String guid) throws Exception {
 
 		UIAPicker[] elements;
@@ -403,12 +420,13 @@ class UIAElementHelp {
 		}
 		return elements;
 	}
-	
+
 	public static UIATableGroup[] tableGroup(String guid) throws Exception {
 
 		UIATableGroup[] elements;
 		if (DEBUG) {
-			elements = (UIATableGroup[]) elementsJSONArray(guid, UIATableGroup.class);
+			elements = (UIATableGroup[]) elementsJSONArray(guid,
+					UIATableGroup.class);
 		} else {
 			String[] guids = guidArray(guid);
 			elements = new UIATableGroup[guids.length];
@@ -455,16 +473,16 @@ class UIAElementHelp {
 		return element;
 	}
 
-	public static UIAPopover getPopover(String guid) throws Exception{
+	public static UIAPopover getPopover(String guid) throws Exception {
 		UIAPopover element;
-		if(DEBUG){
+		if (DEBUG) {
 			element = (UIAPopover) getJSONObject(guid, UIAPopover.class);
-		}else{
+		} else {
 			element = new UIAPopover(guid);
 		}
 		return element;
 	}
-	
+
 	public static UIATabBar getTabBar(String guid) throws Exception {
 
 		UIATabBar element;
