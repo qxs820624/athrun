@@ -1,5 +1,10 @@
 package org.athrun.ios.instrumentdriver;
 
+/**
+ * 
+ * @author yuanyao.cx
+ *
+ */
 public class UIAPageIndicator extends UIAElement {
 
 	public UIAPageIndicator() {
