@@ -100,4 +100,16 @@ public class UIATarget {
 		MySocket.getVoid(this.guid
 				+ ".dragFromToForDuration({x : 60,y : 200}, {x : 260,y : 200}, 1)");
 	}
+	
+	/**
+	 * 在屏幕上从起始位置移动到结束位置
+	 * @param start: 滑动操作的起始位置
+	 * @param end: 滑动操作的结束位置
+	 * @param duration: 滑动操作的经历的时间
+	 * @throws Exception
+	 */
+	public void dragFromToForDuration(String start, String end, double duration)
+			throws Exception {
+		MySocket.getVoid(this.guid+".dragFromToForDuration("+start+","+end+","+duration+")");
+	}
 }
