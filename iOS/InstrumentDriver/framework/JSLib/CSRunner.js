@@ -10,6 +10,11 @@ try {
 	while(!isEnd){
 		
 		var result = host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
+		
+		if(result.exitCode+""!="0"){
+			UIALogger.logDebug("exitCode: " + result.exitCode);
+			UIALogger.logMessage("stderr : " + result.stderr);
+		}
 		UIALogger.logMessage("stdout : " + result.stdout);
 		
 		var stdout = result.stdout.split("##");
