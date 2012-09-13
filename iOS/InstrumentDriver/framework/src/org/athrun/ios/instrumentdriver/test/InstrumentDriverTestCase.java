@@ -79,7 +79,7 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 
 		MySocket.sendExit();
 
-		proc.waitFor();
+//		proc.waitFor();
 		proc.destroy();
 
 		// String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
