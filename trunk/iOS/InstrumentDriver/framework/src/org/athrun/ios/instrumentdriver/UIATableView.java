@@ -24,12 +24,14 @@ public class UIATableView extends UIAElement {
 
 	public UIATableCell[] cells() throws Exception {
 
-		return UIAElementHelp.cellsArray(this.guid + ".cells()");
+		return UIAElementHelp.elementArray(UIATableCell.class, this.guid
+				+ ".cells()");
 	}
 
 	public UIATableGroup[] groups() throws Exception {
 
-		return UIAElementHelp.tableGroup(this.guid + ".groups()");
+		return UIAElementHelp.elementArray(UIATableGroup.class, this.guid
+				+ ".groups()");
 	}
 
 }

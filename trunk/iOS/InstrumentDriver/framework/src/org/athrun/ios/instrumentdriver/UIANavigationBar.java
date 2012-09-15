@@ -24,12 +24,14 @@ public class UIANavigationBar extends UIAElement {
 
 	public UIAButton leftButton() throws Exception {
 
-		return UIAElementHelp.getButton(this.guid + ".leftButton()");
+		return UIAElementHelp.getElement(UIAButton.class, this.guid
+				+ ".leftButton()");
 	}
 
 	public UIAButton rightButton() throws Exception {
 
-		return UIAElementHelp.getButton(this.guid + ".rightButton()");
+		return UIAElementHelp.getElement(UIAButton.class, this.guid
+				+ ".rightButton()");
 	}
 
 }

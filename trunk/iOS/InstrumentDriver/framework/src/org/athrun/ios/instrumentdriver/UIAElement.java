@@ -148,9 +148,7 @@ public class UIAElement {
 	public <T> T findElementByText(String text, int index, Class<T> elmentType)
 			throws Exception {
 
-		String[] type = elmentType.getName().split("\\.");
-		String eType = type[type.length - 1];
-
+		String eType = elmentType.getSimpleName();
 		String elementJSON = MySocket.getText("findElement('" + this.guid
 				+ "','" + text + "'," + index + ",'" + eType + "')");
 		System.err.println();
@@ -198,8 +196,7 @@ public class UIAElement {
 	public <T> T[] findElementArrayByText(String text, Class<T> elmentType)
 			throws Exception {
 
-		String[] type = elmentType.getName().split("\\.");
-		String eType = type[type.length - 1];
+		String eType = elmentType.getSimpleName();
 
 		String elementsJSON = MySocket.getText("findElements('" + this.guid
 				+ "','" + text + "','" + eType + "')");
@@ -236,7 +233,8 @@ public class UIAElement {
 	 */
 	public UIAElement parent() throws Exception {
 
-		return UIAElementHelp.getElement(this.guid + ".parent()");
+		return UIAElementHelp.getElement(UIAElement.class, this.guid
+				+ ".parent()");
 	}
 
 	/**
@@ -246,18 +244,20 @@ public class UIAElement {
 	 */
 	public UIAElement[] elements() throws Exception {
 
-		return UIAElementHelp.elementArray(this.guid + ".elements()");
+		return UIAElementHelp.elementArray(UIAElement.class, this.guid
+				+ ".elements()");
 	}
 
 	public UIAElement[] ancestry() throws Exception {
 
-		return UIAElementHelp.elementArray(this.guid + ".ancestry()");
+		return UIAElementHelp.elementArray(UIAElement.class, this.guid
+				+ ".ancestry()");
 	}
 
 	public UIAActivityIndicator[] activityIndicators() throws Exception {
 
-		return UIAElementHelp.activityIndicatorArray(this.guid
-				+ ".activityIndicators()");
+		return UIAElementHelp.elementArray(UIAActivityIndicator.class,
+				this.guid + ".activityIndicators()");
 	}
 
 	/**
@@ -267,46 +267,52 @@ public class UIAElement {
 	 */
 	public UIAButton[] buttons() throws Exception {
 
-		return UIAElementHelp.buttonArray(this.guid + ".buttons()");
+		return UIAElementHelp.elementArray(UIAButton.class, this.guid
+				+ ".buttons()");
 	}
 
 	// -images
 	public UIALink[] links() throws Exception {
 
-		return UIAElementHelp.linkArray(this.guid + ".links()");
+		return UIAElementHelp.elementArray(UIALink.class, this.guid
+				+ ".links()");
 	}
 
 	public UIANavigationBar navigationBar() throws Exception {
 
-		return UIAElementHelp.getNavigationBar(this.guid + ".navigationBar()");
+		return UIAElementHelp.getElement(UIANavigationBar.class, this.guid
+				+ ".navigationBar()");
 	}
 
 	public UIANavigationBar[] navigationBars() throws Exception {
 
-		return UIAElementHelp.navigationBarArray(this.guid
+		return UIAElementHelp.elementArray(UIANavigationBar.class, this.guid
 				+ ".navigationBars()");
 	}
 
 	// pageIndicators
-	public UIAPageIndicator[] pageIndicators() throws Exception{
-		return UIAElementHelp.pageIndicatorArray(this.guid+".pageIndicators()");
+	public UIAPageIndicator[] pageIndicators() throws Exception {
+		return UIAElementHelp.elementArray(UIAPageIndicator.class, this.guid
+				+ ".pageIndicators()");
 	}
-	
-	
+
 	public UIAPicker[] pickers() throws Exception {
 
-		return UIAElementHelp.pickerArray(this.guid + ".pickers()");
+		return UIAElementHelp.elementArray(UIAPicker.class, this.guid
+				+ ".pickers()");
 	}
 
 	public UIAPopover popover() throws Exception {
-		return UIAElementHelp.getPopover(this.guid + ".popover()");
+		return UIAElementHelp.getElement(UIAPopover.class, this.guid
+				+ ".popover()");
 	}
 
 	// progressIndicators
 
 	public UIAScrollView[] scrollViews() throws Exception {
 
-		return UIAElementHelp.scrollViewArray(this.guid + ".scrollViews()");
+		return UIAElementHelp.elementArray(UIAScrollView.class, this.guid
+				+ ".scrollViews()");
 	}
 
 	/**
@@ -316,12 +322,13 @@ public class UIAElement {
 	 */
 	public UIASearchBar[] searchBars() throws Exception {
 
-		return UIAElementHelp.searchBarArray(this.guid + ".searchBars()");
+		return UIAElementHelp.elementArray(UIASearchBar.class, this.guid
+				+ ".searchBars()");
 	}
 
 	public UIASecureTextField[] secureTextFields() throws Exception {
 
-		return UIAElementHelp.secureTextFieldArray(this.guid
+		return UIAElementHelp.elementArray(UIASecureTextField.class, this.guid
 				+ ".secureTextFields()");
 	}
 
@@ -330,56 +337,67 @@ public class UIAElement {
 
 	public UIAStaticText[] staticTexts() throws Exception {
 
-		return UIAElementHelp.staticTextArray(this.guid + ".staticTexts()");
+		return UIAElementHelp.elementArray(UIAStaticText.class, this.guid
+				+ ".staticTexts()");
 	}
 
 	public UIASwitch[] switches() throws Exception {
 
-		return UIAElementHelp.switchArray(this.guid + ".switches()");
+		return UIAElementHelp.elementArray(UIASwitch.class, this.guid
+				+ ".switches()");
 	}
 
 	public UIASlider[] sliders() throws Exception {
-		return UIAElementHelp.sliderArray(this.guid + ".sliders()");
+		return UIAElementHelp.elementArray(UIASlider.class, this.guid
+				+ ".sliders()");
 	}
 
 	public UIATabBar tabBar() throws Exception {
 
-		return UIAElementHelp.getTabBar(this.guid + ".tabBar()");
+		return UIAElementHelp.getElement(UIATabBar.class, this.guid
+				+ ".tabBar()");
 	}
 
 	public UIATabBar[] tabBars() throws Exception {
 
-		return UIAElementHelp.tabBarArray(this.guid + ".tabBars()");
+		return UIAElementHelp.elementArray(UIATabBar.class, this.guid
+				+ ".tabBars()");
 	}
 
 	public UIATableView[] tableViews() throws Exception {
 
-		return UIAElementHelp.tableViewArray(this.guid + ".tableViews()");
+		return UIAElementHelp.elementArray(UIATableView.class, this.guid
+				+ ".tableViews()");
 	}
 
 	public UIATextField[] textFields() throws Exception {
 
-		return UIAElementHelp.textFieldArray(this.guid + ".textFields()");
+		return UIAElementHelp.elementArray(UIATextField.class, this.guid
+				+ ".textFields()");
 	}
 
 	public UIATextView[] textViews() throws Exception {
 
-		return UIAElementHelp.textViewArray(this.guid + ".textViews()");
+		return UIAElementHelp.elementArray(UIATextView.class, this.guid
+				+ ".textViews()");
 	}
 
 	public UIAToolbar toolbar() throws Exception {
 
-		return UIAElementHelp.getToolbar(this.guid + ".toolbar()");
+		return UIAElementHelp.getElement(UIAToolbar.class, this.guid
+				+ ".toolbar()");
 	}
 
 	public UIAToolbar[] toolbars() throws Exception {
 
-		return UIAElementHelp.toolbarArray(this.guid + ".toolbars()");
+		return UIAElementHelp.elementArray(UIAToolbar.class, this.guid
+				+ ".toolbars()");
 	}
 
 	public UIAWebView[] webViews() throws Exception {
 
-		return UIAElementHelp.webViewArray(this.guid + ".webViews()");
+		return UIAElementHelp.elementArray(UIAWebView.class, this.guid
+				+ ".webViews()");
 	}
 
 	// -------------Gestures and Actions------------
@@ -493,8 +511,8 @@ public class UIAElement {
 	 */
 	public UIAElement withName(String name) throws Exception {
 
-		return UIAElementHelp.getElement(this.guid + ".withName('" + name
-				+ "')");
+		return UIAElementHelp.getElement(UIAElement.class, this.guid
+				+ ".withName('" + name + "')");
 	}
 
 	// -----Logging Element Information-----
