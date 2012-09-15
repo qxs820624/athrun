@@ -23,7 +23,8 @@ public class UIAPicker extends UIAElement {
 	}
 
 	public UIAPickerWheel[] wheels() throws Exception {
-		return UIAElementHelp.pickerWheelArray(this.guid + ".wheels()");
+		return UIAElementHelp.elementArray(UIAPickerWheel.class, this.guid
+				+ ".wheels()");
 	}
 
 }

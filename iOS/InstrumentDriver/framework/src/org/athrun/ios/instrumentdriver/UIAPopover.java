@@ -3,7 +3,7 @@ package org.athrun.ios.instrumentdriver;
 /**
  * 
  * @author yuanyao
- *
+ * 
  */
 public class UIAPopover extends UIAElement {
 	public UIAPopover() {
@@ -15,7 +15,8 @@ public class UIAPopover extends UIAElement {
 	}
 
 	public UIAActionSheet actionSheet() throws Exception {
-		return UIAElementHelp.getActionSheet(this.guid + ".actionSheet()");
+		return UIAElementHelp.getElement(UIAActionSheet.class, this.guid
+				+ ".actionSheet()");
 	}
 
 	public void dismiss() throws Exception {

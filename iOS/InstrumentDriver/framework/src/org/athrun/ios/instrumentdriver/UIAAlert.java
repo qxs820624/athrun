@@ -25,10 +25,12 @@ public class UIAAlert extends UIAElement {
 	}
 
 	public UIAButton defaultButton() throws Exception {
-		return UIAElementHelp.getButton(this.guid + ".defaultButton()");
+		return UIAElementHelp.getElement(UIAButton.class, this.guid
+				+ ".defaultButton()");
 	}
 
 	public UIAButton cancelButton() throws Exception {
-		return UIAElementHelp.getButton(this.guid + ".cancelButton()");
+		return UIAElementHelp.getElement(UIAButton.class, this.guid
+				+ ".cancelButton()");
 	}
 }

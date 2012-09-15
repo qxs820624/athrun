@@ -18,7 +18,8 @@ public class UIAApplication {
 
 	public UIAWindow[] windows() throws Exception {
 
-		return UIAElementHelp.windowArray(this.guid + ".windows()");
+		return UIAElementHelp.elementArray(UIAWindow.class, this.guid
+				+ ".windows()");
 	}
 
 	/**
@@ -32,26 +33,31 @@ public class UIAApplication {
 
 	public UIAActionSheet actionSheet() throws Exception {
 
-		return UIAElementHelp.getActionSheet(this.guid + ".actionSheet()");
+		return UIAElementHelp.getElement(UIAActionSheet.class, this.guid
+				+ ".actionSheet()");
 	}
 
 	public UIAAlert alert() throws Exception {
-		return UIAElementHelp.getAlert(this.guid + ".alert()");
+		return UIAElementHelp
+				.getElement(UIAAlert.class, this.guid + ".alert()");
 	}
 
 	public UIAKeyboard keyboard() throws Exception {
 
-		return UIAElementHelp.getKeyboard(this.guid + ".keyboard()");
+		return UIAElementHelp.getElement(UIAKeyboard.class, this.guid
+				+ ".keyboard()");
 	}
 
 	public UIANavigationBar navigationBar() throws Exception {
 
-		return UIAElementHelp.getNavigationBar(this.guid + ".navigationBar()");
+		return UIAElementHelp.getElement(UIANavigationBar.class, this.guid
+				+ ".navigationBar()");
 	}
 
 	public UIAStatusBar statusBar() throws Exception {
 
-		return UIAElementHelp.getStatusBar(this.guid + ".statusBar()");
+		return UIAElementHelp.getElement(UIAStatusBar.class, this.guid
+				+ ".statusBar()");
 	}
 
 	/**
@@ -59,12 +65,14 @@ public class UIAApplication {
 	 */
 	public UIATabBar tabBar() throws Exception {
 
-		return UIAElementHelp.getTabBar(this.guid + ".tabBar()");
+		return UIAElementHelp.getElement(UIATabBar.class, this.guid
+				+ ".tabBar()");
 	}
 
 	public UIAToolbar toolbar() throws Exception {
 
-		return UIAElementHelp.getToolbar(this.guid + ".toolbar()");
+		return UIAElementHelp.getElement(UIAToolbar.class, this.guid
+				+ ".toolbar()");
 	}
 
 	/**

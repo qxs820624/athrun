@@ -10,10 +10,11 @@ public class UIASegmentedControl extends UIAElement {
 		super(guid);
 
 	}
-	
+
 	public UIAButton selectedButton() throws Exception {
 
-		return UIAElementHelp.getButton(this.guid + ".selectedButton()");
+		return UIAElementHelp.getElement(UIAButton.class, this.guid
+				+ ".selectedButton()");
 	}
 
 }

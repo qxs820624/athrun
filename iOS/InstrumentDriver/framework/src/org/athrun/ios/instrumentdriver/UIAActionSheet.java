@@ -24,7 +24,8 @@ public class UIAActionSheet extends UIAElement {
 
 	public UIAButton cancelButton() throws Exception {
 
-		return UIAElementHelp.getButton(this.guid + ".cancelButton()");
+		return UIAElementHelp.getElement(UIAButton.class, this.guid
+				+ ".cancelButton()");
 	}
 
 }
