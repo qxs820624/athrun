@@ -55,6 +55,8 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 	@Before
 	public void setUp() throws Exception {
 
+		MySocket.startSocket();
+
 		this.target = UIATarget.localTarget();
 		this.app = target.frontMostApp();
 		this.win = app.mainWindow();
@@ -70,7 +72,7 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 		System.out.println("shellCmd:\t" + shellCmd);
 
 		proc = Runtime.getRuntime().exec(cmd);
-		new Thread(new ReadInstrumentsOutPut(), "instruments").start();
+		// new Thread(new ReadInstrumentsOutPut(), "instruments").start();
 
 	}
 
@@ -79,7 +81,9 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 
 		MySocket.sendExit();
 
-//		proc.waitFor();
+		MySocket.tearDownSocket();
+
+		// proc.waitFor();
 		proc.destroy();
 
 		// String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };

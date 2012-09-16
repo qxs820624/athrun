@@ -3,14 +3,10 @@ package org.athrun.ios.instrumentdriver;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.net.SocketTimeoutException;
 
 /**
  * @author ziyu.hch
@@ -23,6 +19,8 @@ public class MySocket {
 		voidType, stringType, booleanType, numberType, JSONObject, JSONArray, exitType
 	}
 
+	private static final int TIMEOUT_TIME = 20 * 1000;
+
 	public static ServerSocket server = null;
 
 	public static void sendExit() throws Exception {
@@ -31,34 +29,11 @@ public class MySocket {
 	}
 
 	private static void exit(String exitMark) throws Exception {
-		// TODO Auto-generated method stub
-		if (server == null) {
-			creatSocket();
-		}
+		startSocket();
 		String request = null;
 		try {
 			Socket socket = null;
-
-			final ExecutorService exec = Executors.newFixedThreadPool(1);
-			Callable<Socket> call = new Callable<Socket>() {
-				@Override
-				public Socket call() throws Exception {
-					return server.accept();
-				}
-			};
-			try {
-				Future<Socket> future = exec.submit(call);
-				// 超时时间 10s
-				socket = future.get(10 * 1000, TimeUnit.MILLISECONDS);
-			} catch (TimeoutException ex) {
-				String errorMsg = "被测应用无返回，socket 超时。";
-				System.err.println(errorMsg);
-				ex.printStackTrace();
-				exec.shutdown();
-				throw new Exception(errorMsg + ex);
-			}
-			exec.shutdown();
-
+			socket = server.accept();
 			BufferedReader is = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 
@@ -70,15 +45,24 @@ public class MySocket {
 
 			os.print(exitMark);
 			os.flush();
-			// 刷新输出流，使Client马上收到该字符串
 
 			os.close();
 			is.close();
 			socket.close();
-			// server.close();
-		} catch (Exception e) {
 
-			System.out.println("Exception:" + e);
+			if (request.startsWith("Exception")) {
+				System.err.println(request);
+				os.close();
+				is.close();
+				socket.close();
+				throw new Exception(request);
+			}
+		} catch (SocketTimeoutException te) {
+			te.printStackTrace();
+			System.out.println("Socket连接超时，服务端客户端通信中断");
+			throw te;
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 
@@ -121,56 +105,54 @@ public class MySocket {
 		send(ReturnedType.voidType + "##" + script);
 	}
 
-	private static void creatSocket() throws Exception {
-		try {
-			System.out.println("The server listen to port: 5566");
-			server = new ServerSocket(5566);
-			// 创建一个ServerSocket在端口5566监听客户请求
-		} catch (Exception e) {
-			throw new Exception("can not listen to:" + e);
+	public static void startSocket() throws Exception {
+		if (server == null || server.isClosed()) {
+			try {
+				System.out.println("The server listen to port: 5566");
+				server = new ServerSocket();
+				server.setSoTimeout(TIMEOUT_TIME);
+				server.setReuseAddress(true);
+				server.bind(new InetSocketAddress(5566));
+				// 创建一个ServerSocket在端口5566监听客户请求
+			} catch (Exception e) {
+				throw new Exception("can not listen to:" + e);
+			}
+		}
+	}
+
+	public static void tearDownSocket() throws Exception {
+		if (server != null) {
+			try {
+				server.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+			server = null;
 		}
 	}
 
 	private static String send(String script) throws Exception {
-
-		if (server == null) {
-			creatSocket();
-		}
+		startSocket();
 		String guid = null;
 		String request = null;
+		Socket socket = null;
+		BufferedReader is = null;
+		PrintWriter os = null;
+
 		try {
-			Socket socket = null;
+			socket = server.accept();
 
-			ExecutorService exec = Executors.newFixedThreadPool(1);
-			Callable<Socket> call = new Callable<Socket>() {
-				@Override
-				public Socket call() throws Exception {
-					return server.accept();
-				}
-			};
-			try {
-				Future<Socket> future = exec.submit(call);
-				// 超时时间 20s
-				socket = future.get(20 * 1000, TimeUnit.MILLISECONDS);
-			} catch (TimeoutException ex) {
-				String errorMsg = "被测应用无返回，socket 超时。";
-				System.err.println(errorMsg);
-				ex.printStackTrace();
-				exec.shutdown();
-				throw new Exception(errorMsg + ex);
-			}
-			exec.shutdown();
-
-			BufferedReader is = new BufferedReader(new InputStreamReader(
+			is = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 
-			PrintWriter os = new PrintWriter(socket.getOutputStream());
+			os = new PrintWriter(socket.getOutputStream());
 
 			request = is.readLine();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (request.startsWith("Exception")) {
-				System.err.println(guid);
+				System.out.println(request);
 				os.close();
 				is.close();
 				socket.close();
@@ -187,29 +169,15 @@ public class MySocket {
 			socket.close();
 
 			// 第二次建立socket，获取 上一步运行的结果
-			exec = Executors.newFixedThreadPool(1);
-			try {
-				Future<Socket> future = exec.submit(call);
-				// 超时时间 20s
-				socket = future.get(20 * 1000, TimeUnit.MILLISECONDS);
-			} catch (TimeoutException ex) {
-				String errorMsg = "被测应用无返回，socket 超时。";
-				System.err.println(errorMsg);
-				ex.printStackTrace();
-				exec.shutdown();
-				throw new Exception(errorMsg + ex);
-			}
-			exec.shutdown();
+			socket = server.accept();
 
 			is = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
-
-			os = new PrintWriter(socket.getOutputStream());
 			guid = is.readLine();
 
 			// 用例执行错误的时候，获取到发回的异常信息并抛出
 			if (guid.startsWith("Exception")) {
-				System.err.println(guid);
+				System.out.println(guid);
 				os.close();
 				is.close();
 				socket.close();
@@ -218,13 +186,14 @@ public class MySocket {
 			System.out.println("Client response : " + guid);
 			System.out
 					.println("Server request  : Case setp executed. Please request the next setp");
-			os.print("null");
-			os.flush();
 
-			os.close();
 			is.close();
 			socket.close();
 
+		} catch (SocketTimeoutException te) {
+			te.printStackTrace();
+			System.out.println("Socket连接超时，服务端客户端通信中断");
+			throw te;
 		} catch (Exception e) {
 			throw e;
 		}

@@ -2,19 +2,13 @@
 
 UIALogger.logStart("The case is running.");
 
+var step = 1;
+var isEnd = false;
+var sendToServer ="Get the next step.";
 try {
-	
-	var step = 1;
-	var isEnd = false;
-	var sendToServer ="Get the next step.";
 	while(!isEnd){
-		
-		var result = host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
-		
-		if(result.exitCode+""!="0"){
-			UIALogger.logDebug("exitCode: " + result.exitCode);
-			UIALogger.logMessage("stderr : " + result.stderr);
-		}
+		var result = host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer, step],60);
+		step++;
 		UIALogger.logMessage("stdout : " + result.stdout);
 		
 		var stdout = result.stdout.split("##");
@@ -76,9 +70,9 @@ try {
 	sendToServer = "Exception # " + e + ". The script is : " + script;
 	
 	// if has exception ,send the exception to server.
-	host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
+	host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer, step],60);
 	// end Exit
-	host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer],60);
+	host.performTaskWithPathArgumentsTimeout("%InstrumentRoot%/TcpSocket.sh",[sendToServer, step],60);
 	UIALogger.logError(sendToServer);
 	UIALogger.logFail("The case was failed.");	
 }
