@@ -272,6 +272,11 @@ public class UIAElement {
 	}
 
 	// -images
+	public UIAImage[] images() throws Exception {
+		return UIAElementHelp.elementArray(UIAImage.class, this.guid
+				+ ".images()");
+	}
+
 	public UIALink[] links() throws Exception {
 
 		return UIAElementHelp.elementArray(UIALink.class, this.guid
