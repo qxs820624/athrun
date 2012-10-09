@@ -54,7 +54,9 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 
 	@Before
 	public void setUp() throws Exception {
-
+		//关闭已有的instruments进程，防止instruments造成内存泄露
+		Runtime.getRuntime().exec("killall instruments");
+		
 		MySocket.startSocket();
 
 		this.target = UIATarget.localTarget();
@@ -85,8 +87,9 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 
 		// proc.waitFor();
 		proc.destroy();
-		
+		//关闭已有的instruments进程，防止instruments造成内存泄露
 		Runtime.getRuntime().exec("killall instruments");
+		
 		// String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
 		// Process pro = Runtime.getRuntime().exec(cmd);
 		// pro.waitFor();
