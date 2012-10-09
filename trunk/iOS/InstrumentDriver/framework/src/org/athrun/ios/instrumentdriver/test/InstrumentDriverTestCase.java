@@ -85,7 +85,8 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 
 		// proc.waitFor();
 		proc.destroy();
-
+		
+		Runtime.getRuntime().exec("killall instruments");
 		// String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
 		// Process pro = Runtime.getRuntime().exec(cmd);
 		// pro.waitFor();
