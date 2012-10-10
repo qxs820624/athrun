@@ -185,7 +185,7 @@ public class MySocket {
 			}
 			System.out.println("Client response : " + guid);
 			System.out
-					.println("Server request  : Case setp executed. Please request the next setp");
+					.println("Server request  : Case step executed. Please request the next step.");
 
 			is.close();
 			socket.close();
