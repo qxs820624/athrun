@@ -54,9 +54,8 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 
 	@Before
 	public void setUp() throws Exception {
-		//关闭已有的instruments进程，防止instruments造成内存泄露
-		Runtime.getRuntime().exec("killall instruments");
-		Runtime.getRuntime().exec("killall Instruments");
+		// 关闭已有的instruments进程，防止instruments造成内存泄露
+		killInstruments();
 		
 		MySocket.startSocket();
 
@@ -88,9 +87,9 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 
 		// proc.waitFor();
 		proc.destroy();
-		//关闭已有的instruments进程，防止instruments造成内存泄露
-		Runtime.getRuntime().exec("killall instruments");
-		
+		// 关闭已有的instruments进程，防止instruments造成内存泄露
+		killInstruments();
+
 		// String[] cmd = { "/bin/sh", "-c", "rm -rf *.trace " };
 		// Process pro = Runtime.getRuntime().exec(cmd);
 		// pro.waitFor();
@@ -133,4 +132,10 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 	//
 	// exception.printStackTrace();
 	// }
+
+	private void killInstruments() throws Exception {
+		Runtime.getRuntime().exec("killall -9 instruments");
+		Runtime.getRuntime().exec("killall -9 Instruments");
+
+	}
 }
