@@ -56,6 +56,7 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 	public void setUp() throws Exception {
 		//关闭已有的instruments进程，防止instruments造成内存泄露
 		Runtime.getRuntime().exec("killall instruments");
+		Runtime.getRuntime().exec("killall Instruments");
 		
 		MySocket.startSocket();
 
