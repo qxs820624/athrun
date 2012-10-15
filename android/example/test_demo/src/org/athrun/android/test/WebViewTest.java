@@ -29,7 +29,7 @@ public class WebViewTest extends AthrunTestCase {
 		webview.excuteJs("document.getElementsByName('q')[0].value='iphone4s'");
 		webview.excuteJs("document.getElementsByClassName('btn-bg')[0].click()");
 		String result = webview.excuteJsAndReturn("document.body.innerText");
-		assertTrue(result, result.contains("5000"));
+		assertTrue(result, result.contains("4500"));
 		Thread.sleep(5000);
 	}
 
