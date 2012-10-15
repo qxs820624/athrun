@@ -200,4 +200,19 @@ public class MainActivityTest extends AthrunTestCase {
 		ViewGroupElement root = findElementById("mainroot", ViewGroupElement.class);
 		Log.i(LOG_TAG, String.valueOf(root.getDirectChildCount()));
 	}
+	
+	public void testFindMixed() throws Exception {
+		findElementByText("ListView").doClick();
+		AbsListViewElement listView = findElementById("my_listview",
+			AbsListViewElement.class);
+		ViewGroupElement group = listView.getChildByIndex(20, 	ViewGroupElement.class);
+		TextViewElement textView = group.getChildByIndex(1, TextViewElement.class);
+		assertEquals("Item20", textView.getText());
+		TextViewElement textView2 = findElementByText("Item20");
+		assertEquals("Item20", textView2.getText());
+		group.doLongClick();
+		findElementByText("Item One").doClick();		
+		assertTrue(waitForText("1 pressed!", 2000));
+	}
+
 }
