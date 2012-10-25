@@ -4,7 +4,12 @@
 #@author taichan@taobao.com
 
 XCODE_PATH=`xcode-select -print-path`
-TRACETEMPLATE=`find ${XCODE_PATH} -type f -name "Automation.tracetemplate"`
+XCODE_VERSION=`xcodebuild -version | grep 'Xcode 4.5'`
+if [ $XCODE_VERSION -z ] ; then
+	TRACETEMPLATE="$XCODE_PATH/Platforms/iPhoneOS.platform/Developer/Library/Instruments/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate"
+else
+	TRACETEMPLATE="$XCODE_PATH/../Applications/Instruments.app/Contents/PlugIns/AutomationInstrument.bundle/Contents/Resources/Automation.tracetemplate"
+fi
 
 APP_LOCATION=$1
 INSTRUMENT_ROOT=$2
