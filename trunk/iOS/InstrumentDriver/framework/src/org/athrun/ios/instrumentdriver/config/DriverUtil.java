@@ -19,7 +19,7 @@ public class DriverUtil {
 			throw new Error("athrun.properties中没有设置target_app属性");
 		}
 		if(app.startsWith("~")){
-			app.replaceAll("~", System.getProperty("user.home"));
+			app = app.replaceAll("~", System.getProperty("user.home"));
 		}
 		if (!new File(app).exists()) {
 				throw new Error("配置的app不存在");
