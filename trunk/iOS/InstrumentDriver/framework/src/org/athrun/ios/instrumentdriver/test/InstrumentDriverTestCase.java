@@ -134,8 +134,8 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 	// }
 
 	private void killInstruments() throws Exception {
-		Runtime.getRuntime().exec("killall -9 instruments");
-		Runtime.getRuntime().exec("killall -9 Instruments");
+		Runtime.getRuntime().exec("killall -9 'instruments'");
+		Runtime.getRuntime().exec("killall -9 'Instruments'");
 
 	}
 }
