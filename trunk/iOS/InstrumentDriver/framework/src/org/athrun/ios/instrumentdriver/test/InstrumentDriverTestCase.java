@@ -56,7 +56,7 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 	public void setUp() throws Exception {
 		// 关闭已有的instruments进程，防止instruments造成内存泄露
 		killInstruments();
-		
+
 		MySocket.startSocket();
 
 		this.target = UIATarget.localTarget();
@@ -127,15 +127,17 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 		}
 	}
 
-	// @Override
-	// public void uncaughtException(Thread thread, Throwable exception) {
-	//
-	// exception.printStackTrace();
-	// }
-
+	/**
+	 * 开始执行测试用例和测试用例执行完清理instruments进程
+	 * <p>
+	 * 测试用例批量执行时发现有instruments睡死现象
+	 * 
+	 * @throws Exception
+	 */
 	private void killInstruments() throws Exception {
 		Runtime.getRuntime().exec("killall -9 'instruments'");
 		Runtime.getRuntime().exec("killall -9 'Instruments'");
-
+		Runtime.getRuntime().exec("killall -9 instruments");
+		Runtime.getRuntime().exec("killall -9 Instruments");
 	}
 }
