@@ -14,7 +14,7 @@ try {
 		var stdout = result.stdout.split("##");
 		var type = stdout[0];
 		var script =stdout[1];
-		
+		__initial();
 		switch(type)
 		{
 			case "stringType":

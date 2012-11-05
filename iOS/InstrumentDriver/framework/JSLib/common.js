@@ -16,7 +16,6 @@ __initial();
 function findElement(root, text, index, elementType) {
 	__element = "UIAElementNil";
 	__index = 0;
-	__initial();
 	target.pushTimeout(0);
 	__findElement(eval(root), root, text, index, elementType);
 	target.popTimeout();
@@ -63,7 +62,6 @@ function __findElement(root, script, text, index, elementType) {
 
 function findElements(root, text, elementType) {
 	__elementArray = [];
-	__initial();
 	target.pushTimeout(0);
 	__findElements(eval(root), root, text, elementType);
 	target.popTimeout();
@@ -102,7 +100,6 @@ function __findElements(root, script, text, elementType) {
 
 function printElementTree(root) {
 	__elementTree = "";
-	__initial();
 	target.pushTimeout(0);
 	__logElementTree(eval(root), "", root);
 	target.popTimeout();
