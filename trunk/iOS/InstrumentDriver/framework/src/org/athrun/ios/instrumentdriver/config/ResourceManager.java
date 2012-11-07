@@ -25,6 +25,8 @@ public class ResourceManager {
 
 	private static final String home = System.getProperty("user.home");
 	private static final String instrumentFolder = "InstrumentDriver";
+	private static final String instrumentTraceFileFolder = "./instrumentsDriver.trace";
+	
 	public static File instrumentRoot = new File(home, instrumentFolder);
 
 	public static void updateResource() {
@@ -37,6 +39,7 @@ public class ResourceManager {
 			copyResource(FILECOMMONJS);
 			replace("%InstrumentRoot%", getInstrumentRoot(), new File(
 					instrumentRoot, FILERUNNERJS));
+			DriverUtil.delFolder(instrumentTraceFileFolder);
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
