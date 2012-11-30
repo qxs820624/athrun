@@ -8,11 +8,6 @@
 
 #import "TaoTestAppDelegate.h"
 
-//add by autotest
-#ifdef SCRIPT_DRIVEN_TEST_MODE_ENABLED
-#import "TBRunner.h"
-#endif
-
 
 @implementation TaoTestAppDelegate
 
@@ -29,11 +24,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-
-    //add by autotest
-#ifdef SCRIPT_DRIVEN_TEST_MODE_ENABLED
-    //[[[TBTestRunner alloc] init] autorelease];
-#endif
 
     return YES;
 }
