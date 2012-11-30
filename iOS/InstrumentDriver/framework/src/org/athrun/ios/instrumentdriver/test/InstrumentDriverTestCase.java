@@ -27,6 +27,7 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 		super("InstrumentDriverTestCase");
 	}
 
+	private static final String instrumentTraceFileFolder = "./instrumentsDriver.trace";
 	public UIATarget target;
 	public UIAApplication app;
 	public UIAWindow win;
@@ -56,7 +57,7 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 	public void setUp() throws Exception {
 		// 关闭已有的instruments进程，防止instruments造成内存泄露
 		killInstruments();
-
+		DriverUtil.delFolder(instrumentTraceFileFolder);
 		MySocket.startSocket();
 
 		this.target = UIATarget.localTarget();
@@ -74,7 +75,7 @@ public class InstrumentDriverTestCase extends ThreadGroup {
 		System.out.println("shellCmd:\t" + shellCmd);
 
 		proc = Runtime.getRuntime().exec(cmd);
-		// new Thread(new ReadInstrumentsOutPut(), "instruments").start();
+		new Thread(new ReadInstrumentsOutPut(), "instruments").start();
 
 	}
 
