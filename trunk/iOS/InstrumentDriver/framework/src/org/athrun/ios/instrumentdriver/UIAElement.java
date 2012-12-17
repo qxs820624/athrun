@@ -421,6 +421,10 @@ public class UIAElement {
 		MySocket.getVoid(this.guid + ".tapWithOptions(" + tapOffset + ")");
 	}
 
+	public void doubleTap() throws Exception {
+		MySocket.getVoid(this.guid + ".doubleTap()");
+	}
+
 	public void dragInsideWithOptions(String dragOptions) throws Exception {
 		MySocket.getVoid(this.guid + ".dragInsideWithOptions(" + dragOptions
 				+ ")");
