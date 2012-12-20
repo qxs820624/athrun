@@ -178,27 +178,44 @@ public final class ViewUtils {
 		}
 	}
 
+
+	private static String windowManagerString;
+	private static String getWindowManagerString() {
+		if (windowManagerString == null) {
+			if (android.os.Build.VERSION.SDK_INT >= 17) {
+				windowManagerString = "sDefaultWindowManager";
+			} else if (android.os.Build.VERSION.SDK_INT >= 13) {
+				windowManagerString = "sWindowManager";
+			} else {
+				windowManagerString = "mWindowManager";
+			}
+		}
+		return windowManagerString;
+	}
+
+
 	private static View[] getDecorViews() {
 		Object wmi;
 		try {
-			wmi = windowManager.getDeclaredMethod("getDefault").invoke(null);
 			Field views = windowManager.getDeclaredField("mViews");
 			views.setAccessible(true);
-
+			Field instanceField = windowManager
+					.getDeclaredField(getWindowManagerString());
+			instanceField.setAccessible(true);
+			wmi = instanceField.get(null);
 			synchronized (wmi) {
 				return ((View[]) views.get(wmi)).clone();
 			}
-
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			// } catch (InvocationTargetException e) {
+			// e.printStackTrace();
+			// } catch (NoSuchMethodException e) {
+			// e.printStackTrace();
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
 		}
