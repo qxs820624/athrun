@@ -307,6 +307,7 @@ public class PolideaInstrumentationTestRunner extends InstrumentationTestRunner 
 
 	private void endFile(File f) throws IOException {
 		FileHelpers.chmod(f.getAbsolutePath(), 0777);
+		FileHelpers.chmod(f.getParent(), 0777);
 		Log.d(TAG, "closing file");
 		currentXmlSerializer.endTag(null, TESTSUITES);
 		currentXmlSerializer.endDocument();
