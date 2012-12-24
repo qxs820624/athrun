@@ -165,11 +165,17 @@ public final class ViewUtils {
 			}
 		}
 	}
-
+	
 	private static Class<?> windowManager;
 	static {
 		try {
-			windowManager = Class.forName("android.view.WindowManagerImpl");
+			String windowManagerClassName;
+			if (android.os.Build.VERSION.SDK_INT >= 17) {
+				windowManagerClassName = "android.view.WindowManagerGlobal";
+			} else {
+				windowManagerClassName = "android.view.WindowManagerImpl";
+			}
+			windowManager = Class.forName(windowManagerClassName);
 
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
@@ -177,7 +183,6 @@ public final class ViewUtils {
 			e.printStackTrace();
 		}
 	}
-
 
 	private static String windowManagerString;
 	private static String getWindowManagerString() {
