@@ -58,6 +58,23 @@ public class UIATarget {
 	}
 
 	/**
+	 * Flicks from the specified starting screen location to the specified
+	 * ending screen location.
+	 * 
+	 * <p>
+	 * 模拟手势，从一个坐标点滑动到另一个点坐标点(原点坐标为屏幕左上角)
+	 * 
+	 * @param fromPointObject
+	 * @param toPointObject
+	 * @throws Exception
+	 */
+	public void flickFromTo(Point fromPointObject, Point toPointObject)
+			throws Exception {
+		MySocket.getVoid(this.guid + ".flickFromTo(" + fromPointObject + ","
+				+ toPointObject + ")");
+	}
+
+	/**
 	 * 向上滑动窗口,滑动一个范围，200单位 即向上滑动大约半个屏幕的高度
 	 * 
 	 * @throws Exception
