@@ -27,7 +27,7 @@ public class AthrunCSTest extends InstrumentDriverTestCase {
 
 		// 搜索宝贝
 		win.searchBars()[0].tap();
-		app.keyboard().typeString("iphone\\n");
+		app.keyboard().typeString("iphone\\\\n");
 
 		win.findElementByText("首页", UIAButton.class).tap();
 		win.findElementByText("充值中心").tap();
