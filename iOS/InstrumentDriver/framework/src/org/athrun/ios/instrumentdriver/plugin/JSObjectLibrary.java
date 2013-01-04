@@ -14,6 +14,11 @@ import org.athrun.ios.instrumentdriver.UIAElementHelp;
 import net.sf.json.JSONObject;
 
 
+/**
+ * @author dylan.zhang
+ * 
+ */
+
 public class JSObjectLibrary {
 
 	/**
