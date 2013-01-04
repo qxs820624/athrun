@@ -14,6 +14,12 @@ import org.junit.Test;
 
 
 
+/**
+ * @author dylan.zhang
+ * 
+ *         This is a demo.
+ */
+
 public class JSTest extends InstrumentDriverTestCase {
 	JSObjectLibrary jsl = new JSObjectLibrary();
 	JSONObject jo = jsl.returnScriptJSONObjectType(jsl
