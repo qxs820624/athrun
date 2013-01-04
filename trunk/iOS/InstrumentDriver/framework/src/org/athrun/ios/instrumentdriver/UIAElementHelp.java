@@ -15,7 +15,7 @@ import net.sf.json.JSONObject;
  * @author ziyu.hch
  * 
  */
-class UIAElementHelp {
+public class UIAElementHelp {
 
 	/**
 	 * 返回UIAElement元素数组
