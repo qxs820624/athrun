@@ -136,8 +136,8 @@ public class UIATarget {
 	}
 
 	public void captureScreenWithName(String imageName) throws Exception {
-		MySocket.getVoid(this.guid + ".captureScreenWithName(" + imageName
-				+ ")");
+		MySocket.getVoid(this.guid + ".captureScreenWithName('" + imageName
+				+ "')");
 	}
 
 }
