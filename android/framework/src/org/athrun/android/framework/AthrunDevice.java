@@ -277,6 +277,21 @@ public final class AthrunDevice {
 	public boolean waitForActivity(String name, int timeout) {
 		return activityUtils.waitForActivity(name, timeout);
 	}
+	
+	/**
+	 * Waits for the given {@link Activity}.
+	 * 
+	 * @param name
+	 *            the name of the {@code Activity} to wait for e.g.
+	 *            {@code "MyActivity"}
+	 *            
+	 * @return {@code true} if {@code Activity} appears before the timeout and
+	 *         {@code false} if it does not
+	 * 
+	 */
+	public boolean waitForActivity(String name) {
+		return activityUtils.waitForActivity(name, 5000);
+	}
 
 	/**
 	 * Returns to the given {@link Activity}.
