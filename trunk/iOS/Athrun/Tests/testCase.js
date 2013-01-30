@@ -1,4 +1,4 @@
-#import "../LibJS/imports.js"
+#import "../LibJS/athrunImports.js"
 
 /**
  *测试Picker的相关扩展
