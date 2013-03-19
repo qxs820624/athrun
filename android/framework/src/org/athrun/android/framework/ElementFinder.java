@@ -108,6 +108,7 @@ public class ElementFinder {
 		if (1 == matchedCounts) {
 			logger.info("There is 1 matched view.");
 			View view = matches.get(0);
+			// add view.hasWindowFocus() to ensure the view is on the top layer
 			if (view.hasWindowFocus() && view.getVisibility() == View.VISIBLE && view.isShown()) {
 				suitableViews = matches;
 			}
