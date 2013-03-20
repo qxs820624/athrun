@@ -18,12 +18,14 @@
  */
 package org.athrun.android.framework;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
 import org.athrun.android.framework.utils.AthrunConnectorThread;
 import org.athrun.android.framework.utils.RClassUtils;
+import org.athrun.android.framework.Failover;
 import org.athrun.android.framework.viewelement.AbsListViewElement;
 import org.athrun.android.framework.viewelement.IViewElement;
 import org.athrun.android.framework.viewelement.ScrollViewElement;
@@ -106,18 +108,31 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	@Override
-	protected void runTest() {
+	protected void runTest() throws Exception{
 		String testMethodName = getClass().getName() + "." + getName();
-		
-		try {
-			logger.info("Begin to run " + testMethodName + ".");
-			super.runTest();
-			logger.info(testMethodName + " run finished.");
-
-		} catch (Throwable e) {
-			logger.error("runTest() throws an exception: ", e);
-			throw new RuntimeException(e);
+		int retryTimes = 1;
+		logger.info("Begin to run " + testMethodName + ".");
+		//Add Retry when some tests may easily failed.
+		Method method = getClass().getMethod(getName(), (Class[]) null);
+		Failover failover = method.getAnnotation(Failover.class);
+		if(failover != null && failover.retryTimes() > 1){
+			retryTimes = failover.retryTimes();
 		}
+		while(retryTimes > 0){
+			try{
+				super.runTest();
+				break;
+			}catch (Throwable e){
+				if(retryTimes > 1){
+					retryTimes--;
+					continue;
+				}else{
+					logger.error("runTest() throws an exception: ", e);
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		logger.info(testMethodName + " run finished.");
 	}
 	
 	@Override
