@@ -427,6 +427,8 @@ public final class AthrunDevice {
 			BufferedReader localBufferedReader2 = new BufferedReader(fileSnd);
 			result[0] = localBufferedReader1.readLine();
 			result[1] = localBufferedReader2.readLine();
+			localBufferedReader1.close();
+			localBufferedReader2.close();
 			return result;
 		} catch (IOException e) {
 
@@ -453,6 +455,7 @@ public final class AthrunDevice {
 					return "" + str2;
 				}
 			}
+			localBufferedReader.close();
 		} catch (IOException e) {
 		}
 		return str2;
