@@ -3,12 +3,17 @@
  */
 package org.athrun.android.framework;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
- * for kelude use only;
- * <p>
  * 
  * @author jason.wuq
  */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
 public @interface Failover {
 	int retryTimes() default 1;
 }

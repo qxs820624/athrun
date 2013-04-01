@@ -18,6 +18,7 @@
  */
 package org.athrun.android.framework;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -108,27 +109,28 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	@Override
-	protected void runTest() throws Exception{
+	protected void runTest() throws Throwable{
 		String testMethodName = getClass().getName() + "." + getName();
 		int retryTimes = 1;
 		logger.info("Begin to run " + testMethodName + ".");
 		//Add Retry when some tests may easily failed.
-		Method method = getClass().getMethod(getName(), (Class[]) null);
+		Method method = getClass().getMethod(getName(), (Class[])null);
 		Failover failover = method.getAnnotation(Failover.class);
 		if(failover != null && failover.retryTimes() > 1){
 			retryTimes = failover.retryTimes();
 		}
-		while(retryTimes > 0){
+		while(retryTimes >= 0){
 			try{
 				super.runTest();
 				break;
 			}catch (Throwable e){
-				if(retryTimes > 1){
+				if(retryTimes >= 1){
 					retryTimes--;
+					logger.error("fail...retrying...", e);
 					continue;
 				}else{
 					logger.error("runTest() throws an exception: ", e);
-					throw new RuntimeException(e);
+					throw e;
 				}
 			}
 		}
