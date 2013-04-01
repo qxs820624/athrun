@@ -2,11 +2,14 @@ package org.athrun.ios.instrumentdriver;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+
+import org.athrun.ios.instrumentdriver.config.DriverUtil;
 
 /**
  * @author ziyu.hch
@@ -19,7 +22,7 @@ public class MySocket {
 		voidType, stringType, booleanType, numberType, JSONObject, JSONArray, exitType
 	}
 
-	private static final int TIMEOUT_TIME = 20 * 1000;
+	private static int TIMEOUT_TIME = DriverUtil.getTimeOut() * 1000;
 
 	public static ServerSocket server = null;
 
@@ -141,12 +144,17 @@ public class MySocket {
 		PrintWriter os = null;
 
 		try {
+//			socket = server.accept();
+//			is = new BufferedReader(new InputStreamReader(
+//					socket.getInputStream()));
+//			os = new PrintWriter(socket.getOutputStream());
+
+			////modified by zhijie
 			socket = server.accept();
-
 			is = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
-
-			os = new PrintWriter(socket.getOutputStream());
+			socket.getInputStream(), "UTF-8"));
+			os = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"));
+			////modified by zhijie end
 
 			request = is.readLine();
 
