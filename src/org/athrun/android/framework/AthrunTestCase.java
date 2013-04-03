@@ -111,16 +111,25 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	@Override
 	protected void runTest() throws Throwable{
 		String testMethodName = getClass().getName() + "." + getName();
-		int retryTimes = 1;
 		logger.info("Begin to run " + testMethodName + ".");
+		
 		//Add Retry when some tests may easily failed.
 		Method method = getClass().getMethod(getName(), (Class[])null);
+		int retryTimes = 0;
+		boolean firstTime = true;
 		Failover failover = method.getAnnotation(Failover.class);
-		if(failover != null && failover.retryTimes() > 1){
+		if(failover != null && failover.retryTimes() >= 1){
 			retryTimes = failover.retryTimes();
 		}
+		
 		while(retryTimes >= 0){
 			try{
+				if(!firstTime){
+					//finish current activity, avoid interrupting retry result.
+					tearDown();
+					setUp();
+				}
+				firstTime = false;
 				super.runTest();
 				break;
 			}catch (Throwable e){
