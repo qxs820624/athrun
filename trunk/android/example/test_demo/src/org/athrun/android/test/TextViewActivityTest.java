@@ -33,8 +33,7 @@ public class TextViewActivityTest extends AthrunTestCase {
 		findElementById("btn_textview_activity", ViewElement.class).doClick();
 		TextViewElement myTextView = findElementById("my_textview",
 				TextViewElement.class);
-		myTextView.setText("ÖÐÎÄºÃ");		
-		myTextView.setText("1234");
+		myTextView.setText("This is the text set by user");
 		assertEquals("This is the text set by user", myTextView.getText());
 	}
 
@@ -64,7 +63,7 @@ public class TextViewActivityTest extends AthrunTestCase {
 		assertEquals("This is the text set by user",
 				myAutoCompleteTextView.getText());
 		myAutoCompleteTextView.clearText();		
-		myAutoCompleteTextView.setText("ÖÐÎÄºÃ");
+		myAutoCompleteTextView.setText("ä¸­æ–‡å¥½");
 		myAutoCompleteTextView.setText("fuyun");		
 		assertEquals("fuyun", myAutoCompleteTextView.getText());
 	}
