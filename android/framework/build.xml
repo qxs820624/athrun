@@ -42,7 +42,13 @@
         depends="init" >
 
         <mkdir dir="${classes.dir}" />
-
+    	
+    	<copy todir="${classes.dir}">
+           <fileset dir=".">
+             <include name="src/" />
+           </fileset>
+        </copy>
+    	
         <javac
             destdir="${classes.dir}"
             source="1.6"
@@ -63,7 +69,6 @@
         <jar
             basedir="${classes.dir}"
             destfile="${basedir}/${ant.project.name}.jar" >
-
             <zipfileset
                 excludes="META-INF/*.SF"
                 src="${lib.dir}/android-logging-log4j-1.0.2.jar" />
@@ -71,7 +76,7 @@
             <zipfileset
                 excludes="META-INF/*.SF"
                 src="${lib.dir}/log4j-1.2.16.jar" />
-
+        	
         </jar>
     </target>
 
