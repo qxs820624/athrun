@@ -18,12 +18,14 @@
  */
 package org.athrun.android.framework;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
 import org.athrun.android.framework.utils.AthrunConnectorThread;
 import org.athrun.android.framework.utils.RClassUtils;
+import org.athrun.android.framework.Failover;
 import org.athrun.android.framework.viewelement.AbsListViewElement;
 import org.athrun.android.framework.viewelement.IViewElement;
 import org.athrun.android.framework.viewelement.ScrollViewElement;
@@ -31,6 +33,7 @@ import org.athrun.android.framework.viewelement.TextViewElement;
 import org.athrun.android.framework.viewelement.ViewElement;
 
 import android.app.Activity;
+import android.app.ActivityGroup;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Instrumentation;
@@ -106,18 +109,41 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	@Override
-	protected void runTest() {
+	protected void runTest() throws Throwable{
 		String testMethodName = getClass().getName() + "." + getName();
+		logger.info("Begin to run " + testMethodName + ".");
 		
-		try {
-			logger.info("Begin to run " + testMethodName + ".");
-			super.runTest();
-			logger.info(testMethodName + " run finished.");
-
-		} catch (Throwable e) {
-			logger.error("runTest() throws an exception: ", e);
-			throw new RuntimeException(e);
+		//Add Retry when some tests may easily failed.
+		Method method = getClass().getMethod(getName(), (Class[])null);
+		int retryTimes = 0;
+		boolean firstTime = true;
+		Failover failover = method.getAnnotation(Failover.class);
+		if(failover != null && failover.retryTimes() >= 1){
+			retryTimes = failover.retryTimes();
 		}
+		
+		while(retryTimes >= 0){
+			try{
+				if(!firstTime){
+					//finish current activity, avoid interrupting retry result.
+					tearDown();
+					setUp();
+				}
+				firstTime = false;
+				super.runTest();
+				break;
+			}catch (Throwable e){
+				if(retryTimes >= 1){
+					retryTimes--;
+					logger.error("fail...retrying...", e);
+					continue;
+				}else{
+					logger.error("runTest() throws an exception: ", e);
+					throw e;
+				}
+			}
+		}
+		logger.info(testMethodName + " run finished.");
 	}
 	
 	@Override
@@ -380,18 +406,21 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	/**
-	 * get the activity name that display in the front screen
+	 * get the activity name that display in the front screen. 
+	 * resolve the problem activity name is wrong when crossing application.
+	 * note: maybe need adding android.permission.GET_TASKS in AndroidManifest.xml of application under test
 	 * 2011/12/08
 	 * @author andsun sunzhaoliang31@163.com
 	 * @return activityName   see as this type "com.android.browser.BrowserActivity"
 	 */
-	public String getCurrentActivityName() throws Exception{
+	public String getCurrentActivityNameAcrossApp() throws Exception{
 		ac = getActivity();
 		activityManager = (ActivityManager)ac.getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE); 
 		List<RunningTaskInfo> forGroundActivity = activityManager.getRunningTasks(1); 
 		RunningTaskInfo currentActivity; 
 		currentActivity = forGroundActivity.get(0); 
 		activityName = currentActivity.topActivity.getClassName(); 
+		
 		return activityName;
 	}
 	
@@ -403,4 +432,21 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 		ac.startActivityIfNeeded(mintent, 0);
 		activityManager.killBackgroundProcesses(ActivityName); 
 	}
+	/**
+	 * if the activity is ActivityGroup, return current active sub_activity name.
+	 * else return active activity name
+	 * 2013/04/1
+	 * @author chenxu
+	 * @return activityName   
+	 */
+	public String getCurrentActivityName() throws Exception{
+		
+		Activity tabAC= getDevice().getActivityUtils().getCurrentActivity();
+		if (tabAC instanceof ActivityGroup) {
+			return ((ActivityGroup) tabAC).getCurrentActivity().getClass().getName();
+		} else {
+			return tabAC.getClass().getName();
+		}
+	}
+	
 }
