@@ -320,4 +320,9 @@
     <string name="mapview">MapView</string>
     <string name="another_app">Another App</string>
     <string name="sametext">same text</string>
+    <string name="tab_activity">TabActivity</string>
+    <string name="first_tab">First tab</string>
+    <string name="second_tab">Second tab</string>
+    <string name="third_tab">Third tab</string>
+    
 </resources>
