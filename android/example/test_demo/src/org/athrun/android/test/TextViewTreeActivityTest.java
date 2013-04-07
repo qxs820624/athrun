@@ -39,7 +39,7 @@ public class TextViewTreeActivityTest extends AthrunTestCase {
 				ViewGroupElement.class);
 		// log(viewGroup.getChildCount() + "");
 		assertEquals("Third level second node",
-				viewGroup.getChildByIndex(7, TextViewElement.class).getText());
+		viewGroup.getChildByIndex(7, TextViewElement.class).getText());
 	}
 
 }
