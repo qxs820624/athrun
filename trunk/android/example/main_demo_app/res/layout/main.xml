@@ -43,10 +43,14 @@
 		<Button android:id="@+id/btn_sametext_activity"
 			android:layout_width="match_parent" android:layout_height="wrap_content"
 			android:text="@string/sametext" />
-
+		
 		<include android:id="@+id/include_checkbox"
 			android:layout_width="match_parent" android:layout_height="wrap_content"
 			layout="@layout/checkbox_layout" />
+		
+		<Button android:id="@+id/btn_tabs_activity"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:text="@string/tab_activity" />
 
 	</LinearLayout>
 </ScrollView>

@@ -51,6 +51,8 @@ public class MainActivity extends Activity {
 	private TextView textView;
 	private Gallery gallery;
 	private ImageView imageView;
+	//add by chenxu
+	private Button btn_tabactivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class MainActivity extends Activity {
 		
 		gallery = (Gallery) findViewById(R.id.my_gallery);
 		gallery.setAdapter(new ImageAdapter(this));
+		// add by chenxu
+		btn_tabactivity = (Button) findViewById(R.id.btn_tabs_activity);
 	}
 
 	private void setListeners() {
@@ -115,6 +119,8 @@ public class MainActivity extends Activity {
 		setOnListener(btn_webview, WebViewActivity.class);
 		setOnListener(btn_listview, ListViewActivity.class);
 		setOnListener(btn_sametextview, SameTextActivity.class);
+		//add by chenxu
+		setOnListener(btn_tabactivity, MyTabActivity.class);
 		
 		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
