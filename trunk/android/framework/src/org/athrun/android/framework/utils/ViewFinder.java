@@ -35,7 +35,7 @@ public class ViewFinder {
 				continue;
 			}
 
-			logger.info("find " + matches.size() + " veiw that match the id "
+			logger.info("find " + matches.size() + " view that match the id "
 					+ id);
 			return matches;
 		}

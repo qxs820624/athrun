@@ -97,7 +97,7 @@ public final class JavascriptInterface {
 					if (waitTime <= 0){
 						if(retryTimes>0){
 							if(tmtsWebView!=null){
-								tmtsWebView.excuteJs(tmtsWebView.getCurrentScript());
+								tmtsWebView.executeJs(tmtsWebView.getCurrentScript());
 								Log.d("Athrun", "retryTimes2:" + retryTimes--);
 								return getResult(retryTimes);
 							}else{

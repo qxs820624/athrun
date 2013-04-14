@@ -85,17 +85,18 @@ public class WebViewElement {
 	}
 
 	/**
-	 * @param javascript
+	 * @deprecated please using executeJs instead	 * @param javascript
 	 * @throws InterruptedException
 	 */
 	public void excuteJs(final String script) throws InterruptedException {
-		Log.d("Mywebview", "progress:" + mWebView.getProgress());
-		waitForWebViewLoaded();
-		loadJavascript(script);
-		Log.i(LOG_TAG, script);
-		Thread.sleep(500); //sleep a short time for js executing.
+		executeJs(script);
 	}
 
+	/**
+	 * @param javascript
+	 * @throws InterruptedException
+	 */
+	public void executeJs(final String script) throws InterruptedException {		Log.d("Mywebview", "progress:" + mWebView.getProgress());		waitForWebViewLoaded();		loadJavascript(script);		Log.i(LOG_TAG, script);		Thread.sleep(500); //sleep a short time for js executing.	}
 	public WebElement getElementById(String id) {
 		loadJavascript("var element = document.getElementById('" + id + "');");
 		Log.i(LOG_TAG, jInterface.getResult());
