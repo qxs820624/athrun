@@ -10,19 +10,16 @@ import org.athrun.android.framework.viewelement.TextViewElement;
 import org.athrun.android.framework.viewelement.ViewElement;
 import org.athrun.android.framework.viewelement.ViewGroupElement;
 
-import android.R.integer;
 import android.util.Log;
 import android.widget.AbsListView;
 
 public class MainActivityTest extends AthrunTestCase {
 	private static final String LOG_TAG = "MainActivityTest";
-	int num  = 0;
 
 	public MainActivityTest() throws Exception {
 		super("org.athrun.android.app", "org.athrun.android.app.MainActivity");
 		AthrunTestCase.setMaxTimeToFindView(10000);
 	}
-	
 	@Test
 	public void testWaitForActivity() throws Exception {
 		// log("This is a test for log() method");
@@ -41,9 +38,9 @@ public class MainActivityTest extends AthrunTestCase {
 		ViewGroupElement include = findElementById("include_checkbox",
 				ViewGroupElement.class);
 		include.findElementById("my_checkbox", ViewElement.class).doClick();
-		TextViewElement tmtsTextView = include.findElementById("textview",
+		TextViewElement mTextView = include.findElementById("textview",
 				TextViewElement.class);
-		assertEquals("CheckBox is checked!", tmtsTextView.getText());
+		assertEquals("CheckBox is checked!", mTextView.getText());
 	}
 
 	@Test
