@@ -21,13 +21,13 @@ public class ListViewActivityTest extends AthrunTestCase {
 	@Test
 	public void testFindElementByIndex() throws Exception {
 		findElementById("btn_listview_activity", ViewElement.class).doClick();
-		AbsListViewElement tmtsListView = findElementById("my_listview",
+		AbsListViewElement mListView = findElementById("my_listview",
 				AbsListViewElement.class);
-		ViewGroupElement tmtsView = tmtsListView.getChildByIndex(3,
+		ViewGroupElement mView = mListView.getChildByIndex(3,
 				ViewGroupElement.class);
-		TextViewElement tmtsTextView = tmtsView.findElementById("ItemTitle",
+		TextViewElement mTextView = mView.findElementById("ItemTitle",
 				TextViewElement.class);
-		assertEquals("Item3", tmtsTextView.getText());
+		assertEquals("Item3", mTextView.getText());
 	}
 
 	@Test
