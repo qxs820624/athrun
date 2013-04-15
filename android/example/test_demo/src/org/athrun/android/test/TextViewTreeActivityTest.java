@@ -33,6 +33,7 @@ public class TextViewTreeActivityTest extends AthrunTestCase {
 	}
 
 	@Test
+	@Deprecated
 	public void testGetChildInDeep() throws Exception {
 		findElementById("btn_textviewtree_activity").doClick();
 		ViewGroupElement viewGroup = findElementById("textviewtree_root",
