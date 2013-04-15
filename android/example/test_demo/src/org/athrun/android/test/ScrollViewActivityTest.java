@@ -22,25 +22,25 @@ public class ScrollViewActivityTest extends AthrunTestCase {
 	@Test
 	public void testFullScroll() throws Exception {
 		findElementById("btn_scrollview_activity").doClick();
-		ScrollViewElement tmtsScrollView = findElementById("ScrollView",
+		ScrollViewElement mScrollView = findElementById("ScrollView",
 				ScrollViewElement.class);
-		tmtsScrollView.fullScroll(View.FOCUS_DOWN);
+		mScrollView.fullScroll(View.FOCUS_DOWN);
 	}
 
 	@Test
 	public void testScrollTo() throws Exception {
 		findElementById("btn_scrollview_activity").doClick();
-		ScrollViewElement tmtsScrollView = findElementById("ScrollView",
+		ScrollViewElement mScrollView = findElementById("ScrollView",
 				ScrollViewElement.class);
-		tmtsScrollView.scrollTo(480, 400);
+		mScrollView.scrollTo(480, 400);
 	}
 
 	@Test
 	public void testScrollBy() throws Exception {
 		findElementById("btn_scrollview_activity").doClick();
-		ScrollViewElement tmtsScrollView = findElementById("ScrollView",
+		ScrollViewElement mScrollView = findElementById("ScrollView",
 				ScrollViewElement.class);
-		tmtsScrollView.scrollBy(480, 400);
+		mScrollView.scrollBy(480, 400);
 	}
 
 	@Test
