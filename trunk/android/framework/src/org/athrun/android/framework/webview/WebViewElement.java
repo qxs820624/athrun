@@ -45,13 +45,21 @@ public class WebViewElement {
 		this.jInterface.setTmtsWebView(this);
 		initWebViewSettings(mWebView);
 	}
-
 	/**
+	 * @deprecated  please use executeJsAndReturn instead
 	 * @param javascript
 	 * @return javascript excute result
 	 * @throws InterruptedException
 	 */
 	public String excuteJsAndReturn(final String script) {
+		return executeJsAndReturn(script);
+	}
+	/**
+	 * @param javascript
+	 * @return javascript excute result
+	 * @throws InterruptedException
+	 */
+	public String executeJsAndReturn(final String script) {
 		Log.d("Mywebview", "progress:" + mWebView.getProgress());
 		waitForWebViewLoaded();
 		loadJavascript("window.webdriver.executejs(" + script + ")");
