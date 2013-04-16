@@ -44,14 +44,20 @@ public final class JavascriptInterface {
 	}
 
 	/**
+	 * @deprecated  please use executejs instead 
 	 * @author shidun
 	 */
 	public void excutejs(String updated) {
-			result = updated;
-			setReady(true);
-			Log.d("Athrun", "CallBack excutejs: " + result);
+		executejs(updated);
 	}
-	
+	/**
+	 * @author shidun
+	 */
+	public void executejs(String updated) {
+		result = updated;
+		setReady(true);
+		Log.d("Athrun", "CallBack executejs: " + result);
+	}
 	public synchronized void setReady(boolean isReady){
 		resultReady = isReady;
 	}
