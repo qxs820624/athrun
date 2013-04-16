@@ -54,7 +54,7 @@ public class WebViewElement {
 	public String excuteJsAndReturn(final String script) {
 		Log.d("Mywebview", "progress:" + mWebView.getProgress());
 		waitForWebViewLoaded();
-		loadJavascript("window.webdriver.excutejs(" + script + ")");
+		loadJavascript("window.webdriver.executejs(" + script + ")");
 		Log.i(LOG_TAG, script);		
 		return jInterface.getResult();
 	}
