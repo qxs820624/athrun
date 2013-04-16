@@ -48,7 +48,7 @@ public class WebElement {
 	
 	
 	private String excuteJavaScriptAndReturn(String script) {
-		loadJavascript("window.webdriver.excutejs("+script+")");
+		loadJavascript("window.webdriver.executejs("+script+")");
 		return JavascriptInterface.getInstance().getResult();
 	}
 	
