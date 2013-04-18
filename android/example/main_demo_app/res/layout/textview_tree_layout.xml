@@ -27,11 +27,11 @@
 			android:layout_width="match_parent" android:layout_height="wrap_content"
 			android:id="@+id/textviewtree_two_three">
 
-			<TextView android:id="@+id/textviewtree_two_one"
+			<TextView android:id="@+id/textviewtree_three_one"
 				android:layout_width="match_parent" android:layout_height="wrap_content"
 				android:text="@string/three_one" />
 
-			<TextView android:id="@+id/textviewtree_two_two"
+			<TextView android:id="@+id/textviewtree_three_two"
 				android:layout_width="match_parent" android:layout_height="wrap_content"
 				android:text="@string/three_two" />
 
