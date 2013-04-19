@@ -1,6 +1,7 @@
 package org.athrun.android.framework;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -140,13 +141,25 @@ public class ElementFinder {
 		}
 
 		return suitableViews;
-	}
-
-	private <T> T createInstance(View view, Class<T> returnType)
-			throws Exception {
-		Constructor<?> constructor = returnType.getDeclaredConstructors()[0];
-		constructor.setAccessible(true);
-		Object obj = constructor.newInstance(inst, view);
-		return returnType.cast(obj);
-	}
+	}	
+	// updated by bichai@taobao.com
+	private <T> T createInstance(View view, Class<T> returnType){
+	      Constructor<?> constructor = returnType.getDeclaredConstructors()[0];
+	      constructor.setAccessible(true);
+	      Object obj = null;
+	      try {
+	         obj = constructor.newInstance(inst, view);
+	      } catch (IllegalArgumentException e) {
+	          //if catching IllegalArgumentException, check the element type and put the message into the new exception
+	         throw new RuntimeException(ActivityElementType.TypeComparison(view, returnType));
+	         
+	      } catch (InstantiationException e) {
+	         e.printStackTrace();
+	      } catch (IllegalAccessException e) {
+	         e.printStackTrace();
+	      } catch (InvocationTargetException e) {
+	         e.printStackTrace();
+	      }
+	      return returnType.cast(obj);
+	   }
 }
