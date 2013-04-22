@@ -40,6 +40,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -82,7 +83,6 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	private Activity ac ;
 	private String activityName;
 	private ActivityManager activityManager ;
-	
 	/**
 	 * Constructor of {@link AthrunTestCase}.
 	 * 
@@ -139,6 +139,8 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 					continue;
 				}else{
 					logger.error("runTest() throws an exception: ", e);
+					// add by zhuangfei(jiand.zhaojd@alibaba-inc.com)
+					captureScreenShot();
 					throw e;
 				}
 			}
@@ -436,7 +438,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	 * if the activity is ActivityGroup, return current active sub_activity name.
 	 * else return active activity name
 	 * 2013/04/1
-	 * @author chenxu
+	 * @author xiaoliang.chenxl
 	 * @return activityName   
 	 */
 	public String getCurrentActivityName() throws Exception{
@@ -448,5 +450,36 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 			return tabAC.getClass().getName();
 		}
 	}
+	
+	/**
+     * screen shot and save it to sdcard. file name is based on the activity and capture time
+     * Please add permission: android.permission.WRITE_EXTERNAL_STORAGE
+     * in test apk's AndroidManifest.xml
+     * @author 
+     * @return void   
+	 * @throws Exception 
+     */
+	public void captureScreenShot() throws Exception{
+	    Time time = new Time("GMT+8");    
+        time.setToNow();   
+        String testMethodName = getClass().getSimpleName() + "." + getName();
+        String savedName = testMethodName + "_" + time.year + "_" + time.month + "_" + 
+                    time.monthDay + "_" + time.hour + "_" + time.minute + "_" + time.second;
+        
+	    Activity curActivity = getDevice().getCurrentActivity();
+	    ScreenShot.shoot(curActivity,savedName);
+	}
+	/**
+     * screen shot and save it as given name to sdcard. 
+     * Please add permission: android.permission.WRITE_EXTERNAL_STORAGE
+     * in test apk's AndroidManifest.xml
+     * @author 
+     * @return void  
+     *  
+     */
+    public void captureScreenShot(String pictureName){
+        Activity curActivity = getDevice().getCurrentActivity();
+        ScreenShot.shoot(curActivity, pictureName);
+    }
 	
 }
