@@ -467,6 +467,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
                     time.monthDay + "_" + time.hour + "_" + time.minute + "_" + time.second;
         
 	    Activity curActivity = getDevice().getCurrentActivity();
+	    
 	    ScreenShot.shoot(curActivity,savedName);
 	}
 	/**
