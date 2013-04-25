@@ -1,5 +1,6 @@
 package org.athrun.android.framework;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,19 +30,24 @@ public class ScreenShot {
         view.setDrawingCacheEnabled(true);  
         view.buildDrawingCache();  
         Bitmap b1 = view.getDrawingCache();  
-  
-        // get the height of status bar  
-        Rect frame = new Rect();  
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);  
-        int statusBarHeight = frame.top;  
-  
-        // get the width and height of screen  
-        int width = activity.getWindowManager().getDefaultDisplay().getWidth();  
-        int height = activity.getWindowManager().getDefaultDisplay().getHeight();  
-  
-        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);  
-        view.destroyDrawingCache();  
-        return b;  
+        if (b1 !=null) {
+            // get the height of status bar  
+            Rect frame = new Rect();  
+            activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);  
+            int statusBarHeight = frame.top;  
+      
+            // get the width and height of screen  
+            int width = activity.getWindowManager().getDefaultDisplay().getWidth();  
+            int height = activity.getWindowManager().getDefaultDisplay().getHeight();  
+      
+            Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);  
+            view.destroyDrawingCache();  
+            return b;  
+        
+        } else {
+            System.err.println("create bitmap fail!");
+            return null;
+        }
     }  
   
     // save screen shot to sdcard  
@@ -63,7 +69,14 @@ public class ScreenShot {
     }  
   
     public static void shoot(Activity a, String picName) {
-        String saveNameStr = "sdcard/Athrun/" + picName + ".png";
-        ScreenShot.savePic(ScreenShot.takeScreenShot(a), saveNameStr);  
+        String saveNameStr = "sdcard" +  File.separator + "Athrun" +  File.separator + picName + ".png";
+        Bitmap btp = ScreenShot.takeScreenShot(a);
+        if(btp != null)
+        {
+            ScreenShot.savePic(btp, saveNameStr); 
+        }
+        else {
+            System.out.println("capture the screen fail!");
+        }
     }
 }  
