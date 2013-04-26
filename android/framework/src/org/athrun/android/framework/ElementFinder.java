@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
+import org.athrun.android.framework.utils.SleepUtils;
 import org.athrun.android.framework.utils.ViewFinder;
 import org.athrun.android.framework.viewelement.IViewElement;
 import org.athrun.android.framework.viewelement.TextViewElement;
@@ -111,10 +112,16 @@ public class ElementFinder {
 			View view = matches.get(0);
 			// add view.hasWindowFocus() to ensure the view is on the top layer
 			//if (view.hasWindowFocus() && view.getVisibility() == View.VISIBLE && view.isShown()) {
-			if (view.getVisibility() == View.VISIBLE && view.isShown()) {
-				suitableViews = matches;
-			}
-			
+			//add by xiaoliang.chenxl: resolve the problem of webview element return null 
+			final long startTime = System.currentTimeMillis();
+	        while (System.currentTimeMillis() < startTime + timeout) {
+	            if (view.getVisibility() == View.VISIBLE && view.isShown()) {
+	                suitableViews = matches;
+	                break;
+	            } else {
+	                SleepUtils.sleep(500);
+	            }
+	        }
 		} else if (matchedCounts > 1) {
 
 			ArrayList<T> shown = ViewUtils.removeUnshownViews(matches);
