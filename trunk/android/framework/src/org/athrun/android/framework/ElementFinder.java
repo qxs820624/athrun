@@ -112,11 +112,12 @@ public class ElementFinder {
 			View view = matches.get(0);
 			// add view.hasWindowFocus() to ensure the view is on the top layer
 			//if (view.hasWindowFocus() && view.getVisibility() == View.VISIBLE && view.isShown()) {
-			//add by xiaoliang.chenxl: resolve the problem of webview element return null 
+			//add by xiaoliang.chenxl: resolve the problem of webview is not Visible right now  
 			final long startTime = System.currentTimeMillis();
 	        while (System.currentTimeMillis() < startTime + timeout) {
 	            if (view.getVisibility() == View.VISIBLE && view.isShown()) {
 	                suitableViews = matches;
+	                SleepUtils.sleep(500);
 	                break;
 	            } else {
 	                SleepUtils.sleep(500);
