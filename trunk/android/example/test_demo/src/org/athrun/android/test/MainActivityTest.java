@@ -1,6 +1,5 @@
 package org.athrun.android.test;
 
-import org.athrun.android.app.R;
 import org.athrun.android.framework.AthrunTestCase;
 import org.athrun.android.framework.Test;
 import org.athrun.android.framework.ViewOperation;
@@ -142,7 +141,7 @@ public class MainActivityTest extends AthrunTestCase {
 
 	@Test
 	public void testFindViewByIntId() throws Exception {
-		findElementById(R.id.btn_scrollview_activity, ViewElement.class)
+		findElementById("btn_scrollview_activity", ViewElement.class)
 				.doClick();
 		assertEquals(true, getDevice().waitForActivity("ScrollActivity", 5000));
 	}
