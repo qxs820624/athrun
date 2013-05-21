@@ -2,6 +2,8 @@ package org.athrun.android.test;
 
 import org.athrun.android.framework.AthrunTestCase;
 import org.athrun.android.framework.Test;
+import org.athrun.android.framework.webview.By;
+import org.athrun.android.framework.webview.WebElement;
 import org.athrun.android.framework.webview.WebViewElement;
 
 public class WebViewTest extends AthrunTestCase {
@@ -14,7 +16,7 @@ public class WebViewTest extends AthrunTestCase {
 	@Test
 	public void testZoomInOut() throws Exception {
 		findElementByText("WebView").doClick();
-		WebViewElement webview = findElementById("mywebview", WebViewElement.class);
+		WebViewElement webview = findWebElementById("mywebview", WebViewElement.class);
 		webview.zoomIn();
 		webview.zoomIn();
 		webview.zoomIn();
@@ -24,21 +26,29 @@ public class WebViewTest extends AthrunTestCase {
 
 	@Test
 	public void testSearch() throws Exception {
-		findElementByText("WebView").doClick();
-		WebViewElement webview = findElementById("mywebview", WebViewElement.class);
-		webview.excuteJs("document.getElementsByName('q')[0].value='iphone4s'");
-		webview.excuteJs("document.getElementsByClassName('btn-bg')[0].click()");
-		String result = webview.excuteJsAndReturn("document.body.innerText");
-		assertTrue(result, result.contains("4500"));
-		Thread.sleep(5000);
+        findElementByText("WebView").doClick();
+        WebViewElement webview = findWebElementById("mywebview", WebViewElement.class);
+        // test search by xpath
+        webview.typeTextInWebElement(By.xpath("//*[@class='txt']"), "iphone");
+        // test getWebUrl()
+        assertTrue(webview.getWebUrl(), webview.getWebUrl().contains("wap.etao.com"));
+        // test clear the text 
+        webview.clearTextInWebElement(By.name("q"));
+        // test search by name
+        webview.typeTextInWebElement(By.name("q"), "iphone4s", 0);
+        //test changing the attribute of web element
+        webview.enterTextInWebElement(By.className("btn-bg"), "hahaha");
+        // test click web element
+        webview.clickOnWebElement(By.className("btn-bg"), 0);
+        Thread.sleep(5000);
 	}
 
 	@Test
 	public void testGetText() throws Exception {
 		findElementByText("WebView").doClick();
-		WebViewElement webview = findElementById("mywebview", WebViewElement.class);
-		String result = webview.excuteJsAndReturn("document.body.innerText");
-		assertTrue(result, result.contains("比价"));
+		WebViewElement webview = findWebElementById("mywebview", WebViewElement.class);
+		WebElement webEle =  webview.getWebElement(By.className("btn-bg"),0);
+		assertTrue(webEle.getText(), webEle.getText().equals("搜索"));
 		Thread.sleep(5000);
 	}
 }
