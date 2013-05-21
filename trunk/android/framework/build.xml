@@ -60,6 +60,11 @@
 
             <classpath refid="compile.classpath" />
         </javac>
+    	<copy todir="${classes.dir}/org/athrun/android/framework/webview">
+           <fileset dir="./src/org/athrun/android/framework/webview">
+             <include name="WebView.js" />
+           </fileset>
+        </copy>
     </target>
 
     <target
