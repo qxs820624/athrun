@@ -196,6 +196,11 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 			throws Exception {
 		return athrun.getElementFinder().findElementById(id, index, returnType);
 	}
+	
+	public <T> T findWebElementById(int id, int index, Class<T> returnType, ActivityUtils activityUtils)
+            throws Exception {
+        return athrun.getElementFinder().findWebElementById(id, index, returnType, activityUtils);
+    }
 
 	/**
 	 * Return an instance of {@code ViewElement} or its subclass by the given id
@@ -251,7 +256,10 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 		int intId = RClassUtils.getIdByName(this.inst.getTargetContext().getPackageName(), literalId);
 		return this.findElementById(intId, index, returnType);
 	}
-
+	public <T> T findWebElementById(String literalId, int index, Class<T> returnType, ActivityUtils activityUtils) throws Exception {
+        int intId = RClassUtils.getIdByName(this.inst.getTargetContext().getPackageName(), literalId);
+        return this.findWebElementById(intId, index, returnType, activityUtils);
+    }
 	/**
 	 * Return an instance of {@code ViewElement} or its subclass by the given name
 	 * and return type.
@@ -271,6 +279,11 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 			Class<T> returnType) throws Exception {
 		return this.findElementById(literalId, 0, returnType);
 	}
+	
+	public <T> T findWebElementById(String literalId,
+            Class<T> returnType) throws Exception {
+         return this.findWebElementById(literalId, 0, returnType, getDevice().getActivityUtils());
+     }
 	
 	public ViewElement findElementById(String literalId, int index) throws Exception {
 		return this.findElementById(literalId, index, ViewElement.class);

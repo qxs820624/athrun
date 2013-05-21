@@ -41,7 +41,7 @@ import android.view.KeyEvent;
  * 
  * @author bingyang.djj
  */
-class ActivityUtils {
+public class ActivityUtils {
 
 	private final Logger logger = LogConfigure.getLogger(getClass());
 
@@ -186,7 +186,7 @@ class ActivityUtils {
 		}
 	}
 
-	private Activity getCurrentActivity(boolean shouldSleepFirst) {
+	public Activity getCurrentActivity(boolean shouldSleepFirst) {
 		if (shouldSleepFirst) {
 			sleep(PAUSE);
 			inst.waitForIdleSync();

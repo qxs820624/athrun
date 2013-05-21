@@ -47,6 +47,19 @@ public class ElementFinder {
 
 		return createInstance(views.get(index), returnType);
 	}
+	
+	<T> T findWebElementById(int id, int index,
+              Class<T> returnType, ActivityUtils activityUtils) throws Exception {
+	    ArrayList<View> views = getSuitableViews(this.viewFinder
+	            .findViewsById(id, timeout));
+	    if (views.isEmpty()) {
+	        logger.error("findElementById(" + id + ", " + index + ", "
+	            + returnType.getName() + ") return null.");
+	        return null;
+        }
+
+	    return createWebInstance(views.get(index), returnType, activityUtils);
+    }
 
 	<T extends TextViewElement> T findElementByText(String text, int index,
 			Boolean isEqual, Class<T> returnType) throws Exception {
@@ -169,5 +182,24 @@ public class ElementFinder {
 	         e.printStackTrace();
 	      }
 	      return returnType.cast(obj);
-	   }
-}
+      }
+	   private <T> T createWebInstance(View view, Class<T> returnType, ActivityUtils activityUtils){
+          Constructor<?> constructor = returnType.getDeclaredConstructors()[0];
+          constructor.setAccessible(true);
+          Object obj = null;
+          try {
+             obj = constructor.newInstance(inst, view, activityUtils);
+          } catch (IllegalArgumentException e) {
+              //if catching IllegalArgumentException, check the element type and put the message into the new exception
+        	             throw new RuntimeException(ActivityElementType.TypeComparison(view, returnType));
+    	             
+	          } catch (InstantiationException e) {
+	             e.printStackTrace();
+	          } catch (IllegalAccessException e) {
+	             e.printStackTrace();
+	          } catch (InvocationTargetException e) {
+	             e.printStackTrace();
+	          }
+          return returnType.cast(obj);
+      }
+    }
