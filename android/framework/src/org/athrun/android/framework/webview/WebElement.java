@@ -1,64 +1,189 @@
-/* Athrun - Android automation testing Framework.
- Copyright (C) 2010-2012 TaoBao UI AutoMan Team
-
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program; if not, write to the Free Software
- Foundation, Inc., HuaXing road, Hangzhou,China. 
- Email:taichan@taobao.com,shidun@taobao.com,bingyang.djj@taobao.com
-*/
 package org.athrun.android.framework.webview;
 
-import android.util.Log;
-
 /**
- * @deprecated under construction
- * @author bingyang.djj
- *
+ * Represents an element shown in a WebView.  
+ * 
+ * @author xiaoliang.chenxl
+ * 
  */
+
 public class WebElement {
- private final WebViewElement mTmtsWebView;
 	
-	public WebElement(WebViewElement tmtsWebView){
-		mTmtsWebView = tmtsWebView;
+	private int locationX = 0;
+	private int locationY = 0;
+	private String id;
+	private String text;
+	private String name;
+	private String className;
+	private String tagName;
+
+	/**
+	 * Constructs this object. 
+	 * 
+	 * @param webId the given web id
+	 * @param textContent the given text to be set
+	 * @param name the given name to be set
+	 * @param className the given class name to set
+	 * @param tagName the given tag name to be set
+	 */
+
+	public WebElement(String webId, String textContent, String name, String className, String tagName) {
+
+		this.setId(webId);
+		this.setText(textContent);
+		this.setName(name);
+		this.setClassName(className);
+		this.setTagName(tagName);
 	}
-	
-	public WebElement nextSibling() {
-		//TODO
-		return this;
+
+	/**
+	 * Returns the WebElements location on screen.
+	 */
+
+	public void getLocationOnScreen(int[] location) {
+
+		location[0] = locationX;
+		location[1] = locationY;
 	}
-	
-	public String innerHTML(){
-		return excuteJavaScriptAndReturn("element.innerHTML");	
+
+	/**
+	 * Sets the X location.
+	 * 
+	 * @param locationX the X location of the WebElement
+	 */
+
+	public void setLocationX(int locationX){
+		this.locationX = locationX;
 	}
-	
-	public void click() {
-		Log.d("AthrunActivity","click in webelement");
-		loadJavascript("element.dispatchEvent(e)");
+
+	/**
+	 * Sets the Y location.
+	 * 
+	 * @param locationY the Y location of the WebElement
+	 */
+
+	public void setLocationY(int locationY){
+		this.locationY = locationY;
 	}
-	
-	
-	private String excuteJavaScriptAndReturn(String script) {
-		loadJavascript("window.webdriver.executejs("+script+")");
-		return JavascriptInterface.getInstance().getResult();
+
+	/**
+	 * Returns the X location.
+	 * 
+	 * @return the X location
+	 */
+
+	public int getLocationX(){
+		return this.locationX;
 	}
-	
-	public void excuteJs(final String script) throws InterruptedException {
-		loadJavascript(script);
+
+	/**
+	 * Returns the Y location.
+	 * 
+	 * @return the Y location
+	 */
+
+	public int getLocationY(){
+		return this.locationY;
 	}
-	
-	private void loadJavascript(String script) {
-//		this.currentScript = script;
-		mTmtsWebView.getInterface().setReady(false);
-		mTmtsWebView.getWebView().loadUrl("javascript:"+ script);
+
+	/**
+	 * Returns the id.
+	 * 
+	 * @return the id
+	 */
+
+	public String getId() {
+		return id;
 	}
+
+	/**
+	 * Sets the id.
+	 * 
+	 * @param id the id to set
+	 */
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * Returns the name.
+	 * 
+	 * @return the name
+	 */
+
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Sets the name.
+	 * 
+	 * @param name the name to set
+	 */
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Returns the class name.
+	 * 
+	 * @return the class name
+	 */
+
+	public String getClassName() {
+		return className;
+	}
+
+	/**
+	 * Sets the class name.
+	 * 
+	 * @param className the class name to set
+	 */
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+
+	/**
+	 * Returns the tag name.
+	 * 
+	 * @return the tag name
+	 */
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	/**
+	 * Sets the tag name.
+	 * 
+	 * @param tagName the tag name to set
+	 */
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
+	/**
+	 * Returns the text content.
+	 * 
+	 * @return the text content
+	 */
+
+	public String getText() {
+		return text;
+	}
+
+	/**
+	 * Sets the text content.
+	 * 
+	 * @param text the text content to set
+	 */
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+
 }
