@@ -134,7 +134,7 @@ public class WebUtils {
 
     public String prepareForStartOfJavascriptExecution() {
         webElementCreator.prepareForStart();
-        robotiumWebCLient.enableJavascriptAndSetRobotiumWebClient(viewFetcher
+        robotiumWebCLient.enableJavascriptAndSetWebClient(viewFetcher
             .getCurrentViews(WebView.class));
         return getJavaScriptAsString();
     }
