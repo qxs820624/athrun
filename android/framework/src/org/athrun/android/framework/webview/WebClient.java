@@ -40,7 +40,7 @@ class WebClient extends WebChromeClient {
      * @param webViews the WebView objects to enable JavaScript in
      */
 
-    public void enableJavascriptAndSetRobotiumWebClient(List<WebView> webViews) {
+    public void enableJavascriptAndSetWebClient(List<WebView> webViews) {
         for (final WebView webView : webViews) {
 
             if (webView != null) {
