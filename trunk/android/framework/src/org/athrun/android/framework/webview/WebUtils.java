@@ -27,7 +27,7 @@ public class WebUtils {
     private ViewFetcher     viewFetcher;
     private Instrumentation inst;
     public ActivityUtils   activityUtils;
-    WebClient               robotiumWebCLient;
+    WebClient               mWebCLient;
     WebElementCreator       webElementCreator;
 
     /**
@@ -45,7 +45,7 @@ public class WebUtils {
         this.activityUtils = activityUtils;
         this.viewFetcher = viewFetcher;
         webElementCreator = new WebElementCreator();
-        robotiumWebCLient = new WebClient(instrumentation, webElementCreator, this);
+        mWebCLient = new WebClient(instrumentation, webElementCreator, this);
     }
 
     /**
@@ -134,7 +134,7 @@ public class WebUtils {
 
     public String prepareForStartOfJavascriptExecution() {
         webElementCreator.prepareForStart();
-        robotiumWebCLient.enableJavascriptAndSetWebClient(viewFetcher
+        mWebCLient.enableJavascriptAndSetWebClient(viewFetcher
             .getCurrentViews(WebView.class));
         return getJavaScriptAsString();
     }
