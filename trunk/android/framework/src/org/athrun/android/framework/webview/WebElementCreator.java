@@ -120,10 +120,11 @@ class WebElementCreator {
 		int width = 0;
 		int height = 0;
 		try{
-			x = Integer.valueOf(data[5]);
-			y = Integer.valueOf(data[6]);
-			width = Integer.valueOf(data[7]);
-			height = Integer.valueOf(data[8]);
+		    // 用四舍五入法从information中获取位置信息
+			x = (int)(Float.valueOf(data[5]) + 0.5);
+			y = (int)(Float.valueOf(data[6]) + 0.5);
+			width = (int)(Float.valueOf(data[7]) + 0.5);
+			height = (int)(Float.valueOf(data[8]) + 0.5);
 		}catch(Exception ignored){}
 
 		WebElement webElement = null;
