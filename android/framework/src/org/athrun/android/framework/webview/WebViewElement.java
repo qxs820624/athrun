@@ -37,6 +37,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 /**
  * Class for Android.
@@ -419,5 +420,23 @@ public class WebViewElement {
             }
         }
         return isOK;
+    }
+    /**
+     * Returns an ArrayList of WebElements displayed in the active WebView.
+     * 
+     * @return an ArrayList of the WebElement objects currently displayed in the active WebView
+     */
+    
+    public ArrayList<WebElement> getCurrentWebElements(){
+        return webUtils.getCurrentWebElements();
+    }
+    /**
+     * Returns an ArrayList of TextViews displayed in the active WebView.
+     * 
+     * @return an ArrayList of the TextView objects currently displayed in the active WebView
+     */
+    
+    public ArrayList<TextView> getTextViewsFromWebView(){
+        return webUtils.getTextViewsFromWebView();
     }
 }
