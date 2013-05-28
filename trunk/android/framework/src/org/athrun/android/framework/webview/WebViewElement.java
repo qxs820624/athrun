@@ -49,7 +49,8 @@ public class WebViewElement {
 	private static final String LOG_TAG = "WebViewElement";
 	
 	private WebView mWebView;
-	private final Instrumentation inst;
+	
+    private final Instrumentation inst;
 	public WebUtils webUtils;
 	private ViewFetcher viewFetcher;
 	private final int TIMEOUT = 4 * IViewElement.ANR_TIME;
@@ -69,6 +70,14 @@ public class WebViewElement {
 		this.webUtils = new WebUtils(inst, activityUtils, viewFetcher);
 		webElements = new ArrayList<WebElement>();
 	}
+	/**
+	 * getter of mWebView
+	 * @return the instance of WebView
+	 */
+	
+	public WebView getmWebView() {
+        return mWebView;
+    }
 	/**
      * Types text in a WebElement matching the specified By object.
      * 
