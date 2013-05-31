@@ -18,6 +18,11 @@
  */
 package org.athrun.android.framework;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.athrun.android.framework.utils.RClassUtils;
 
@@ -25,6 +30,13 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
+import android.util.Log;
 
 /**
  * Android Test Framework Class for TmtsTestCase to include.
@@ -87,4 +99,16 @@ final class Athrun {
 		int id = RClassUtils.getRFieldByName(getPackageName(), "layout", name);
 		return getResource().getLayout(id);
 	}
+	
+	/**
+	 * get drawable by resource id 
+	 * added by huangqin 2013-4-24
+	 * @param name the name of resource id
+	 * @return
+	 * @throws Exception
+	 */
+	Drawable getDrawableById(String name) throws Exception {
+		int id = RClassUtils.getRFieldByName(getPackageName(), "drawable", name);
+		return getResource().getDrawable(id);
+	}	
 }
