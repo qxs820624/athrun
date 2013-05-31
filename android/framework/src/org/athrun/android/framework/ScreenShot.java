@@ -9,6 +9,7 @@ import java.io.IOException;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -23,35 +24,33 @@ public class ScreenShot {
         throw new AssertionError();
     }
     // get the screen shot of Activity，save it as png  
-    private static Bitmap takeScreenShot(Activity activity) {  
+    public static Bitmap takeScreenShot(Activity activity) {  
   
-        // View is what you want to screen shot  
-        View view = activity.getWindow().getDecorView();  
-        view.setDrawingCacheEnabled(true);  
-        view.buildDrawingCache();  
-        Bitmap b1 = view.getDrawingCache();  
-        if (b1 !=null) {
-            // get the height of status bar  
-            Rect frame = new Rect();  
-            activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);  
-            int statusBarHeight = frame.top;  
-      
-            // get the width and height of screen  
-            int width = activity.getWindowManager().getDefaultDisplay().getWidth();  
-            int height = activity.getWindowManager().getDefaultDisplay().getHeight();  
-      
-            Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);  
-            view.destroyDrawingCache();  
-            return b;  
+    	 // The view you will take screenshot
+        View view = activity.getWindow().getDecorView(); 
+        view.setDrawingCacheEnabled(true); 
+        view.buildDrawingCache(); 
+        Bitmap wholeBitmap = view.getDrawingCache(); 
+  
+        // Get the height of device's statusBar
+        Rect frame = new Rect(); 
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame); 
+        int statusBarHeight = frame.top; 
+        Log.i("TAG", "" + statusBarHeight); 
+  
+        // Get the height and width of device screen
+        int width = activity.getWindowManager().getDefaultDisplay().getWidth(); 
+        int height = activity.getWindowManager().getDefaultDisplay().getHeight(); 
         
-        } else {
-            System.err.println("create bitmap fail!");
-            return null;
-        }
+        // remove the area of statusbar
+        Bitmap lastBitmap = Bitmap.createBitmap(wholeBitmap, 0, statusBarHeight, width, height 
+                - statusBarHeight); 
+        view.destroyDrawingCache(); 
+        return lastBitmap; 
     }  
   
     // save screen shot to sdcard  
-    private static void savePic(Bitmap b, String strFileName) {  
+    public static boolean savePic(Bitmap b, String strFileName) {  
   
         FileOutputStream fos = null;  
         try {  
@@ -60,12 +59,14 @@ public class ScreenShot {
                 b.compress(Bitmap.CompressFormat.PNG, 90, fos);  
                 fos.flush();  
                 fos.close();  
+                return true;
             }  
         } catch (FileNotFoundException e) {  
             e.printStackTrace();  
         } catch (IOException e) {  
             e.printStackTrace();  
         }  
+        return false;
     }  
   
     public static void shoot(Activity a, String picName) {

@@ -18,6 +18,7 @@
  */
 package org.athrun.android.framework;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -25,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
 import org.athrun.android.framework.utils.AthrunConnectorThread;
 import org.athrun.android.framework.utils.RClassUtils;
-import org.athrun.android.framework.Failover;
 import org.athrun.android.framework.viewelement.AbsListViewElement;
 import org.athrun.android.framework.viewelement.IViewElement;
 import org.athrun.android.framework.viewelement.ScrollViewElement;
@@ -39,6 +39,8 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.Time;
 import android.view.View;
@@ -140,7 +142,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 				}else{
 					logger.error("runTest() throws an exception: ", e);
 					// add by zhuangfei(jiand.zhaojd@alibaba-inc.com)
-					captureScreenShot();
+					//captureScreenShot();
 					throw e;
 				}
 			}
@@ -495,5 +497,16 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
         Activity curActivity = getDevice().getCurrentActivity();
         ScreenShot.shoot(curActivity, pictureName);
     }
+    
 	
+	/**
+	 * get drawable value by id from res/drawable* of the app under test
+	 * added by huangqin 2013-4-24
+	 * @param name Id of the drawable resource
+	 * @return drawable value of the drawable resource.
+	 * @throws Exception
+	 */
+	public Drawable getDrawableById(String name) throws Exception {
+		return athrun.getDrawableById(name);
+	}	
 }
