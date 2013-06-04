@@ -255,8 +255,8 @@ public class ViewElement implements IViewElement {
 	 * added by huangqin 2013-6-4
 	 * @return
 	 */
-	public Object getTag() {
-		return view.getTag();
+	public String getTag() {
+		return view.getTag().toString();
 	}
 	
 	/**
@@ -265,7 +265,7 @@ public class ViewElement implements IViewElement {
 	 * @param key
 	 * @return
 	 */
-	public Object getTagByKey(int key) {		
-		return view.getTag(key);
+	public String getTagByKey(int key) {		
+		return view.getTag(key).toString();
 	}	
 }

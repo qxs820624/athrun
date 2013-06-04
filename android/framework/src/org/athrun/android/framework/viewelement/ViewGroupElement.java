@@ -225,22 +225,39 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 	}
 	
 	/**
-	 * get a view from viewGroup by tag
+	 * get a view by tag
 	 * added by huangqin 2013-6-4
-	 * @param tag
-	 * @return
 	 */
-	public TextView getViewByTag(String tag) {
-		return (TextView) viewGroup.findViewWithTag(tag);
-	}
-	
-	/**
-	 * get a item's text value from listView by tag
-	 * added by huangqin 2013-6-4
-	 * @param tag
-	 * @return
-	 */
-	public String getTextByTag(String tag) {
-		return getViewByTag(tag).getText().toString();
+	@Override
+	public <T extends ViewElement> T findElementByTag(String tag, Class<T> returnType) {
+		Constructor<?>[] constructors = returnType.getDeclaredConstructors();
+		Object obj = null;
+		View v = null;
+		try {
+			v = viewGroup.findViewWithTag(tag);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		if (null == v) {
+			logger.error("findElementById(" + tag + ") failed, return null.");
+			return null;
+		}
+		ViewUtils.scrollInToScreenIfNeeded(inst, v);
+		try {
+			constructors[0].setAccessible(true);
+			obj = constructors[0].newInstance(inst, v);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return returnType.cast(obj);
 	}
 }

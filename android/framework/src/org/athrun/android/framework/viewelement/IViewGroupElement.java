@@ -43,4 +43,14 @@ public interface IViewGroupElement extends IViewElement {
      * @return {@code ViewElement} or its subclass according to the name.
      */
     <T extends ViewElement> T findElementById(String name, Class<T> caster);
+    
+    /**
+     * Return an instance of {@code ViewGroupElement} or its subclass by the given name.
+     * @param <T> {@code ViewGroupElement} or its subclass.
+     * @param name tag of a view
+     * @param caster {@code ViewGroupElement} or its subclass.
+     * @return {@code ViewGroupElement} or its subclass according to the name.
+     * added by huangqin 2013-6-4
+     */
+    <T extends ViewElement> T findElementByTag(String name, Class<T> caster);
 }
