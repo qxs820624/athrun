@@ -223,4 +223,14 @@ public class ViewGroupElement extends ViewElement implements IViewGroupElement {
 
 		return allChildren.get(index);
 	}
+	
+	/**
+	 * get a view from viewGroup by tag
+	 * added by huangqin 2013-6-4
+	 * @param tag
+	 * @return
+	 */
+	public TextView getViewByTag(String tag) {
+		return (TextView) viewGroup.findViewWithTag(tag);
+	}
 }
