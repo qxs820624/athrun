@@ -130,7 +130,8 @@ public class AbsListViewElement extends ViewGroupElement {
 				continue;
 
 			} else {
-				logger.info("getChildByIndex(" + realIndex + ") succeed");
+				logger.info("getChildByIndex(" + realIndex + ") succeed and " +
+						"first visible position:" + absListView.getFirstVisiblePosition());
 				inst.waitForIdleSync();
 				return absListView.getChildAt(realIndex
 						- absListView.getFirstVisiblePosition());
@@ -275,5 +276,15 @@ public class AbsListViewElement extends ViewGroupElement {
 	
 	public Adapter getAdapter(){
 		return absListView.getAdapter(); 
+	}	
+	
+	/**
+	 * get a item's text value from listView by tag
+	 * added by huangqin 2013-6-4
+	 * @param tag
+	 * @return
+	 */
+	public String getTextByTag(String tag) {
+		return getViewByTag(tag).getText().toString();
 	}
 }

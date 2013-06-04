@@ -25,6 +25,7 @@ import org.athrun.android.framework.utils.ScreenUtils;
 
 import android.app.Instrumentation;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Base class for all view elements.
@@ -198,6 +199,7 @@ public class ViewElement implements IViewElement {
 			@Override
 			public void run() {
 				view.scrollTo(x, y);
+				view.invalidate();
 			}
 		});
 		inst.waitForIdleSync();
@@ -211,6 +213,7 @@ public class ViewElement implements IViewElement {
 			@Override
 			public void run() {
 				view.scrollBy(x, y);
+				view.invalidate();
 			}
 		});
 		inst.waitForIdleSync();
@@ -246,4 +249,23 @@ public class ViewElement implements IViewElement {
 	public View getView() {
 		return view;
 	}
+	
+	/**
+	 * get a view's tag
+	 * added by huangqin 2013-6-4
+	 * @return
+	 */
+	public Object getTag() {
+		return view.getTag();
+	}
+	
+	/**
+	 * get a view's tag by key
+	 * added by huangqin 2013-6-4
+	 * @param key
+	 * @return
+	 */
+	public Object getTagByKey(int key) {		
+		return view.getTag(key);
+	}	
 }
