@@ -120,7 +120,7 @@ class WebElementCreator {
 		int width = 0;
 		int height = 0;
 		try{
-		    // 用四舍五入法从information中获取位置信息
+		    // fix a float conversion bug
 			x = (int)(Float.valueOf(data[5]) + 0.5);
 			y = (int)(Float.valueOf(data[6]) + 0.5);
 			width = (int)(Float.valueOf(data[7]) + 0.5);
