@@ -615,4 +615,71 @@ public final class AthrunDevice {
 	public void tap(int x, int y) {
 		this.viewOperation.clickOnScreen(x, y);
 	}
+	/**
+	 * 
+	 * @param direction
+	 * @param speed
+	 */
+	public void longClickAndSlide(ViewOperation.Direction direction) {
+		longClickAndSlide(direction, 20);
+	}
+
+	public void longClickAndSlide(ViewOperation.Direction direction, int speed) {
+
+		switch (direction) {
+		case UP:
+			longClickAndDragUp(speed);
+			break;
+
+		case DOWN:
+			longClickAndDragDown(speed);
+			break;
+
+		case LEFT:
+			longClickAndDragLeft(speed);
+			break;
+
+		case RIGHT:
+			longClickAndDragRight(speed);
+			break;
+
+		default:
+			break;
+		}
+	}
+	private void longClickAndDragUp(int speed) {
+		inst.waitForIdleSync();
+
+		viewOperation.longClickAndDrag(getMiddleBottom().getX(), getMiddleTop().getX(),
+				getMiddleBottom().getY() - offsetY, getMiddleTop().getY()
+						+ offsetY, speed);
+		inst.waitForIdleSync();
+	}
+
+	private void longClickAndDragDown(int speed) {
+		inst.waitForIdleSync();
+
+		viewOperation.longClickAndDrag(getMiddleTop().getX(), getMiddleBottom().getX(),
+				getMiddleTop().getY() + offsetY, getMiddleBottom().getY()
+						- offsetY, speed);
+		inst.waitForIdleSync();
+	}
+
+	private void longClickAndDragLeft(int speed) {
+		inst.waitForIdleSync();
+
+		viewOperation.longClickAndDrag(getMiddleRight().getX() - offsetX, getMiddleLeft()
+				.getX() + offsetX, getMiddleRight().getY(), getMiddleLeft()
+				.getY(), speed);
+		inst.waitForIdleSync();
+	}
+
+	private void longClickAndDragRight(int speed) {
+		inst.waitForIdleSync();
+
+		viewOperation.longClickAndDrag(getMiddleLeft().getX() + offsetX, getMiddleRight()
+				.getX() - offsetX, getMiddleLeft().getY(), getMiddleRight()
+				.getY(), speed);
+		inst.waitForIdleSync();
+	}
 }

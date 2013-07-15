@@ -196,4 +196,70 @@ public class ViewOperation {
 	public static void monkeyClick(int x, int y) {
 		AthrunConnectorThread.execute("MONKEY:" + "tap " + x + " " + y);
 	}
+	
+	/**
+	 * Simulate touching a specific location and dragging to a new location.</p>
+	 * 
+	 * This method was copied from {@code TouchUtils.java} in the Android Open
+	 * Source Project, and modified here.
+	 * 
+	 * @param fromX
+	 *            X coordinate of the initial touch, in screen coordinates
+	 * @param toX
+	 *            Xcoordinate of the drag destination, in screen coordinates
+	 * @param fromY
+	 *            X coordinate of the initial touch, in screen coordinates
+	 * @param toY
+	 *            Y coordinate of the drag destination, in screen coordinates
+	 * @param stepCount
+	 *            How many move steps to include in the drag. If you want to
+	 *            perform quick velocity, make this value smaller.
+	 * @throws  
+	 * 
+	 */
+	public void longClickAndDrag(float fromX, float toX, float fromY, float toY,
+			int stepCount) {
+		long downTime = SystemClock.uptimeMillis();
+		long eventTime = SystemClock.uptimeMillis();
+		float y = fromY;
+		float x = fromX;
+		float yStep = (toY - fromY) / stepCount;
+		float xStep = (toX - fromX) / stepCount;
+		MotionEvent event = MotionEvent.obtain(downTime, eventTime,
+				MotionEvent.ACTION_DOWN, x, y, 0);
+		try {
+			inst.sendPointerSync(event);
+		} catch (SecurityException ignored) {
+		}
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		for (int i = 0; i < stepCount; ++i) {
+			y += yStep;
+			x += xStep;
+			eventTime = SystemClock.uptimeMillis();
+			event = MotionEvent.obtain(downTime, eventTime,
+					MotionEvent.ACTION_MOVE, x, y, 0);
+			try {
+				inst.sendPointerSync(event);
+			} catch (SecurityException ignored) {
+			}
+
+			inst.waitForIdleSync();
+		}
+
+		eventTime = SystemClock.uptimeMillis();
+		event = MotionEvent.obtain(downTime, eventTime, MotionEvent.ACTION_UP,
+				x, y, 0);
+		try {
+			inst.sendPointerSync(event);
+		} catch (SecurityException ignored) {
+		}
+
+		inst.waitForIdleSync();
+	}
 }
