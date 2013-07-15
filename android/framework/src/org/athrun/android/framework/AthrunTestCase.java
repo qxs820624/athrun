@@ -18,11 +18,11 @@
  */
 package org.athrun.android.framework;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.athrun.android.framework.dragon.ScreenShot;
 import org.athrun.android.framework.special.taobaoview.SkuOptionElement;
 import org.athrun.android.framework.utils.AthrunConnectorThread;
 import org.athrun.android.framework.utils.RClassUtils;
@@ -39,7 +39,7 @@ import android.app.ActivityManager.RunningTaskInfo;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.Time;
@@ -142,7 +142,7 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 				}else{
 					logger.error("runTest() throws an exception: ", e);
 					// add by zhuangfei(jiand.zhaojd@alibaba-inc.com)
-					//captureScreenShot();
+					 captureScreenShot();
 					throw e;
 				}
 			}
@@ -482,8 +482,8 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
                     time.monthDay + "_" + time.hour + "_" + time.minute + "_" + time.second;
         
 	    Activity curActivity = getDevice().getCurrentActivity();
-	    
-	    ScreenShot.shoot(curActivity,savedName);
+	    new ScreenShot().takeScreenShot(curActivity);
+	    //ScreenShot.shoot(curActivity,savedName);
 	}
 	/**
      * screen shot and save it as given name to sdcard. 
@@ -495,7 +495,8 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
      */
     public void captureScreenShot(String pictureName){
         Activity curActivity = getDevice().getCurrentActivity();
-        ScreenShot.shoot(curActivity, pictureName);
+        new ScreenShot().takeScreenShot(curActivity);
+       // ScreenShot.shoot(curActivity, pictureName);
     }
     
 	
@@ -509,4 +510,8 @@ public class AthrunTestCase extends ActivityInstrumentationTestCase2 {
 	public Drawable getDrawableById(String name) throws Exception {
 		return athrun.getDrawableById(name);
 	}	
+	
+	public XmlResourceParser getAnimationById(String name) throws Exception {
+		return athrun.getAnimationById(name);
+	}
 }
