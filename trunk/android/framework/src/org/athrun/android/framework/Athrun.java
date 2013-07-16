@@ -110,5 +110,10 @@ final class Athrun {
 	Drawable getDrawableById(String name) throws Exception {
 		int id = RClassUtils.getRFieldByName(getPackageName(), "drawable", name);
 		return getResource().getDrawable(id);
-	}	
+	}
+	
+	XmlResourceParser getAnimationById(String name) throws Exception {
+		int id = RClassUtils.getRFieldByName(getPackageName(), "anim", name);
+		return getResource().getAnimation(id);
+	}
 }
