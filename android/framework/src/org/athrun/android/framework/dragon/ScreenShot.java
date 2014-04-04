@@ -40,7 +40,7 @@ public class ScreenShot {
         int width = activity.getWindowManager().getDefaultDisplay().getWidth(); 
         int height = activity.getWindowManager().getDefaultDisplay().getHeight(); 
         
-        Log.i("TAG", "statusBarHeight:" + statusBarHeight + " statusBarHeight" + statusBarHeight + 
+        Log.i("TAG", "statusBarHeight:" + statusBarHeight +  
         		" width:" + width + "  height:" + height + 
         		" width2:" + wholeBitmap.getWidth() + " height2:" + wholeBitmap.getHeight());
         
