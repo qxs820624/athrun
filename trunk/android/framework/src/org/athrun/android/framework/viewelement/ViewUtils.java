@@ -208,9 +208,21 @@ public final class ViewUtils {
 					.getDeclaredField(getWindowManagerString());
 			instanceField.setAccessible(true);
 			wmi = instanceField.get(null);
-			synchronized (wmi) {
-				return ((View[]) views.get(wmi)).clone();
-			}
+			// fix the issue: http://code.taobao.org/p/athrun/issue/30351/
+            synchronized (wmi) {
+                if (views.get(wmi).getClass().getName().equals(java.util.ArrayList.class.getName())) {
+                	@SuppressWarnings("unchecked")
+                    ArrayList<View> lst = (java.util.ArrayList<View>) views.get(wmi);
+                    View[] vs = new View[lst.size()];
+
+                    for (int i = 0; i < lst.size(); i++) {
+                        vs[i] = lst.get(i);
+                    }
+                    return vs.clone();
+                } else {
+                    return ((View[]) views.get(wmi)).clone();
+                }
+            }
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
